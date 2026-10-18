@@ -3,8 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 3: Numerical Diff & Integration | BCA-5004</title>
+  <title>Unit 3: Numerical Differentiation & Integration | BCA-5004</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +26,7 @@
       <div class="brand-icon" style="background:#0d9488;">NM</div>
       <div>
         <div class="brand-title">BCA-5004: Unit III</div>
-        <div class="brand-subtitle">Numerical Differentiation & Integration</div>
+        <div class="brand-subtitle">Differentiation & Integration</div>
       </div>
     </a>
     <div class="header-actions">
@@ -29,213 +41,228 @@
     <div class="unit-banner" style="border-left-color:#0d9488;">
       <div class="badge-row">
         <span class="badge badge-emerald">Subject: BCA-5004</span>
-        <span class="badge badge-amber">⭐ Guaranteed Long Question (12 Marks)</span>
-        <span class="badge badge-coral">Day 1 Priority</span>
+        <span class="badge badge-amber">⭐ Guaranteed 10-Mark Numerical</span>
+        <span class="badge badge-coral">Day 3 Priority</span>
       </div>
       <h1 class="unit-title">Unit III: Numerical Differentiation & Integration</h1>
-      <p class="unit-desc">Derivatives from difference tables, General Quadrature Formula, Trapezoidal Rule, Simpson's 1/3 Rule, Simpson's 3/8 Rule, and Truncation Errors.</p>
+      <p class="unit-desc">
+        General Quadrature Formula, Trapezoidal Rule, Simpson's 1/3 and 3/8 Rules, Error Analysis, and Comprehensive University Solved Integrals.
+      </p>
     </div>
 
-    <!-- Quick Formula Card -->
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    </div>
+
+    <!-- Topic 1: Numerical Differentiation -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">⚡</span> Essential Quadrature Formula Sheet</span>
+        <span><span class="card-heading-icon">1.</span> Numerical Differentiation Formulas</span>
       </div>
-      <div class="callout callout-formula">
-        <strong>1. Trapezoidal Rule (Linear Approximation, any $n$):</strong><br>
-        $$I = \int_a^b f(x) dx \approx \frac{h}{2} \left[ (y_0 + y_n) + 2(y_1 + y_2 + \dots + y_{n-1}) \right]$$
-        <em>Global Truncation Error:</em> $O(h^2) = -\frac{(b-a)h^2}{12} f''(\xi)$
+
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Approximate derivatives $f'(x)$ and $f''(x)$ when only tabular data is known.</li>
+          <li>Derive first and second derivative formulas from Newton's forward difference series.</li>
+        </ul>
       </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
       <div class="callout callout-formula">
-        <strong>2. Simpson's 1/3 Rule (Parabolic, requires EVEN $n$):</strong><br>
-        $$I \approx \frac{h}{3} \left[ (y_0 + y_n) + 4(y_1 + y_3 + \dots) + 2(y_2 + y_4 + \dots) \right]$$
-        <em>Short form:</em> $\frac{h}{3} \left[ \text{Ends} + 4(\text{Odd}) + 2(\text{Even}) \right]$. <em>Error:</em> $O(h^4)$
-      </div>
-      <div class="callout callout-formula">
-        <strong>3. Simpson's 3/8 Rule (Cubic, requires $n$ multiple of 3):</strong><br>
-        $$I \approx \frac{3h}{8} \left[ (y_0 + y_n) + 3(y_1 + y_2 + y_4 + y_5 + \dots) + 2(y_3 + y_6 + \dots) \right]$$
+        <strong>First Derivative at Starting Point $x_0$:</strong><br>
+        $$f'(x_0) = \left( \frac{dy}{dx} \right)_{x=x_0} = \frac{1}{h} \left[ \Delta y_0 - \frac{1}{2} \Delta^2 y_0 + \frac{1}{3} \Delta^3 y_0 - \frac{1}{4} \Delta^4 y_0 + \dots \right]$$
+        <strong>Second Derivative at Starting Point $x_0$:</strong><br>
+        $$f''(x_0) = \left( \frac{d^2 y}{dx^2} \right)_{x=x_0} = \frac{1}{h^2} \left[ \Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12} \Delta^4 y_0 - \dots \right]$$
       </div>
     </div>
 
-    <!-- Interactive Visual Diagram -->
+    <!-- Topic 2: Newton-Cotes Quadrature & Integration Rules -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">📊</span> Visual Model: Trapezoidal vs Simpson's 1/3</span>
+        <span><span class="card-heading-icon">2.</span> Numerical Integration: The 3 Core Rules</span>
       </div>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">
-        Trapezoidal rule connects adjacent points with straight chords (linear). Simpson's 1/3 rule connects 3 points at a time with a parabolic curve, yielding higher accuracy ($O(h^4)$).
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2022, 2020, 2018 (Simpson's rules vs Trapezoidal rule and comparative accuracy)</span>
+      </div>
+
+      <p>
+        Numerical integration (quadrature) calculates $\int_a^b f(x) dx$ when $f(x)$ is difficult to integrate analytically or given as discrete table values. Divide $[a, b]$ into $n$ equal sub-intervals of width $h = \frac{b - a}{n}$.
       </p>
 
-      <div class="diagram-box">
-        <svg viewBox="0 0 320 160" width="100%" height="auto" style="max-width:320px;">
-          <!-- Axes -->
-          <line x1="20" y1="140" x2="300" y2="140" stroke="var(--text-muted)" stroke-width="1.5" />
-          <line x1="30" y1="20" x2="30" y2="150" stroke="var(--text-muted)" stroke-width="1.5" />
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="callout callout-formula">
+        <strong>1. Trapezoidal Rule ($n$ can be ANY positive integer):</strong><br>
+        $$\int_a^b y \, dx = \frac{h}{2} \Big[ (y_0 + y_n) + 2(y_1 + y_2 + \dots + y_{n-1}) \Big]$$
+        <em>Structure:</em> $\frac{h}{2} [\text{First} + \text{Last} + 2(\text{Sum of all others})]$. Degree of Precision = $1$. Error $= O(h^2)$.
+      </div>
 
-          <!-- Trapezoid strips (Chords) -->
-          <polygon points="50,140 50,100 110,70 110,140" fill="rgba(13, 148, 136, 0.15)" stroke="#0d9488" stroke-width="1.5" />
-          <polygon points="110,140 110,70 170,55 170,140" fill="rgba(13, 148, 136, 0.25)" stroke="#0d9488" stroke-width="1.5" />
-          <polygon points="170,140 170,55 230,65 230,140" fill="rgba(13, 148, 136, 0.15)" stroke="#0d9488" stroke-width="1.5" />
-          <polygon points="230,140 230,65 290,110 290,140" fill="rgba(13, 148, 136, 0.25)" stroke="#0d9488" stroke-width="1.5" />
+      <div class="callout callout-formula">
+        <strong>2. Simpson's 1/3 Rule (MANDATORY: $n$ must be an EVEN integer):</strong><br>
+        $$\int_a^b y \, dx = \frac{h}{3} \Big[ (y_0 + y_n) + 4(y_1 + y_3 + y_5 + \dots) + 2(y_2 + y_4 + y_6 + \dots) \Big]$$
+        <em>Structure:</em> $\frac{h}{3} [\text{Ends} + 4(\text{Odd Ordinates}) + 2(\text{Even Ordinates})]$. Degree of Precision = $3$. Error $= O(h^4)$.
+      </div>
 
-          <!-- True Smooth Curve -->
-          <path d="M 50,100 Q 140,40 290,110" fill="none" stroke="#f59e0b" stroke-width="2.5" />
+      <div class="callout callout-formula">
+        <strong>3. Simpson's 3/8 Rule (MANDATORY: $n$ must be a MULTIPLE OF 3):</strong><br>
+        $$\int_a^b y \, dx = \frac{3h}{8} \Big[ (y_0 + y_n) + 3(y_1 + y_2 + y_4 + y_5 + \dots) + 2(y_3 + y_6 + y_9 + \dots) \Big]$$
+        <em>Structure:</em> $\frac{3h}{8} [\text{Ends} + 3(\text{Non-multiples of 3}) + 2(\text{Multiples of 3})]$. Degree of Precision = $3$. Error $= O(h^4)$.
+      </div>
 
-          <!-- Ordinates -->
-          <text x="45" y="155" font-size="10" fill="var(--text-muted)">x₀</text>
-          <text x="105" y="155" font-size="10" fill="var(--text-muted)">x₁</text>
-          <text x="165" y="155" font-size="10" fill="var(--text-muted)">x₂</text>
-          <text x="225" y="155" font-size="10" fill="var(--text-muted)">x₃</text>
-          <text x="285" y="155" font-size="10" fill="var(--text-muted)">x₄</text>
-
-          <text x="130" y="35" font-size="11" font-weight="bold" fill="#f59e0b">Exact Curve f(x)</text>
-          <text x="180" y="100" font-size="10" fill="#0d9488">Trapezoids (h wide)</text>
-        </svg>
-        <div class="diagram-caption">Numerical Integration: Area under curve sliced into $n$ strips of width $h$</div>
+      <div class="track-full">
+        <span class="track-full-badge">📚 Full Understanding Track: Derivation of the Quadrature Formula</span>
+        <div class="callout callout-info">
+          <strong>General Newton-Cotes Quadrature Derivation:</strong><br>
+          Substituting Newton's forward interpolation into $\int_{x_0}^{x_0 + nh} y dx$ with $x = x_0 + uh$ ($dx = h du$):
+          $$\int_{x_0}^{x_0+nh} y dx = h \int_0^n \left[ y_0 + u \Delta y_0 + \frac{u^2-u}{2} \Delta^2 y_0 + \frac{u^3-3u^2+2u}{6} \Delta^3 y_0 + \dots \right] du$$
+          Integrating term by term yields the Master Quadrature Equation:
+          $$\int_{x_0}^{x_n} y dx = nh \left[ y_0 + \frac{n}{2} \Delta y_0 + \frac{n(2n-3)}{12} \Delta^2 y_0 + \frac{n(n-1)^2}{24} \Delta^3 y_0 + \dots \right]$$
+          <ul style="margin:4px 0 0 16px;">
+            <li>Setting $n = 1$ and neglecting 2nd order differences yields the <strong>Trapezoidal Rule</strong>.</li>
+            <li>Setting $n = 2$ and neglecting 3rd order differences yields <strong>Simpson's 1/3 Rule</strong>.</li>
+            <li>Setting $n = 3$ and neglecting 4th order differences yields <strong>Simpson's 3/8 Rule</strong>.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Topic 1: Numerical Differentiation from Tables -->
+    <!-- Topic 3: Comprehensive Worked University Problem -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Numerical Differentiation from Tables</span>
+        <span><span class="card-heading-icon">3.</span> Master Solved University Numerical (All 3 Rules Compared)</span>
       </div>
       <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2021 (Find derivative at $x_0$ or interior point)</span>
-      </div>
-      <p>When an analytic equation is unavailable and only discrete tabulated data is given, derivatives are computed by differentiating the Newton interpolation polynomial.</p>
-
-      <div class="callout callout-tip">
-        <strong>Derivative at Beginning of Table ($x = x_0$):</strong><br>
-        $$f'(x_0) = \frac{1}{h} \left[ \Delta y_0 - \frac{1}{2}\Delta^2 y_0 + \frac{1}{3}\Delta^3 y_0 - \frac{1}{4}\Delta^4 y_0 + \dots \right]$$
-        $$f''(x_0) = \frac{1}{h^2} \left[ \Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 - \dots \right]$$
+        <span class="pyq-tag">⭐ CSJMU Exam Classic:</span>
+        <span>Evaluate $\int_0^6 \frac{dx}{1 + x^2}$ by (i) Trapezoidal, (ii) Simpson's 1/3, and (iii) Simpson's 3/8 Rules with $h = 1$.</span>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>Derivative at End of Table ($x = x_n$):</strong><br>
-        $$f'(x_n) = \frac{1}{h} \left[ \nabla y_n + \frac{1}{2}\nabla^2 y_n + \frac{1}{3}\nabla^3 y_n + \frac{1}{4}\nabla^4 y_n + \dots \right]$$
+      <p>
+        Limits: $a = 0, b = 6$. Step size $h = 1 \implies n = \frac{6 - 0}{1} = 6$ sub-intervals.<br>
+        <em>Check:</em> $n = 6$ is both an <strong>even number</strong> (valid for Simpson's 1/3) and a <strong>multiple of 3</strong> (valid for Simpson's 3/8)!
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>$i$</th>
+              <th>$x_i$</th>
+              <th>$y_i = \frac{1}{1 + x_i^2}$</th>
+              <th>Exact Decimal Value</th>
+              <th>Role in Formulas</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>0</td>
+              <td>$1 / (1 + 0) = 1$</td>
+              <td><strong>1.00000</strong></td>
+              <td>$y_0$ (End)</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>$1 / (1 + 1) = 1/2$</td>
+              <td><strong>0.50000</strong></td>
+              <td>$y_1$ (Odd)</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>2</td>
+              <td>$1 / (1 + 4) = 1/5$</td>
+              <td><strong>0.20000</strong></td>
+              <td>$y_2$ (Even)</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>3</td>
+              <td>$1 / (1 + 9) = 1/10$</td>
+              <td><strong>0.10000</strong></td>
+              <td>$y_3$ (Odd & Multiple of 3)</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>4</td>
+              <td>$1 / (1 + 16) = 1/17$</td>
+              <td><strong>0.05882</strong></td>
+              <td>$y_4$ (Even)</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>5</td>
+              <td>$1 / (1 + 25) = 1/26$</td>
+              <td><strong>0.03846</strong></td>
+              <td>$y_5$ (Odd)</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>6</td>
+              <td>$1 / (1 + 36) = 1/37$</td>
+              <td><strong>0.02703</strong></td>
+              <td>$y_6$ (End)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Sub-Sums:</strong><br>
+        Ends: $y_0 + y_6 = 1.00000 + 0.02703 = \mathbf{1.02703}$<br>
+        Odds ($y_1 + y_3 + y_5$): $0.50000 + 0.10000 + 0.03846 = \mathbf{0.63846}$<br>
+        Evens ($y_2 + y_4$): $0.20000 + 0.05882 = \mathbf{0.25882}$<br>
+        All intermediates: $0.63846 + 0.25882 = \mathbf{0.89728}$
+      </p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <strong>(i) By Trapezoidal Rule:</strong><br>
+          $$I_T = \frac{1}{2} \Big[ (y_0 + y_6) + 2(y_1 + y_2 + y_3 + y_4 + y_5) \Big]$$
+          $$I_T = 0.5 \times [1.02703 + 2(0.89728)] = 0.5 \times [1.02703 + 1.79456] = 0.5 \times 2.82159 = \mathbf{1.4108}$$
+        </div>
+
+        <div class="step-item">
+          <strong>(ii) By Simpson's 1/3 Rule:</strong><br>
+          $$I_{S1/3} = \frac{1}{3} \Big[ (y_0 + y_6) + 4(y_1 + y_3 + y_5) + 2(y_2 + y_4) \Big]$$
+          $$I_{S1/3} = \frac{1}{3} [1.02703 + 4(0.63846) + 2(0.25882)] = \frac{1}{3} [1.02703 + 2.55384 + 0.51764] = \frac{4.09851}{3} = \mathbf{1.3662}$$
+        </div>
+
+        <div class="step-item">
+          <strong>(iii) By Simpson's 3/8 Rule:</strong><br>
+          $$I_{S3/8} = \frac{3(1)}{8} \Big[ (y_0 + y_6) + 3(y_1 + y_2 + y_4 + y_5) + 2(y_3) \Big]$$
+          Non-multiples of 3: $y_1 + y_2 + y_4 + y_5 = 0.50000 + 0.20000 + 0.05882 + 0.03846 = 0.79728$.<br>
+          Multiple of 3: $y_3 = 0.10000$.<br>
+          $$I_{S3/8} = \frac{3}{8} [1.02703 + 3(0.79728) + 2(0.10000)] = \frac{3}{8} [1.02703 + 2.39184 + 0.20000] = \frac{3}{8} [3.61887] = \mathbf{1.3571}$$
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Comparison with Exact Analytical Solution:</strong><br>
+        $$\int_0^6 \frac{dx}{1 + x^2} = \Big[ \arctan(x) \Big]_0^6 = \arctan(6) - \arctan(0) \approx 1.4056 \text{ radians}$$
+        Trapezoidal error: $|1.4108 - 1.4056| = 0.0052$. Both Simpson rules achieve high accuracy with low computational overhead.
       </div>
     </div>
 
-    <!-- Topic 2: Solved Master PYQ: Evaluate Integral dx/(1+x^2) -->
+    <!-- Topic 4: Interactive MCQ Exam Drill (10 Questions) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Solved Master PYQ: $\int_0^1 \frac{dx}{1+x^2}$ (Value of $\pi$)</span>
+        <span><span class="card-heading-icon">📝</span> Unit III Exam Mastery MCQ Quiz (10 Questions)</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24 (The most famous university exam question!)</span>
-      </div>
-      <p><strong>Problem:</strong> Evaluate $I = \int_0^1 \frac{1}{1+x^2} dx$ using (a) Trapezoidal Rule and (b) Simpson's 1/3 Rule taking $n = 6$. Hence deduce the approximate value of $\pi$.</p>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering numerical quadrature rules, interval requirements, and error orders.
+      </p>
 
-      <details class="topic-drawer" open>
-        <summary class="topic-summary">📝 Step 1: Construct the Function Table ($h = \frac{1-0}{6} = \frac{1}{6}$)</summary>
-        <div class="topic-content">
-          <div class="table-responsive">
-            <table class="study-table">
-              <thead>
-                <tr>
-                  <th>$i$</th>
-                  <th>$x_i$</th>
-                  <th>$y_i = \frac{1}{1+x_i^2}$</th>
-                  <th>Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>0</td>
-                  <td>$0$</td>
-                  <td>$1.00000$</td>
-                  <td>End ($y_0$)</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>$1/6 \approx 0.1667$</td>
-                  <td>$\frac{36}{37} \approx 0.97297$</td>
-                  <td>Odd</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>$2/6 \approx 0.3333$</td>
-                  <td>$\frac{9}{10} = 0.90000$</td>
-                  <td>Even</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>$3/6 = 0.5$</td>
-                  <td>$\frac{4}{5} = 0.80000$</td>
-                  <td>Odd</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>$4/6 \approx 0.6667$</td>
-                  <td>$\frac{9}{13} \approx 0.69231$</td>
-                  <td>Even</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>$5/6 \approx 0.8333$</td>
-                  <td>$\frac{36}{61} \approx 0.59016$</td>
-                  <td>Odd</td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>$1$</td>
-                  <td>$\frac{1}{2} = 0.50000$</td>
-                  <td>End ($y_6$)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </details>
-
-      <details class="topic-drawer" open>
-        <summary class="topic-summary">📝 Step 2: Evaluation by Trapezoidal Rule</summary>
-        <div class="topic-content">
-          <p>$\text{Sum of Ends} = y_0 + y_6 = 1.00000 + 0.50000 = \mathbf{1.50000}$</p>
-          <p>$\text{Sum of Remaining} = y_1 + y_2 + y_3 + y_4 + y_5 = 0.97297 + 0.90000 + 0.80000 + 0.69231 + 0.59016 = \mathbf{3.95544}$</p>
-          <div class="callout callout-formula">
-            $$I_{\text{Trap}} = \frac{h}{2} [ (y_0 + y_6) + 2(\text{Remaining}) ] = \frac{1/6}{2} [ 1.50000 + 2(3.95544) ] = \frac{1}{12} [ 9.41088 ] = \mathbf{0.78424}$$
-          </div>
-          <p>Since $\int_0^1 \frac{dx}{1+x^2} = [\tan^{-1} x]_0^1 = \frac{\pi}{4}$:</p>
-          <p>$$\frac{\pi}{4} \approx 0.78424 \implies \pi \approx 4 \times 0.78424 = \mathbf{3.13696}$$</p>
-        </div>
-      </details>
-
-      <details class="topic-drawer" open>
-        <summary class="topic-summary">📝 Step 3: Evaluation by Simpson's 1/3 Rule</summary>
-        <div class="topic-content">
-          <p>$\text{Sum of Ends} = y_0 + y_6 = 1.50000$</p>
-          <p>$\text{Sum of Odds} = y_1 + y_3 + y_5 = 0.97297 + 0.80000 + 0.59016 = \mathbf{2.36313}$</p>
-          <p>$\text{Sum of Evens} = y_2 + y_4 = 0.90000 + 0.69231 = \mathbf{1.59231}$</p>
-          <div class="callout callout-formula">
-            $$I_{\text{Simp}} = \frac{h}{3} [ (y_0 + y_6) + 4(\text{Odds}) + 2(\text{Evens}) ] = \frac{1/6}{3} [ 1.50000 + 4(2.36313) + 2(1.59231) ]$$
-            $$I_{\text{Simp}} = \frac{1}{18} [ 1.50000 + 9.45252 + 3.18462 ] = \frac{14.13714}{18} = \mathbf{0.78540}$$
-          </div>
-          <p>$$\frac{\pi}{4} \approx 0.78540 \implies \pi \approx 4 \times 0.78540 = \mathbf{3.1416}$$ (Extremely accurate to 4 decimal places!)</p>
-        </div>
-      </details>
+      <div id="unit-mcq-container"></div>
     </div>
-
-    <!-- Topic 3: Truncation & Round-off Errors -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Truncation vs Round-Off Errors</span>
-      </div>
-      <p><strong>Truncation Error:</strong> Caused by truncating an infinite Taylor series to a finite number of terms. Reducing step size $h$ reduces truncation error (e.g., $O(h^2) \to 0$ as $h \to 0$).</p>
-      <p><strong>Round-Off Error:</strong> Caused by finite numerical storage and division in machines. Decreasing $h$ too much increases round-off errors because nearly identical numbers are subtracted. The optimal step size $h^*$ balances both.</p>
-    </div>
-
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <a href="bca5004_unit2.html" class="nav-unit-btn">← Unit II</a>
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5004_unit2.html" class="nav-unit-btn">← Unit II: Interpolation</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
     <a href="bca5004_unit4.html" class="nav-unit-btn primary">Next: Unit IV →</a>
   </nav>
 
@@ -243,70 +270,124 @@
   <script>
     const unit3Questions = [
       {
-        question: "What is the prerequisite on the number of subintervals (n) for applying Simpson's 1/3 Rule?",
+        question: "What is the mandatory condition on the number of sub-intervals (n) for applying Simpson's 1/3 Rule?",
         options: [
           "n must be an odd number",
           "n must be an even number",
           "n must be a multiple of 3",
-          "n can be any positive integer"
+          "n must be a prime number"
         ],
         answer: 1,
-        explanation: "Simpson's 1/3 rule fits parabolas through pairs of consecutive strips (requiring 3 points per parabola). Therefore, the total number of subintervals n must be EVEN."
+        is_pyq: true,
+        explanation: "Simpson's 1/3 rule models parabolas across pairs of adjacent sub-intervals, requiring the total number of sub-intervals $n$ to be an even number."
       },
       {
-        question: "What is the global order of truncation error for Simpson's 1/3 Rule?",
-        options: [
-          "O(h)",
-          "O(h^2)",
-          "O(h^4)",
-          "O(h^6)"
-        ],
-        answer: 2,
-        explanation: "Simpson's 1/3 rule has a local truncation error of O(h^5) and a composite global truncation error of O(h^4), making it substantially more accurate than the Trapezoidal rule."
-      },
-      {
-        question: "For which rule must the number of subintervals n be a multiple of 3?",
-        options: [
-          "Trapezoidal Rule",
-          "Simpson's 1/3 Rule",
-          "Simpson's 3/8 Rule",
-          "Boole's Rule"
-        ],
-        answer: 2,
-        explanation: "Simpson's 3/8 rule approximates groups of 3 subintervals using a cubic polynomial, so n must be a multiple of 3."
-      },
-      {
-        question: "What is the order of error in the central difference approximation for the first derivative f'(x) = [f(x+h) - f(x-h)] / (2h)?",
-        options: [
-          "O(h)",
-          "O(h^2)",
-          "O(h^3)",
-          "O(1/h)"
-        ],
-        answer: 1,
-        explanation: "Because odd powers cancel out in the symmetric Taylor expansions f(x+h) - f(x-h), the leading error term is proportional to h^2, i.e., O(h^2)."
-      },
-      {
-        question: "In the composite Trapezoidal rule, what is the weight (multiplier) given to the interior points (y1, y2, ... yn-1)?",
+        question: "What is the degree of precision of Simpson's 1/3 Rule?",
         options: [
           "1",
           "2",
           "3",
           "4"
         ],
-        answer: 1,
-        explanation: "In the Trapezoidal rule I = (h/2) [ (y0 + yn) + 2(y1 + y2 + ... + yn-1) ]. The endpoints are multiplied by 1, and all interior points are multiplied by 2."
+        answer: 2,
+        is_pyq: true,
+        explanation: "Although derived by fitting a quadratic parabola (degree 2), symmetry causes the third-order error term to cancel out, giving Simpson's 1/3 rule an exact degree of precision of 3 (exact for cubics!)."
       },
       {
-        question: "If step size h is made extremely small in numerical differentiation, what happens to the total error?",
+        question: "What is the condition on the number of sub-intervals (n) for Simpson's 3/8 Rule?",
         options: [
-          "It decreases to zero",
-          "Truncation error decreases, but round-off error increases dramatically",
-          "Both truncation and round-off error increase",
-          "The error becomes constant"
+          "n must be even",
+          "n must be a multiple of 3",
+          "n must be a multiple of 4",
+          "n must be prime"
         ],
         answer: 1,
-        explanation: "While truncation error shrinks as h decreases, dividing by a very small h and subtracting nearly equal floating-point numbers causes round-off error to surge."
+        is_pyq: true,
+        explanation: "Simpson's 3/8 rule groups sub-intervals in threes, requiring $n$ to be a multiple of 3."
+      },
+      {
+        question: "What is the order of the global truncation error for the Trapezoidal Rule?",
+        options: [
+          "O(h)",
+          "O(h^2)",
+          "O(h^3)",
+          "O(h^4)"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "The global error of the Trapezoidal rule over $[a, b]$ is proportional to $h^2$, meaning it is an $O(h^2)$ method."
+      },
+      {
+        question: "What is the order of the global truncation error for Simpson's 1/3 Rule?",
+        options: [
+          "O(h^2)",
+          "O(h^3)",
+          "O(h^4)",
+          "O(h^5)"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "Simpson's 1/3 rule has a local error of $O(h^5)$ and a global error of $O(h^4)$."
+      },
+      {
+        question: "In the Trapezoidal rule formula, which ordinates are multiplied by a coefficient of 2?",
+        options: [
+          "The first and last ordinates (y_0 and y_n)",
+          "All intermediate ordinates (y_1 to y_{n-1})",
+          "Only the odd ordinates",
+          "Only the even ordinates"
+        ],
+        answer: 1,
+        is_pyq: false,
+        explanation: "The Trapezoidal rule formula is $\\frac{h}{2} [(y_0 + y_n) + 2(y_1 + y_2 + \\dots + y_{n-1})]$, so all intermediate ordinates are multiplied by 2."
+      },
+      {
+        question: "In Simpson's 1/3 Rule, what coefficient multiplies the odd ordinates (y_1, y_3, y_5...)?",
+        options: [
+          "2",
+          "3",
+          "4",
+          "6"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "In Simpson's 1/3 rule, odd ordinates have coefficient 4, while intermediate even ordinates have coefficient 2."
+      },
+      {
+        question: "If an integral $\\int_0^1 f(x) dx$ is evaluated with $h = 0.25$, how many sub-intervals are created?",
+        options: [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        answer: 2,
+        is_pyq: false,
+        explanation: "$n = \\frac{b - a}{h} = \\frac{1 - 0}{0.25} = 4$ sub-intervals."
+      },
+      {
+        question: "Can Simpson's 1/3 Rule be applied directly to a table with $n = 5$ sub-intervals?",
+        options: [
+          "Yes, unconditionally",
+          "No, because $n$ must be even",
+          "Yes, if the function is linear",
+          "Only if $h = 1$"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "No, Simpson's 1/3 rule strictly requires an even number of sub-intervals ($n = 2, 4, 6, \\dots$). For $n=5$, one would have to use Simpson's rule on the first 4 strips and the Trapezoidal rule on the 5th."
+      },
+      {
+        question: "What is the formula for the first derivative $f'(x_0)$ using forward differences?",
+        options: [
+          "(1/h) * [Δy_0 + 0.5 Δ^2 y_0 + ...]",
+          "(1/h) * [Δy_0 - 0.5 Δ^2 y_0 + (1/3) Δ^3 y_0 - ...]",
+          "(1/h^2) * [Δ^2 y_0 - Δ^3 y_0]",
+          "h * [Δy_0 - Δ^2 y_0]"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "From $D = \\frac{1}{h} \\ln(1 + \\Delta) = \\frac{1}{h} [\\Delta - \\frac{\\Delta^2}{2} + \\frac{\\Delta^3}{3} - \\dots]$, applying to $y_0$ gives $f'(x_0) = \\frac{1}{h} [\\Delta y_0 - \\frac{1}{2}\\Delta^2 y_0 + \\frac{1}{3}\\Delta^3 y_0 - \\dots]$."
       }
     ];
 

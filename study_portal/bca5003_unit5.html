@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 5: Transport, Upper Layers & Security | BCA-5003</title>
+  <title>Unit 5: Transport & Upper Layers | BCA-5003</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
   <!-- Sticky Mobile Top Bar -->
   <header class="top-header">
     <a href="index.html" class="brand">
-      <div class="brand-icon" style="background:#059669;">CN</div>
+      <div class="brand-icon" style="background:#0f766e;">CN</div>
       <div>
         <div class="brand-title">BCA-5003: Unit V</div>
-        <div class="brand-subtitle">Transport, Application & Cryptography</div>
+        <div class="brand-subtitle">Transport, Apps & Cryptography</div>
       </div>
     </a>
     <div class="header-actions">
@@ -26,88 +38,40 @@
   <main class="container">
 
     <!-- Unit Banner -->
-    <div class="unit-banner" style="border-left-color:#059669;">
+    <div class="unit-banner" style="border-left-color:#0f766e;">
       <div class="badge-row">
         <span class="badge badge-emerald">Subject: BCA-5003</span>
-        <span class="badge badge-amber">⭐ TCP 3-Way Handshake & Protocols</span>
-        <span class="badge badge-coral">Day 2 Priority</span>
+        <span class="badge badge-amber">⭐ TCP 3-Way Handshake & Email Protocols</span>
+        <span class="badge badge-coral">Day 5 Priority</span>
       </div>
-      <h1 class="unit-title">Unit V: Transport Layer, Application Protocols & Security</h1>
-      <p class="unit-desc">TCP vs UDP, 3-Way Handshake, DNS, HTTP, Email Architecture (SMTP, POP3, MIME), and Cryptography Basics.</p>
+      <h1 class="unit-title">Unit V: Transport Layer, Application Protocols & Cryptography</h1>
+      <p class="unit-desc">
+        TCP vs UDP, TCP 3-Way Handshake, DNS, Email (SMTP, POP3, IMAP), Symmetric vs Asymmetric Cryptography, and Digital Signatures.
+      </p>
     </div>
 
-    <!-- Quick Formula & Ports Card -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">⚡</span> Essential Port Numbers Cheat Sheet</span>
-      </div>
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Protocol</th>
-              <th>Port</th>
-              <th>Transport Protocol</th>
-              <th>Application Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>HTTP</strong></td>
-              <td>80</td>
-              <td>TCP</td>
-              <td>Unencrypted web browsing</td>
-            </tr>
-            <tr>
-              <td><strong>HTTPS</strong></td>
-              <td>443</td>
-              <td>TCP (with TLS/SSL)</td>
-              <td>Secure encrypted web browsing</td>
-            </tr>
-            <tr>
-              <td><strong>DNS</strong></td>
-              <td>53</td>
-              <td>UDP (Queries) / TCP (Zone transfers)</td>
-              <td>Resolves domain names to IP addresses</td>
-            </tr>
-            <tr>
-              <td><strong>SMTP</strong></td>
-              <td>25 / 587</td>
-              <td>TCP</td>
-              <td>Sends / pushes outbound email</td>
-            </tr>
-            <tr>
-              <td><strong>POP3 / IMAP</strong></td>
-              <td>110 / 143</td>
-              <td>TCP</td>
-              <td>Retrieves / synchronizes user emails</td>
-            </tr>
-            <tr>
-              <td><strong>FTP</strong></td>
-              <td>20 (Data) / 21 (Control)</td>
-              <td>TCP</td>
-              <td>File transfer between client and server</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: TCP vs UDP Complete Comparison -->
+    <!-- Topic 1: TCP vs UDP -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> TCP vs UDP Detailed Comparison</span>
+        <span><span class="card-heading-icon">1.</span> Transport Layer: TCP vs UDP</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2018 (Top repeated 10-mark question!)</span>
+        <span>2024–25, 2023–24, 2021, 2018 (Asked almost every year for 5–10 marks)</span>
       </div>
 
-      <div class="table-responsive">
-        <table class="study-table">
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
-              <th>Parameter</th>
+              <th>Feature</th>
               <th>TCP (Transmission Control Protocol)</th>
               <th>UDP (User Datagram Protocol)</th>
             </tr>
@@ -115,228 +79,351 @@
           <tbody>
             <tr>
               <td><strong>Connection Type</strong></td>
-              <td><strong>Connection-Oriented</strong> (3-Way Handshake)</td>
-              <td><strong>Connectionless</strong> (Fire-and-forget)</td>
+              <td>Connection-Oriented (3-way handshake before transfer)</td>
+              <td>Connectionless (fire-and-forget; no pre-established session)</td>
             </tr>
             <tr>
               <td><strong>Reliability</strong></td>
-              <td><strong>100% Reliable</strong> (ACKs, Retransmissions, In-order sequencing)</td>
-              <td><strong>Unreliable</strong> (Best-effort delivery; packets can drop or arrive out-of-order)</td>
+              <td>Guaranteed; uses positive ACKs, timeouts, and retransmissions</td>
+              <td>Unreliable; best-effort delivery; packets can be lost, reordered, or duplicated</td>
             </tr>
             <tr>
-              <td><strong>Header Overhead</strong></td>
-              <td><strong>20 to 60 Bytes</strong></td>
-              <td><strong>Fixed 8 Bytes</strong> (Extremely lightweight)</td>
+              <td><strong>Header Size</strong></td>
+              <td>Variable: <strong>20 to 60 bytes</strong></td>
+              <td>Fixed: <strong>8 bytes</strong> (low overhead)</td>
             </tr>
             <tr>
               <td><strong>Flow & Congestion Control</strong></td>
-              <td>Yes (Sliding window & Slow Start / AIMD)</td>
-              <td>None</td>
+              <td>Yes; dynamic sliding window and congestion window</td>
+              <td>None; applications must regulate their own transmission rate</td>
             </tr>
             <tr>
-              <td><strong>Speed</strong></td>
-              <td>Slower due to handshake and ACKs</td>
-              <td><strong>Ultra-Fast</strong> (Minimal transmission latency)</td>
-            </tr>
-            <tr>
-              <td><strong>Use Cases</strong></td>
-              <td>Web (HTTP/S), Email (SMTP), File Transfer (FTP)</td>
-              <td>Live Voice/Video streaming (VoIP, Zoom), Online Gaming, DNS queries</td>
+              <td><strong>Real Applications</strong></td>
+              <td>Web browsing (HTTP/HTTPS), File transfer (FTP), Email (SMTP), SSH</td>
+              <td>Live video streaming, VoIP (WhatsApp calls), Online gaming, DNS queries, DHCP</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 2: TCP 3-Way Handshake Diagram -->
+    <!-- Topic 2: TCP 3-Way Handshake Connection Establishment -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> TCP 3-Way Handshake (Connection Setup)</span>
+        <span><span class="card-heading-icon">2.</span> TCP 3-Way Handshake Mechanism</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2022–23, 2019 (Draw sequence diagram with SEQ & ACK)</span>
+        <span>2025–26, 2022, 2019 (Complete diagram and SYN/ACK sequence numbering)</span>
       </div>
 
+      <p>
+        Before transmitting any user payload data, TCP establishes a synchronized virtual connection using three control segments:
+      </p>
+
+      <!-- Accurate SVG Handshake Diagram -->
       <div class="diagram-box">
-        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
-          <!-- Client & Server Bars -->
-          <line x1="60" y1="20" x2="60" y2="160" stroke="#0d9488" stroke-width="2.5" />
-          <line x1="260" y1="20" x2="260" y2="160" stroke="#f59e0b" stroke-width="2.5" />
-          <text x="35" y="15" font-size="11" font-weight="bold" fill="#0d9488">Client (Active)</text>
-          <text x="235" y="15" font-size="11" font-weight="bold" fill="#f59e0b">Server (Passive)</text>
+        <svg viewBox="0 0 320 200" width="100%" height="auto" style="max-width:320px;">
+          <!-- Vertical timelines -->
+          <line x1="60" y1="20" x2="60" y2="180" stroke="var(--text-muted)" stroke-width="2" />
+          <line x1="260" y1="20" x2="260" y2="180" stroke="var(--text-muted)" stroke-width="2" />
+          <text x="35" y="15" font-size="11" font-weight="bold" fill="var(--text-main)">Client</text>
+          <text x="240" y="15" font-size="11" font-weight="bold" fill="var(--text-main)">Server</text>
 
           <!-- Step 1: SYN -->
-          <line x1="60" y1="45" x2="255" y2="75" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow)" />
-          <text x="100" y="52" font-size="10" font-weight="bold" fill="#fb7185">1. SYN (seq = x)</text>
+          <line x1="60" y1="35" x2="260" y2="70" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+          <text x="80" y="45" font-size="9" font-weight="bold" fill="#10b981">1. SYN: Seq = x</text>
+          <text x="80" y="58" font-size="7.5" fill="var(--text-muted)">(Synchronize initial sequence number)</text>
 
           <!-- Step 2: SYN + ACK -->
-          <line x1="260" y1="85" x2="65" y2="115" stroke="#10b981" stroke-width="2" />
-          <text x="90" y="94" font-size="10" font-weight="bold" fill="#10b981">2. SYN + ACK (seq = y, ack = x+1)</text>
+          <line x1="260" y1="80" x2="60" y2="115" stroke="#f59e0b" stroke-width="2" />
+          <text x="130" y="90" font-size="9" font-weight="bold" fill="#f59e0b">2. SYN + ACK</text>
+          <text x="120" y="103" font-size="8" fill="#f59e0b">Seq = y, Ack = x + 1</text>
 
           <!-- Step 3: ACK -->
-          <line x1="60" y1="125" x2="255" y2="155" stroke="#0d9488" stroke-width="2" />
-          <text x="100" y="134" font-size="10" font-weight="bold" fill="#0d9488">3. ACK (ack = y+1)</text>
+          <line x1="60" y1="125" x2="260" y2="160" stroke="#10b981" stroke-width="2" />
+          <text x="80" y="135" font-size="9" font-weight="bold" fill="#10b981">3. ACK: Seq = x + 1</text>
+          <text x="140" y="148" font-size="8" fill="#10b981">Ack = y + 1</text>
 
-          <!-- State Labels -->
-          <text x="10" y="130" font-size="9" fill="var(--text-muted)">ESTABLISHED</text>
-          <text x="215" y="168" font-size="9" fill="var(--text-muted)">ESTABLISHED</text>
+          <!-- Established Status -->
+          <rect x="90" y="170" width="140" height="22" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1" />
+          <text x="100" y="185" font-size="9" font-weight="bold" fill="#10b981">CONNECTION ESTABLISHED</text>
         </svg>
-        <div class="diagram-caption">TCP Connection Establishment: SYN → SYN-ACK → ACK</div>
+        <div class="diagram-caption">The TCP 3-Way Handshake Connection Establishment Sequence</div>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>The 3 Steps Explained:</strong>
+      <div class="callout callout-info">
+        <strong>The 3 Handshake Steps Explained:</strong>
         <ol class="step-list">
-          <li><strong>SYN:</strong> Client chooses initial sequence number $x$ and sends a segment with <code>SYN = 1</code> to request a connection.</li>
-          <li><strong>SYN + ACK:</strong> Server acknowledges client's request with <code>ACK = x + 1</code>, chooses its own sequence number $y$, and sends <code>SYN = 1</code>.</li>
-          <li><strong>ACK:</strong> Client confirms server's sequence number by sending <code>ACK = y + 1</code>. Connection is now <strong>ESTABLISHED</strong> and two-way data transfer begins!</li>
+          <li><strong>Step 1 (SYN):</strong> Client sends a segment with the <code>SYN</code> control flag set and chooses a random Initial Sequence Number (ISN) $x$.</li>
+          <li><strong>Step 2 (SYN + ACK):</strong> Server allocates connection buffers, picks its own sequence number $y$, and sends an acknowledgment acknowledging $x$: <code>Ack = x + 1</code>.</li>
+          <li><strong>Step 3 (ACK):</strong> Client confirms receipt of server's sequence number: <code>Ack = y + 1</code>. Data transfer can now commence bidirectionally.</li>
         </ol>
       </div>
     </div>
 
-    <!-- Topic 3: Email Architecture: SMTP, POP3, IMAP & MIME -->
+    <!-- Topic 3: Application Protocols: DNS, Email & Web -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Email System Architecture</span>
+        <span><span class="card-heading-icon">3.</span> Application Layer Protocols</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022–23, 2019 (SMTP vs POP3 vs MIME)</span>
+        <span>2024–25, 2022, 2017 (DNS hierarchy, SMTP vs POP3/IMAP, and port numbers)</span>
       </div>
 
-      <ul class="key-points">
-        <li><strong>SMTP (Simple Mail Transfer Protocol - Port 25):</strong> A <em>push protocol</em> used by the sender's client to transmit email to its mail server, and between mail servers. Transmits text in 7-bit ASCII only.</li>
-        <li><strong>MIME (Multipurpose Internet Mail Extensions):</strong> An extension to SMTP that converts non-ASCII data (images, PDFs, audio, video, attachments) into 7-bit ASCII format for transmission across legacy SMTP servers.</li>
-        <li><strong>POP3 (Post Office Protocol v3 - Port 110):</strong> A <em>pull protocol</em> that downloads emails from the mail server to the local client and usually deletes them from the server (offline model).</li>
-        <li><strong>IMAP (Internet Message Access Protocol - Port 143):</strong> A more powerful pull protocol that synchronizes emails in real-time across multiple devices (phone, laptop) while keeping them stored on the mail server.</li>
-      </ul>
-    </div>
-
-    <!-- Topic 4: Cryptography & Security Fundamentals -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Cryptography: Symmetric vs Asymmetric</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2022–23 (Secret Key vs Public Key Encryption)</span>
-      </div>
-
-      <div class="table-responsive">
-        <table class="study-table">
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>Symmetric (Secret Key)</th>
-              <th>Asymmetric (Public Key)</th>
+              <th>Protocol</th>
+              <th>Default Port</th>
+              <th>Transport Protocol</th>
+              <th>Core Function</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Keys Used</strong></td>
-              <td><strong>Single Shared Secret Key</strong> for both encryption and decryption</td>
-              <td><strong>Key Pair:</strong> Public Key (encrypts) + Private Key (decrypts)</td>
+              <td><strong>DNS</strong> (Domain Name System)</td>
+              <td>Port 53</td>
+              <td>UDP (queries) / TCP (zone transfers)</td>
+              <td>Resolves human-readable domain names (e.g. <code>google.com</code>) to 32-bit IP addresses.</td>
             </tr>
             <tr>
-              <td><strong>Encryption Speed</strong></td>
-              <td><strong>Very Fast</strong> (Suitable for bulk data)</td>
-              <td>Much Slower (Complex modular arithmetic)</td>
+              <td><strong>SMTP</strong> (Simple Mail Transfer)</td>
+              <td>Port 25 / 587</td>
+              <td>TCP</td>
+              <td><strong>Push Protocol</strong>: Uploads outgoing emails from client to server, and transfers emails between mail servers.</td>
             </tr>
             <tr>
-              <td><strong>Key Distribution</strong></td>
-              <td>Difficult (Must share secret securely)</td>
-              <td>Easy (Public key can be shared openly)</td>
+              <td><strong>POP3</strong> (Post Office Protocol 3)</td>
+              <td>Port 110</td>
+              <td>TCP</td>
+              <td><strong>Pull Protocol</strong>: Downloads emails to local client and deletes them from server by default (single-device).</td>
             </tr>
             <tr>
-              <td><strong>Algorithms</strong></td>
-              <td>AES, DES, 3DES, Blowfish</td>
-              <td>RSA, Diffie-Hellman, ECC</td>
+              <td><strong>IMAP</strong> (Internet Message Access)</td>
+              <td>Port 143</td>
+              <td>TCP</td>
+              <td><strong>Pull Protocol</strong>: Synchronizes emails and folders across multiple devices (mobile, laptop) while keeping copies on server.</td>
+            </tr>
+            <tr>
+              <td><strong>HTTP / HTTPS</strong></td>
+              <td>Port 80 / 443</td>
+              <td>TCP</td>
+              <td>Transfers web pages; HTTPS uses SSL/TLS encryption for end-to-end security.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
+    <!-- Topic 4: Cryptography & Network Security -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Cryptography: Symmetric vs Asymmetric & Digital Signatures</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2020, 2016 (Symmetric vs Asymmetric, RSA algorithm, and Digital Signatures)</span>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Symmetric Key Cryptography (Secret Key)</th>
+              <th>Asymmetric Key Cryptography (Public Key)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Number of Keys</strong></td>
+              <td><strong>One single secret key</strong> shared by both sender and receiver</td>
+              <td><strong>Two mathematically linked keys</strong>: Public Key (open) + Private Key (kept secret)</td>
+            </tr>
+            <tr>
+              <td><strong>Encryption / Decryption</strong></td>
+              <td>Same key encrypts and decrypts: $C = E_K(P), P = D_K(C)$</td>
+              <td>Public key encrypts $\to$ Only matching Private key can decrypt</td>
+            </tr>
+            <tr>
+              <td><strong>Key Distribution</strong></td>
+              <td>Major problem: How to securely share the secret key over an insecure channel?</td>
+              <td>Solved: Public key can be freely distributed to the world</td>
+            </tr>
+            <tr>
+              <td><strong>Speed</strong></td>
+              <td>Extremely fast; ideal for encrypting large gigabytes of bulk data</td>
+              <td>Computationally slow (heavy modular exponentiation of prime numbers)</td>
+            </tr>
+            <tr>
+              <td><strong>Standard Algorithms</strong></td>
+              <td>DES, 3DES, AES (Advanced Encryption Standard)</td>
+              <td>RSA (Rivest-Shamir-Adleman), Diffie-Hellman, ECC</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Digital Signatures & Non-Repudiation:</strong>
+        <p>
+          A <strong>Digital Signature</strong> provides authenticity, integrity, and non-repudiation:
+        </p>
+        <ol class="step-list">
+          <li><strong>Signing:</strong> The sender generates a cryptographic hash of the document and encrypts the hash using the <strong>Sender's Private Key</strong>.</li>
+          <li><strong>Verification:</strong> The receiver decrypts the signature using the <strong>Sender's Public Key</strong> and compares it with the hash of the received document.</li>
+          <li>If the hashes match, it guarantees that: (1) The document was not altered in transit, and (2) The sender cannot deny having sent it (Non-repudiation)!</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 5: Interactive MCQ Exam Drill (10 Questions) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">📝</span> Unit V Exam Mastery MCQ Quiz (10 Questions)</span>
+      </div>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering TCP/UDP, 3-way handshake, email protocols, and cryptography.
+      </p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <a href="bca5003_unit4.html" class="nav-unit-btn">← Unit IV</a>
-    <a href="index.html" class="nav-unit-btn primary">Complete CN! → Hub</a>
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5003_unit4.html" class="nav-unit-btn">← Unit IV: Devices</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
+    <a href="bca5002_unit1.html" class="nav-unit-btn primary">Subject Next: Java Programming →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit5Questions = [
       {
-        question: "How many packets are exchanged between client and server to establish a TCP connection?",
+        question: "During the second step of the TCP 3-Way Handshake, which control flags are set by the server?",
         options: [
-          "1 packet",
-          "2 packets",
-          "3 packets (Three-way handshake)",
-          "4 packets"
+          "SYN only",
+          "ACK only",
+          "SYN + ACK",
+          "FIN + ACK"
         ],
         answer: 2,
-        explanation: "TCP establishes a reliable connection using a 3-way handshake: SYN from client, SYN-ACK from server, and ACK from client."
+        is_pyq: true,
+        explanation: "In Step 2, the server responds with both SYN (to synchronize its own sequence number) and ACK (to acknowledge the client's initial sequence number)."
       },
       {
-        question: "Which email protocol is strictly a 'push' protocol used to transmit emails between mail servers?",
+        question: "What is the fixed header size of a User Datagram Protocol (UDP) packet?",
+        options: [
+          "8 bytes",
+          "20 bytes",
+          "32 bytes",
+          "64 bytes"
+        ],
+        answer: 0,
+        is_pyq: true,
+        explanation: "UDP has a compact, fixed 8-byte header consisting of: Source Port (2B), Destination Port (2B), Length (2B), and Checksum (2B)."
+      },
+      {
+        question: "Which email protocol is used to push/send messages from an email client to a mail server and between mail servers?",
         options: [
           "POP3",
           "IMAP",
-          "SMTP",
-          "HTTP"
+          "SMTP (Simple Mail Transfer Protocol)",
+          "SNMP"
         ],
         answer: 2,
-        explanation: "SMTP (Simple Mail Transfer Protocol, Port 25) is a push protocol that moves emails from the sender client to the mail server and between mail servers."
+        is_pyq: true,
+        explanation: "SMTP (Port 25/587) is the push protocol used for transmitting outgoing email. POP3 and IMAP are pull protocols used for retrieving mail."
       },
       {
-        question: "What is the primary role of MIME in email systems?",
+        question: "In Asymmetric Key Cryptography, which key is used by the sender to encrypt a confidential message meant for Bob?",
         options: [
-          "To encrypt passwords",
-          "To allow transmission of non-ASCII attachments (images, PDFs, audio) over standard ASCII SMTP",
-          "To route emails between routers",
-          "To assign IP addresses to servers"
+          "The sender's own Private Key",
+          "The sender's own Public Key",
+          "Bob's Public Key",
+          "Bob's Private Key"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "To ensure confidentiality, the sender encrypts with Bob's Public Key. Only Bob's matching Private Key can decrypt and read the message."
+      },
+      {
+        question: "What cryptographic goal ensures that an author cannot deny having sent a specific message?",
+        options: [
+          "Confidentiality",
+          "Availability",
+          "Non-Repudiation",
+          "Throughput"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "Non-repudiation, achieved through digital signatures made with the sender's private key, prevents the signer from denying the authenticity of their signature."
+      },
+      {
+        question: "What is the standard port number for DNS queries over UDP?",
+        options: [
+          "21",
+          "25",
+          "53",
+          "80"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "DNS primarily uses UDP Port 53 for standard name resolution queries."
+      },
+      {
+        question: "Which of the following is a prominent symmetric key encryption algorithm?",
+        options: [
+          "RSA",
+          "AES (Advanced Encryption Standard)",
+          "Diffie-Hellman",
+          "ECC"
         ],
         answer: 1,
-        explanation: "MIME (Multipurpose Internet Mail Extensions) encodes non-ASCII multimedia files and attachments into 7-bit ASCII characters so legacy SMTP systems can transfer them."
+        is_pyq: true,
+        explanation: "AES is a symmetric cipher using the same secret key for both encryption and decryption. RSA and Diffie-Hellman are asymmetric."
       },
       {
-        question: "In Asymmetric (Public Key) Cryptography, which key is used to decrypt a message encrypted with the receiver's public key?",
+        question: "How does IMAP differ fundamentally from POP3 for email retrieval?",
         options: [
-          "Sender's Public Key",
-          "Sender's Private Key",
-          "Receiver's Private Key",
-          "A shared symmetric key"
-        ],
-        answer: 2,
-        explanation: "In public-key cryptography, a message encrypted with the recipient's public key can only be decrypted by the recipient's corresponding private key."
-      },
-      {
-        question: "What is the size of the fixed UDP header in bytes?",
-        options: [
-          "4 Bytes",
-          "8 Bytes",
-          "20 Bytes",
-          "64 Bytes"
+          "IMAP deletes all emails from the server immediately after download",
+          "IMAP maintains message state on the mail server and synchronizes across multiple client devices",
+          "IMAP does not require TCP",
+          "IMAP only works for text files"
         ],
         answer: 1,
-        explanation: "A UDP header is very compact, consisting of only 8 bytes total: Source Port (2B), Destination Port (2B), Length (2B), and Checksum (2B)."
+        is_pyq: true,
+        explanation: "IMAP keeps email stored on the central server and synchronizes read/unread states and folders across all user devices (phones, laptops), whereas POP3 downloads and removes by default."
       },
       {
-        question: "Which protocol resolves human-readable domain names (e.g. www.google.com) into numerical IP addresses?",
+        question: "Why is UDP preferred over TCP for live video conferencing (e.g. Zoom/WhatsApp calls)?",
         options: [
-          "DHCP",
-          "ARP",
-          "DNS",
-          "FTP"
+          "Because UDP encrypts all data automatically",
+          "Because UDP avoids the transmission delays of retransmissions and acknowledgments; losing an occasional video frame is preferable to buffering pause",
+          "Because UDP headers are 100 bytes long",
+          "Because UDP only works on fiber optics"
         ],
-        answer: 2,
-        explanation: "DNS (Domain Name System, operating over Port 53) translates alphanumeric domain names into IP addresses for network routing."
+        answer: 1,
+        is_pyq: true,
+        explanation: "Real-time communication prioritizes low latency over perfect reliability; retransmitting a lost audio millisecond after the conversation has moved on is useless."
+      },
+      {
+        question: "How is a Digital Signature created by the sender?",
+        options: [
+          "By encrypting the document hash with the sender's Private Key",
+          "By encrypting the document with the receiver's Public Key",
+          "By converting the text to PDF",
+          "By typing a name in cursive font"
+        ],
+        answer: 0,
+        is_pyq: true,
+        explanation: "A digital signature is created by computing a hash of the document and encrypting it with the sender's Private Key. Anyone with the sender's Public Key can verify it."
       }
     ];
 

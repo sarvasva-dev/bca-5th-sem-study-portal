@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 4: Network Devices & IP Addressing | BCA-5003</title>
+  <title>Unit 4: Network Devices & Addressing | BCA-5003</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
   <!-- Sticky Mobile Top Bar -->
   <header class="top-header">
     <a href="index.html" class="brand">
-      <div class="brand-icon" style="background:#059669;">CN</div>
+      <div class="brand-icon" style="background:#0f766e;">CN</div>
       <div>
         <div class="brand-title">BCA-5003: Unit IV</div>
-        <div class="brand-subtitle">Network Devices & Addressing</div>
+        <div class="brand-subtitle">Devices, Framing & IPv4</div>
       </div>
     </a>
     <div class="header-actions">
@@ -26,208 +38,244 @@
   <main class="container">
 
     <!-- Unit Banner -->
-    <div class="unit-banner" style="border-left-color:#059669;">
+    <div class="unit-banner" style="border-left-color:#0f766e;">
       <div class="badge-row">
         <span class="badge badge-emerald">Subject: BCA-5003</span>
-        <span class="badge badge-amber">⭐ Hub vs Switch & IPv4 Subnetting</span>
-        <span class="badge badge-coral">Day 2 Priority</span>
+        <span class="badge badge-amber">⭐ Hub vs Switch & IPv4 Classful Ranges</span>
+        <span class="badge badge-coral">Day 4 Priority</span>
       </div>
-      <h1 class="unit-title">Unit IV: Connecting Devices & Network Layer</h1>
-      <p class="unit-desc">Repeaters, Hubs, Bridges, Switches, Routers, Gateways, IPv4 Classful Addressing, Subnetting, and Framing (Bit Stuffing).</p>
+      <h1 class="unit-title">Unit IV: Network Devices, Framing & IPv4 Addressing</h1>
+      <p class="unit-desc">
+        Hardware Devices (Hub, Switch, Router), Collision vs Broadcast Domains, Bit Stuffing, IPv4 Classful Addressing, and Subnetting Calculations.
+      </p>
     </div>
 
-    <!-- Quick Reference Card -->
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    </div>
+
+    <!-- Topic 1: Network Connecting Devices -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">⚡</span> Network Devices by OSI Layer</span>
+        <span><span class="card-heading-icon">1.</span> Network Connecting Devices & Domains</span>
       </div>
-      <div class="table-responsive">
-        <table class="study-table">
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022, 2020, 2017 (Hub vs Switch, Collision vs Broadcast domain differences)</span>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
+              <th>Device</th>
               <th>OSI Layer</th>
-              <th>Connecting Device</th>
-              <th>Addressing Used</th>
-              <th>Primary Function</th>
+              <th>Collision Domain Behavior</th>
+              <th>Broadcast Domain Behavior</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Layer 1 (Physical)</strong></td>
-              <td>Repeater / Hub</td>
-              <td>None (Raw Bits)</td>
-              <td>Regenerates signal; broadcasts bits to all ports</td>
+              <td><strong>Repeater / Hub</strong></td>
+              <td>Layer 1 (Physical)</td>
+              <td>Single shared collision domain (all ports collide)</td>
+              <td>Single broadcast domain (blindly repeats to all)</td>
             </tr>
             <tr>
-              <td><strong>Layer 2 (Data Link)</strong></td>
-              <td>Bridge / Switch</td>
-              <td><strong>MAC Address</strong> (48-bit)</td>
-              <td>Filters & forwards frames; learns MAC addresses in CAM table</td>
+              <td><strong>Bridge / Switch</strong></td>
+              <td>Layer 2 (Data Link)</td>
+              <td><strong>Breaks collision domains</strong>: Every port is a separate, private collision domain</td>
+              <td>Single broadcast domain: Floods broadcasts (FF:FF:FF:FF:FF:FF) across all ports</td>
             </tr>
             <tr>
-              <td><strong>Layer 3 (Network)</strong></td>
-              <td>Router</td>
-              <td><strong>IP Address</strong> (32/128-bit)</td>
-              <td>Routes packets across different subnets; breaks broadcast domains</td>
+              <td><strong>Router</strong></td>
+              <td>Layer 3 (Network)</td>
+              <td>Separate collision domain per port</td>
+              <td><strong>Breaks broadcast domains</strong>: Does NOT forward broadcast packets across subnets</td>
             </tr>
             <tr>
-              <td><strong>Layers 4–7 (Upper)</strong></td>
-              <td>Gateway</td>
-              <td>Port / Application Data</td>
-              <td>Translates between completely different network protocol architectures</td>
+              <td><strong>Gateway</strong></td>
+              <td>All Layers (1 to 7)</td>
+              <td>Translates incompatible protocol suites (e.g. SNA to TCP/IP)</td>
+              <td>Translates network architectures</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
 
-    <!-- Topic 1: Hub vs Switch Comparison -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Hub vs Switch: Complete Comparison</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2021, 2019 (Asked almost every year!)</span>
-      </div>
-
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Hub (Dumb Device)</th>
-              <th>Switch (Intelligent Device)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Operating Layer</strong></td>
-              <td>Layer 1 (Physical Layer)</td>
-              <td>Layer 2 (Data Link Layer)</td>
-            </tr>
-            <tr>
-              <td><strong>Transmission Mode</strong></td>
-              <td><strong>Broadcasts</strong> incoming data to all connected ports</td>
-              <td><strong>Unicasts</strong> data directly to destination port via MAC table</td>
-            </tr>
-            <tr>
-              <td><strong>Collision Domains</strong></td>
-              <td>Single shared collision domain for all ports</td>
-              <td><strong>Each port has its own dedicated collision domain</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Transmission Duplex</strong></td>
-              <td>Half-duplex only (collisions can happen)</td>
-              <td>Full-duplex supported (simultaneous send/receive)</td>
-            </tr>
-            <tr>
-              <td><strong>Addressing</strong></td>
-              <td>Does not understand MAC or IP</td>
-              <td>Learns and stores 48-bit MAC addresses</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="callout callout-info">
+        <strong>Domain Definitions:</strong>
+        <ul style="margin:4px 0 0 16px; line-height:1.6;">
+          <li><strong>Collision Domain:</strong> A network segment where packet collisions can occur when two devices transmit simultaneously. Switches eliminate collisions by giving every port its own dedicated micro-segment!</li>
+          <li><strong>Broadcast Domain:</strong> The set of all network devices that receive an Ethernet broadcast frame. Only <strong>Routers</strong> contain and isolate broadcast domains.</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Topic 2: IPv4 Addressing & Classes -->
+    <!-- Topic 2: Framing & Bit Stuffing -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> IPv4 Classful Addressing & Subnet Masks</span>
+        <span><span class="card-heading-icon">2.</span> Data Link Framing & Bit Stuffing</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2021, 2018 (Identify IP class and calculate network/host IDs)</span>
+        <span>2025–26, 2023–24, 2021, 2018 (Bit stuffing algorithm & worked problem)</span>
       </div>
-      <p>IPv4 addresses are <strong>32 bits (4 bytes)</strong> long, written as four decimal octets separated by dots (e.g., <code>192.168.1.1</code>).</p>
 
-      <div class="table-responsive">
-        <table class="study-table">
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        <strong>Framing</strong> breaks the raw physical layer bitstream into discrete logical units called <em>Frames</em> so the receiver can detect the start and end of every message.
+      </p>
+
+      <div class="callout callout-formula">
+        <strong>The Bit Stuffing Rule (HDLC Protocol):</strong><br>
+        Frames begin and end with a special flag pattern: <strong>$01111110$</strong> (six consecutive 1s).<br>
+        To prevent the user's data from accidentally containing this flag sequence, the sender's hardware monitors the bitstream:
+        <em>"Whenever the transmitter encounters <strong>five consecutive 1s ($11111$)</strong> in the payload data, it automatically injects an extra <strong>0</strong> after the fifth 1."</em><br>
+        The receiver detects five consecutive 1s followed by a 0, and automatically removes (de-stuffs) that zero!
+      </div>
+
+      <!-- Solved Bit Stuffing Example -->
+      <div class="callout callout-tip">
+        <strong>📝 Worked Exam Numerical:</strong><br>
+        Original Data: <code>011011111110111110010</code><br>
+        1. Find 5 consecutive 1s: <code>011011111<strong>[0]</strong>11011111<strong>[0]</strong>0010</code><br>
+        2. Framed Output with Flags:<br>
+        <code>[01111110] 01101111101101111100010 [01111110]</code>
+      </div>
+    </div>
+
+    <!-- Topic 3: IPv4 Classful Addressing & Subnetting -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> IPv4 Classful Addressing & Subnetting Math</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2019 (Address classes, default subnet masks, and subnet calculations)</span>
+      </div>
+
+      <p>
+        An IPv4 address is a 32-bit identifier written in dotted-decimal notation ($4 \times 8$-bit octets from $0$ to $255$).
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Class</th>
-              <th>First Octet Range</th>
+              <th>Leading Bits</th>
+              <th>1st Octet Range</th>
               <th>Default Subnet Mask</th>
-              <th>NetID / HostID Bits</th>
-              <th>Purpose / Organization</th>
+              <th>Net ID / Host ID Split</th>
+              <th>Max Usable Hosts / Network</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Class A</strong></td>
-              <td><strong>1 to 126</strong><br><em>(0xxxxxxx)</em></td>
-              <td>255.0.0.0 (/8)</td>
-              <td>8 Net / 24 Host</td>
-              <td>Massive global networks (16.7M hosts/network)</td>
+              <td><code>0</code></td>
+              <td>$1 - 126$ ($127$ reserved for loopback)</td>
+              <td>$255.0.0.0$ (/8)</td>
+              <td>$8 \text{ bits Net} \mid 24 \text{ bits Host}$</td>
+              <td>$2^{24} - 2 = \mathbf{16,777,214}$</td>
             </tr>
             <tr>
               <td><strong>Class B</strong></td>
-              <td><strong>128 to 191</strong><br><em>(10xxxxxx)</em></td>
-              <td>255.255.0.0 (/16)</td>
-              <td>16 Net / 16 Host</td>
-              <td>Medium to large enterprises (65,534 hosts)</td>
+              <td><code>10</code></td>
+              <td>$128 - 191$</td>
+              <td>$255.255.0.0$ (/16)</td>
+              <td>$16 \text{ bits Net} \mid 16 \text{ bits Host}$</td>
+              <td>$2^{16} - 2 = \mathbf{65,534}$</td>
             </tr>
             <tr>
               <td><strong>Class C</strong></td>
-              <td><strong>192 to 223</strong><br><em>(110xxxxx)</em></td>
-              <td>255.255.255.0 (/24)</td>
-              <td>24 Net / 8 Host</td>
-              <td>Small local LANs (254 usable hosts)</td>
+              <td><code>110</code></td>
+              <td>$192 - 223$</td>
+              <td>$255.255.255.0$ (/24)</td>
+              <td>$24 \text{ bits Net} \mid 8 \text{ bits Host}$</td>
+              <td>$2^8 - 2 = \mathbf{254}$</td>
             </tr>
             <tr>
               <td><strong>Class D</strong></td>
-              <td><strong>224 to 239</strong><br><em>(1110xxxx)</em></td>
-              <td>No mask</td>
-              <td>Reserved</td>
-              <td><strong>Multicasting</strong> (Video streaming/routing updates)</td>
+              <td><code>1110</code></td>
+              <td>$224 - 239$</td>
+              <td>None</td>
+              <td>Multicast Groups</td>
+              <td>N/A</td>
             </tr>
             <tr>
               <td><strong>Class E</strong></td>
-              <td><strong>240 to 255</strong><br><em>(1111xxxx)</em></td>
-              <td>No mask</td>
-              <td>Reserved</td>
-              <td>Experimental, scientific research, and future use</td>
+              <td><code>1111</code></td>
+              <td>$240 - 255$</td>
+              <td>None</td>
+              <td>Experimental / Research</td>
+              <td>N/A</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Solved Subnetting Problem -->
       <div class="callout callout-tip">
-        <strong>Special Reserved IPs:</strong><br>
-        • <code>127.0.0.1</code>: Loopback address (testing local TCP/IP stack).<br>
-        • Host ID all 0s: Represents the <em>Network ID</em>.<br>
-        • Host ID all 1s: Represents the <em>Directed Broadcast Address</em>.
+        <strong>📝 Master Solved University Subnetting Numerical:</strong><br>
+        An organization is assigned the Class C network block <strong>$192.168.10.0/26$</strong>. Determine:
+        <ul style="margin:4px 0 0 16px;">
+          <li>Subnet Mask</li>
+          <li>Number of Subnets created</li>
+          <li>Number of Usable Hosts per subnet</li>
+          <li>First Subnet's Usable Host Range and Broadcast Address</li>
+        </ul>
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <strong>1. Subnet Mask (/26 prefix):</strong><br>
+          $26$ consecutive binary 1s: $11111111.11111111.11111111.11000000_2$<br>
+          Last octet: $128 + 64 = 192 \implies \mathbf{255.255.255.192}$.
+        </div>
+        <div class="step-item">
+          <strong>2. Number of Subnets:</strong><br>
+          Default Class C uses 24 network bits. Here 2 additional bits are borrowed for subnetting ($26 - 24 = 2$ bits):<br>
+          $$\text{Number of Subnets} = 2^2 = \mathbf{4 \text{ Subnets}}$$
+        </div>
+        <div class="step-item">
+          <strong>3. Number of Usable Hosts per Subnet:</strong><br>
+          Remaining host bits = $32 - 26 = 6$ bits.<br>
+          Subtract 2 addresses (Network ID and Broadcast ID):<br>
+          $$\text{Usable Hosts} = 2^6 - 2 = 64 - 2 = \mathbf{62 \text{ Hosts / Subnet}}$$
+        </div>
+        <div class="step-item">
+          <strong>4. First Subnet Range ($192.168.10.0/26$):</strong><br>
+          • Network ID: $192.168.10.0$<br>
+          • First Usable Host: $192.168.10.1$<br>
+          • Last Usable Host: $192.168.10.62$<br>
+          • Directed Broadcast Address: $192.168.10.63$
+        </div>
       </div>
     </div>
 
-    <!-- Topic 3: Framing & Bit Stuffing -->
+    <!-- Topic 4: Interactive MCQ Exam Drill (10 Questions) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Framing: Bit Stuffing (HDLC)</span>
+        <span><span class="card-heading-icon">📝</span> Unit IV Exam Mastery MCQ Quiz (10 Questions)</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2017 (Perform bit stuffing on a given stream)</span>
-      </div>
-      <p><strong>Rule of Bit Stuffing:</strong> Delimiter flag is <code>01111110</code> (six consecutive 1s). Whenever the transmitter's hardware sees <strong>five consecutive 1s</strong> in the user data stream, it automatically inserts (stuffs) a <strong>0 bit</strong> immediately after them, preventing premature end-of-frame recognition.</p>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering network hardware layers, collision domains, bit stuffing, and IPv4 subnetting.
+      </p>
 
-      <div class="callout callout-tip">
-        <strong>Example:</strong><br>
-        Original Data: <code>01101111111001</code><br>
-        After seeing five 1s: <code>011011111<mark style="background:#f59e0b; color:#000;">0</mark>11001</code> (A 0 is stuffed!)<br>
-        Receiver automatically strips the stuffed 0 after five consecutive 1s to restore original data.
-      </div>
+      <div id="unit-mcq-container"></div>
     </div>
-
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <a href="bca5003_unit3.html" class="nav-unit-btn">← Unit III</a>
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5003_unit3.html" class="nav-unit-btn">← Unit III: Protocols</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
     <a href="bca5003_unit5.html" class="nav-unit-btn primary">Next: Unit V →</a>
   </nav>
 
@@ -235,18 +283,31 @@
   <script>
     const unit4Questions = [
       {
-        question: "Which network device operates at OSI Layer 2 and creates separate collision domains for each connected port?",
+        question: "How does a Layer 2 Switch handle collision domains compared to a Layer 1 Hub?",
         options: [
-          "Hub",
-          "Repeater",
-          "Switch",
-          "Passive Coupler"
+          "A Switch shares a single collision domain across all ports",
+          "A Switch creates a separate, dedicated collision domain for each connected port",
+          "A Switch eliminates broadcast traffic",
+          "A Hub separates collision domains"
         ],
-        answer: 2,
-        explanation: "A switch is a Layer 2 device that isolates traffic into dedicated collision domains per port by inspecting 48-bit MAC addresses and maintaining a MAC forwarding table."
+        answer: 1,
+        is_pyq: true,
+        explanation: "Unlike a shared Hub, each port on a switch operates as an independent collision domain, preventing packet collisions across different ports."
       },
       {
-        question: "What is the default subnet mask for a Class B IPv4 network?",
+        question: "In the HDLC Bit Stuffing algorithm, what bit is inserted by the sender after detecting five consecutive 1s?",
+        options: [
+          "A bit 1",
+          "A bit 0",
+          "Two bits 00",
+          "An ASCII space"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "To prevent the user data from inadvertently matching the flag sequence 01111110, a 0 is automatically inserted after every sequence of five consecutive 1s."
+      },
+      {
+        question: "What is the default subnet mask for an IPv4 Class B network address?",
         options: [
           "255.0.0.0",
           "255.255.0.0",
@@ -254,51 +315,92 @@
           "255.255.255.255"
         ],
         answer: 1,
-        explanation: "Class B networks use 16 bits for Network ID and 16 bits for Host ID, giving a default subnet mask of 255.255.0.0 (/16)."
+        is_pyq: true,
+        explanation: "Class B networks use the first 16 bits for the Network ID, corresponding to the default subnet mask 255.255.0.0 (/16)."
       },
       {
-        question: "In HDLC bit-oriented framing, when is a '0' bit stuffed by the transmitter?",
+        question: "How many usable host IP addresses are available in a standard Class C network (/24)?",
         options: [
-          "After every 0 bit",
-          "After five consecutive 1 bits",
-          "After six consecutive 1 bits",
-          "At the end of every byte"
+          "128",
+          "254",
+          "256",
+          "65534"
         ],
         answer: 1,
-        explanation: "The flag pattern is 01111110 (six 1s). To prevent data from accidentally mimicking this flag, the sender stuffs a '0' immediately after any sequence of five consecutive 1s."
+        is_pyq: true,
+        explanation: "With 8 host bits, total addresses = $2^8 = 256$. Subtracting the Network ID (all zeros) and Broadcast address (all ones) leaves $256 - 2 = 254$ usable hosts."
       },
       {
-        question: "Which IPv4 address class is specifically reserved for Multicasting applications?",
+        question: "What is the purpose of the 127.0.0.1 IP address?",
         options: [
-          "Class A",
-          "Class B",
-          "Class C",
-          "Class D"
+          "Default gateway router",
+          "Loopback address used to test internal TCP/IP software stack on local machine",
+          "Global multicast anchor",
+          "Public DNS server"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "The 127.0.0.0/8 block is reserved for loopback testing. Packets sent to 127.0.0.1 never leave the local machine's IP stack."
+      },
+      {
+        question: "Which device is capable of breaking up and isolating Broadcast Domains?",
+        options: [
+          "Repeater",
+          "Hub",
+          "Layer 2 Switch",
+          "Router"
         ],
         answer: 3,
-        explanation: "Class D addresses (range 224.0.0.0 to 239.255.255.255) are designated exclusively for multicast group communication."
+        is_pyq: true,
+        explanation: "Routers operate at Layer 3 and do not forward Layer 2 broadcast packets by default, isolating broadcast traffic within local subnets."
       },
       {
-        question: "What is the primary operational role of a Router?",
+        question: "What is the decimal equivalent of the slash notation subnet mask /28?",
         options: [
-          "To amplify optical signals in fiber cables",
-          "To forward IP packets between distinct logical networks based on routing tables",
-          "To connect two segments into a single collision domain",
-          "To convert AC power into DC power"
-        ],
-        answer: 1,
-        explanation: "A router operates at Layer 3 (Network Layer) to direct IP packets between different networks and broadcast domains using routing algorithms (RIP, OSPF, BGP)."
-      },
-      {
-        question: "What is the loopback IPv4 address used by a host to test its own internal TCP/IP network software stack?",
-        options: [
-          "0.0.0.0",
-          "192.168.1.1",
-          "127.0.0.1",
-          "255.255.255.255"
+          "255.255.255.192",
+          "255.255.255.224",
+          "255.255.255.240",
+          "255.255.255.248"
         ],
         answer: 2,
-        explanation: "The entire 127.0.0.0/8 block is reserved for loopback, with 127.0.0.1 commonly functioning as 'localhost'."
+        is_pyq: false,
+        explanation: "/28 means 28 consecutive 1s. The fourth octet has four 1s: $128 + 64 + 32 + 16 = 240 \\implies 255.255.255.240$."
+      },
+      {
+        question: "In IPv4 Classful addressing, what are the leading bits of any Class C IP address?",
+        options: [
+          "0",
+          "10",
+          "110",
+          "1110"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "Class A begins with `0`, Class B with `10`, Class C with `110` (range 192-223), and Class D with `1110`."
+      },
+      {
+        question: "What is the role of a Gateway in computer networking?",
+        options: [
+          "To connect identical Ethernet hubs",
+          "To translate between completely different communication protocols and architectures (e.g. email to SMS, or IBM SNA to TCP/IP)",
+          "To boost electrical voltage only",
+          "To crimp RJ-45 cables"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "A Gateway is a protocol converter that can translate data between fundamentally dissimilar network architectures and protocol suites across all OSI layers."
+      },
+      {
+        question: "If a receiver receives the bit sequence `1111101` in an HDLC bit-stuffed frame, what does it do with the zero?",
+        options: [
+          "Discards the entire frame as corrupt",
+          "Removes (de-stuffs) the 0 and preserves the original data `111111`",
+          "Inverts the zero to a one",
+          "Transmits a NAK"
+        ],
+        answer: 1,
+        is_pyq: false,
+        explanation: "When five 1s are followed by a 0, the receiver recognizes it as a stuffed bit inserted by the transmitter and automatically discards it."
       }
     ];
 

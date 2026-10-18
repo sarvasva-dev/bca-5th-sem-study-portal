@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 1: Business Intelligence & Decision Modeling | BCA-5001</title>
+  <title>Unit 1: Business Intelligence & Decision Modeling | BCA-5001 Exam Teacher</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +21,7 @@
       <div class="brand-icon" style="background:#b45309;">KM</div>
       <div>
         <div class="brand-title">BCA-5001: Unit I</div>
-        <div class="brand-subtitle">BI, DSS, GDSS & Groupware</div>
+        <div class="brand-subtitle">BI, Simon's Model, DSS & GDSS</div>
       </div>
     </a>
     <div class="header-actions">
@@ -23,232 +30,391 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#b45309;">
       <div class="badge-row">
-        <span class="badge badge-amber">Subject: BCA-5001</span>
-        <span class="badge badge-emerald">⭐ DSS vs GDSS & Simon's Model PYQs</span>
-        <span class="badge badge-coral">Day 4 Priority</span>
+        <span class="badge badge-amber">Subject: BCA-5001 (KM)</span>
+        <span class="badge badge-emerald">⭐ Simon's Model & GDSS PYQs</span>
+        <span class="badge badge-coral">Day 1 Focus (Distributed Plan)</span>
       </div>
       <h1 class="unit-title">Unit I: Business Intelligence & Decision Modeling</h1>
-      <p class="unit-desc">Modeling Decision Process, Decision Support Systems (DSS), Group Decision Support Systems (GDSS), and Groupware Technologies.</p>
+      <p class="unit-desc">Master the foundations of Decision Modeling, Herbert Simon's 4-Phase Framework, Decision Support Systems (DSS) Architecture, Group Decision Support Systems (GDSS), and Groupware Collaboration.</p>
     </div>
 
-    <!-- Topic 1: Modeling Decision Process (Simon's 4-Stage Model) -->
+    <!-- Pedagogical Callout -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Explain Herbert Simon's 4 phases of decision-making (Intelligence, Design, Choice, Implementation) and how DSS assists each phase.</li>
+        <li>Distinguish between Structured, Semi-Structured, and Unstructured decisions across organizational management levels.</li>
+        <li>Identify the 4 core subsystems of a Decision Support System (Data, Model, Knowledge, Dialog/UI).</li>
+        <li>Contrast individual DSS with Group Decision Support Systems (GDSS) and analyze the role of anonymity.</li>
+        <li>Apply the DeSanctis-Gallupe Time/Space Collaboration Matrix to classify synchronous vs asynchronous groupware technologies.</li>
+      </ol>
+    </div>
+
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: Why Do Organizations Need DSS and GDSS?</strong><br>
+      A standard database (TPS) simply records: <em>"Customer #1042 bought 5 laptops."</em> But an executive must answer: <em>"If inflation rises by 4% and competitors cut prices by 10%, should we open a factory in Kanpur or Lucknow?"</em><br>
+      Traditional software cannot answer this because the future is uncertain. <strong>Decision Support Systems (DSS)</strong> do not replace the human executive; instead, they act as an intellectual co-pilot by coupling historical data with mathematical simulation models (What-If, Goal-Seek) so leaders can evaluate alternative scenarios before committing millions of rupees.
+    </div>
+
+    <!-- Section 1: Business Intelligence & 4 Levels of Analytics -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Modeling the Decision Process</span>
+        <span><span class="card-heading-icon">1.</span> Business Intelligence (BI) & 4 Analytics Levels</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2023–24 (Explain steps involved in decision-making process)</span>
+        <span>2024–25, 2022, 2018 (Define BI, BI architecture, and analytics maturity)</span>
       </div>
-      <p>Decision modeling is the structured representation of a real-world decision problem. The classic foundation is <strong>Herbert Simon's 4-Phase Decision Model</strong>:</p>
+      <p><strong>Business Intelligence (BI)</strong> is an umbrella term encompassing architectures, applications, database systems, and analytical tools that transform raw enterprise transaction data into actionable knowledge to support strategic and operational decision-making.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Analytics Level</th>
+              <th>Guiding Question</th>
+              <th>Core Techniques</th>
+              <th>Real-World Business Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Descriptive</strong></td>
+              <td><em>"What happened?"</em></td>
+              <td>Summary statistics, KPI dashboards, monthly sales charts.</td>
+              <td>"Our North Indian retail sales fell by 14% during Q3."</td>
+            </tr>
+            <tr>
+              <td><strong>2. Diagnostic</strong></td>
+              <td><em>"Why did it happen?"</em></td>
+              <td>Root-cause drill-down, correlation, data discovery.</td>
+              <td>"Sales fell because Diwali supplier shipments were delayed by 18 days."</td>
+            </tr>
+            <tr>
+              <td><strong>3. Predictive</strong></td>
+              <td><em>"What is likely to happen?"</em></td>
+              <td>Regression models, machine learning, statistical forecasting.</td>
+              <td>"Given monsoon rainfall forecasts, umbrella demand will peak at 45,000 units in July."</td>
+            </tr>
+            <tr>
+              <td><strong>4. Prescriptive</strong></td>
+              <td><em>"What action should we take?"</em></td>
+              <td>Linear programming, heuristic optimization, simulation.</td>
+              <td>"Automatically route 60% of inventory to Warehouse B to minimize transport costs."</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 2: Herbert Simon's 4-Phase Decision Model -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Herbert Simon's Decision-Making Model</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2020, 2017 (Extremely frequent 10-mark question!)</span>
+      </div>
+      <p>Nobel laureate <strong>Herbert A. Simon</strong> formulated the classic four-phase rational decision-making model. Every business decision progresses through these four sequential stages with continuous feedback loops:</p>
 
       <div class="diagram-box">
-        <svg viewBox="0 0 320 170" width="100%" height="auto" style="max-width:320px;">
+        <svg viewBox="0 0 340 220" width="100%" height="auto" style="max-width:340px;">
           <!-- 1. Intelligence -->
-          <rect x="20" y="20" width="130" height="30" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
-          <text x="32" y="38" font-size="10" font-weight="bold" fill="#0d9488">1. Intelligence Phase</text>
+          <rect x="25" y="15" width="140" height="35" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="35" y="37" font-size="11" font-weight="bold" fill="#0d9488">1. Intelligence Phase</text>
 
-          <line x1="85" y1="50" x2="85" y2="70" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="95" y1="50" x2="95" y2="70" stroke="var(--text-main)" stroke-width="1.8" marker-end="url(#arrow)" />
 
           <!-- 2. Design -->
-          <rect x="20" y="70" width="130" height="30" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="45" y="88" font-size="10" font-weight="bold" fill="#f59e0b">2. Design Phase</text>
+          <rect x="25" y="70" width="140" height="35" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="50" y="92" font-size="11" font-weight="bold" fill="#f59e0b">2. Design Phase</text>
 
-          <line x1="85" y1="100" x2="85" y2="120" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="95" y1="105" x2="95" y2="125" stroke="var(--text-main)" stroke-width="1.8" />
 
           <!-- 3. Choice -->
-          <rect x="20" y="120" width="130" height="30" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
-          <text x="45" y="138" font-size="10" font-weight="bold" fill="#10b981">3. Choice Phase</text>
+          <rect x="25" y="125" width="140" height="35" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="50" y="147" font-size="11" font-weight="bold" fill="#10b981">3. Choice Phase</text>
+
+          <line x1="165" y1="142" x2="195" y2="142" stroke="var(--text-main)" stroke-width="1.8" />
 
           <!-- 4. Implementation -->
-          <rect x="180" y="120" width="130" height="30" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
-          <text x="188" y="138" font-size="10" font-weight="bold" fill="#e11d48">4. Implementation</text>
+          <rect x="195" y="125" width="130" height="35" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="207" y="147" font-size="11" font-weight="bold" fill="#e11d48">4. Implementation</text>
 
-          <line x1="150" y1="135" x2="180" y2="135" stroke="var(--text-main)" stroke-width="1.5" />
+          <!-- Feedback Loops -->
+          <path d="M 95,160 Q 95,195 195,195 Q 260,195 260,160" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="4,4" />
+          <text x="135" y="190" font-size="9" fill="var(--text-muted)">Feedback / Monitoring</text>
 
-          <!-- Feedback loops -->
-          <path d="M 85,150 Q 85,165 150,165 Q 245,165 245,150" fill="none" stroke="var(--text-muted)" stroke-dasharray="3,3" />
-          <text x="135" y="162" font-size="8" fill="var(--text-muted)">Feedback Loop</text>
+          <path d="M 165,87 Q 210,87 210,50" fill="none" stroke="var(--text-muted)" stroke-width="1.5" stroke-dasharray="3,3" />
+          <text x="215" y="70" font-size="8.5" fill="var(--text-muted)">Redefine</text>
         </svg>
-        <div class="diagram-caption">Herbert Simon's Decision Making Model: Intelligence → Design → Choice → Implementation</div>
+        <div class="diagram-caption">Simon's 4-Phase Decision Process with Iterative Feedback Loops</div>
       </div>
 
       <div class="callout callout-tip">
-        <strong>The 4 Phases Explained:</strong>
+        <strong>Detailed Stage Breakdown & DSS Support:</strong>
         <ol class="step-list">
-          <li><strong>Intelligence:</strong> Identify and define the problem or opportunity. Collect raw organizational data and environmental conditions.</li>
-          <li><strong>Design:</strong> Formulate, develop, and analyze possible alternative courses of action. Construct models to predict outcomes.</li>
-          <li><strong>Choice:</strong> Evaluate and compare all generated alternatives using decision criteria. Select the single best solution.</li>
-          <li><strong>Implementation:</strong> Put the chosen decision into action, allocate resources, and establish monitoring controls.</li>
+          <li><strong>Intelligence Phase:</strong> Scanning the internal and external environment to identify problems or opportunities. <em>DSS Support:</em> Executive dashboards, exception reporting, queries finding stock shortages or sales deviations.</li>
+          <li><strong>Design Phase:</strong> Inventing, formulating, and developing alternative courses of action. <em>DSS Support:</em> Forecasting algorithms, mathematical modeling, simulation of consequences for each option.</li>
+          <li><strong>Choice Phase:</strong> Evaluating and comparing generated alternatives against predefined criteria (cost, risk, ROI) to select the single best solution. <em>DSS Support:</em> Sensitivity analysis, What-If scenario grids, multi-criteria decision models.</li>
+          <li><strong>Implementation Phase:</strong> Executing the selected decision, allocating human and physical resources, and establishing monitoring mechanisms. <em>DSS Support:</em> Project milestone tracking, variance reporting, post-implementation audit.</li>
         </ol>
       </div>
+
+      <div class="track-full">
+        <h4>Anthony's Decision Framework (Decision Structure vs Management Level)</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr>
+                <th>Decision Type</th>
+                <th>Characteristics</th>
+                <th>Management Level</th>
+                <th>Primary Supporting System</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Structured</strong></td>
+                <td>Routine, repetitive, deterministic; standard operating procedures (SOP) exist.</td>
+                <td>Operational (Supervisors)</td>
+                <td><strong>TPS / MIS</strong> (e.g., payroll processing, billing)</td>
+              </tr>
+              <tr>
+                <td><strong>Semi-Structured</strong></td>
+                <td>Partially programmable; requires quantitative data combined with human subjective judgment.</td>
+                <td>Tactical (Middle Managers)</td>
+                <td><strong>DSS</strong> (e.g., annual marketing budget, plant location)</td>
+              </tr>
+              <tr>
+                <td><strong>Unstructured</strong></td>
+                <td>Novel, complex, non-routine; no predefined mathematical algorithm exists.</td>
+                <td>Strategic (Top Executives)</td>
+                <td><strong>EIS / ESS & GDSS</strong> (e.g., corporate merger, R&D strategy)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Topic 2: Decision Support Systems (DSS) -->
+    <!-- Section 3: Decision Support Systems (DSS) Subsystems -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Decision Support Systems (DSS)</span>
+        <span><span class="card-heading-icon">3.</span> Decision Support Systems (DSS) Subsystems & Capabilities</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2023–24, 2019, 2017, 2016 (Concept, 4 components, and role in business)</span>
+        <span>2024–25, 2023–24, 2019, 2016 (Explain 4 major components of DSS)</span>
       </div>
-      <p>A <strong>Decision Support System (DSS)</strong> is a computer-based information system that assists managers in making decisions for <strong>semi-structured and unstructured problems</strong> by combining data, sophisticated analytical models, and user-friendly software.</p>
+      <p>A <strong>Decision Support System (DSS)</strong> is a computer-based information system that combines data, sophisticated mathematical and analytical models, and user-friendly software to assist decision-makers with semi-structured and unstructured problems.</p>
 
       <div class="table-responsive">
         <table class="study-table">
           <thead>
             <tr>
-              <th>DSS Subsystem</th>
-              <th>Component Role & Description</th>
+              <th>Subsystem</th>
+              <th>Technical Component</th>
+              <th>Core Function in DSS</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>1. Data Management Subsystem</strong></td>
-              <td>Stores and manages organizational internal databases (ERP, CRM) and external market data via a dedicated DSS Database.</td>
+              <td><strong>1. Data Management</strong></td>
+              <td>DSS Database & DBMS</td>
+              <td>Extracts, transforms, and stores internal organizational data (ERP, sales) and external market data (stock prices, competitor indices).</td>
             </tr>
             <tr>
-              <td><strong>2. Model Management Subsystem</strong></td>
-              <td>Contains mathematical, financial, forecasting, and statistical models in a Model Base to evaluate scenarios.</td>
+              <td><strong>2. Model Management</strong></td>
+              <td>Model Base & MBMS</td>
+              <td>Maintains quantitative, statistical, financial, forecasting, and linear programming models used to compute outcomes.</td>
             </tr>
             <tr>
-              <td><strong>3. Knowledge-Base Subsystem</strong></td>
-              <td>Provides specialized domain problem-solving rules and artificial intelligence heuristics.</td>
+              <td><strong>3. Knowledge-Base</strong></td>
+              <td>Rule Engine / Heuristics</td>
+              <td>Stores domain expert rules and AI inference logic to guide complex problem formulation.</td>
             </tr>
             <tr>
-              <td><strong>4. User Interface (Dialog) Subsystem</strong></td>
-              <td>Enables intuitive human-computer interaction through charts, dashboards, and scenario inputs.</td>
+              <td><strong>4. Dialog / User Interface</strong></td>
+              <td>UI Subsystem</td>
+              <td>Provides graphical visualizations, interactive forms, and dashboards enabling non-technical managers to manipulate variables.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <div class="callout callout-tip">
-        <strong>Key Analytical Capabilities of DSS:</strong><br>
-        • <strong>What-If Analysis:</strong> Observes how outcomes change when specific input variables are modified (e.g. "What if advertising budget increases by 15%?").<br>
-        • <strong>Goal-Seeking Analysis:</strong> Calculates the input values necessary to achieve a desired target outcome (e.g. "What sales volume is required to achieve 20 Lakhs profit?").<br>
-        • <strong>Sensitivity Analysis:</strong> Determines which parameters have the greatest impact on the final decision.
+        <strong>The 3 Essential Analytical Capabilities of DSS:</strong>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>What-If Analysis:</strong> The user manually alters input assumptions to observe the resulting impact on output variables. <em>Example:</em> "What happens to net profit if steel raw material prices increase by 12%?"</li>
+          <li><strong>Goal-Seeking Analysis (Backward Calculation):</strong> The user fixes the desired output target and asks the system to calculate the necessary input value. <em>Example:</em> "If we must achieve 50 Lakhs net profit, what minimum unit sales volume must the sales team achieve?"</li>
+          <li><strong>Sensitivity Analysis:</strong> Systematically varies parameters to discover which variable exerts the largest percentage impact on the final objective, exposing high-risk factors.</li>
+        </ul>
       </div>
     </div>
 
-    <!-- Topic 3: Group Decision Support Systems (GDSS) -->
+    <!-- Section 4: Group Decision Support Systems (GDSS) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Group Decision Support Systems (GDSS)</span>
+        <span><span class="card-heading-icon">4.</span> Group Decision Support Systems (GDSS)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2020, 2019, 2018, 2017, 2016 (Super high frequency!)</span>
+        <span>2025–26, 2023–24, 2020, 2019, 2018, 2017 (High-frequency question on characteristics and benefits)</span>
       </div>
-      <p>A <strong>GDSS</strong> is an interactive computer-based system that facilitates the solution of unstructured problems by a <strong>group of decision-makers</strong> working together as a team.</p>
+      <p>A <strong>Group Decision Support System (GDSS)</strong> is an interactive computer-based system designed to facilitate collaborative problem-solving by a team of decision-makers working towards a consensus.</p>
 
       <div class="table-responsive">
         <table class="study-table">
           <thead>
             <tr>
-              <th>Parameter</th>
-              <th>DSS (Individual)</th>
-              <th>GDSS (Group / Team)</th>
+              <th>Comparison Factor</th>
+              <th>Individual DSS</th>
+              <th>GDSS (Collaborative)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Primary User</strong></td>
-              <td>Individual manager or analyst</td>
-              <td>Multiple decision-makers working collaboratively</td>
+              <td><strong>Target User</strong></td>
+              <td>Single decision-maker or financial analyst.</td>
+              <td>Group, committee, or board of directors.</td>
             </tr>
             <tr>
-              <td><strong>Key Focus</strong></td>
-              <td>Individual optimization & modeling</td>
-              <td><strong>Consensus building, voting & communication</strong></td>
+              <td><strong>Primary Objective</strong></td>
+              <td>Individual analytical optimization.</td>
+              <td><strong>Consensus building, conflict resolution & idea generation.</strong></td>
             </tr>
             <tr>
-              <td><strong>Distinct Capabilities</strong></td>
-              <td>What-if, sensitivity analysis</td>
-              <td><strong>Anonymity, electronic brainstorming, idea ranking</strong></td>
+              <td><strong>Unique Features</strong></td>
+              <td>Personal modeling, local spreadsheets.</td>
+              <td><strong>Anonymity, parallel brainstorming, multi-criteria voting.</strong></td>
             </tr>
             <tr>
-              <td><strong>Key Components</strong></td>
-              <td>Data, Model, UI</td>
-              <td>Hardware, Group Software, Facilitator, Meeting Room</td>
+              <td><strong>Critical Role</strong></td>
+              <td>Data Analyst.</td>
+              <td><strong>Group Facilitator</strong> (moderates meeting and configures software).</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <div class="callout callout-info">
+        <strong>Why Anonymity & Parallel Brainstorming Matter in GDSS:</strong>
+        <p style="margin:6px 0 0 0;">In traditional face-to-face meetings, two major psychological dysfunctions occur:
+        <br>1. <strong>Conformity Pressure & Evaluation Apprehension:</strong> Junior software engineers hesitate to challenge a senior director's flawed proposal for fear of career harm.
+        <br>2. <strong>Dominance:</strong> Vocal extroverts dominate 80% of speaking time, while quiet domain experts remain silent.
+        <br><strong>GDSS solves this:</strong> By enabling <em>anonymous input</em> and <em>simultaneous typing</em>, every idea is evaluated purely on merit, completely eliminating status intimidation and Groupthink!</p>
+      </div>
+    </div>
+
+    <!-- Section 5: Groupware & DeSanctis-Gallupe Matrix -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Groupware & Time/Space Collaboration Matrix</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2020, 2019, 2014 (Define groupware, synchronous vs asynchronous)</span>
+      </div>
+      <p><strong>Groupware</strong> refers to software technologies designed to assist groups of people working together on common tasks over computer networks. The standard framework is the <strong>DeSanctis & Gallupe Time/Space Collaboration Matrix</strong>:</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Same Time (Synchronous)</th>
+              <th>Different Time (Asynchronous)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Same Place (Co-located)</strong></td>
+              <td>
+                <strong>Decision Room / Electronic War-Room:</strong><br>
+                • Electronic meeting rooms with individual networked terminals and a master facilitator projection screen.<br>
+                • Real-time anonymous polling and idea ranking.
+              </td>
+              <td>
+                <strong>Shift-Work Collaboration:</strong><br>
+                • Shared workstation terminals in hospitals/factories.<br>
+                • Local whiteboard logs, shift handover notes on on-premise shared terminals.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Different Place (Dispersed / Remote)</strong></td>
+              <td>
+                <strong>Real-Time Distributed:</strong><br>
+                • Video conferencing (Zoom, MS Teams, Google Meet).<br>
+                • Shared live digital whiteboards (Miro), live screen-sharing, instant messaging war-rooms.
+              </td>
+              <td>
+                <strong>Asynchronous Remote:</strong><br>
+                • Threaded discussion forums, email lists.<br>
+                • Version-controlled shared documents (Google Docs, Git, Wikis).<br>
+                • Workflow routing tools (Jira, Trello).
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 6: Exam Answer Writing Framework & Traps -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
+      </div>
       <div class="callout callout-tip">
-        <strong>Why Anonymity in GDSS is Crucial:</strong><br>
-        In traditional meetings, junior members hesitate to criticize senior executives' ideas due to fear of career reprisal. GDSS supports <em>anonymous voting and brainstorming</em>, so ideas are evaluated purely on merit rather than who proposed them, eliminating conformity pressure and groupthink!
+        <strong>How to Score Full Marks on "Herbert Simon's Model & Role of DSS":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Introduction (1 Mark):</strong> Define decision-making as the cognitive process of choosing among alternatives. Cite Herbert A. Simon (1960).</li>
+          <li><strong>Diagram (2 Marks):</strong> Draw the vertical 4-box flowchart: Intelligence $\to$ Design $\to$ Choice $\to$ Implementation with feedback loops labeled clearly.</li>
+          <li><strong>Phase-by-Phase Elaboration (4 Marks):</strong> Dedicate one neat paragraph to each phase detailing: objective, activities, inputs, and outputs.</li>
+          <li><strong>DSS Mapping (2 Marks):</strong> State explicitly which DSS tool supports each phase (Intelligence: Data Warehouses & Drill-Down; Design: Simulation Models; Choice: What-If & Sensitivity; Implementation: Dashboards).</li>
+          <li><strong>Conclusion (1 Mark):</strong> Note that Simon's model is iterative rather than strictly linear due to feedback loops.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Mistakes to Avoid:</strong><br>
+        • <strong>Confusing DSS with TPS:</strong> Do NOT say DSS is used for billing or payroll. DSS is for <em>semi-structured/unstructured decision support</em>, not repetitive routine bookkeeping.<br>
+        • <strong>Omitting Feedback Loops:</strong> If you draw Simon's model without feedback loops from Choice back to Design or Implementation back to Intelligence, evaluators deduct 2 marks.<br>
+        • <strong>Ignoring Anonymity in GDSS:</strong> Anonymity is the single most important sociological benefit of GDSS. Always highlight it!
       </div>
     </div>
 
-    <!-- Topic 4: Groupware Technologies -->
+    <!-- Interactive MCQ Drill -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Groupware Technologies & Time/Space Matrix</span>
+        <span><span class="card-heading-icon">7.</span> Unit I Examination Mastery MCQ Quiz</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2020, 2019, 2018, 2014 (Define groupware and asynchronous tools)</span>
-      </div>
-      <p>Groupware refers to collaboration software designed to enable groups of people to share information, coordinate tasks, and work together over a network.</p>
-
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Type</th>
-              <th>Timing</th>
-              <th>Tools & Technologies</th>
-              <th>Use Cases</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Synchronous Groupware</strong></td>
-              <td><strong>Same Time</strong> (Real-time collaboration)</td>
-              <td>Video conferencing (Zoom, Google Meet), Instant messaging / chat, shared digital whiteboards, screen sharing</td>
-              <td>Live meetings, virtual emergency war-rooms, pair coding</td>
-            </tr>
-            <tr>
-              <td><strong>Asynchronous Groupware</strong></td>
-              <td><strong>Different Times</strong> (Time-shifted collaboration)</td>
-              <td>Email, threaded discussion forums, Google Docs / Wiki shared authoring, workflow routing, shared document repositories</td>
-              <td>Global teams across time-zones, project tracking, official document approval</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <p>Test your conceptual understanding across all Unit I topics with this 10-question verified quiz.</p>
+      <div id="unit-mcq-container"></div>
     </div>
-
-    <!-- Topic 5: Business Intelligence & 4 Levels of Analytics -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">5.</span> The 4 Levels of Business Analytics</span>
-      </div>
-      <ul class="key-points">
-        <li><strong>1. Descriptive Analytics ("What happened?"):</strong> Analyzes historical data through dashboards, summaries, and monthly reports.</li>
-        <li><strong>2. Diagnostic Analytics ("Why did it happen?"):</strong> Drills down into data anomalies to locate root causes (e.g., sales dropped due to supply stockout).</li>
-        <li><strong>3. Predictive Analytics ("What is likely to happen?"):</strong> Uses statistical models and machine learning to forecast future trends (e.g., predicting customer churn).</li>
-        <li><strong>4. Prescriptive Analytics ("What action should be taken?"):</strong> Recommends specific optimization strategies and automated actions to maximize business objectives.</li>
-      </ul>
-    </div>
-
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
 
   </main>
 
   <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
+  <nav class="nav-bottom">
     <a href="index.html" class="nav-unit-btn">← Hub</a>
-    <a href="bca5001_unit2.html" class="nav-unit-btn primary">Next: Unit II →</a>
+    <a href="bca5001_unit2.html" class="nav-unit-btn primary">Next: Unit II (EIS & DW) →</a>
   </nav>
 
   <script src="js/common.js"></script>
@@ -263,68 +429,113 @@
           "Intelligence → Implementation → Design → Choice"
         ],
         answer: 1,
-        explanation: "Herbert Simon's model follows: Intelligence (find problem), Design (develop alternatives), Choice (select best alternative), and Implementation (execute)."
+        explanation: "Herbert Simon's model proceeds systematically: Intelligence (identifying the problem), Design (generating alternatives), Choice (selecting the best option), and Implementation (putting it into practice)."
       },
       {
-        question: "What is the primary role of the Model Management Subsystem in a Decision Support System (DSS)?",
+        question: "What type of business decisions is a Decision Support System (DSS) specifically engineered to solve?",
         options: [
-          "To format printer output",
-          "To store mathematical, statistical, financial, and forecasting models",
-          "To route network packets",
-          "To compile Java source code"
+          "Routine deterministic payroll calculations only",
+          "Semi-structured and unstructured decision problems requiring human judgment and modeling",
+          "Low-level CPU register scheduling",
+          "Static single-entry ledger posting"
         ],
         answer: 1,
-        explanation: "The Model Management subsystem houses quantitative and analytical models (e.g. what-if, optimization, simulation) used to evaluate business alternatives."
+        explanation: "DSS is explicitly designed to assist decision-makers in semi-structured and unstructured situations where pure automated rules cannot suffice and human intuition must be supported by models."
       },
       {
-        question: "Which of the following is an example of Synchronous Groupware?",
+        question: "Which DSS analytical capability computes the necessary input values required to achieve a predefined target outcome?",
         options: [
-          "Electronic Mail (Email)",
-          "Threaded discussion forum",
-          "Live Video Conferencing (Zoom)",
-          "Version control repository"
+          "What-If Analysis",
+          "Goal-Seeking Analysis (Backward Calculation)",
+          "Descriptive Reporting",
+          "Data Cleaning"
+        ],
+        answer: 1,
+        explanation: "Goal-Seeking calculates the required input (e.g. sales units needed) to attain a specified target output (e.g. 50 Lakhs profit), in contrast to What-If which changes inputs to observe output changes."
+      },
+      {
+        question: "What is the primary technical function of the Model Management Subsystem in a DSS?",
+        options: [
+          "Printing multi-part carbon invoice copies",
+          "Storing, managing, and executing quantitative, forecasting, and optimization models in a Model Base",
+          "Terminating idle TCP network connections",
+          "Generating random encryption keys"
+        ],
+        answer: 1,
+        explanation: "The Model Management Subsystem (MBMS) maintains financial, statistical, and simulation algorithms that analyze data to produce scenario evaluations."
+      },
+      {
+        question: "How does anonymity in a Group Decision Support System (GDSS) directly improve group decisions?",
+        options: [
+          "It conceals financial embezzlement from auditors",
+          "It eliminates status intimidation and fear of career reprisal, enabling honest idea evaluation based on merit",
+          "It disables all voting functions",
+          "It prevents managers from accessing company databases"
+        ],
+        answer: 1,
+        explanation: "Anonymity shields participants from hierarchical pressure, reducing evaluation apprehension and groupthink, thereby giving junior and introverted team members an equal voice."
+      },
+      {
+        question: "According to the DeSanctis-Gallupe matrix, video conferencing (e.g., Zoom, MS Teams) belongs to which collaboration category?",
+        options: [
+          "Same Time, Same Place (Synchronous Co-located)",
+          "Same Time, Different Place (Synchronous Distributed)",
+          "Different Time, Same Place (Asynchronous Co-located)",
+          "Different Time, Different Place (Asynchronous Distributed)"
+        ],
+        answer: 1,
+        explanation: "Video conferencing happens in real time (Same Time / Synchronous) but across geographically dispersed participants (Different Place)."
+      },
+      {
+        question: "Which of the following is the best example of Asynchronous Distributed Groupware?",
+        options: [
+          "Face-to-face boardroom debate",
+          "Live Zoom video conference call",
+          "Email and threaded discussion forums across global offices",
+          "Shared projection screen in an electronic meeting room"
         ],
         answer: 2,
-        explanation: "Synchronous groupware requires participants to interact at the same time in real-time, such as live video conferencing and instant chat."
+        explanation: "Email and threaded forums operate across different times (participants respond at their convenience) and across different geographical locations."
       },
       {
-        question: "How does anonymity in a Group Decision Support System (GDSS) improve group decisions?",
+        question: "Which level of Business Analytics focuses on answering the fundamental question: 'What happened in the past?'",
         options: [
-          "It hides financial records from managers",
-          "It eliminates fear of criticism or hierarchy, allowing junior members to share ideas freely without groupthink",
-          "It prevents voting",
-          "It disables data encryption"
-        ],
-        answer: 1,
-        explanation: "Anonymity encourages candid feedback and equal participation by decoupling ideas from the status or seniority of the person presenting them."
-      },
-      {
-        question: "Which level of Business Analytics answers the question: 'What is likely to happen in the future?'",
-        options: [
-          "Descriptive Analytics",
-          "Diagnostic Analytics",
+          "Prescriptive Analytics",
           "Predictive Analytics",
-          "Prescriptive Analytics"
+          "Descriptive Analytics",
+          "Diagnostic Analytics"
         ],
         answer: 2,
-        explanation: "Predictive Analytics uses historical data and statistical forecasting techniques to predict future probabilities and customer trends."
+        explanation: "Descriptive analytics summarizes historical data through dashboards, scorecards, and reports to show past organizational performance."
       },
       {
-        question: "What type of business problems is a Decision Support System (DSS) specifically designed to solve?",
+        question: "In Anthony's organizational hierarchy, structured routine decisions with standard operating procedures are primarily handled by which system?",
         options: [
-          "Simple routine payroll calculations only",
-          "Semi-structured and unstructured decision problems",
-          "Hardware BIOS boot operations",
-          "Only single-entry bookkeeping"
+          "Executive Information Systems (EIS)",
+          "Transaction Processing Systems (TPS) and operational MIS",
+          "Group Decision Support Systems (GDSS)",
+          "Strategic AI heuristic networks"
         ],
         answer: 1,
-        explanation: "DSS is explicitly intended to support human judgment when addressing semi-structured and unstructured problems where clear-cut standard procedures do not exist."
+        explanation: "Operational supervisors handle structured, routine problems governed by standard operating rules using Transaction Processing Systems (TPS) and routine MIS."
+      },
+      {
+        question: "What is the crucial role of the Group Facilitator in a GDSS session?",
+        options: [
+          "Writing the SQL queries for database maintenance",
+          "Moderating the meeting process, managing software agenda tools, and ensuring unbiased group progress",
+          "Casting the single deciding executive veto vote",
+          "Replacing the corporate CEO during board meetings"
+        ],
+        answer: 1,
+        explanation: "The facilitator is a trained process expert who manages the GDSS technology, keeps the discussion on track according to the agenda, and ensures all participants use tools effectively without influencing the actual decision content."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit1Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>

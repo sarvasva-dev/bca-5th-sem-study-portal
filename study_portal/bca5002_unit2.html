@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Unit 2: Applets & AWT GUI | BCA-5002</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +26,7 @@
       <div class="brand-icon" style="background:#d97706;">JP</div>
       <div>
         <div class="brand-title">BCA-5002: Unit II</div>
-        <div class="brand-subtitle">Java Applets & AWT GUI</div>
+        <div class="brand-subtitle">Applets, AWT & Event Model</div>
       </div>
     </a>
     <div class="header-actions">
@@ -29,185 +41,209 @@
     <div class="unit-banner" style="border-left-color:#d97706;">
       <div class="badge-row">
         <span class="badge badge-amber">Subject: BCA-5002</span>
-        <span class="badge badge-emerald">⭐ Applet Lifecycle Guaranteed</span>
-        <span class="badge badge-coral">Day 3 Priority</span>
+        <span class="badge badge-emerald">⭐ Applet Lifecycle & Layouts</span>
+        <span class="badge badge-coral">Day 2 Priority</span>
       </div>
-      <h1 class="unit-title">Unit II: Java Applets & AWT GUI Programming</h1>
-      <p class="unit-desc">Applet Lifecycle, AWT Controls (Button, Label, Choice, List), Layout Managers, Event Delegation Model, and Listeners.</p>
+      <h1 class="unit-title">Unit II: Applets, AWT GUI & Event Handling</h1>
+      <p class="unit-desc">
+        Applet Lifecycle, Graphics Programming, AWT Hierarchy, Layout Managers (Flow, Border, Grid), and the Event Delegation Model.
+      </p>
     </div>
 
-    <!-- Topic 1: Applet Lifecycle & Diagram -->
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    </div>
+
+    <!-- Topic 1: Applet Architecture & Lifecycle -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Applet Lifecycle Methods</span>
+        <span><span class="card-heading-icon">1.</span> Applet Architecture & Lifecycle</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2022–23, 2021, 2015 (Applet lifecycle is asked in almost every paper!)</span>
+        <span>2024–25, 2022, 2019, 2016 (Applet lifecycle diagram, paint vs repaint, param tag)</span>
       </div>
-      <p>An Applet does not have a <code>main()</code> method; its execution is controlled by the browser/appletviewer through five lifecycle methods in <code>java.applet.Applet</code>:</p>
 
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Understand how an Applet runs inside a web browser/appletviewer.</li>
+          <li>Trace the 5 core lifecycle methods: <code>init()</code>, <code>start()</code>, <code>paint()</code>, <code>stop()</code>, <code>destroy()</code>.</li>
+          <li>Distinguish between local applets and remote applets.</li>
+        </ul>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        An <strong>Applet</strong> is a special type of Java program embedded within an HTML webpage that executes client-side inside a Java-enabled web browser or <code>appletviewer</code>.
+      </p>
+
+      <!-- Applet Lifecycle SVG Diagram -->
       <div class="diagram-box">
-        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
-          <!-- States -->
-          <rect x="20" y="70" width="60" height="30" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
-          <text x="35" y="88" font-size="10" font-weight="bold" fill="#0d9488">init()</text>
+        <svg viewBox="0 0 320 200" width="100%" height="auto" style="max-width:320px;">
+          <!-- 1. Born / init() -->
+          <rect x="15" y="20" width="85" height="30" rx="5" fill="rgba(148, 163, 184, 0.2)" stroke="var(--border-color)" />
+          <text x="32" y="38" font-size="9" font-weight="bold" fill="var(--text-main)">init()</text>
+          <text x="25" y="48" font-size="7" fill="var(--text-muted)">Initialization</text>
 
-          <rect x="120" y="70" width="70" height="30" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
-          <text x="135" y="88" font-size="10" font-weight="bold" fill="#10b981">start()</text>
+          <line x1="100" y1="35" x2="135" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
 
-          <rect x="230" y="20" width="70" height="30" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="245" y="38" font-size="10" font-weight="bold" fill="#f59e0b">paint()</text>
+          <!-- 2. Running / start() -->
+          <rect x="135" y="20" width="85" height="30" rx="5" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
+          <text x="155" y="38" font-size="9" font-weight="bold" fill="#10b981">start()</text>
+          <text x="145" y="48" font-size="7" fill="#10b981">Execution begins</text>
 
-          <rect x="230" y="70" width="70" height="30" rx="6" fill="rgba(251, 113, 133, 0.2)" stroke="#fb7185" stroke-width="1.5" />
-          <text x="245" y="88" font-size="10" font-weight="bold" fill="#fb7185">stop()</text>
+          <line x1="220" y1="35" x2="255" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
 
-          <rect x="230" y="130" width="70" height="30" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
-          <text x="240" y="148" font-size="10" font-weight="bold" fill="#e11d48">destroy()</text>
+          <!-- 3. Display / paint() -->
+          <rect x="255" y="20" width="55" height="30" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="262" y="38" font-size="8.5" font-weight="bold" fill="#f59e0b">paint()</text>
+          <text x="260" y="48" font-size="7" fill="#f59e0b">Draws GUI</text>
 
-          <!-- Arrows -->
-          <line x1="80" y1="85" x2="115" y2="85" stroke="var(--text-main)" stroke-width="1.5" marker-end="url(#arrow)" />
-          <line x1="190" y1="80" x2="225" y2="40" stroke="var(--text-main)" stroke-width="1.5" />
-          <line x1="190" y1="85" x2="225" y2="85" stroke="var(--text-main)" stroke-width="1.5" />
-          <line x1="265" y1="100" x2="265" y2="125" stroke="var(--text-main)" stroke-width="1.5" />
-          <path d="M 230,90 Q 200,120 160,105" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,3" />
-          <text x="160" y="125" font-size="9" fill="#10b981">Restart</text>
+          <!-- 4. Idle / stop() -->
+          <rect x="135" y="105" width="85" height="30" rx="5" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
+          <text x="158" y="123" font-size="9" font-weight="bold" fill="#e11d48">stop()</text>
+          <text x="145" y="133" font-size="7" fill="#e11d48">Leaving page</text>
+
+          <!-- Arrows between start and stop -->
+          <line x1="195" y1="50" x2="195" y2="105" stroke="#e11d48" stroke-width="1.2" />
+          <text x="200" y="80" font-size="7" fill="#e11d48">minimize / tab out</text>
+
+          <line x1="160" y1="105" x2="160" y2="50" stroke="#10b981" stroke-width="1.2" />
+          <text x="125" y="80" font-size="7" fill="#10b981">return to tab</text>
+
+          <!-- 5. Dead / destroy() -->
+          <rect x="135" y="160" width="85" height="30" rx="5" fill="rgba(15, 23, 42, 0.3)" stroke="var(--border-color)" />
+          <text x="150" y="178" font-size="8.5" font-weight="bold" fill="var(--text-muted)">destroy()</text>
+          <text x="142" y="188" font-size="7" fill="var(--text-muted)">Memory freed</text>
+
+          <line x1="177" y1="135" x2="177" y2="160" stroke="var(--text-muted)" stroke-width="1.2" />
         </svg>
-        <div class="diagram-caption">Applet Lifecycle: Born (init) → Running (start/paint) → Idle (stop) → Dead (destroy)</div>
+        <div class="diagram-caption">Complete 5-Stage Java Applet Lifecycle Flow</div>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>The 5 Lifecycle Methods Explained:</strong>
+      <div class="callout callout-info">
+        <strong>The 5 Lifecycle Methods:</strong>
         <ol class="step-list">
-          <li><code>public void init()</code>: Called exactly once when the applet is loaded. Used to initialize variables, load fonts/images, and add GUI components.</li>
-          <li><code>public void start()</code>: Called after <code>init()</code> and each time the browser returns to the web page. Starts or resumes execution.</li>
-          <li><code>public void paint(Graphics g)</code>: Called whenever the applet display area needs to be redrawn (e.g. using <code>g.drawString()</code> or <code>g.drawRect()</code>).</li>
-          <li><code>public void stop()</code>: Called when the user leaves the HTML page or minimizes the browser. Suspends running animations or audio.</li>
-          <li><code>public void destroy()</code>: Called exactly once when the applet is permanently terminated and removed from memory.</li>
+          <li><code>init()</code>: Invoked once when the applet is first loaded into memory. Used to initialize variables, load images, and set up GUI components.</li>
+          <li><code>start()</code>: Invoked immediately after <code>init()</code>, and again every time the user returns to the browser tab. Restarts animation or processing.</li>
+          <li><code>paint(Graphics g)</code>: Called automatically when the applet output must be redrawn. Uses the <code>Graphics</code> context to draw strings, shapes, and images.</li>
+          <li><code>stop()</code>: Invoked whenever the user navigates away from the web page or minimizes the browser. Suspends background threads to save CPU cycles.</li>
+          <li><code>destroy()</code>: Invoked once before the applet is completely unloaded from memory. Cleans up non-memory resources.</li>
         </ol>
       </div>
-
-      <!-- Applet Program Snippet -->
-      <div class="code-wrapper">
-        <div class="code-header">
-          <span>ColorChangeApplet.java (PYQ Solved)</span>
-          <button class="copy-btn" onclick="copyCode(this, 'applet-code')">Copy Code</button>
-        </div>
-        <pre class="code-block" id="applet-code">
-import java.applet.Applet;
-import java.awt.*;
-import java.awt.event.*;
-
-/* &lt;applet code="ColorChangeApplet.class" width="300" height="200"&gt;&lt;/applet&gt; */
-public class ColorChangeApplet extends Applet implements ActionListener {
-    Button bRed, bGreen, bBlue;
-
-    public void init() {
-        bRed = new Button("Red");
-        bGreen = new Button("Green");
-        bBlue = new Button("Blue");
-
-        add(bRed); add(bGreen); add(bBlue);
-
-        bRed.addActionListener(this);
-        bGreen.addActionListener(this);
-        bBlue.addActionListener(this);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == bRed) setBackground(Color.RED);
-        else if (e.getSource() == bGreen) setBackground(Color.GREEN);
-        else if (e.getSource() == bBlue) setBackground(Color.BLUE);
-        repaint();
-    }
-}
-        </pre>
-      </div>
     </div>
 
-    <!-- Topic 2: Layout Managers & Default Layouts -->
+    <!-- Topic 2: AWT Layout Managers -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Layout Managers & Defaults</span>
+        <span><span class="card-heading-icon">2.</span> AWT Layout Managers: Flow, Border & Grid</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2023–24, 2022–23 (What is default layout of Applet, Frame, Panel?)</span>
+        <span>2024–25, 2021, 2018 (FlowLayout vs BorderLayout vs GridLayout comparison)</span>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>Default Layouts (Must Memorize for 3-mark question):</strong><br>
-        • Default for <strong>Applet & Panel</strong> = <code>FlowLayout</code><br>
-        • Default for <strong>Frame & Dialog</strong> = <code>BorderLayout</code>
-      </div>
-
-      <div class="table-responsive">
-        <table class="study-table">
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Layout Manager</th>
-              <th>Arrangement Behavior</th>
-              <th>Key Characteristic</th>
+              <th>Default Placement Strategy</th>
+              <th>Default For</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>FlowLayout</strong></td>
-              <td>Arranges components sequentially in a line, left to right, wrapping to the next line if width is exceeded</td>
-              <td>Default for Panel and Applet; honors component's preferred size</td>
+              <td>Arranges components in a directional flow, left-to-right in lines. When a row is full, it wraps to the next line. Preserves component's preferred size.</td>
+              <td><code>Panel</code> and <code>Applet</code></td>
             </tr>
             <tr>
               <td><strong>BorderLayout</strong></td>
-              <td>Divides container into 5 regions: <code>NORTH</code>, <code>SOUTH</code>, <code>EAST</code>, <code>WEST</code>, and <code>CENTER</code></td>
-              <td>Default for Frame; <code>CENTER</code> expands to occupy remaining space</td>
+              <td>Divides container into 5 discrete geographic zones: <code>NORTH</code>, <code>SOUTH</code>, <code>EAST</code>, <code>WEST</code>, and <code>CENTER</code>. Components stretch to fill their region.</td>
+              <td><code>Frame</code> and <code>Dialog</code></td>
             </tr>
             <tr>
               <td><strong>GridLayout</strong></td>
-              <td>Divides container into a rectangular grid of equal-sized rectangular cells ($r$ rows $\times$ $c$ columns)</td>
-              <td>Every component is forced to have identical width and height</td>
-            </tr>
-            <tr>
-              <td><strong>CardLayout</strong></td>
-              <td>Treats each component as a card in a deck where only one card is visible at any given moment</td>
-              <td>Ideal for tabbed wizards / screens</td>
+              <td>Lays out components in a rigid two-dimensional rectangular grid of equal-sized rows and columns ($R \times C$). Every cell is identical in size.</td>
+              <td>Calculators, Keypads</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 3: Delegation Event Model -->
+    <!-- Topic 3: The Event Delegation Model -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Delegation Event Model & Adapter Classes</span>
+        <span><span class="card-heading-icon">3.</span> Event Delegation Model</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2021 (Event, Source, Listener, and Adapter classes)</span>
+        <span>2025–26, 2023–24, 2020 (Event Source, Event Listener, and Adapter Classes)</span>
       </div>
 
-      <ul class="key-points">
-        <li><strong>Event Source:</strong> The GUI component that generates the event when the user interacts with it (e.g., clicking a <code>Button</code>).</li>
-        <li><strong>Event Object:</strong> Encapsulates details about what happened (e.g. <code>ActionEvent</code>, <code>MouseEvent</code>).</li>
-        <li><strong>Event Listener:</strong> An interface containing callback methods (e.g., <code>ActionListener</code> with <code>actionPerformed()</code>). The listener registers with the source via <code>addActionListener()</code>.</li>
-        <li><strong>Adapter Classes:</strong> Abstract classes (like <code>MouseAdapter</code>, <code>WindowAdapter</code>) that implement listener interfaces with empty method bodies. You only need to override the specific methods you care about, saving massive boilerplate code!</li>
-      </ul>
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        Java GUI event handling is governed by the <strong>Event Delegation Model</strong>, where an <em>Event Source</em> delegates the task of processing an event to one or more registered <em>Event Listeners</em>.
+      </p>
+
+      <div class="callout callout-info">
+        <strong>The 3 Participants in Event Delegation:</strong>
+        <ol class="step-list">
+          <li><strong>Event Source:</strong> The GUI component that generates the event when the user interacts with it (e.g. <code>Button</code>, <code>TextField</code>).</li>
+          <li><strong>Event Object:</strong> Encapsulates all event state information (e.g. <code>ActionEvent</code>, <code>MouseEvent</code>, <code>KeyEvent</code>).</li>
+          <li><strong>Event Listener:</strong> An interface containing callback methods. A listener registers with a source using <code>addXxxListener()</code> (e.g. <code>button.addActionListener(this)</code>).</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>Why Do We Need Adapter Classes?</strong><br>
+        Java listener interfaces often have multiple abstract methods. For example, <code>WindowListener</code> mandates implementing <strong>7 methods</strong> (`windowOpened`, `windowClosing`, `windowClosed`, `windowIconified`, `windowDeiconified`, `windowActivated`, `windowDeactivated`). If you only want to close the window, you would be forced to write 6 empty dummy methods!<br>
+        An <strong>Adapter Class</strong> (e.g. <code>WindowAdapter</code>) implements the interface with empty bodies. You simply extend <code>WindowAdapter</code> and override <em>only the single method you need</em>!
+      </div>
     </div>
 
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
+    <!-- Topic 4: Interactive MCQ Exam Drill (10 Questions) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">📝</span> Unit II Exam Mastery MCQ Quiz (10 Questions)</span>
+      </div>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering applet lifecycles, layout managers, AWT controls, and event delegation.
+      </p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <a href="bca5002_unit1.html" class="nav-unit-btn">← Unit I</a>
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5002_unit1.html" class="nav-unit-btn">← Unit I: Core Java</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
     <a href="bca5002_unit3.html" class="nav-unit-btn primary">Next: Unit III →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit2Questions = [
+      {
+        question: "Which method in the Java Applet lifecycle is executed only ONCE when the applet is first loaded into memory?",
+        options: [
+          "start()",
+          "paint()",
+          "init()",
+          "run()"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "`init()` is the very first method called by the browser runtime, executing exactly once to initialize GUI components, colors, and parameters."
+      },
       {
         question: "What is the default layout manager for a standard java.awt.Frame window?",
         options: [
@@ -217,32 +253,11 @@ public class ColorChangeApplet extends Applet implements ActionListener {
           "CardLayout"
         ],
         answer: 1,
-        explanation: "In Java AWT, Window and Frame use BorderLayout by default, dividing space into North, South, East, West, and Center."
+        is_pyq: true,
+        explanation: "The default layout manager for Window and Frame is BorderLayout (dividing space into North, South, East, West, Center)."
       },
       {
-        question: "Which applet lifecycle method is executed exactly once when the applet is first loaded into memory?",
-        options: [
-          "start()",
-          "paint()",
-          "init()",
-          "destroy()"
-        ],
-        answer: 2,
-        explanation: "init() is called only once by the browser or appletviewer when the applet is loaded, making it the place to initialize GUI controls and data."
-      },
-      {
-        question: "What is the purpose of an Adapter class in Java AWT event handling?",
-        options: [
-          "To connect Java with an SQL database",
-          "To provide default empty implementations of listener interfaces so programmers only override needed methods",
-          "To speed up class compilation",
-          "To draw 3D graphics on screen"
-        ],
-        answer: 1,
-        explanation: "Adapter classes (like WindowAdapter) provide empty method implementations for multi-method listener interfaces, so you don't have to define all unused methods."
-      },
-      {
-        question: "What is the default layout manager for a java.applet.Applet or java.awt.Panel?",
+        question: "What is the default layout manager for java.awt.Panel and java.applet.Applet?",
         options: [
           "FlowLayout",
           "BorderLayout",
@@ -250,29 +265,92 @@ public class ColorChangeApplet extends Applet implements ActionListener {
           "GridBagLayout"
         ],
         answer: 0,
-        explanation: "Panel and Applet containers use FlowLayout by default, arranging components sequentially from left to right."
+        is_pyq: true,
+        explanation: "Panel and Applet default to FlowLayout, which arranges controls sequentially from left to right like words on a page."
       },
       {
-        question: "Which of the following lifecycle methods is invoked whenever an applet's display area needs to be redrawn?",
+        question: "How are parameters passed from an HTML webpage into a Java Applet?",
         options: [
-          "draw()",
-          "paint(Graphics g)",
-          "render()",
-          "display()"
+          "Using the <input> HTML tag",
+          "Using the <param name='...' value='...'> tag inside <applet> and getParameter() in Java",
+          "Using HTTP POST headers",
+          "Through command line args[]"
         ],
         answer: 1,
-        explanation: "The paint(Graphics g) method is invoked by the runtime whenever the applet window requires repainting, taking a Graphics object as parameter."
+        is_pyq: true,
+        explanation: "HTML supplies values using `<param name='key' value='val'>`, which the Applet retrieves via `String val = getParameter('key')`."
       },
       {
-        question: "In the Delegation Event Model, which method registers an ActionListener with a Button component?",
+        question: "What is the primary architectural purpose of AWT Adapter Classes?",
         options: [
-          "button.setListener(this)",
-          "button.addActionListener(this)",
-          "button.register(this)",
-          "button.listenAction(this)"
+          "To translate Java code into JavaScript",
+          "To provide default empty implementations of multi-method listener interfaces so developers only override needed methods",
+          "To connect applets to MySQL databases",
+          "To speed up graphics rendering"
         ],
         answer: 1,
-        explanation: "The standard Java event registration method on Button is addActionListener(ActionListener l)."
+        is_pyq: true,
+        explanation: "Adapter classes (like WindowAdapter, MouseAdapter) implement listener interfaces with empty method bodies, sparing developers from implementing unused methods."
+      },
+      {
+        question: "Which method must be invoked to request the AWT runtime to repaint an Applet GUI?",
+        options: [
+          "paint() directly",
+          "repaint()",
+          "update() directly",
+          "draw()"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Application code should call `repaint()`, which schedules an asynchronous request with the AWT event queue, which in turn calls `update()` and `paint(Graphics g)`."
+      },
+      {
+        question: "Which layout manager partitions the container into a rigid grid of identical equal-sized rectangular cells?",
+        options: [
+          "BorderLayout",
+          "GridLayout",
+          "FlowLayout",
+          "BoxLayout"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "GridLayout divides the container into rows and columns where every cell is strictly identical in size, commonly used for numeric keypads."
+      },
+      {
+        question: "Which listener interface must be implemented to respond to a Button click event?",
+        options: [
+          "ItemListener",
+          "ActionListener",
+          "MouseMotionListener",
+          "ComponentListener"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Clicking a Button fires an `ActionEvent`, which is handled by an object implementing the `ActionListener` interface with the `actionPerformed(ActionEvent e)` method."
+      },
+      {
+        question: "Why does an Applet NOT contain a standard 'public static void main(String[] args)' method?",
+        options: [
+          "Because Java applets do not use Java syntax",
+          "Because the Applet lifecycle is managed by the browser or appletviewer's container thread, not the OS command line",
+          "Because main() is only for C++",
+          "Because applets have no memory"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Applets are hosted within an external container (browser/appletviewer). The container invokes the lifecycle hooks (`init`, `start`, `paint`), eliminating the need for a command-line `main()` entry point."
+      },
+      {
+        question: "In BorderLayout, if no region is specified when adding a component, which region does it occupy by default?",
+        options: [
+          "NORTH",
+          "SOUTH",
+          "CENTER",
+          "WEST"
+        ],
+        answer: 2,
+        is_pyq: false,
+        explanation: "In BorderLayout, components added without an explicit constraint (`add(component)`) default to the `CENTER` position."
       }
     ];
 

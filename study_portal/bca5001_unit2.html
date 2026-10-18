@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 2: EIS, AI & Data Warehousing | BCA-5001</title>
+  <title>Unit 2: EIS, AI & Data Warehousing | BCA-5001 Exam Teacher</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +21,7 @@
       <div class="brand-icon" style="background:#b45309;">KM</div>
       <div>
         <div class="brand-title">BCA-5001: Unit II</div>
-        <div class="brand-subtitle">EIS, AI, OLAP & Data Warehousing</div>
+        <div class="brand-subtitle">EIS, Expert Systems & DW Architecture</div>
       </div>
     </a>
     <div class="header-actions">
@@ -23,406 +30,509 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#b45309;">
       <div class="badge-row">
-        <span class="badge badge-amber">Subject: BCA-5001</span>
-        <span class="badge badge-emerald">⭐ Top-Down vs Bottom-Up & OLTP vs OLAP PYQs</span>
-        <span class="badge badge-coral">Day 4 Core</span>
+        <span class="badge badge-amber">Subject: BCA-5001 (KM)</span>
+        <span class="badge badge-emerald">⭐ Inmon vs Kimball & Star vs Snowflake PYQs</span>
+        <span class="badge badge-coral">Day 2 Focus (Distributed Plan)</span>
       </div>
       <h1 class="unit-title">Unit II: Executive Information Systems, AI & Data Warehousing</h1>
-      <p class="unit-desc">Executive Information Systems (EIS/ESS), Business Expert Systems & AI, OLTP vs OLAP, 3-Tier Data Warehouse Architecture, Data Marts, and Design Approaches.</p>
+      <p class="unit-desc">Master Executive Information Systems (EIS), Business Expert Systems & Inference Engines, Data Warehouse Foundations (Inmon's 4 Properties), 3-Tier Architecture, Data Marts, and Star vs. Snowflake Schemas.</p>
     </div>
 
-    <!-- Topic 1: Executive Information System (EIS / ESS) -->
+    <!-- Pedagogical Callout -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Describe the architecture and core capabilities of an Executive Information System (EIS/ESS) including drill-down and exception reporting.</li>
+        <li>Explain the 5 core components of a Business Expert System (BES) and differentiate Forward Chaining from Backward Chaining.</li>
+        <li>State W.H. Inmon's formal definition of a Data Warehouse and explain its 4 defining characteristics.</li>
+        <li>Diagram and explain the 3-Tier Data Warehouse Architecture (Bottom, Middle, and Top tiers).</li>
+        <li>Critically evaluate Inmon's Top-Down vs. Kimball's Bottom-Up DW design approaches and compare Star vs. Snowflake schemas.</li>
+      </ol>
+    </div>
+
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: Why Can't We Run Analytics on Live Operational Databases?</strong><br>
+      Imagine an airline reservation system: thousands of passengers are booking tickets every second. If an executive executes a massive query like <em>"Calculate average profit across all flights for the past 5 years,"</em> the database engine will lock thousands of tables! Transactions will freeze, passenger check-ins will fail, and the system will crash.<br>
+      To solve this, we separate **OLTP** (Online Transaction Processing — fast, live, row-by-row updates) from **OLAP** (Online Analytical Processing — historical, read-only aggregate queries). A **Data Warehouse** collects historical data from diverse operational databases, cleans it via ETL, and stores it in a dedicated read-only analytical store!
+    </div>
+
+    <!-- Section 1: Executive Information Systems (EIS / ESS) -->
     <div class="study-card">
       <div class="card-heading">
         <span><span class="card-heading-icon">1.</span> Executive Information Systems (EIS / ESS)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2020, 2016 (Features, functionalities, difference from DSS, and system integration)</span>
+        <span>2025–26, 2020, 2016 (Features, functionalities, and role in strategic management)</span>
       </div>
-      <p>An <strong>Executive Information System (EIS)</strong>, also termed an <strong>Executive Support System (ESS)</strong>, is a specialized computer-based system tailored specifically for senior executive decision-making. Unlike operational systems dealing with detailed transactions, an EIS delivers a bird's-eye view of organizational health through high-level summaries, Key Performance Indicators (KPIs), trends, and exception alerts.</p>
+      <p>An <strong>Executive Information System (EIS)</strong>, often called an <strong>Executive Support System (ESS)</strong>, is a high-level computerized system engineered specifically to satisfy the strategic information needs of senior corporate executives (CEOs, CFOs, Board Members).</p>
 
-      <div class="callout callout-tip">
-        <strong>Key Architectural Characteristics of EIS:</strong>
-        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
-          <li><strong>Intuitive Graphical Interface:</strong> Touch/dashboard-friendly with minimal keyboard entry; uses graphs, traffic-light alerts, and heatmaps.</li>
-          <li><strong>Drill-Down Capability:</strong> Executives can click on an aggregated figure (e.g., quarterly sales dip in Northern Zone) to drill down through regional branches to individual product invoices.</li>
-          <li><strong>Internal + External Integration:</strong> Combines internal ERP/financial data with external competitive intelligence, stock indices, inflation rates, and regulatory news.</li>
-          <li><strong>Exception Reporting & Trend Analysis:</strong> Automatically flags anomalies where actual metrics deviate beyond predefined thresholds (e.g., production delay &gt; 15%).</li>
-        </ul>
-      </div>
-
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>System</th>
-              <th>Operational Level</th>
-              <th>Primary Role & Contribution to EIS</th>
+              <th>Core EIS Capability</th>
+              <th>Technical Functionality</th>
+              <th>Practical Executive Example</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>TPS</strong> (Transaction Processing)</td>
-              <td>Operational (Daily)</td>
-              <td>Supplies raw transactional data: sales entries, payroll, receipts, and order logs.</td>
+              <td><strong>1. Drill-Down Capability</strong></td>
+              <td>Navigates from high-level summarized KPIs down to progressively finer grains of underlying detail.</td>
+              <td>Clicking total company quarterly profit $\to$ clicks Northern Region $\to$ clicks Kanpur branch $\to$ views product-level invoice.</td>
             </tr>
             <tr>
-              <td><strong>MIS</strong> (Management Info)</td>
-              <td>Middle Management</td>
-              <td>Aggregates routine operational logs into structured periodic performance reports.</td>
+              <td><strong>2. Critical Success Factors (CSF)</strong></td>
+              <td>Monitors vital strategic indicators that determine corporate survival.</td>
+              <td>Tracking customer retention rate, brand sentiment, operating margin, and market share.</td>
             </tr>
             <tr>
-              <td><strong>DSS</strong> (Decision Support)</td>
-              <td>Tactical / Analytical</td>
-              <td>Supplies what-if models, statistical forecasting algorithms, and risk simulations.</td>
+              <td><strong>3. Exception Reporting</strong></td>
+              <td>Highlights only anomalous situations where actual metrics deviate beyond defined thresholds.</td>
+              <td>Alert pop-up: <em>"Notice: Factory 3 raw material inventory has fallen below 5 days of reserve!"</em></td>
             </tr>
             <tr>
-              <td><strong>EIS / ESS</strong></td>
-              <td>Top Strategic Executives</td>
-              <td>Integrates all lower layers + external trends into holistic KPI dashboards for enterprise policy.</td>
+              <td><strong>4. External Data Integration</strong></td>
+              <td>Synthesizes internal ERP records with external market intelligence.</td>
+              <td>Correlating quarterly sales against Reserve Bank interest rates, competitor price drops, and inflation.</td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <div class="track-full">
+        <h4>Hierarchy of Organizational Information Systems</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr>
+                <th>System</th>
+                <th>Target User Level</th>
+                <th>Data Nature & Time Horizon</th>
+                <th>Primary Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>TPS</strong></td>
+                <td>Clerks, Operators</td>
+                <td>Current, highly detailed, real-time</td>
+                <td>Record routine business transactions (e.g. sales receipt).</td>
+              </tr>
+              <tr>
+                <td><strong>MIS</strong></td>
+                <td>Middle Managers</td>
+                <td>Periodic, structured summaries</td>
+                <td>Standard weekly/monthly operational control reports.</td>
+              </tr>
+              <tr>
+                <td><strong>DSS</strong></td>
+                <td>Staff Analysts</td>
+                <td>Semi-structured, modeling, scenarios</td>
+                <td>Simulate decisions via What-If and Goal-Seeking.</td>
+              </tr>
+              <tr>
+                <td><strong>EIS</strong></td>
+                <td>Senior Executives</td>
+                <td>Strategic aggregates, historical + external</td>
+                <td>Enterprise health scorecards and long-term planning.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Topic 2: Business Expert Systems & Artificial Intelligence -->
+    <!-- Section 2: Business Expert Systems & Artificial Intelligence -->
     <div class="study-card">
       <div class="card-heading">
         <span><span class="card-heading-icon">2.</span> Business Expert Systems (BES) & AI in KM</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24 (Meaning, components of an expert system, benefits, and KM goals)</span>
+        <span>2025–26, 2024–25, 2023–24 (Components of Expert System, Forward vs Backward Chaining)</span>
       </div>
-      <p><strong>Artificial Intelligence (AI)</strong> in Knowledge Management focuses on emulating human reasoning to capture tacit knowledge, discover hidden patterns, and automate decision paths. A <strong>Business Expert System (BES)</strong> is an AI application that solves complex, domain-specific problems by applying human expert heuristic rules.</p>
+      <p>A <strong>Business Expert System (BES)</strong> is an Artificial Intelligence software system that captures human expert domain knowledge and heuristics into structured rules to solve complex problems that normally require human professional expertise.</p>
 
       <div class="diagram-box">
-        <svg viewBox="0 0 320 170" width="100%" height="auto" style="max-width:320px;">
+        <svg viewBox="0 0 340 180" width="100%" height="auto" style="max-width:340px;">
           <!-- User -->
-          <rect x="10" y="65" width="60" height="35" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
-          <text x="22" y="86" font-size="10" font-weight="bold" fill="#10b981">User</text>
+          <rect x="10" y="70" width="60" height="35" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="22" y="92" font-size="10" font-weight="bold" fill="#10b981">User</text>
 
-          <line x1="70" y1="82" x2="95" y2="82" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="70" y1="87" x2="95" y2="87" stroke="var(--text-main)" stroke-width="1.8" />
 
-          <!-- User Interface -->
-          <rect x="95" y="65" width="80" height="35" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="102" y="86" font-size="9" font-weight="bold" fill="#f59e0b">User Interface</text>
+          <!-- UI -->
+          <rect x="95" y="70" width="80" height="35" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="102" y="92" font-size="9.5" font-weight="bold" fill="#f59e0b">User Interface</text>
 
-          <line x1="175" y1="82" x2="200" y2="82" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="175" y1="87" x2="200" y2="87" stroke="var(--text-main)" stroke-width="1.8" />
 
           <!-- Inference Engine -->
-          <rect x="200" y="65" width="105" height="35" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
-          <text x="210" y="86" font-size="9" font-weight="bold" fill="#0d9488">Inference Engine</text>
+          <rect x="200" y="70" width="125" height="35" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="212" y="92" font-size="10" font-weight="bold" fill="#0d9488">Inference Engine</text>
 
-          <!-- Arrows to top (Knowledge Base) and bottom (Explanation Facility) -->
-          <line x1="252" y1="65" x2="252" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
-          <rect x="195" y="10" width="115" height="25" rx="5" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
-          <text x="203" y="26" font-size="9" font-weight="bold" fill="#e11d48">Knowledge Base</text>
+          <!-- Up to Knowledge Base -->
+          <line x1="262" y1="70" x2="262" y2="38" stroke="var(--text-main)" stroke-width="1.8" />
+          <rect x="195" y="10" width="135" height="28" rx="5" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="210" y="28" font-size="9.5" font-weight="bold" fill="#e11d48">Knowledge Base</text>
 
-          <line x1="252" y1="100" x2="252" y2="130" stroke="var(--text-main)" stroke-width="1.5" />
-          <rect x="195" y="130" width="115" height="25" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="200" y="146" font-size="8.5" font-weight="bold" fill="#f59e0b">Explanation Facility</text>
-
-          <!-- Knowledge Acquisition Module -->
-          <rect x="50" y="130" width="125" height="25" rx="5" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2" />
-          <text x="56" y="146" font-size="8" fill="#10b981">Knowledge Acquisition</text>
+          <!-- Down to Explanation Facility -->
+          <line x1="262" y1="105" x2="262" y2="135" stroke="var(--text-main)" stroke-width="1.8" />
+          <rect x="195" y="135" width="135" height="28" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="202" y="153" font-size="9" font-weight="bold" fill="#f59e0b">Explanation Facility</text>
         </svg>
-        <div class="diagram-caption">Architecture of a Business Expert System</div>
+        <div class="diagram-caption">The Core Architecture of a Business Expert System</div>
       </div>
 
-      <div class="callout callout-info">
+      <div class="callout callout-tip">
         <strong>The 5 Core Components of an Expert System:</strong>
         <ol class="step-list">
-          <li><strong>Knowledge Base:</strong> Stores factual domain rules and heuristic rules expressed as <code>IF-THEN</code> clauses.</li>
-          <li><strong>Inference Engine:</strong> The brain of the system; uses Forward Chaining (data-driven) or Backward Chaining (goal-driven) to derive answers.</li>
-          <li><strong>User Interface:</strong> Dialog system translating non-expert queries into formal rule queries and returning advice.</li>
-          <li><strong>Explanation Facility (Justifier):</strong> Traces the exact fired rule chain to explain <em>"Why"</em> a question is asked and <em>"How"</em> the conclusion was reached.</li>
-          <li><strong>Knowledge Acquisition Subsystem:</strong> Module assisting knowledge engineers in encoding expert heuristics into rules.</li>
+          <li><strong>Knowledge Base:</strong> Stores declarative facts and domain-specific heuristic rules usually expressed as <code>IF (conditions) THEN (action / conclusion)</code>.</li>
+          <li><strong>Inference Engine:</strong> The reasoning brain that manipulates rules and user-submitted facts to deduce new conclusions.</li>
+          <li><strong>User Interface:</strong> Dialog component that translates user queries into system variables and presents recommendations.</li>
+          <li><strong>Explanation Facility (Justifier):</strong> Traces the active rule chain to answer the user's questions: <em>"Why do you need this input?"</em> and <em>"How did you reach this recommendation?"</em></li>
+          <li><strong>Knowledge Acquisition Subsystem:</strong> Specialized tool used by knowledge engineers to interview experts and encode new rules into the Knowledge Base.</li>
+        </ol>
+      </div>
+
+      <div class="track-full">
+        <h4>Inference Strategies: Forward vs. Backward Chaining</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr>
+                <th>Factor</th>
+                <th>Forward Chaining (Data-Driven)</th>
+                <th>Backward Chaining (Goal-Driven)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Starting Point</strong></td>
+                <td>Begins with known <strong>facts and data</strong>.</td>
+                <td>Begins with a <strong>goal / hypothesis</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong>Execution Path</strong></td>
+                <td>Matches facts against IF premises; fires rules to deduce new facts until a conclusion is reached.</td>
+                <td>Checks if the goal's condition is supported; recursively works backwards to verify supporting facts.</td>
+              </tr>
+              <tr>
+                <td><strong>Best Suited For</strong></td>
+                <td>Monitoring, process control, automated trading, design.</td>
+                <td>Medical diagnosis, financial auditing, debugging, troubleshooting.</td>
+              </tr>
+              <tr>
+                <td><strong>Analogy</strong></td>
+                <td><em>"Given these ingredients, what dish can I cook?"</em></td>
+                <td><em>"I want to cook Pasta; do I have all necessary ingredients?"</em></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Data Warehousing Foundations & Inmon's 4 Properties -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Data Warehousing Foundations (Inmon's Definition)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2022, 2019, 2017 (Define Data Warehouse and 4 characteristics)</span>
+      </div>
+      <p>The globally accepted scientific definition formulated by <strong>William H. Inmon</strong> ("Father of Data Warehousing"):</p>
+      
+      <div class="callout callout-info">
+        <strong>Inmon's Formal Definition:</strong><br>
+        <em>"A Data Warehouse is a <strong>subject-oriented</strong>, <strong>integrated</strong>, <strong>time-variant</strong>, and <strong>non-volatile</strong> collection of data in support of management's decision-making process."</em>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Characteristic</th>
+              <th>Meaning</th>
+              <th>Detailed Explanation & Real-World Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Subject-Oriented</strong></td>
+              <td>Organized around major business entities.</td>
+              <td>Unlike operational systems organized around applications (e.g. order entry, invoicing), a warehouse organizes data around key business subjects: <em>Customer, Product, Sales, Vendor</em>.</td>
+            </tr>
+            <tr>
+              <td><strong>2. Integrated</strong></td>
+              <td>Consistent enterprise-wide formatting.</td>
+              <td>Sources encode data differently (Branch A writes Gender as 'M'/'F', Branch B writes '1'/'0', Branch C writes 'Male'/'Female'). The warehouse cleans and integrates them into one standard schema ('M'/'F').</td>
+            </tr>
+            <tr>
+              <td><strong>3. Time-Variant</strong></td>
+              <td>Historical timeline with explicit timestamps.</td>
+              <td>Operational databases show only the current state (e.g., current account balance). A data warehouse retains 5 to 10 years of historical snapshots with explicit time attributes for trend analysis.</td>
+            </tr>
+            <tr>
+              <td><strong>4. Non-Volatile</strong></td>
+              <td>Read-only historical persistence.</td>
+              <td>Operational databases constantly undergo <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code>. In a warehouse, data is only loaded and queried (read-only). Previous records are never overwritten!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 4: 3-Tier Data Warehouse Architecture -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> 3-Tier Data Warehouse Architecture</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2021, 2018 (Draw and describe 3-Tier Architecture)</span>
+      </div>
+      <p>Enterprise data warehousing standardly follows a decoupled <strong>Three-Tier Architecture</strong>:</p>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 230" width="100%" height="auto" style="max-width:340px;">
+          <!-- Top Tier -->
+          <rect x="20" y="15" width="300" height="45" rx="6" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="1.8" />
+          <text x="30" y="33" font-size="11" font-weight="bold" fill="#10b981">TOP TIER: Front-End Client Tools</text>
+          <text x="30" y="50" font-size="9" fill="var(--text-muted)">Query & Reporting Tools | EIS Dashboards | Data Mining</text>
+
+          <line x1="170" y1="60" x2="170" y2="85" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- Middle Tier -->
+          <rect x="20" y="85" width="300" height="50" rx="6" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="30" y="105" font-size="11" font-weight="bold" fill="#f59e0b">MIDDLE TIER: OLAP Engine Server</text>
+          <text x="30" y="122" font-size="9" fill="var(--text-muted)">ROLAP (Relational) | MOLAP (Multidimensional) | HOLAP</text>
+
+          <line x1="170" y1="135" x2="170" y2="160" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- Bottom Tier -->
+          <rect x="20" y="160" width="300" height="55" rx="6" fill="rgba(13, 148, 136, 0.15)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="30" y="180" font-size="11" font-weight="bold" fill="#0d9488">BOTTOM TIER: Data Warehouse Database Server</text>
+          <text x="30" y="196" font-size="8.5" fill="var(--text-muted)">ETL Staging Area | Metadata Repository | Operational Data Store (ODS)</text>
+          <text x="30" y="208" font-size="8.5" fill="var(--text-muted)">Physical Central Enterprise Data Warehouse</text>
+        </svg>
+        <div class="diagram-caption">Standard 3-Tier Data Warehouse Architecture</div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Role of Each Tier:</strong>
+        <ol class="step-list">
+          <li><strong>Bottom Tier (Warehouse DB Server):</strong> Almost always a relational database engine. Responsible for extracting data from heterogeneous operational source databases, staging, data cleansing, transformation (ETL), and managing the metadata repository.</li>
+          <li><strong>Middle Tier (OLAP Server):</strong> Sits between the database and client. Converts complex multidimensional analytical queries (e.g. Slice, Dice, Roll-up) into SQL statements (ROLAP) or queries multidimensional precomputed array cubes (MOLAP).</li>
+          <li><strong>Top Tier (Front-End Presentation):</strong> Client applications including visual BI query tools, executive dashboard scorecards, automated report generators, and machine learning data mining workbenches.</li>
         </ol>
       </div>
     </div>
 
-    <!-- Topic 3: OLTP vs OLAP -->
+    <!-- Section 5: Design Approaches: Inmon vs Kimball & Star vs Snowflake -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> OLTP vs OLAP (High-Yield Comparison)</span>
+        <span><span class="card-heading-icon">5.</span> Inmon vs. Kimball & Star vs. Snowflake Schemas</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2016 (Frequently asked for 5–10 marks)</span>
+        <span>2025–26, 2024–25, 2023–24, 2020, 2018 (Star vs Snowflake is asked in almost every paper!)</span>
       </div>
-      <p>Modern data architectures split transactional duties from analytical duties to safeguard performance and system stability:</p>
 
-      <div class="table-container">
-        <table class="data-table">
+      <h4>1. Inmon (Top-Down) vs. Kimball (Bottom-Up)</h4>
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>OLTP (Online Transaction Processing)</th>
-              <th>OLAP (Online Analytical Processing)</th>
+              <th>Dimension</th>
+              <th>Bill Inmon's Approach (Top-Down)</th>
+              <th>Ralph Kimball's Approach (Bottom-Up)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Primary Purpose</strong></td>
-              <td>Daily business operations & fast transaction execution</td>
-              <td>Multi-dimensional data analysis & decision support</td>
+              <td><strong>Architecture</strong></td>
+              <td>Builds a single centralized <strong>Enterprise Data Warehouse (EDW)</strong> first; then creates dependent Data Marts.</td>
+              <td>Builds individual departmental <strong>Data Marts</strong> first; integrates them via shared <strong>Conformed Dimensions</strong>.</td>
             </tr>
             <tr>
-              <td><strong>Nature of Data</strong></td>
-              <td>Current, highly detailed, real-time snapshot</td>
-              <td>Historical, summarized, aggregated across years</td>
+              <td><strong>Data Modeling</strong></td>
+              <td>Normalized relational model (3NF) to minimize redundancy.</td>
+              <td>Dimensional modeling (Star Schemas) optimized for analytical queries.</td>
             </tr>
             <tr>
-              <td><strong>Database Design</strong></td>
-              <td>Normalized (3NF/BCNF) to eliminate redundancy</td>
-              <td>Denormalized (Star or Snowflake Schema) for fast reads</td>
+              <td><strong>Time & Cost</strong></td>
+              <td>High initial cost, long lead time (1–2 years before first report).</td>
+              <td>Lower initial cost, fast return on investment (quick wins in months).</td>
             </tr>
             <tr>
-              <td><strong>Operations</strong></td>
-              <td>Frequent <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td>
-              <td>Mostly heavy <code>SELECT</code>, aggregation, and reads</td>
+              <td><strong>Maintenance</strong></td>
+              <td>Single source of truth; enterprise changes require central coordination.</td>
+              <td>Modular and flexible; business units add marts independently.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4 style="margin-top:16px;">2. Star Schema vs. Snowflake Schema</h4>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Star Schema</th>
+              <th>Snowflake Schema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Dimension Tables</strong></td>
+              <td><strong>Denormalized</strong> (single flat table per dimension).</td>
+              <td><strong>Normalized</strong> into hierarchical sub-tables (3NF).</td>
             </tr>
             <tr>
-              <td><strong>Query Complexity</strong></td>
-              <td>Simple, standardized queries touching single rows</td>
-              <td>Complex analytical queries spanning millions of rows</td>
+              <td><strong>Structure Shape</strong></td>
+              <td>Simple star with central Fact table and 1-hop dimension branches.</td>
+              <td>Complex snowflake with multi-hop branches splitting into sub-dimensions.</td>
             </tr>
             <tr>
-              <td><strong>Users</strong></td>
-              <td>Clerks, bank tellers, front-desk operators</td>
-              <td>Business analysts, data scientists, senior executives</td>
+              <td><strong>Join Complexity</strong></td>
+              <td>Very low; queries require only simple single joins between Fact and Dimensions.</td>
+              <td>High; queries require multiple nested joins across sub-dimension tables.</td>
             </tr>
             <tr>
-              <td><strong>Real Example</strong></td>
-              <td>Withdrawing money from an ATM; booking a train ticket</td>
-              <td>Annual sales comparison of mobile phones across 5 states</td>
+              <td><strong>Query Performance</strong></td>
+              <td><strong>Extremely fast</strong> due to fewer joins and simpler SQL.</td>
+              <td>Slower execution due to multiple table join overheads.</td>
+            </tr>
+            <tr>
+              <td><strong>Data Redundancy</strong></td>
+              <td>Higher redundancy (repeated attribute values like city, state).</td>
+              <td>Minimal redundancy; strictly normalized.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 4: Data Warehousing & 3-Tier Architecture -->
-    <div class="study-card">
+    <!-- Section 6: Exam Answer Writing Blueprint & Traps -->
+    <div class="study-card track-full">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Data Warehouse & 3-Tier Architecture</span>
+        <span><span class="card-heading-icon">6.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2023–24, 2020, 2019 (Characteristics, ETL process, and 3-tier architecture diagram)</span>
-      </div>
-      <p>According to <strong>William H. Inmon</strong> (the father of data warehousing):<br>
-      <em>"A Data Warehouse is a <strong>Subject-Oriented</strong>, <strong>Integrated</strong>, <strong>Time-Variant</strong>, and <strong>Non-Volatile</strong> collection of data in support of management's decision-making process."</em></p>
-
-      <div class="diagram-box">
-        <svg viewBox="0 0 320 220" width="100%" height="auto" style="max-width:320px;">
-          <!-- Top Tier -->
-          <rect x="20" y="15" width="280" height="40" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
-          <text x="30" y="32" font-size="10" font-weight="bold" fill="#10b981">TOP TIER: Front-End Client Tools</text>
-          <text x="30" y="47" font-size="8.5" fill="var(--text-muted)">Analysis Tools • Query & Reporting • Data Mining • Dashboards</text>
-
-          <line x1="160" y1="55" x2="160" y2="80" stroke="var(--text-main)" stroke-width="1.5" marker-end="url(#arrow)" />
-
-          <!-- Middle Tier -->
-          <rect x="20" y="80" width="280" height="40" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="30" y="97" font-size="10" font-weight="bold" fill="#f59e0b">MIDDLE TIER: OLAP Server</text>
-          <text x="30" y="112" font-size="8.5" fill="var(--text-muted)">Multidimensional Analysis • ROLAP / MOLAP / HOLAP Engine</text>
-
-          <line x1="160" y1="120" x2="160" y2="145" stroke="var(--text-main)" stroke-width="1.5" />
-
-          <!-- Bottom Tier -->
-          <rect x="20" y="145" width="280" height="40" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
-          <text x="30" y="162" font-size="10" font-weight="bold" fill="#0d9488">BOTTOM TIER: Data Warehouse Database Server</text>
-          <text x="30" y="177" font-size="8.5" fill="var(--text-muted)">Central RDBMS / Repositories • Metadata Repository • Data Marts</text>
-
-          <!-- ETL Pipeline from source -->
-          <line x1="160" y1="185" x2="160" y2="205" stroke="var(--text-main)" stroke-dasharray="3,3" />
-          <text x="80" y="200" font-size="8.5" fill="var(--text-main)">▲ ETL (Extract • Transform • Load) from OLTP & Flat Files</text>
-        </svg>
-        <div class="diagram-caption">Classic 3-Tier Data Warehouse Architecture</div>
-      </div>
-
-      <div class="callout callout-warning">
-        <strong>The 4 Inmon Characteristics Decoded:</strong>
-        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
-          <li><strong>Subject-Oriented:</strong> Modeled around high-level entities (e.g. Sales, Customer, Product) rather than individual transaction processes.</li>
-          <li><strong>Integrated:</strong> Data from diverse, inconsistent operational legacy databases is standardized (e.g. mapping <code>'M'/'F'</code>, <code>1/0</code>, and <code>'Male'/'Female'</code> to a uniform standard).</li>
-          <li><strong>Time-Variant:</strong> Every record carries a timestamp or date key to allow multi-year historical trend tracking (5–10 years).</li>
-          <li><strong>Non-Volatile:</strong> Data is read-only after loading; records are never updated in place, only appended or queried.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Topic 5: Data Marts & Warehouse Design Approaches -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">5.</span> Data Marts, Schemas & Top-Down vs Bottom-Up Design</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2018, 2015, 2014 (Data Mart vs Warehouse & Design Approaches)</span>
-      </div>
-
-      <p>A <strong>Data Mart</strong> is a specialized, smaller subset of a data warehouse focused strictly on a single functional department (e.g., Marketing Data Mart, Payroll Data Mart).</p>
-
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Top-Down Approach (Inmon)</th>
-              <th>Bottom-Up Approach (Kimball)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Starting Point</strong></td>
-              <td>Builds centralized Enterprise Data Warehouse (EDW) first</td>
-              <td>Builds individual departmental Data Marts first</td>
-            </tr>
-            <tr>
-              <td><strong>Integration Method</strong></td>
-              <td>Built directly into central design</td>
-              <td>Integrates marts later using <em>Conformed Dimensions</em></td>
-            </tr>
-            <tr>
-              <td><strong>Initial Time & Cost</strong></td>
-              <td>High initial cost; takes 1–3 years to deliver initial value</td>
-              <td>Lower initial cost; delivers initial reports in weeks/months</td>
-            </tr>
-            <tr>
-              <td><strong>Scalability & Consistency</strong></td>
-              <td>Highest enterprise-wide consistency; highly robust</td>
-              <td>Fast initial ROI; high risk of data inconsistency if unmanaged</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- 3D Interactive CSS Cube -->
-      <div class="cube-showcase">
-        <div class="scene">
-          <div class="cube" id="olap-cube">
-            <div class="cube__face cube__face--front">Sales ( Kanpur )</div>
-            <div class="cube__face cube__face--back">Sales ( Lucknow )</div>
-            <div class="cube__face cube__face--right">Q1 ( Time )</div>
-            <div class="cube__face cube__face--left">Q4 ( Time )</div>
-            <div class="cube__face cube__face--top">Laptops ( Product )</div>
-            <div class="cube__face cube__face--bottom">Mobiles ( Product )</div>
-          </div>
-        </div>
-        <div class="cube-controls">
-          <button class="cube-btn" onclick="rotateCube('front')">Front</button>
-          <button class="cube-btn" onclick="rotateCube('right')">Right (Time)</button>
-          <button class="cube-btn" onclick="rotateCube('top')">Top (Product)</button>
-          <button class="cube-btn" onclick="rotateCube('reset')">Reset</button>
-        </div>
-        <div class="diagram-caption" style="text-align:center;">Interactive 3D OLAP Cube (Product × Time × Location)</div>
-      </div>
-
       <div class="callout callout-tip">
-        <strong>Star Schema vs Snowflake Schema:</strong>
-        <p><strong>Star Schema:</strong> Contains a central <em>Fact Table</em> surrounded by completely denormalized <em>Dimension Tables</em>. Requires fewer SQL joins, leading to blazing-fast OLAP queries.</p>
-        <p><strong>Snowflake Schema:</strong> An extension where dimension tables are normalized into sub-tables (e.g. <code>City → State → Country</code>). Saves storage space and minimizes redundancy, but requires multi-table joins which can slow down large analytical queries.</p>
+        <strong>How to Score Full 10 Marks on "Star vs. Snowflake Schema":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Definitions (2 Marks):</strong> Define Fact table (contains foreign keys + numeric additive measures e.g. quantity sold, revenue) and Dimension tables (contains descriptive business context e.g. customer name, address).</li>
+          <li><strong>Schematic Diagrams (3 Marks):</strong> Draw a clear Star Schema with central `Fact_Sales` linked to `Dim_Date`, `Dim_Store`, `Dim_Product`. Beside it, draw the Snowflake version showing `Dim_Product` normalized into `Dim_SubCategory` and `Dim_Category`.</li>
+          <li><strong>Comparison Matrix (3 Marks):</strong> Include the 5 key differences: normalization, query complexity, join count, performance, and disk usage.</li>
+          <li><strong>When to Choose Which (2 Marks):</strong> Star is best for data marts and high-speed reporting; Snowflake is best when dimensions have massive hierarchies with high data volume.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Mistakes to Avoid:</strong><br>
+        • <strong>Misunderstanding Non-Volatile:</strong> Do NOT write that non-volatile means "volatile RAM memory". It means warehouse records are <em>never updated or deleted in place</em>; historical snapshots remain permanent.<br>
+        • <strong>Confusing Fact vs Dimension:</strong> A Fact table contains numerical metrics (e.g. Sales Amount, Units Sold). A Dimension table contains qualitative descriptions (e.g. Customer Name, Store City). Never mix them up!
       </div>
     </div>
 
-    <!-- Topic 6: Interactive MCQ Exam Drill -->
+    <!-- Interactive MCQ Drill -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">6.</span> Unit II Exam Mastery MCQ Quiz</span>
+        <span><span class="card-heading-icon">7.</span> Unit II Examination Mastery MCQ Quiz</span>
       </div>
-      <p>Test your conceptual understanding of EIS, AI, OLAP, and Data Warehousing before proceeding to Unit III.</p>
-
+      <p>Verify your conceptual grasp across EIS, Expert Systems, Inmon properties, DW tiers, and Schemas with this 10-question quiz.</p>
       <div id="unit-mcq-container"></div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation -->
+  <!-- Sticky Bottom Navigation Bar -->
   <nav class="nav-bottom">
     <a href="bca5001_unit1.html" class="nav-unit-btn">← Unit I: BI</a>
     <a href="index.html" class="nav-unit-btn">Hub</a>
-    <a href="bca5001_unit3.html" class="nav-unit-btn primary">Next: Unit III →</a>
+    <a href="bca5001_unit3.html" class="nav-unit-btn primary">Next: Unit III (Mining) →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
-    function rotateCube(face) {
-      const cube = document.getElementById('olap-cube');
-      if (!cube) return;
-      if (face === 'front') cube.style.transform = 'rotateX(-15deg) rotateY(15deg)';
-      else if (face === 'right') cube.style.transform = 'rotateX(-15deg) rotateY(-75deg)';
-      else if (face === 'top') cube.style.transform = 'rotateX(-95deg) rotateY(15deg)';
-      else if (face === 'reset') cube.style.transform = 'rotateX(-20deg) rotateY(-30deg)';
-    }
-
     const unit2Questions = [
       {
-        question: "What is the primary role of an Executive Information System (EIS)?",
+        question: "What is the primary role of an Executive Information System (EIS / ESS)?",
         options: [
-          "To log daily bank cash deposit slips row by row",
-          "To provide senior executives with high-level summaries, KPI scorecards, and drill-down analytical capability",
-          "To compile C and Java programs",
-          "To monitor network routers at the packet level"
+          "To log daily cashier barcode scans row by row",
+          "To provide senior executives with high-level KPI summaries, strategic scorecards, and drill-down capability",
+          "To optimize printer spool queues on Linux servers",
+          "To run real-time robotic assembly actuators"
         ],
         answer: 1,
-        explanation: "EIS is designed specifically for top executives who need graphical KPI summaries, strategic trend analysis, and the ability to drill down into operational details."
+        explanation: "EIS is designed for senior executives needing strategic birds-eye KPI dashboards, exception alerts, and the ability to drill down into operational specifics."
       },
       {
-        question: "Which of the following describes the 'Non-Volatile' property of a Data Warehouse?",
+        question: "Which of the following describes the 'Non-Volatile' property of a Data Warehouse according to Inmon?",
         options: [
-          "Data evaporates when the power is turned off",
-          "Data in the warehouse is read-only after loading; it is not modified or deleted in regular operations",
-          "Only numerical integers can be saved",
-          "Data must be updated every second"
+          "The data is erased whenever the server reboots",
+          "Warehouse data is read-only after loading; operational updates and deletes do not overwrite historical records",
+          "Only numerical integers can be written",
+          "Data must be refreshed every 500 milliseconds"
         ],
         answer: 1,
-        explanation: "Non-volatile means that operational modifications (updates and deletes) do not take place in the warehouse; data is loaded and retained for historical querying."
+        explanation: "Non-volatile means that transactional updates and deletes do not alter existing records in the warehouse; data is permanently retained for historical queries."
       },
       {
         question: "In the 3-Tier Data Warehouse Architecture, what resides in the Middle Tier?",
         options: [
-          "The relational database server storing raw tables",
-          "The OLAP Server (providing multidimensional query processing like ROLAP/MOLAP)",
-          "The end-user web browser",
-          "The physical hard drive cabling"
+          "The relational database server storing raw physical tables",
+          "The OLAP Server (such as ROLAP or MOLAP engines)",
+          "The end-user client browser",
+          "The physical Ethernet cabling"
         ],
         answer: 1,
-        explanation: "The Middle Tier consists of an OLAP server (such as ROLAP or MOLAP) that sits between the physical warehouse database (bottom tier) and client tools (top tier)."
+        explanation: "The Middle Tier is the OLAP server that sits between the bottom database tier and top client tools, mediating multidimensional queries."
       },
       {
-        question: "In Kimball's Bottom-Up approach to Data Warehouse design, how are separate departmental Data Marts integrated?",
+        question: "In Ralph Kimball's Bottom-Up approach, how are separate departmental Data Marts integrated into an enterprise data warehouse?",
         options: [
-          "By completely rewriting all database tables into a single flat file",
-          "By using shared 'Conformed Dimensions' across different business marts",
-          "By deleting historical records over 1 year old",
-          "They cannot be integrated under any circumstances"
+          "By concatenating all CSV files into a flat file",
+          "By standardizing and sharing common 'Conformed Dimensions' (e.g. shared Date, Customer, Store dimensions)",
+          "By deleting data older than 6 months",
+          "They cannot be integrated under any circumstance"
         ],
         answer: 1,
-        explanation: "Kimball's bottom-up method builds departmental data marts first, ensuring integration across marts by utilizing standardized, shared 'Conformed Dimensions' (e.g. common Date or Customer dimensions)."
+        explanation: "Kimball achieves enterprise integration by designing conformed dimensions that have identical meanings and keys across disparate departmental data marts."
       },
       {
-        question: "What is the key difference between a Star Schema and a Snowflake Schema?",
+        question: "What is the defining structural difference between a Star Schema and a Snowflake Schema?",
         options: [
-          "Star Schema uses NoSQL, whereas Snowflake Schema uses Oracle",
+          "Star Schema uses NoSQL, whereas Snowflake Schema uses MongoDB",
           "In a Star Schema, dimension tables are denormalized; in a Snowflake Schema, dimension tables are normalized into sub-tables",
-          "Star Schema does not have a Fact table",
-          "Snowflake Schema is only used for real-time transaction processing"
+          "Star Schema has no Fact table",
+          "Snowflake Schema is only used for operational OLTP banking"
         ],
         answer: 1,
-        explanation: "In a Star Schema, dimension tables are deliberately denormalized for query speed. A Snowflake Schema normalizes dimension tables into secondary tables, reducing data redundancy at the cost of extra table joins."
+        explanation: "Star Schema uses completely denormalized dimension tables for fast joins. Snowflake Schema normalizes dimension tables into sub-dimension lookup tables."
       },
       {
-        question: "Which component of an Expert System provides the logical chain explaining 'how' a conclusion was reached to the user?",
+        question: "Which component of an Expert System explains the reasoning path ('Why' an input was asked and 'How' a conclusion was reached) to the user?",
         options: [
           "Knowledge Acquisition Subsystem",
           "Explanation Facility (Justifier)",
@@ -430,13 +540,58 @@
           "Database Trigger"
         ],
         answer: 1,
-        explanation: "The Explanation Facility (or Justifier) traces the rules executed during inference to clearly explain to the user why a question was asked and how the final recommendation was determined."
+        explanation: "The Explanation Facility (or Justifier) traces the rules that fired during inference to provide a transparent audit trail of how the conclusion was determined."
+      },
+      {
+        question: "What is the fundamental difference between Forward Chaining and Backward Chaining in an expert system?",
+        options: [
+          "Forward Chaining is goal-driven, while Backward Chaining is data-driven",
+          "Forward Chaining starts with known facts and works toward a conclusion; Backward Chaining starts with a hypothesis and works backward to check supporting facts",
+          "Forward Chaining can only run on quantum computers",
+          "There is no difference"
+        ],
+        answer: 1,
+        explanation: "Forward Chaining is data-driven (starts with premises/facts to deduce conclusions). Backward Chaining is goal-driven (starts with a hypothesis and checks supporting evidence)."
+      },
+      {
+        question: "What is the primary difference between a Data Warehouse and a Data Mart?",
+        options: [
+          "A Data Warehouse is enterprise-wide in scope, whereas a Data Mart is focused on a specific department or single business process",
+          "A Data Mart holds more data than a Data Warehouse",
+          "A Data Warehouse cannot store sales records",
+          "A Data Mart is always unformatted"
+        ],
+        answer: 0,
+        explanation: "A Data Warehouse integrates data across the entire enterprise. A Data Mart is a subset tailored to the needs of a single business unit or department (e.g. Marketing Mart)."
+      },
+      {
+        question: "Which schema consists of multiple Fact tables sharing several common Dimension tables?",
+        options: [
+          "Star Schema",
+          "Fact Constellation (Galaxy) Schema",
+          "Snowflake Schema",
+          "Flat File Schema"
+        ],
+        answer: 1,
+        explanation: "A Fact Constellation (or Galaxy Schema) contains multiple fact tables (e.g., Sales Fact and Shipping Fact) sharing interconnected dimension tables."
+      },
+      {
+        question: "Why are operational OLTP databases separated from analytical Data Warehouses?",
+        options: [
+          "OLTP databases do not support SQL",
+          "Running complex analytical queries on live OLTP databases would lock tables and degrade transaction processing speed for daily operations",
+          "Data Warehouses cannot store numerical data",
+          "OLTP databases only run on tape drives"
+        ],
+        answer: 1,
+        explanation: "OLTP is tuned for high-throughput, concurrent, atomic row transactions. Massive read-heavy aggregations would lock tables and freeze live business operations."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit2Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>

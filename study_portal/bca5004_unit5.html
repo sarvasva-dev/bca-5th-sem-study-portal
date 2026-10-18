@@ -3,8 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 5: Differential Equations (ODEs) | BCA-5004</title>
+  <title>Unit 5: Differential Equations | BCA-5004 Numerical Methods</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +26,7 @@
       <div class="brand-icon" style="background:#0d9488;">NM</div>
       <div>
         <div class="brand-title">BCA-5004: Unit V</div>
-        <div class="brand-subtitle">Ordinary Differential Equations (ODEs)</div>
+        <div class="brand-subtitle">Differential Equations</div>
       </div>
     </a>
     <div class="header-actions">
@@ -29,165 +41,185 @@
     <div class="unit-banner" style="border-left-color:#0d9488;">
       <div class="badge-row">
         <span class="badge badge-emerald">Subject: BCA-5004</span>
-        <span class="badge badge-amber">⭐ Guaranteed 12-Mark Question (RK-4)</span>
-        <span class="badge badge-coral">Day 1 Priority</span>
+        <span class="badge badge-amber">⭐ RK4 & Picard 10-Mark Questions</span>
+        <span class="badge badge-coral">Day 5 Priority</span>
       </div>
-      <h1 class="unit-title">Unit V: Solution of Differential Equations</h1>
-      <p class="unit-desc">Initial Value Problems, Euler's Method, Picard's Successive Approximations, and Runge-Kutta 4th Order (RK-4) Method.</p>
+      <h1 class="unit-title">Unit V: Numerical Solution of ODEs</h1>
+      <p class="unit-desc">
+        Initial Value Problems, Euler's Method, Modified Euler's Method, Picard's Successive Approximations, and Runge-Kutta 4th Order Method (RK4).
+      </p>
     </div>
 
-    <!-- Quick Formula Card -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">⚡</span> Essential ODE Formula Cheat Sheet</span>
-      </div>
-      <div class="callout callout-formula">
-        <strong>1. Euler's Method (Tangent line, $O(h)$ global error):</strong><br>
-        $$y_{n+1} = y_n + h f(x_n, y_n)$$
-      </div>
-      <div class="callout callout-formula">
-        <strong>2. Picard's Method of Successive Approximations:</strong><br>
-        $$y^{(n+1)}(x) = y_0 + \int_{x_0}^x f(t, y^{(n)}(t)) dt$$
-      </div>
-      <div class="callout callout-formula">
-        <strong>3. Runge-Kutta 4th Order (RK-4) Method ($O(h^4)$ global error):</strong><br>
-        $$k_1 = h f(x_n, y_n)$$
-        $$k_2 = h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right)$$
-        $$k_3 = h f\left(x_n + \frac{h}{2}, y_n + \frac{k_2}{2}\right)$$
-        $$k_4 = h f\left(x_n + h, y_n + k_3\right)$$
-        $$y_{n+1} = y_n + \frac{1}{6} \left( k_1 + 2k_2 + 2k_3 + k_4 \right)$$
-      </div>
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: Fourth-Order Runge-Kutta (RK-4) Method -->
+    <!-- Topic 1: Initial Value Problem & Euler's Method -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Runge-Kutta 4th Order (RK-4)</span>
+        <span><span class="card-heading-icon">1.</span> Initial Value Problems & Euler's Method</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2021 (The most repeated numerical in CSJMU!)</span>
+
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Define an Initial Value Problem (IVP): $\frac{dy}{dx} = f(x, y)$ with condition $y(x_0) = y_0$.</li>
+          <li>Understand Euler's tangent step algorithm and its error limitations ($O(h)$ global error).</li>
+        </ul>
       </div>
-      <p><strong>Why RK-4 is superior:</strong> Unlike Taylor series, RK-4 does NOT require computing higher-order analytical derivatives of $f(x,y)$. It achieves 4th-order accuracy ($O(h^4)$ global error) solely by evaluating $f(x,y)$ at four strategic points across the subinterval.</p>
 
-      <details class="topic-drawer" open>
-        <summary class="topic-summary">📝 Step-by-Step Solved Master PYQ: Solve $\frac{dy}{dx} = x + y$, $y(0)=1$ for $y(0.1)$</summary>
-        <div class="topic-content">
-          <p>Given: $\frac{dy}{dx} = f(x, y) = x + y$, with initial condition $x_0 = 0, y_0 = 1$, and step size $h = 0.1$.</p>
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="callout callout-formula">
+        <strong>Euler's Iteration Formula:</strong><br>
+        $$y_{n+1} = y_n + h \cdot f(x_n, y_n)$$
+        <em>Condition:</em> Step size $h = x_{n+1} - x_n$. Truncation error: Local $= O(h^2)$, Global $= O(h)$.
+      </div>
 
-          <p><strong>Step 1: Calculate $k_1$ (Slope at beginning):</strong><br>
-          $k_1 = h f(x_0, y_0) = 0.1 \times (0 + 1) = \mathbf{0.1000}$</p>
-
-          <p><strong>Step 2: Calculate $k_2$ (Slope at midpoint using $k_1$):</strong><br>
-          $x_0 + \frac{h}{2} = 0 + 0.05 = 0.05$<br>
-          $y_0 + \frac{k_1}{2} = 1 + \frac{0.1}{2} = 1.05$<br>
-          $k_2 = h f(0.05, 1.05) = 0.1 \times (0.05 + 1.05) = 0.1 \times 1.10 = \mathbf{0.1100}$</p>
-
-          <p><strong>Step 3: Calculate $k_3$ (Slope at midpoint using $k_2$):</strong><br>
-          $x_0 + \frac{h}{2} = 0.05$<br>
-          $y_0 + \frac{k_2}{2} = 1 + \frac{0.11}{2} = 1.055$<br>
-          $k_3 = h f(0.05, 1.055) = 0.1 \times (0.05 + 1.055) = 0.1 \times 1.105 = \mathbf{0.1105}$</p>
-
-          <p><strong>Step 4: Calculate $k_4$ (Slope at end using $k_3$):</strong><br>
-          $x_0 + h = 0 + 0.1 = 0.1$<br>
-          $y_0 + k_3 = 1 + 0.1105 = 1.1105$<br>
-          $k_4 = h f(0.1, 1.1105) = 0.1 \times (0.1 + 1.1105) = 0.1 \times 1.2105 = \mathbf{0.12105}$</p>
-
-          <p><strong>Step 5: Weighted Average to find $y(0.1)$:</strong><br>
-          $\Delta y = \frac{1}{6} [ k_1 + 2k_2 + 2k_3 + k_4 ]$<br>
-          $\Delta y = \frac{1}{6} [ 0.1000 + 2(0.1100) + 2(0.1105) + 0.12105 ]$<br>
-          $\Delta y = \frac{1}{6} [ 0.1000 + 0.2200 + 0.2210 + 0.12105 ] = \frac{0.66205}{6} \approx \mathbf{0.11034}$</p>
-
-          <div class="callout callout-formula">
-            $$y(0.1) = y_0 + \Delta y = 1 + 0.11034 = \mathbf{1.11034}$$
-          </div>
-          <p><em>(Exact analytical solution $y = 2e^x - x - 1$ gives $y(0.1) = 2e^{0.1} - 0.1 - 1 = 1.11034$ — Matches to 5 decimal places!)</em></p>
-        </div>
-      </details>
+      <p>
+        <strong>Geometric Principle:</strong> Euler's method approximates the solution curve by straight-line tangent segments across step size $h$. Because the tangent direction changes continuously, Euler's method drifts away from the true curve unless $h$ is very small.
+      </p>
     </div>
 
     <!-- Topic 2: Picard's Method of Successive Approximations -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Picard's Method</span>
+        <span><span class="card-heading-icon">2.</span> Picard's Successive Approximations</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2023–24 (Integration method for IVP)</span>
+        <span>2024–25, 2022, 2018 (Derivation and 5–10 mark analytical integration question)</span>
       </div>
-      <p>Converts the ODE $\frac{dy}{dx} = f(x,y)$ into an integral equation $y(x) = y_0 + \int_{x_0}^x f(t, y(t)) dt$, producing successive polynomial approximations.</p>
 
-      <details class="topic-drawer" open>
-        <summary class="topic-summary">📝 Solved Example: Picard's 3 Approximations for $\frac{dy}{dx} = x + y$, $y(0)=1$</summary>
-        <div class="topic-content">
-          <p>Initial guess: $y^{(0)}(x) = 1$</p>
-          <p><strong>First Approximation $y^{(1)}(x)$:</strong><br>
-          $y^{(1)}(x) = 1 + \int_0^x (t + 1) dt = 1 + \left[ \frac{t^2}{2} + t \right]_0^x = \mathbf{1 + x + \frac{x^2}{2}}$</p>
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="callout callout-formula">
+        <strong>Picard's Iterative Integral Formula:</strong><br>
+        $$y^{(k+1)}(x) = y_0 + \int_{x_0}^x f\Big(t, y^{(k)}(t)\Big) \, dt$$
+        where initial approximation $y^{(0)}(x) = y_0$ (constant).
+      </div>
 
-          <p><strong>Second Approximation $y^{(2)}(x)$:</strong><br>
-          $y^{(2)}(x) = 1 + \int_0^x \left[ t + \left(1 + t + \frac{t^2}{2}\right) \right] dt = 1 + \int_0^x \left( 1 + 2t + \frac{t^2}{2} \right) dt = \mathbf{1 + x + x^2 + \frac{x^3}{6}}$</p>
-
-          <p><strong>Third Approximation $y^{(3)}(x)$:</strong><br>
-          $y^{(3)}(x) = 1 + \int_0^x \left( 1 + 2t + t^2 + \frac{t^3}{6} \right) dt = \mathbf{1 + x + x^2 + \frac{x^3}{3} + \frac{x^4}{24}}$</p>
+      <!-- Worked Numerical -->
+      <div class="callout callout-tip">
+        <strong>📝 Solved University Numerical:</strong><br>
+        <em>Problem:</em> Given $\frac{dy}{dx} = x + y^2$ with $y(0) = 1$, find the first two successive approximations using Picard's method.
+      </div>
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Initial Starting Values:</strong> $x_0 = 0, y_0 = 1$. Let $y^{(0)} = 1$.
         </div>
-      </details>
+        <div class="step-item">
+          <strong>First Approximation $y^{(1)}(x)$:</strong><br>
+          $$y^{(1)}(x) = 1 + \int_0^x \Big[ t + (y^{(0)})^2 \Big] dt = 1 + \int_0^x (t + 1^2) dt = 1 + \left[ \frac{t^2}{2} + t \right]_0^x = \mathbf{1 + x + \frac{x^2}{2}}$$
+        </div>
+        <div class="step-item">
+          <strong>Second Approximation $y^{(2)}(x)$:</strong><br>
+          Substitute $y^{(1)} = 1 + x + \frac{x^2}{2}$ into $f(t, y) = t + y^2$ (neglecting powers $x^3$ and above if small):<br>
+          $$(y^{(1)})^2 = \left(1 + x + \frac{x^2}{2}\right)^2 \approx 1 + 2x + 2x^2$$
+          $$y^{(2)}(x) = 1 + \int_0^x \Big[ t + (1 + 2t + 2t^2) \Big] dt = 1 + \int_0^x (1 + 3t + 2t^2) dt = \mathbf{1 + x + \frac{3x^2}{2} + \frac{2x^3}{3}}$$
+        </div>
+      </div>
     </div>
 
-    <!-- Topic 3: Euler's Method & Comparison -->
+    <!-- Topic 3: Runge-Kutta 4th Order Method (RK4) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Euler vs Picard vs Runge-Kutta Comparison</span>
+        <span><span class="card-heading-icon">3.</span> Runge-Kutta 4th Order Method (RK4)</span>
       </div>
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Method</th>
-              <th>Order of Global Error</th>
-              <th>Requires Integration?</th>
-              <th>Accuracy</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Euler's Method</strong></td>
-              <td>$O(h)$</td>
-              <td>No (Simple evaluation)</td>
-              <td>Low (Requires very small $h$)</td>
-            </tr>
-            <tr>
-              <td><strong>Picard's Method</strong></td>
-              <td>Variable (Iterative)</td>
-              <td>Yes (Analytical integral)</td>
-              <td>High near $x_0$, fails for complex $f(x,y)$</td>
-            </tr>
-            <tr>
-              <td><strong>Runge-Kutta 4th Order</strong></td>
-              <td><strong>$O(h^4)$</strong></td>
-              <td>No (Point evaluations only)</td>
-              <td><strong>Extremely High (Industry Standard)</strong></td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2021, 2019, 2015 (Repeatedly asked for 10 marks — highest weightage!)</span>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="callout callout-formula">
+        <strong>The 4 Slopes & Increment Formula:</strong><br>
+        $$\begin{aligned}
+        k_1 &= h \cdot f(x_0, y_0) \\
+        k_2 &= h \cdot f\left( x_0 + \frac{h}{2}, y_0 + \frac{k_1}{2} \right) \\
+        k_3 &= h \cdot f\left( x_0 + \frac{h}{2}, y_0 + \frac{k_2}{2} \right) \\
+        k_4 &= h \cdot f( x_0 + h, y_0 + k_3 ) \\
+        \Delta y &= \frac{1}{6} \Big( k_1 + 2k_2 + 2k_3 + k_4 \Big) \\
+        y(x_0 + h) &= y_0 + \Delta y
+        \end{aligned}$$
+        <em>Why RK4 is Supreme:</em> It achieves fourth-order accuracy ($O(h^4)$ global error) matching Taylor series through $h^4$, <strong>without requiring any analytical differentiation</strong>!
+      </div>
+
+      <!-- Fully Solved Step-by-Step RK4 Problem -->
+      <div class="callout callout-tip">
+        <strong>📝 Master Solved University Problem:</strong><br>
+        Apply the Runge-Kutta 4th Order method to find $y(0.1)$ given:
+        $$\frac{dy}{dx} = x + y, \quad y(0) = 1, \quad \text{with step size } h = 0.1$$
+      </div>
+
+      <p><strong>Step-by-Step Numerical Calculations:</strong></p>
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Given Parameters:</strong><br>
+          $f(x, y) = x + y$, initial values $x_0 = 0, y_0 = 1$, step size $h = 0.1$.
+        </div>
+        <div class="step-item">
+          <strong>Step 1: Calculate $k_1$:</strong><br>
+          $$k_1 = h \cdot f(x_0, y_0) = 0.1 \times (0 + 1) = \mathbf{0.10000}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 2: Calculate $k_2$:</strong><br>
+          $$x_0 + \frac{h}{2} = 0 + 0.05 = 0.05$$
+          $$y_0 + \frac{k_1}{2} = 1 + \frac{0.10000}{2} = 1.05$$
+          $$k_2 = h \cdot f(0.05, 1.05) = 0.1 \times (0.05 + 1.05) = 0.1 \times 1.10 = \mathbf{0.11000}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 3: Calculate $k_3$:</strong><br>
+          $$x_0 + \frac{h}{2} = 0.05$$
+          $$y_0 + \frac{k_2}{2} = 1 + \frac{0.11000}{2} = 1.055$$
+          $$k_3 = h \cdot f(0.05, 1.055) = 0.1 \times (0.05 + 1.055) = 0.1 \times 1.105 = \mathbf{0.11050}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 4: Calculate $k_4$:</strong><br>
+          $$x_0 + h = 0 + 0.1 = 0.1$$
+          $$y_0 + k_3 = 1 + 0.11050 = 1.11050$$
+          $$k_4 = h \cdot f(0.1, 1.11050) = 0.1 \times (0.1 + 1.11050) = 0.1 \times 1.21050 = \mathbf{0.12105}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 5: Weighted Average Increment $\Delta y$:</strong><br>
+          $$\Delta y = \frac{1}{6} \Big[ k_1 + 2k_2 + 2k_3 + k_4 \Big]$$
+          $$\Delta y = \frac{1}{6} \Big[ 0.10000 + 2(0.11000) + 2(0.11050) + 0.12105 \Big]$$
+          $$\Delta y = \frac{1}{6} \Big[ 0.10000 + 0.22000 + 0.22100 + 0.12105 \Big] = \frac{0.66205}{6} = \mathbf{0.11034}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 6: Compute Final Value $y(0.1)$:</strong><br>
+          $$y(0.1) = y_0 + \Delta y = 1 + 0.11034 = \mathbf{1.11034}$$
+          <em>Exact Analytical Verification:</em> Solution is $y = 2e^x - x - 1$. For $x = 0.1$: $y = 2(1.10517) - 0.1 - 1 = 1.11034$ (Error is less than $10^{-5}$!).
+        </div>
       </div>
     </div>
 
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
+    <!-- Topic 4: Interactive MCQ Exam Drill (10 Questions) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">📝</span> Unit V Exam Mastery MCQ Quiz (10 Questions)</span>
+      </div>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions to test your mastery of ODE numerical solvers, Picard approximations, and RK4 coefficients.
+      </p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <a href="bca5004_unit4.html" class="nav-unit-btn">← Unit IV</a>
-    <a href="index.html" class="nav-unit-btn primary">Complete NM! → Hub</a>
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5004_unit4.html" class="nav-unit-btn">← Unit IV: Linear Systems</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
+    <a href="bca5003_unit1.html" class="nav-unit-btn primary">Subject Next: Computer Networks →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit5Questions = [
       {
-        question: "What is the global truncation error order of the Fourth-Order Runge-Kutta (RK-4) method?",
+        question: "What is the order of the global truncation error for the Runge-Kutta 4th Order (RK4) method?",
         options: [
           "O(h)",
           "O(h^2)",
@@ -195,62 +227,116 @@
           "O(h^4)"
         ],
         answer: 3,
-        explanation: "The classical RK-4 method has a local truncation error of O(h^5) and a composite global truncation error of O(h^4)."
+        is_pyq: true,
+        explanation: "RK4 has a local error of $O(h^5)$ and a global truncation error of $O(h^4)$, making it a fourth-order accurate method."
       },
       {
-        question: "In the RK-4 method, how are the intermediate slopes (k1, k2, k3, k4) weighted in the final step?",
+        question: "In the Runge-Kutta 4th Order method, what are the weights assigned to the four slopes (k1, k2, k3, k4)?",
         options: [
-          "(k1 + k2 + k3 + k4) / 4",
-          "(k1 + 2k2 + 2k3 + k4) / 6",
-          "(k1 + 4k2 + k3 + 4k4) / 10",
-          "(2k1 + k2 + k3 + 2k4) / 6"
+          "(1, 1, 1, 1) / 4",
+          "(1, 2, 2, 1) / 6",
+          "(1, 3, 3, 1) / 8",
+          "(1, 4, 4, 1) / 10"
         ],
         answer: 1,
-        explanation: "The RK-4 weighted average is y_{n+1} = y_n + (1/6) * (k1 + 2*k2 + 2*k3 + k4), mimicking Simpson's rule weights across the interval."
+        is_pyq: true,
+        explanation: "The weighted average formula is $\\Delta y = \\frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)$, giving weights $1/6, 2/6, 2/6, 1/6$."
       },
       {
-        question: "What is the fundamental advantage of Runge-Kutta methods over Taylor Series methods?",
+        question: "What is the primary advantage of Runge-Kutta methods over Taylor Series methods?",
         options: [
-          "Runge-Kutta does not require calculating higher-order partial derivatives of f(x, y)",
-          "Runge-Kutta works only for linear differential equations",
-          "Runge-Kutta is an exact formula with zero error",
-          "Runge-Kutta does not require step size h"
-        ],
-        answer: 0,
-        explanation: "Taylor series requires evaluating df/dx, d^2f/dx^2, etc., which is algebraically tedious or impossible. RK methods achieve high order solely by evaluating f(x, y) at select points."
-      },
-      {
-        question: "What type of approximations does Picard's method produce?",
-        options: [
-          "Discrete numerical points only",
-          "Successive continuous polynomial functions in terms of x",
-          "Only trigonometric functions",
-          "Exponential step responses"
+          "Runge-Kutta methods only work on linear equations",
+          "Runge-Kutta methods do not require calculating higher-order analytical derivatives",
+          "Runge-Kutta methods always yield integer answers",
+          "Runge-Kutta methods do not need step size h"
         ],
         answer: 1,
-        explanation: "Picard's method is an analytical approximation method that recursively integrates to produce successive polynomial expressions y^(1)(x), y^(2)(x), etc."
+        is_pyq: true,
+        explanation: "Taylor series methods require repeated symbolic differentiation ($f', f'', \\dots$), which is intractable for complex functions. Runge-Kutta achieves identical Taylor accuracy using only function evaluations."
       },
       {
-        question: "What is the formula for the standard Euler's method for solving dy/dx = f(x, y)?",
+        question: "In Euler's method, what is the formula to compute y_{n+1}?",
         options: [
           "y_{n+1} = y_n + h * f(x_n, y_n)",
           "y_{n+1} = y_n + (h/2) * f(x_n, y_n)",
-          "y_{n+1} = y_n * h + f(x_n, y_n)",
-          "y_{n+1} = f(x_n, y_n) / h"
+          "y_{n+1} = y_n - h * f(x_n, y_n)",
+          "y_{n+1} = y_n + h * f(x_{n+1}, y_n)"
         ],
         answer: 0,
-        explanation: "Euler's method follows the tangent slope: y_{n+1} = y_n + h * f(x_n, y_n)."
+        is_pyq: true,
+        explanation: "Euler's method follows the tangent slope: $y_{n+1} = y_n + h \\cdot f(x_n, y_n)$."
       },
       {
-        question: "In Euler's method, what is the geometric interpretation of the step taken from (x_n, y_n)?",
+        question: "What is Picard's method classified as?",
         options: [
-          "Moving along the normal to the curve",
-          "Moving along the tangent line evaluated at (x_n, y_n)",
-          "Fitting a parabola",
-          "Drawing a circle"
+          "A finite difference method",
+          "A method of successive approximations based on integral equations",
+          "A statistical regression technique",
+          "A matrix elimination algorithm"
         ],
         answer: 1,
-        explanation: "Euler's method approximates the true solution curve by following the tangent line of slope f(x_n, y_n) for a horizontal distance h."
+        is_pyq: true,
+        explanation: "Picard's method converts the differential equation into an equivalent integral equation $y(x) = y_0 + \\int_{x_0}^x f(t, y) dt$ and solves it through successive integration."
+      },
+      {
+        question: "In RK4, how is the intermediate slope k2 computed?",
+        options: [
+          "k2 = h * f(x_0 + h, y_0 + k1)",
+          "k2 = h * f(x_0 + h/2, y_0 + k1/2)",
+          "k2 = h * f(x_0 + h/2, y_0 + k1)",
+          "k2 = (k1 + k3) / 2"
+        ],
+        answer: 1,
+        is_pyq: false,
+        explanation: "$k_2 = h \\cdot f\\left(x_0 + \\frac{h}{2}, y_0 + \\frac{k_1}{2}\\right)$ evaluates the slope at the midpoint of the interval using slope $k_1$."
+      },
+      {
+        question: "What is the order of convergence for standard Euler's method?",
+        options: [
+          "1 (First order)",
+          "2 (Second order)",
+          "3 (Third order)",
+          "4 (Fourth order)"
+        ],
+        answer: 0,
+        is_pyq: true,
+        explanation: "Euler's method is a first-order method ($p = 1$) because its global error decreases linearly with $h$."
+      },
+      {
+        question: "What is the Modified Euler (Heun's) method?",
+        options: [
+          "A method using matrix inverses",
+          "A Predictor-Corrector method using the average of slopes at the start and end of the interval",
+          "An interpolation formula",
+          "An eigenvalue solver"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Modified Euler predicts $y_{n+1}^* = y_n + h f(x_n, y_n)$ and then corrects it using the average slope: $y_{n+1} = y_n + \\frac{h}{2}[f(x_n, y_n) + f(x_{n+1}, y_{n+1}^*)]$."
+      },
+      {
+        question: "If dy/dx = y with y(0) = 1 and h = 0.1, what is the value of y(0.1) computed by Euler's method?",
+        options: [
+          "1.00",
+          "1.10",
+          "1.21",
+          "0.90"
+        ],
+        answer: 1,
+        is_pyq: false,
+        explanation: "$y_1 = y_0 + h f(x_0, y_0) = 1 + 0.1(1) = 1.10$."
+      },
+      {
+        question: "Which of the following is considered a single-step method?",
+        options: [
+          "Runge-Kutta Method",
+          "Milne's Predictor-Corrector Method",
+          "Adams-Bashforth Method",
+          "Adams-Moulton Method"
+        ],
+        answer: 0,
+        is_pyq: true,
+        explanation: "Runge-Kutta is a single-step method because computing $y_{n+1}$ requires information only from the single immediately preceding point $(x_n, y_n)$, unlike multi-step methods."
       }
     ];
 

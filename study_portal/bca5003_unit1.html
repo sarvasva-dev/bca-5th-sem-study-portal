@@ -3,8 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 1: Network Models & Basics | BCA-5003</title>
+  <title>Unit 1: Network Models & Basics | BCA-5003 Computer Networks</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
   <style>
     /* Interactive 3D Layer Stack */
     .osi-stack {
@@ -62,10 +74,10 @@
   <!-- Sticky Mobile Top Bar -->
   <header class="top-header">
     <a href="index.html" class="brand">
-      <div class="brand-icon" style="background:#059669;">CN</div>
+      <div class="brand-icon" style="background:#0f766e;">CN</div>
       <div>
         <div class="brand-title">BCA-5003: Unit I</div>
-        <div class="brand-subtitle">Network Basics, Topologies & OSI/TCP</div>
+        <div class="brand-subtitle">Network Models & Architecture</div>
       </div>
     </a>
     <div class="header-actions">
@@ -77,296 +89,288 @@
   <main class="container">
 
     <!-- Unit Banner -->
-    <div class="unit-banner" style="border-left-color:#059669;">
+    <div class="unit-banner" style="border-left-color:#0f766e;">
       <div class="badge-row">
         <span class="badge badge-emerald">Subject: BCA-5003</span>
-        <span class="badge badge-amber">⭐ 100% Guaranteed OSI Question (12 Marks)</span>
-        <span class="badge badge-coral">Day 2 Priority</span>
+        <span class="badge badge-amber">⭐ Core Model & CRC PYQs</span>
+        <span class="badge badge-coral">Day 1 Priority</span>
       </div>
-      <h1 class="unit-title">Unit I: Network Basics & OSI Reference Model</h1>
-      <p class="unit-desc">Data Communication components, Topologies, OSI 7-Layer Model, TCP/IP Suite, Error Control (CRC, Hamming), and MAC vs IP Addressing.</p>
-    </div>
-
-    <!-- Interactive 3D OSI Layer Inspector -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">🥞</span> Interactive OSI 7-Layer Stack (Tap Any Layer)</span>
-      </div>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">
-        Tap on any layer below to reveal its Protocol Data Unit (PDU), main responsibility, and hardware devices.
+      <h1 class="unit-title">Unit I: Network Models & Architectures</h1>
+      <p class="unit-desc">
+        Data Communication Basics, LAN/MAN/WAN, Network Topologies, 3D OSI 7-Layer Model, Encapsulation, and Cyclic Redundancy Check (CRC).
       </p>
-
-      <div class="osi-stack" id="osi-stack-container">
-        <!-- Layer 7 -->
-        <div class="osi-layer" onclick="showLayerDetails(7, 'Application Layer', 'Data / Message', 'HTTP, HTTPS, FTP, DNS, SMTP', 'User interface, network services to end-user software')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num">7</div>
-            <div class="layer-info">
-              <div class="layer-name">Application Layer</div>
-              <div class="layer-pdu">PDU: Data / Messages</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">Protocols →</span>
-        </div>
-
-        <!-- Layer 6 -->
-        <div class="osi-layer" onclick="showLayerDetails(6, 'Presentation Layer', 'Formatted Data', 'SSL/TLS, JPEG, ASCII, MPEG', 'Data translation, encryption/decryption, compression')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num">6</div>
-            <div class="layer-info">
-              <div class="layer-name">Presentation Layer</div>
-              <div class="layer-pdu">PDU: Formatted Data</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">Syntax/Crypto →</span>
-        </div>
-
-        <!-- Layer 5 -->
-        <div class="osi-layer" onclick="showLayerDetails(5, 'Session Layer', 'Data', 'RPC, NetBIOS, PPTP', 'Session establishment, maintenance, synchronization checkpoints')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num">5</div>
-            <div class="layer-info">
-              <div class="layer-name">Session Layer</div>
-              <div class="layer-pdu">PDU: Dialog Data</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">Dialog Control →</span>
-        </div>
-
-        <!-- Layer 4 -->
-        <div class="osi-layer" onclick="showLayerDetails(4, 'Transport Layer', 'Segment (TCP) / Datagram (UDP)', 'TCP, UDP, SCTP (Ports 0-65535)', 'End-to-end process-to-process delivery, segmentation, flow/error control, port addressing')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num" style="background:#f59e0b;">4</div>
-            <div class="layer-info">
-              <div class="layer-name">Transport Layer (Heart of OSI)</div>
-              <div class="layer-pdu">PDU: Segment / Datagram</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">TCP/UDP →</span>
-        </div>
-
-        <!-- Layer 3 -->
-        <div class="osi-layer" onclick="showLayerDetails(3, 'Network Layer', 'Packet', 'IPv4, IPv6, ICMP, ARP, Routers', 'Logical addressing (IP), path determination, packet routing across networks')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num">3</div>
-            <div class="layer-info">
-              <div class="layer-name">Network Layer</div>
-              <div class="layer-pdu">PDU: Packet (Device: Router)</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">IP Routing →</span>
-        </div>
-
-        <!-- Layer 2 -->
-        <div class="osi-layer" onclick="showLayerDetails(2, 'Data Link Layer', 'Frame', 'Ethernet, PPP, Switch, Bridge, MAC', 'Node-to-node framing, physical MAC addressing, error detection (CRC), flow control')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num">2</div>
-            <div class="layer-info">
-              <div class="layer-name">Data Link Layer (DLL)</div>
-              <div class="layer-pdu">PDU: Frame (Device: Switch)</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">MAC / CRC →</span>
-        </div>
-
-        <!-- Layer 1 -->
-        <div class="osi-layer" onclick="showLayerDetails(1, 'Physical Layer', 'Bits (0s and 1s)', 'Cables, RJ45, Repeater, Hub, Modulation', 'Raw bit transmission over physical media, voltage levels, pinouts, data rate')">
-          <div style="display:flex; align-items:center;">
-            <div class="layer-num">1</div>
-            <div class="layer-info">
-              <div class="layer-name">Physical Layer</div>
-              <div class="layer-pdu">PDU: Raw Bits (Hub / Repeater)</div>
-            </div>
-          </div>
-          <span style="font-size:12px; color:var(--text-muted);">Signals →</span>
-        </div>
-      </div>
-
-      <!-- Pop-up Layer Info Display -->
-      <div id="layer-detail-box" style="display:none; background:var(--surface-color); border:2px solid var(--accent-emerald); border-radius:var(--radius-sm); padding:12px; margin-top:10px;">
-        <div id="layer-detail-title" style="font-weight:800; font-size:15px; color:var(--accent-emerald);"></div>
-        <div style="font-size:12px; color:var(--accent-amber); font-weight:700; margin:3px 0;" id="layer-detail-pdu"></div>
-        <div style="font-size:13px; color:var(--text-main); margin:4px 0;" id="layer-detail-desc"></div>
-        <div style="font-size:12px; color:var(--text-muted);" id="layer-detail-proto"></div>
-      </div>
     </div>
 
-    <!-- Topic 1: 5 Components & 4 Characteristics of Data Communication -->
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    </div>
+
+    <!-- Topic 1: Communication Components & Network Topologies -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Data Communication Fundamentals</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2021, 2018, 2017 (5 Components & 4 Characteristics)</span>
+        <span><span class="card-heading-icon">1.</span> Data Communication & Network Topologies</span>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>The 5 Core Components:</strong>
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Identify the 5 fundamental components of any data communication system.</li>
+          <li>Evaluate Mesh, Star, Bus, and Ring topologies based on reliability, cost, and cable length.</li>
+          <li>Calculate physical link requirements for fully connected networks: $N = \frac{n(n-1)}{2}$.</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-intuition">
+        <strong>💡 Everyday Intuition:</strong>
+        A data network is like the postal system. You (Sender) write a letter (Message), place it in an envelope with an address (Protocol), drop it into a postbox for delivery along roads or flights (Medium), and your friend receives it (Receiver).
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="callout callout-info">
+        <strong>The 5 Core Components of Data Communication:</strong>
         <ol class="step-list">
-          <li><strong>Message:</strong> The data/information to be communicated (text, audio, video).</li>
-          <li><strong>Sender:</strong> The device that generates and transmits the message (computer, phone).</li>
-          <li><strong>Receiver:</strong> The target device that receives the message.</li>
-          <li><strong>Transmission Medium:</strong> The physical path connecting sender and receiver (twisted pair, fiber optic, radio waves).</li>
-          <li><strong>Protocol:</strong> A set of governing rules that coordinate data communication. Without a protocol, two devices may be connected but cannot communicate.</li>
+          <li><strong>Sender:</strong> The device generating and transmitting the message (PC, phone, camera).</li>
+          <li><strong>Receiver:</strong> The target destination device receiving the transmission.</li>
+          <li><strong>Transmission Medium:</strong> The physical channel over which the signal travels (Twisted pair, Coaxial, Optical Fiber, Radio waves).</li>
+          <li><strong>Message:</strong> The actual data or information communicated (Text, Numbers, Pictures, Audio, Video).</li>
+          <li><strong>Protocol:</strong> A strict set of agreed-upon rules governing data transmission. Without protocols, connected devices cannot interpret data.</li>
         </ol>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>The 4 Fundamental Characteristics:</strong>
-        <ul class="key-points">
-          <li><strong>Delivery:</strong> System must deliver data to the correct intended destination only.</li>
-          <li><strong>Accuracy:</strong> Data must be delivered accurately without alteration or corruption.</li>
-          <li><strong>Timeliness:</strong> Data must arrive within an acceptable time frame (especially for real-time video/voice).</li>
-          <li><strong>Jitter:</strong> The variation in packet arrival time. Low jitter ensures smooth multimedia playback without audio cracks.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Topic 2: Network Topologies & Formulae -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Network Topologies Comparison</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2023–24, 2021, 2019 (Mesh vs Star vs Bus vs Ring)</span>
-      </div>
-
-      <div class="table-responsive">
-        <table class="study-table">
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Topology</th>
-              <th>Cabling / Links</th>
-              <th>Advantages</th>
-              <th>Disadvantages</th>
+              <th>Cabling / Physical Structure</th>
+              <th>Major Advantage</th>
+              <th>Critical Limitation</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Mesh</strong></td>
-              <td><strong>$\frac{n(n-1)}{2}$ links</strong><br>($n-1$ ports/node)</td>
-              <td>Dedicated links, no traffic congestion, robust (single failure does not affect others), high privacy</td>
-              <td>Massive cable cost, complex installation, difficult maintenance</td>
+              <td>Dedicated point-to-point links between every pair of nodes: $L = \frac{n(n-1)}{2}$ links</td>
+              <td>Highest fault tolerance; failure of one cable does not disrupt any other node</td>
+              <td>Extremely expensive; massive cable clutter and port overhead: $(n-1)$ ports/device</td>
             </tr>
             <tr>
               <td><strong>Star</strong></td>
-              <td>$n$ links (via central Hub/Switch)</td>
-              <td>Easy to install, fault-isolated (if one node fails, others work), easy to reconfigure</td>
-              <td><strong>Single point of failure:</strong> If central Hub/Switch dies, entire network shuts down</td>
+              <td>Every device connects to a central controller (Hub or Switch) via a dedicated drop cable</td>
+              <td>Easy to install, reconfigure, and isolate faults; if one cable breaks, only that node disconnects</td>
+              <td>Single Point of Failure: If the central hub/switch crashes, the whole network dies</td>
             </tr>
             <tr>
               <td><strong>Bus</strong></td>
-              <td>Single backbone cable with terminators</td>
-              <td>Cheapest, minimal cabling required</td>
-              <td>High collision probability, difficult troubleshooting, backbone break kills network</td>
+              <td>All devices share a single common backbone cable terminated by absorbing terminators</td>
+              <td>Minimal cabling required; cheap and easy to set up for small temporary labs</td>
+              <td>Difficult fault isolation; backbone cable break halts the entire network; packet collisions</td>
             </tr>
             <tr>
               <td><strong>Ring</strong></td>
-              <td>$n$ point-to-point links (Token Ring)</td>
-              <td>Orderly traffic flow (tokens), equal access for all nodes</td>
-              <td>Unidirectional break can bring down entire ring (unless dual ring FDDI used)</td>
+              <td>Each device is connected to its two immediate neighbors in an unbroken circular loop</td>
+              <td>Predictable token-passing access; no packet collisions</td>
+              <td>Unidirectional break halts the loop unless a dual-ring (FDDI) architecture is deployed</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 3: Error Detection: CRC (Cyclic Redundancy Check) -->
+    <!-- Topic 2: The 3D OSI 7-Layer Reference Model -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Cyclic Redundancy Check (CRC) Solved PYQ</span>
+        <span><span class="card-heading-icon">2.</span> The OSI 7-Layer Reference Model</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2021 (CRC generation & verification numerical)</span>
+        <span>2024–25, 2023–24, 2021, 2019, 2016 (Asked in every exam: functions of layers, PDUs, and TCP/IP contrast)</span>
       </div>
-      <p><strong>Method:</strong> Binary division using modulo-2 arithmetic (XOR operation, where $1 \oplus 1 = 0$, $0 \oplus 0 = 0$, $1 \oplus 0 = 1$).</p>
 
-      <details class="topic-drawer" open>
-        <summary class="topic-summary">📝 Solved Example: Generate CRC Code</summary>
-        <div class="topic-content">
-          <p>Given Data: $M = 1010000$ (7 bits)<br>
-          Generator Polynomial: $G(x) = x^3 + 1 \implies G = 1001$ (4 bits, degree $r = 3$).</p>
+      <div class="callout callout-tip">
+        <strong>Mnemonic to memorize 7 layers from bottom to top:</strong><br>
+        <em>"<strong>P</strong>lease <strong>D</strong>o <strong>N</strong>ot <strong>T</strong>ouch <strong>S</strong>teve's <strong>P</strong>et <strong>A</strong>lligator"</em><br>
+        (Physical → Data Link → Network → Transport → Session → Presentation → Application)
+      </div>
 
-          <p><strong>Step 1:</strong> Append $r = 3$ zeros to Data: $M' = 1010000\mathbf{000}$ (10 bits).</p>
-          <p><strong>Step 2: Modulo-2 Division of $1010000000$ by $1001$:</strong></p>
-          <pre class="code-block" style="background:var(--code-bg); padding:10px; border-radius:4px;">
-      1011100  (Quotient)
-1001 | 1010000000
-       1001
-       ----
-       001100
-         1001
-         ----
-         01010
-          1001
-          ----
-          001100
-            1001
-            ----
-            0110  <-- Remainder (CRC = 011)
-          </pre>
-          <p><strong>Step 3: Transmitted Codeword:</strong><br>
-          $\text{Codeword} = \text{Data} + \text{Remainder} = 1010000\mathbf{011}$.</p>
-          <p><strong>Receiver Check:</strong> Receiver divides $1010000011$ by $1001$. Since remainder is $000$, data is error-free!</p>
+      <!-- Interactive 3D OSI Stack -->
+      <div class="osi-stack">
+        <div class="osi-layer" onclick="showLayerDetails(7, 'Application Layer', 'Data / Messages', 'HTTP, HTTPS, FTP, SMTP, DNS', 'Provides network access directly to user applications and services.')">
+          <span class="layer-num">7</span>
+          <div class="layer-info">
+            <div class="layer-name">Application Layer</div>
+            <div class="layer-pdu">PDU: Data • User Interface & Network APIs</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
         </div>
-      </details>
+
+        <div class="osi-layer" onclick="showLayerDetails(6, 'Presentation Layer', 'Formatted Data', 'SSL/TLS, ASCII, JPEG, MPEG', 'Handles data translation, encryption/decryption, and compression.')">
+          <span class="layer-num">6</span>
+          <div class="layer-info">
+            <div class="layer-name">Presentation Layer</div>
+            <div class="layer-pdu">PDU: Data • Translation, Encryption & Compression</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
+        </div>
+
+        <div class="osi-layer" onclick="showLayerDetails(5, 'Session Layer', 'Session Data', 'NetBIOS, RPC, PPTP', 'Establishes, manages, checkpoints, and terminates dialogs between applications.')">
+          <span class="layer-num">5</span>
+          <div class="layer-info">
+            <div class="layer-name">Session Layer</div>
+            <div class="layer-pdu">PDU: Data • Dialog Control & Synchronization</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
+        </div>
+
+        <div class="osi-layer" onclick="showLayerDetails(4, 'Transport Layer', 'Segment (TCP) / Datagram (UDP)', 'TCP, UDP, SCTP • Ports', 'Ensures true end-to-end reliable delivery, port addressing, segmentation, and flow control.')">
+          <span class="layer-num">4</span>
+          <div class="layer-info">
+            <div class="layer-name">Transport Layer</div>
+            <div class="layer-pdu">PDU: Segment • End-to-End Reliability & Ports</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
+        </div>
+
+        <div class="osi-layer" onclick="showLayerDetails(3, 'Network Layer', 'Packet', 'IPv4, IPv6, ICMP, OSPF, BGP • Routers', 'Provides logical addressing (IP) and routes packets across different subnets.')">
+          <span class="layer-num">3</span>
+          <div class="layer-info">
+            <div class="layer-name">Network Layer</div>
+            <div class="layer-pdu">PDU: Packet • Logical Addressing & Routing</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
+        </div>
+
+        <div class="osi-layer" onclick="showLayerDetails(2, 'Data Link Layer', 'Frame', 'Ethernet, Wi-Fi 802.11, PPP, ARP • Switches', 'Provides node-to-node hop delivery, MAC physical addressing, framing, and CRC.')">
+          <span class="layer-num">2</span>
+          <div class="layer-info">
+            <div class="layer-name">Data Link Layer</div>
+            <div class="layer-pdu">PDU: Frame • Physical Addressing (MAC) & Hop Control</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
+        </div>
+
+        <div class="osi-layer" onclick="showLayerDetails(1, 'Physical Layer', 'Bits (0s & 1s)', 'RS-232, RJ-45, V.35 • Cables, Hubs, Repeaters', 'Transmits unstructured raw bitstreams over the physical transmission medium.')">
+          <span class="layer-num">1</span>
+          <div class="layer-info">
+            <div class="layer-name">Physical Layer</div>
+            <div class="layer-pdu">PDU: Bits • Modulation, Voltages, Connectors</div>
+          </div>
+          <span style="font-size:12px; color:var(--accent-emerald);">Inspect →</span>
+        </div>
+      </div>
+
+      <!-- Layer Details Dynamic Box -->
+      <div id="layer-detail-box" style="display:none; padding:12px; background:var(--surface-color); border:1px solid var(--accent-emerald); border-radius:var(--radius-sm); margin-top:10px;">
+        <h4 id="layer-detail-title" style="color:var(--accent-emerald); font-size:15px; margin-bottom:4px;"></h4>
+        <div id="layer-detail-pdu" style="font-size:12.5px; font-weight:700; color:var(--accent-amber); margin-bottom:4px;"></div>
+        <p id="layer-detail-desc" style="font-size:13px; margin-bottom:4px;"></p>
+        <p id="layer-detail-proto" style="font-size:12.5px; color:var(--text-muted);"></p>
+      </div>
+
+      <div class="track-full">
+        <span class="track-full-badge">📚 Full Understanding Track: Data Encapsulation & Decapsulation</span>
+        <div class="callout callout-info">
+          <strong>The Encapsulation Mechanism:</strong><br>
+          When you click a link to request a web page:
+          <ol class="step-list">
+            <li><strong>Application Layer:</strong> Formats an HTTP GET request (User Data).</li>
+            <li><strong>Transport Layer:</strong> Prepends a TCP Header containing Source & Destination Port numbers (e.g., Destination Port 80/443) $\to$ Creates a <strong>Segment</strong>.</li>
+            <li><strong>Network Layer:</strong> Prepends an IP Header containing Source & Destination IP addresses $\to$ Creates a <strong>Packet</strong>.</li>
+            <li><strong>Data Link Layer:</strong> Prepends a Frame Header (Source/Dest MAC addresses) and appends a Frame Check Sequence (CRC trailer) $\to$ Creates a <strong>Frame</strong>.</li>
+            <li><strong>Physical Layer:</strong> Encodes the frame bits into electrical voltages or optical pulses across the wire.</li>
+          </ol>
+          At the receiver, <strong>Decapsulation</strong> strips headers layer-by-layer in reverse order, verifying integrity at each stage!
+        </div>
+      </div>
     </div>
 
-    <!-- Topic 4: OSI Model vs TCP/IP Model -->
+    <!-- Topic 3: Error Detection & Cyclic Redundancy Check (CRC) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> OSI vs TCP/IP Comparison</span>
+        <span><span class="card-heading-icon">3.</span> Cyclic Redundancy Check (CRC) Solved University Numerical</span>
       </div>
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>OSI Reference Model</th>
-              <th>TCP/IP Protocol Suite</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Number of Layers</strong></td>
-              <td><strong>7 Layers</strong></td>
-              <td><strong>4 Layers</strong> (or 5 in modern mapping)</td>
-            </tr>
-            <tr>
-              <td><strong>Approach</strong></td>
-              <td>Theoretical model developed by ISO</td>
-              <td>Practical, implementation-first (ARPANET)</td>
-            </tr>
-            <tr>
-              <td><strong>Session & Presentation</strong></td>
-              <td>Separate dedicated layers (5 & 6)</td>
-              <td>Merged into the single <strong>Application Layer</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Transport Layer</strong></td>
-              <td>Guaranteed connection-oriented service</td>
-              <td>Supports both TCP (connection-oriented) & UDP (connectionless)</td>
-            </tr>
-            <tr>
-              <td><strong>Usage</strong></td>
-              <td>Universal reference & educational model</td>
-              <td>The real-world protocol of the Internet</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022, 2020, 2017 (Complete CRC Polynomial division step-by-step)</span>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        <strong>CRC Principle:</strong> CRC uses <strong>modulo-2 binary arithmetic</strong> where addition and subtraction are identical to the bitwise <strong>XOR</strong> operation (no carries, no borrows: $0 \oplus 0 = 0$, $1 \oplus 1 = 0$, $0 \oplus 1 = 1$, $1 \oplus 0 = 1$).
+      </p>
+
+      <!-- Solved Problem -->
+      <div class="callout callout-tip">
+        <strong>📝 Solved University Numerical (From Past CSJMU Exam Paper):</strong><br>
+        A bit stream <strong>$1010000$</strong> is to be transmitted using the generator polynomial:
+        $$G(x) = x^4 + x + 1$$
+        Determine the Frame Check Sequence (FCS / CRC remainder) and the final transmitted frame.
+      </div>
+
+      <p><strong>Step-by-Step Mathematical Solution:</strong></p>
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Step 1: Convert Generator Polynomial into Binary:</strong><br>
+          $$G(x) = 1 \cdot x^4 + 0 \cdot x^3 + 0 \cdot x^2 + 1 \cdot x^1 + 1 \cdot x^0 \implies \mathbf{10011_2}$$
+          Degree of polynomial $r = 4$.
+        </div>
+        <div class="step-item">
+          <strong>Step 2: Append $r = 4$ Zeros to Message $M$:</strong><br>
+          Message $M = 1010000$. Append 4 zeros:
+          $$\text{Dividend} = \mathbf{1010000\,0000}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 3: Perform Modulo-2 Division by $10011$:</strong><br>
+          <pre class="code-block" style="font-family:monospace; font-size:12px; line-height:1.4;">
+            1011001  (Quotient)
+    10011 ) 10100000000
+            10011
+            -----
+              011100
+               10011
+               -----
+                11110
+                10011
+                -----
+                 11010
+                 10011
+                 -----
+                  10010
+                  10011
+                  -----
+                   0001000
+                     10011  (cannot divide further)
+                     -----
+          Remainder:  0111  (4-bit FCS)
+          </pre>
+        </div>
+        <div class="step-item">
+          <strong>Step 4: Construct Transmitted Frame:</strong><br>
+          Replace the 4 appended zeros with the 4-bit remainder <strong>$0111$</strong>:<br>
+          $$\text{Transmitted Frame} = \mathbf{1010000\,0111}$$
+          <em>Receiver Check:</em> The receiver divides $10100000111$ by $10011$. If the remainder is $0000$, the frame is accepted without errors!
+        </div>
       </div>
     </div>
 
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
+    <!-- Topic 4: Interactive MCQ Exam Drill (10 Questions) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">📝</span> Unit I Exam Mastery MCQ Quiz (10 Questions)</span>
+      </div>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering network models, topologies, layer responsibilities, and CRC arithmetic.
+      </p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
     <a href="index.html" class="nav-unit-btn">← Hub</a>
     <a href="bca5003_unit2.html" class="nav-unit-btn primary">Next: Unit II →</a>
   </nav>
@@ -393,10 +397,11 @@
           "n^2"
         ],
         answer: 2,
+        is_pyq: true,
         explanation: "In a full mesh topology, every node has a dedicated link to every other node. For n devices, this requires n(n-1)/2 physical channels."
       },
       {
-        question: "Which layer of the OSI model is responsible for logical addressing (IP addresses) and path routing?",
+        question: "Which layer of the OSI reference model is responsible for logical host addressing (IP) and routing across internetworks?",
         options: [
           "Data Link Layer",
           "Network Layer",
@@ -404,51 +409,104 @@
           "Physical Layer"
         ],
         answer: 1,
-        explanation: "The Network layer (Layer 3) handles logical host addressing (IPv4/IPv6) and routes packets across internetworks using routers."
+        is_pyq: true,
+        explanation: "The Network layer (Layer 3) handles logical host addressing (IPv4/IPv6) and routes packets across networks using routers."
       },
       {
-        question: "Which of the following is NOT one of the 5 core components of data communication?",
-        options: [
-          "Sender",
-          "Receiver",
-          "Medium",
-          "Compiler"
-        ],
-        answer: 3,
-        explanation: "The five components are Sender, Receiver, Medium, Message, and Protocol. A compiler is a programming language translator, not a communication component."
-      },
-      {
-        question: "In modulo-2 binary division used in CRC, what arithmetic operation is performed?",
+        question: "What arithmetic operation is performed during Modulo-2 binary division used in CRC?",
         options: [
           "Logical AND",
           "Logical OR",
           "Exclusive-OR (XOR)",
-          "Binary Subtraction with borrow"
+          "Standard binary subtraction with borrow"
         ],
         answer: 2,
-        explanation: "Modulo-2 division replaces subtraction with the XOR (Exclusive-OR) operation, where identical bits produce 0 and differing bits produce 1, with no carry or borrow."
+        is_pyq: true,
+        explanation: "Modulo-2 division replaces subtraction with the XOR operation, where identical bits yield 0 and differing bits yield 1, with no borrow or carry."
       },
       {
-        question: "What is 'Jitter' in data communication?",
+        question: "What is the Protocol Data Unit (PDU) at the Transport Layer when using TCP?",
         options: [
-          "Loss of electrical signal power over distance",
-          "Variation in packet arrival time",
-          "Complete failure of the communication medium",
-          "Noise added by electromagnetic interference"
+          "Bit",
+          "Frame",
+          "Packet",
+          "Segment"
         ],
-        answer: 1,
-        explanation: "Jitter refers to the variation in packet arrival delay. For example, if some packets arrive in 20ms and others in 70ms, high jitter causes poor real-time audio/video quality."
+        answer: 3,
+        is_pyq: true,
+        explanation: "The PDU at the Transport Layer is called a Segment (or Datagram for UDP)."
       },
       {
-        question: "In the TCP/IP suite, which OSI layers are combined together into the Application layer?",
+        question: "Which topology suffers from a 'Single Point of Failure' if the central controller fails?",
         options: [
-          "Physical, Data Link, and Network",
-          "Application, Presentation, and Session",
-          "Transport and Network",
-          "Data Link and Transport"
+          "Mesh Topology",
+          "Star Topology",
+          "Bus Topology",
+          "Ring Topology"
         ],
         answer: 1,
-        explanation: "TCP/IP simplifies the upper layers by collapsing OSI's Session (Layer 5), Presentation (Layer 6), and Application (Layer 7) into a single Application layer."
+        is_pyq: true,
+        explanation: "In a Star topology, all communications pass through the central hub or switch. If it fails, the entire network becomes paralyzed."
+      },
+      {
+        question: "In the TCP/IP model, which three OSI layers are combined into the Application layer?",
+        options: [
+          "Physical, Data Link, Network",
+          "Transport, Network, Data Link",
+          "Session, Presentation, Application",
+          "Data Link, Transport, Application"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "TCP/IP collapses the OSI upper layers (Session, Presentation, and Application) into a single unified Application layer."
+      },
+      {
+        question: "What is the primary function of the Presentation Layer (Layer 6)?",
+        options: [
+          "Routing packets across routers",
+          "Data translation, compression, and encryption/decryption",
+          "Token passing access control",
+          "Bit synchronization"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "The Presentation layer translates between differing syntax/formats, compresses data to conserve bandwidth, and manages cryptographic encryption."
+      },
+      {
+        question: "If a generator polynomial is G(x) = x^3 + x^2 + 1, how many zero bits are appended to the message for CRC calculation?",
+        options: [
+          "2",
+          "3",
+          "4",
+          "5"
+        ],
+        answer: 1,
+        is_pyq: false,
+        explanation: "The degree of the polynomial is 3 (highest power of x). Exactly r = 3 zero bits are appended to the message."
+      },
+      {
+        question: "Which of the following addresses operates at Layer 2 (Data Link Layer)?",
+        options: [
+          "IPv4 Address (32-bit)",
+          "IPv6 Address (128-bit)",
+          "MAC Physical Address (48-bit)",
+          "TCP Port Number (16-bit)"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "The MAC (Media Access Control) address is a 48-bit hardware address burned into the NIC operating at Layer 2."
+      },
+      {
+        question: "What device operates primarily at the Physical Layer (Layer 1) to regenerate weak electrical signals?",
+        options: [
+          "Router",
+          "Bridge",
+          "Repeater",
+          "Gateway"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "A Repeater (or basic passive Hub) operates purely at Layer 1 to boost and regenerate electrical signals over long cable runs."
       }
     ];
 

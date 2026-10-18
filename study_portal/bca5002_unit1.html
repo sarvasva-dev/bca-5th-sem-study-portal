@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Unit 1: Core Java & Multithreading | BCA-5002</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +26,7 @@
       <div class="brand-icon" style="background:#d97706;">JP</div>
       <div>
         <div class="brand-title">BCA-5002: Unit I</div>
-        <div class="brand-subtitle">Core Java, OOP & Multithreading</div>
+        <div class="brand-subtitle">Core Java, OOP & Threads</div>
       </div>
     </a>
     <div class="header-actions">
@@ -30,119 +42,164 @@
       <div class="badge-row">
         <span class="badge badge-amber">Subject: BCA-5002</span>
         <span class="badge badge-emerald">⭐ Threads & Exceptions Heavy</span>
-        <span class="badge badge-coral">Day 3 Priority</span>
+        <span class="badge badge-coral">Day 1 Priority</span>
       </div>
       <h1 class="unit-title">Unit I: Java Fundamentals, OOP & Multithreading</h1>
-      <p class="unit-desc">JVM Architecture, OOP Pillars, Interfaces, Exception Handling (throw vs throws), Thread Lifecycle, and Synchronization.</p>
+      <p class="unit-desc">
+        JVM Architecture, OOP Pillars, Exception Handling (throw vs throws), Thread Lifecycle, Synchronization, and Runnable vs Thread Class.
+      </p>
+    </div>
+
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
     <!-- Topic 1: JVM Architecture & Platform Independence -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Java Platform Independence & JVM</span>
+        <span><span class="card-heading-icon">1.</span> Platform Independence & JVM Architecture</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
         <span>2025–26, 2024–25, 2021 (Why is Java platform independent? JDK vs JRE vs JVM)</span>
       </div>
-      <p><strong>"Write Once, Run Anywhere" (WORA):</strong> Java source code (<code>.java</code>) is compiled by <code>javac</code> into an intermediate architecture-neutral <strong>Bytecode</strong> (<code>.class</code>), which is executed by the <strong>Java Virtual Machine (JVM)</strong> on any operating system.</p>
+
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Explain the <em>"Write Once, Run Anywhere" (WORA)</em> philosophy.</li>
+          <li>Distinguish between JDK, JRE, and JVM.</li>
+          <li>Identify the major components of JVM internal memory.</li>
+        </ul>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        <strong>"Write Once, Run Anywhere" (WORA):</strong> When Java source code (<code>.java</code>) is compiled with <code>javac</code>, it is not converted directly into machine-dependent CPU machine code. Instead, it generates intermediate, architecture-neutral <strong>Bytecode</strong> (<code>.class</code>). This bytecode is interpreted and executed by the <strong>Java Virtual Machine (JVM)</strong> installed on any operating system (Windows, Linux, macOS).
+      </p>
 
       <div class="callout callout-tip">
-        <strong>JDK vs JRE vs JVM:</strong><br>
-        • <strong>JVM (Java Virtual Machine):</strong> The runtime engine that loads, verifies, and executes bytecode.<br>
-        • <strong>JRE (Java Runtime Environment):</strong> JVM + Core Java Class Libraries (for running programs).<br>
-        • <strong>JDK (Java Development Kit):</strong> JRE + Development Tools (<code>javac</code>, <code>jar</code>, debugger).
+        <strong>The Essential Trio:</strong><br>
+        • <strong>JVM (Java Virtual Machine):</strong> The abstract computing machine that loads, verifies, and executes bytecode.<br>
+        • <strong>JRE (Java Runtime Environment):</strong> JVM + Core Java Class Libraries (contains everything needed to <em>run</em> Java programs).<br>
+        • <strong>JDK (Java Development Kit):</strong> JRE + Development Tools (contains <code>javac</code> compiler, debugger, <code>javadoc</code>).
+      </div>
+
+      <div class="track-full">
+        <span class="track-full-badge">📚 Full Understanding Track: JVM Memory Structure</span>
+        <div class="callout callout-info">
+          <strong>JVM Runtime Data Areas:</strong>
+          <ul style="margin:4px 0 0 16px; line-height:1.6;">
+            <li><strong>Method Area:</strong> Stores class structures, static fields, method bytecodes, and runtime constant pools.</li>
+            <li><strong>Heap Area:</strong> The shared runtime data area where all Java objects and arrays are dynamically allocated with <code>new</code>. Managed by the Garbage Collector.</li>
+            <li><strong>JVM Stack:</strong> Stores frame stacks for method calls, local variables, and partial evaluation results.</li>
+            <li><strong>PC (Program Counter) Registers:</strong> Keeps track of the memory address of the current JVM instruction being executed.</li>
+            <li><strong>Execution Engine:</strong> Includes the <strong>JIT (Just-In-Time) Compiler</strong> (compiles frequently executed hot loops to native code for blazing speed) and Garbage Collector.</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Topic 2: OOP Pillars & Key Comparisons -->
+    <!-- Topic 2: OOP Pillars & Method Overloading vs Overriding -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Method Overloading vs Overriding</span>
+        <span><span class="card-heading-icon">2.</span> OOP Pillars: Overloading vs Overriding</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2022–23 (Compile-time vs Runtime Polymorphism)</span>
+        <span>2024–25, 2022, 2019 (Polymorphism, Method Overloading vs Overriding)</span>
       </div>
 
-      <div class="table-responsive">
-        <table class="study-table">
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Feature</th>
-              <th>Method Overloading</th>
-              <th>Method Overriding</th>
+              <th>Method Overloading (Compile-Time)</th>
+              <th>Method Overriding (Runtime / Dynamic)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Definition</strong></td>
-              <td>Multiple methods in <strong>same class</strong> with same name but different parameter lists</td>
-              <td>Subclass provides specific implementation of a method already defined in <strong>superclass</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Polymorphism Type</strong></td>
-              <td><strong>Compile-time</strong> (Static binding)</td>
-              <td><strong>Runtime</strong> (Dynamic method dispatch)</td>
+              <td>Multiple methods in the <strong>same class</strong> sharing the same name but with <strong>different parameter lists</strong></td>
+              <td>Subclass provides a specific implementation of a method already declared in its <strong>superclass</strong></td>
             </tr>
             <tr>
               <td><strong>Method Signature</strong></td>
-              <td>Must differ in parameters (type, number, sequence)</td>
-              <td>Must have <strong>identical</strong> name, return type, and parameters</td>
+              <td>Must differ in parameter count, types, or order</td>
+              <td>Must be <strong>strictly identical</strong> (same name, same parameters, compatible return type)</td>
             </tr>
             <tr>
               <td><strong>Inheritance Needed?</strong></td>
-              <td>No</td>
-              <td><strong>Yes (IS-A relationship required)</strong></td>
+              <td>No; occurs within a single class</td>
+              <td><strong>Yes</strong>; requires parent-child relationship (<code>extends</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>Resolution Time</strong></td>
+              <td>Resolved at <strong>Compile Time</strong> (Static Binding)</td>
+              <td>Resolved at <strong>Runtime</strong> using the actual object type (Dynamic Method Dispatch)</td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <div class="callout callout-tip">
-        <strong>Abstract Class vs Interface:</strong><br>
-        • <strong>Abstract Class:</strong> Can have both abstract and non-abstract (concrete) methods, instance variables, and constructors. Supports single inheritance only.<br>
-        • <strong>Interface:</strong> Contract with 100% abstract methods (prior to Java 8), variables are implicitly <code>public static final</code>. A class can implement <strong>multiple interfaces</strong>, solving the Diamond Problem!
-      </div>
     </div>
 
-    <!-- Topic 3: Exception Handling (throw vs throws vs finally) -->
+    <!-- Topic 3: Robust Exception Handling -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Exception Handling Hierarchy & Keywords</span>
+        <span><span class="card-heading-icon">3.</span> Exception Handling & Throw vs Throws</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2021, 2019 (Checked vs Unchecked, throw vs throws, final vs finally vs finalize)</span>
+        <span>2025–26, 2023–24, 2020 (Checked vs Unchecked, throw vs throws difference)</span>
       </div>
 
-      <div class="table-responsive">
-        <table class="study-table">
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        An <strong>Exception</strong> is an abnormal condition that arises in a code sequence at runtime, disrupting the normal flow of instructions. Java uses a structured 5-keyword paradigm: <code>try</code>, <code>catch</code>, <code>finally</code>, <code>throw</code>, and <code>throws</code>.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
-              <th>Comparison</th>
-              <th>Entity 1</th>
-              <th>Entity 2</th>
+              <th>Basis</th>
+              <th><code>throw</code> Keyword</th>
+              <th><code>throws</code> Keyword</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Checked vs Unchecked</strong></td>
-              <td><strong>Checked:</strong> Checked at compile-time (e.g. <code>IOException</code>, <code>SQLException</code>). Must be handled via try-catch or declared with <code>throws</code>.</td>
-              <td><strong>Unchecked:</strong> Occur at runtime under <code>RuntimeException</code> (e.g. <code>NullPointerException</code>, <code>ArithmeticException</code>). Not forced at compile-time.</td>
+              <td><strong>Purpose</strong></td>
+              <td>Explicitly creates and throws a single exception instance</td>
+              <td>Declares that a method may cause specified exceptions</td>
             </tr>
             <tr>
-              <td><strong>throw vs throws</strong></td>
-              <td><code>throw</code>: Used inside a method to explicitly throw a single exception instance (e.g. <code>throw new ArithmeticException("Divide by 0");</code>).</td>
-              <td><code>throws</code>: Used in method signature to declare that the method may throw exceptions (e.g. <code>void readFile() throws IOException</code>).</td>
+              <td><strong>Location</strong></td>
+              <td>Used <strong>inside</strong> a method body</td>
+              <td>Appended to the <strong>method signature</strong></td>
             </tr>
             <tr>
-              <td><strong>final vs finally vs finalize()</strong></td>
-              <td><code>final</code>: Keyword applied to variables (constant), methods (prevent override), classes (prevent inheritance).</td>
-              <td><code>finally</code>: Block following try-catch that <strong>always executes</strong> (for cleanup like closing files/sockets).<br><code>finalize()</code>: Garbage collector cleanup method before reclaiming object.</td>
+              <td><strong>Syntax</strong></td>
+              <td><code>throw new ArithmeticException("Divide by zero");</code></td>
+              <td><code>public void readFile() throws IOException { ... }</code></td>
+            </tr>
+            <tr>
+              <td><strong>Quantity</strong></td>
+              <td>Followed by a single exception object instance</td>
+              <td>Can be followed by multiple comma-separated exception classes</td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>The <code>finally</code> Block Guarantee:</strong>
+        The <code>finally</code> block always executes regardless of whether an exception is thrown, caught, or unhandled (even if the <code>try</code> block contains a <code>return</code> statement!). It is exclusively reserved for cleanup operations like closing file streams and database connections.
       </div>
     </div>
 
@@ -153,65 +210,132 @@
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24, 2022–23, 2021 (The #1 repeated long question!)</span>
+        <span>2024–25, 2022, 2019, 2016 (Thread lifecycle SVG, extends Thread vs implements Runnable)</span>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>Thread Lifecycle States:</strong>
-        <ol class="step-list">
-          <li><strong>NEW:</strong> Thread created using <code>new MyThread()</code>, not yet started.</li>
-          <li><strong>RUNNABLE:</strong> <code>start()</code> method called. Thread is ready or running on CPU.</li>
-          <li><strong>BLOCKED / WAITING:</strong> Waiting for a monitor lock or waiting indefinitely for another thread (via <code>wait()</code> or <code>join()</code>).</li>
-          <li><strong>TIMED_WAITING:</strong> Sleeping for a specified duration (via <code>Thread.sleep(ms)</code>).</li>
-          <li><strong>TERMINATED:</strong> <code>run()</code> method has completed execution or unhandled exception occurred.</li>
-        </ol>
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        A <strong>Thread</strong> is a lightweight sub-process—the smallest unit of processing. Multithreading allows concurrent execution of two or more parts of a program for maximum CPU utilization.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th><code>extends Thread</code></th>
+              <th><code>implements Runnable</code> (Preferred)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Inheritance Flexibility</strong></td>
+              <td>Class cannot extend any other class (Java lacks multiple class inheritance)</td>
+              <td>Class is free to extend another base class while implementing Runnable</td>
+            </tr>
+            <tr>
+              <td><strong>OOP Design</strong></td>
+              <td>Tightly couples thread code with the thread execution mechanism</td>
+              <td>Separates the job (task) from the runner (Thread instance)</td>
+            </tr>
+            <tr>
+              <td><strong>Resource Sharing</strong></td>
+              <td>Each thread object is unique; difficult to share state</td>
+              <td>Multiple threads can share a single Runnable instance</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Code Snippet: 2 Ways to Create Thread -->
-      <div class="code-wrapper">
+      <!-- Thread Lifecycle State Diagram -->
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
+          <!-- New -->
+          <rect x="15" y="20" width="70" height="30" rx="5" fill="rgba(148, 163, 184, 0.2)" stroke="var(--border-color)" />
+          <text x="35" y="38" font-size="9" font-weight="bold" fill="var(--text-main)">NEW</text>
+
+          <line x1="85" y1="35" x2="120" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
+          <text x="88" y="28" font-size="7.5" fill="var(--accent-emerald)">start()</text>
+
+          <!-- Runnable -->
+          <rect x="120" y="20" width="85" height="30" rx="5" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
+          <text x="135" y="38" font-size="9" font-weight="bold" fill="#10b981">RUNNABLE</text>
+
+          <line x1="205" y1="35" x2="240" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
+          <text x="206" y="28" font-size="7.5" fill="var(--accent-emerald)">yield()</text>
+
+          <!-- Running -->
+          <rect x="240" y="20" width="70" height="30" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="252" y="38" font-size="9" font-weight="bold" fill="#f59e0b">RUNNING</text>
+
+          <!-- Blocked / Waiting -->
+          <rect x="120" y="95" width="85" height="30" rx="5" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
+          <text x="132" y="113" font-size="8.5" font-weight="bold" fill="#e11d48">BLOCKED</text>
+
+          <!-- Arrows down to blocked and up to runnable -->
+          <line x1="265" y1="50" x2="205" y2="105" stroke="#e11d48" stroke-width="1.2" />
+          <text x="240" y="85" font-size="7.5" fill="#e11d48">sleep(), wait()</text>
+
+          <line x1="120" y1="110" x2="60" y2="110" stroke="#10b981" stroke-width="1.2" />
+          <line x1="60" y1="110" x2="135" y2="50" stroke="#10b981" stroke-width="1.2" />
+          <text x="50" y="95" font-size="7.5" fill="#10b981">notify(), resume()</text>
+
+          <!-- Dead / Terminated -->
+          <rect x="240" y="130" width="70" height="30" rx="5" fill="rgba(15, 23, 42, 0.3)" stroke="var(--border-color)" />
+          <text x="250" y="148" font-size="8.5" font-weight="bold" fill="var(--text-muted)">DEAD</text>
+          <line x1="275" y1="50" x2="275" y2="130" stroke="var(--text-muted)" stroke-width="1.2" />
+          <text x="280" y="95" font-size="7.5" fill="var(--text-muted)">run() ends</text>
+        </svg>
+        <div class="diagram-caption">Complete 5-Stage Java Thread Lifecycle Diagram</div>
+      </div>
+
+      <!-- Executable Thread Code -->
+      <div class="code-container">
         <div class="code-header">
-          <span>ThreadCreationDemo.java (Runnable Interface)</span>
-          <button class="copy-btn" onclick="copyCode(this, 'thread-code')">Copy Code</button>
+          <span>Java Multithreading Example</span>
+          <button class="copy-btn" onclick="copyCode(this, 'code-thread')">Copy</button>
         </div>
-        <pre class="code-block" id="thread-code">
-// Preferred approach: Implementing Runnable interface
-class TaskRunner implements Runnable {
+        <pre><code id="code-thread">class MyRunnableTask implements Runnable {
     public void run() {
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("Child Thread count: " + i);
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(Thread.currentThread().getName() + " count: " + i);
             try {
-                Thread.sleep(500); // 500 ms delay
+                Thread.sleep(500); // 500 ms pause
             } catch (InterruptedException e) {
-                System.out.println(e);
+                System.out.println("Thread interrupted: " + e.getMessage());
             }
         }
     }
 }
 
-public class Main {
+public class ThreadDemo {
     public static void main(String[] args) {
-        TaskRunner task = new TaskRunner();
-        Thread t1 = new Thread(task); // Pass runnable target
+        MyRunnableTask task = new MyRunnableTask();
+        Thread t1 = new Thread(task, "Worker-1");
+        Thread t2 = new Thread(task, "Worker-2");
         t1.start(); // Moves thread from NEW to RUNNABLE
-        System.out.println("Main thread continues executing...");
+        t2.start();
     }
-}
-        </pre>
-      </div>
-
-      <div class="callout callout-tip">
-        <strong>Thread Synchronization:</strong><br>
-        When multiple threads access shared mutable data simultaneously, race conditions occur. The <code>synchronized</code> keyword locks the object's monitor so only one thread can execute the critical block at a time.
+}</code></pre>
       </div>
     </div>
 
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
+    <!-- Topic 5: Interactive MCQ Exam Drill (10 Questions) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">📝</span> Unit I Exam Mastery MCQ Quiz (10 Questions)</span>
+      </div>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering JVM bytecode, OOP principles, exception handling, and multithreading.
+      </p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
     <a href="index.html" class="nav-unit-btn">← Hub</a>
     <a href="bca5002_unit2.html" class="nav-unit-btn primary">Next: Unit II →</a>
   </nav>
@@ -220,40 +344,67 @@ public class Main {
   <script>
     const unit1Questions = [
       {
-        question: "Which of the following packages is imported automatically into every Java program without an explicit import statement?",
+        question: "What enables Java's 'Write Once, Run Anywhere' (WORA) cross-platform capability?",
         options: [
-          "java.util",
-          "java.io",
-          "java.lang",
-          "java.awt"
-        ],
-        answer: 2,
-        explanation: "The java.lang package contains fundamental classes like Object, String, Math, System, and Thread, and is imported by default into every compilation unit."
-      },
-      {
-        question: "What is the order of execution in Java Exception Handling when a finally block is present?",
-        options: [
-          "finally executes only if an exception occurs",
-          "finally executes only if no exception occurs",
-          "finally block executes regardless of whether an exception is thrown or caught",
-          "finally executes before the try block"
-        ],
-        answer: 2,
-        explanation: "The finally block always executes after try and catch blocks, whether an exception occurs, is caught, or even if a return statement is encountered, making it ideal for resource cleanup."
-      },
-      {
-        question: "Why does Java NOT support multiple inheritance through classes?",
-        options: [
-          "Because Java does not have classes",
-          "To avoid ambiguity such as the Diamond Problem",
-          "Because classes cannot be extended",
-          "To restrict object creation"
+          "Java programs are compiled directly into x86 assembly code",
+          "Java source is compiled into platform-neutral Bytecode (.class) executed by an OS-specific JVM",
+          "All operating systems have built-in C compilers",
+          "Java does not require compilation"
         ],
         answer: 1,
-        explanation: "Multiple inheritance can create ambiguities (the Diamond Problem) when two parent classes have methods with identical signatures. Java resolves this by supporting multiple inheritance only through interfaces."
+        is_pyq: true,
+        explanation: "The javac compiler produces architecture-independent Bytecode that any platform-specific JVM can load and interpret into native machine instructions."
       },
       {
-        question: "Which method is called to move a thread from the NEW state to the RUNNABLE state in Java?",
+        question: "What is the key difference between Method Overloading and Method Overriding?",
+        options: [
+          "Overloading is resolved at runtime; Overriding at compile time",
+          "Overloading occurs within the same class with different parameters; Overriding occurs across inheritance with identical signatures",
+          "Overriding only works for private methods",
+          "Overloading requires the 'extends' keyword"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Method Overloading happens within a single class with varying argument lists (compile-time polymorphism). Method Overriding redefines an inherited parent method in a subclass with identical signature (runtime polymorphism)."
+      },
+      {
+        question: "What is the difference between the 'throw' and 'throws' keywords in Java?",
+        options: [
+          "'throw' declares potential exceptions in a method signature; 'throws' explicitly throws an instance",
+          "'throw' explicitly throws an exception instance inside a block; 'throws' declares potential exceptions in the method signature",
+          "They are 100% interchangeable synonyms",
+          "'throws' is only used for checked exceptions"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "`throw` is an imperative statement inside a method body creating an exception object. `throws` is part of a method declaration notifying callers of potential checked exceptions."
+      },
+      {
+        question: "Under what condition will code inside a 'finally' block NOT execute?",
+        options: [
+          "When a return statement is encountered in the try block",
+          "When System.exit(0) is executed, terminating the JVM process",
+          "When an uncaught exception is thrown in the catch block",
+          "When a NullPointerException occurs"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "The `finally` block always executes, even after `return` statements, unless the JVM is explicitly killed by `System.exit(0)` or a catastrophic hardware crash."
+      },
+      {
+        question: "Why is implementing the 'Runnable' interface preferred over extending the 'Thread' class?",
+        options: [
+          "Runnable runs twice as fast",
+          "Because Java does not support multiple class inheritance, implementing Runnable leaves the class free to extend another superclass",
+          "Thread class is deprecated",
+          "Runnable does not require a run() method"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Java permits single class inheritance only. Extending Thread permanently burns that single inheritance slot, while implementing Runnable allows extending another domain class."
+      },
+      {
+        question: "Which method must be called to transition a newly instantiated Java thread from the NEW state to the RUNNABLE state?",
         options: [
           "run()",
           "start()",
@@ -261,29 +412,56 @@ public class Main {
           "execute()"
         ],
         answer: 1,
-        explanation: "Calling start() allocates native thread resources and schedules the thread with the OS thread scheduler, which in turn invokes the run() method asynchronously."
+        is_pyq: true,
+        explanation: "Calling `start()` allocates OS resources and invokes the thread's `run()` method asynchronously. Calling `run()` directly simply executes it on the caller's main thread!"
       },
       {
-        question: "Which keyword is used in a method declaration to indicate that the method might throw certain checked exceptions?",
+        question: "Which of the following is an UNCHECKED (runtime) exception in Java?",
         options: [
-          "throw",
-          "throws",
-          "catch",
-          "assert"
+          "IOException",
+          "SQLException",
+          "NullPointerException",
+          "ClassNotFoundException"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "Subclasses of `RuntimeException` (like `NullPointerException`, `ArithmeticException`, `ArrayIndexOutOfBoundsException`) are unchecked; the compiler does not force try-catch handling."
+      },
+      {
+        question: "What does the 'synchronized' keyword guarantee when applied to a method?",
+        options: [
+          "It makes the method execute in parallel on 10 CPU cores",
+          "It acquires an intrinsic monitor lock on the object, ensuring only one thread can execute the method at any given moment",
+          "It prevents the method from throwing exceptions",
+          "It saves the object to disk"
         ],
         answer: 1,
-        explanation: "The 'throws' keyword is used in the method signature to specify the exceptions that can be thrown by the method, alerting the caller to handle them."
+        is_pyq: true,
+        explanation: "The `synchronized` keyword enforces mutual exclusion: a thread must acquire the object's monitor lock before entering, preventing race conditions on shared data."
       },
       {
-        question: "What is the return type of a Java constructor?",
+        question: "What is the purpose of the wait(), notify(), and notifyAll() methods in Java multithreading?",
         options: [
-          "void",
-          "int",
-          "Object",
-          "Constructors do not have a return type"
+          "To pause and resume network sockets",
+          "To provide inter-thread communication and synchronization between threads sharing a lock",
+          "To restart the JVM",
+          "To stop memory leaks"
         ],
-        answer: 3,
-        explanation: "A constructor has the same name as the class and strictly does not have any return type (not even void)."
+        answer: 1,
+        is_pyq: true,
+        explanation: "Defined in the root `Object` class, these methods allow threads to signal and wake up each other while coordinating access to shared critical resources."
+      },
+      {
+        question: "In the JVM architecture, where are instantiated objects and instance variables dynamically stored?",
+        options: [
+          "JVM Stack",
+          "Heap Area",
+          "PC Register",
+          "Native Method Area"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "All Java objects and arrays created via the `new` keyword reside in the Heap Area, where they are automatically cleaned up by the Garbage Collector."
       }
     ];
 

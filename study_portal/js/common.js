@@ -1,7 +1,14 @@
 // Common JS for BCA 5th Sem Exam Study Portal
-// Theme Engine, MCQ Runner, Code Copy, Reading Progress
+// Theme Engine, Dual Study Track, MCQ Runner, Code Copy, Reading Progress
 
-// 1. Theme Management
+// 1. MathJax Dynamic Typesetting Helper
+function typesetMath() {
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise().catch((err) => console.warn('MathJax typeset error:', err));
+  }
+}
+
+// 2. Theme Management
 function initTheme() {
   const savedTheme = localStorage.getItem('study_theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -24,7 +31,33 @@ function updateThemeIcon(theme) {
   }
 }
 
-// 2. Code Copy Function
+// 3. Dual Study Track Management (Essential Pass vs Full Understanding)
+function initStudyMode() {
+  const savedMode = localStorage.getItem('study_mode') || 'full';
+  setStudyMode(savedMode, false);
+}
+
+function setStudyMode(mode, save = true) {
+  if (save) localStorage.setItem('study_mode', mode);
+  
+  const passBtn = document.getElementById('btn-mode-pass');
+  const fullBtn = document.getElementById('btn-mode-full');
+
+  if (mode === 'pass') {
+    document.body.classList.add('mode-pass-active');
+    if (passBtn) passBtn.classList.add('active');
+    if (fullBtn) fullBtn.classList.remove('active');
+  } else {
+    document.body.classList.remove('mode-pass-active');
+    if (fullBtn) fullBtn.classList.add('active');
+    if (passBtn) passBtn.classList.remove('active');
+  }
+
+  // Trigger MathJax re-typeset when DOM visibility shifts
+  setTimeout(typesetMath, 50);
+}
+
+// 4. Code Copy Function
 function copyCode(btn, codeId) {
   const codeEl = document.getElementById(codeId);
   if (!codeEl) return;
@@ -42,13 +75,38 @@ function copyCode(btn, codeId) {
   });
 }
 
-// 3. MCQ Test Engine
+// 5. Unit Completion Tracker
+function markUnitCompleted(unitId) {
+  const completed = JSON.parse(localStorage.getItem('completed_units') || '{}');
+  completed[unitId] = true;
+  localStorage.setItem('completed_units', JSON.stringify(completed));
+  updateCompletionUI();
+}
+
+function updateCompletionUI() {
+  const completed = JSON.parse(localStorage.getItem('completed_units') || '{}');
+  document.querySelectorAll('[data-unit-id]').forEach(el => {
+    const uid = el.getAttribute('data-unit-id');
+    if (completed[uid]) {
+      el.classList.add('completed');
+      const badge = el.querySelector('.unit-status-badge');
+      if (badge) {
+        badge.innerText = 'Completed ✓';
+        badge.style.background = 'var(--accent-emerald)';
+        badge.style.color = '#fff';
+      }
+    }
+  });
+}
+
+// 6. Comprehensive MCQ Test Engine
 class MCQEngine {
   constructor(containerId, questions) {
     this.container = document.getElementById(containerId);
     this.questions = questions;
+    this.userAnswers = new Array(questions.length).fill(null);
     this.userScore = 0;
-    this.answeredCount = 0;
+    this.submitted = false;
     this.init();
   }
 
@@ -60,15 +118,26 @@ class MCQEngine {
   render() {
     this.container.innerHTML = `
       <div class="mcq-header">
-        <span class="mcq-badge">Interactive Revision Quiz</span>
-        <h3 class="mcq-title">Test Your Unit Mastery</h3>
-        <p class="mcq-subtitle">${this.questions.length} Exam-Oriented High-Yield Questions</p>
+        <span class="mcq-badge">Exam Mastery Quiz</span>
+        <h3 class="mcq-title">Test Your Unit Knowledge</h3>
+        <p class="mcq-subtitle">${this.questions.length} Rigorous University-Standard Questions</p>
       </div>
+
+      <div class="mcq-progress-bar-container" style="background:var(--border-color); height:6px; border-radius:3px; margin:12px 0 20px 0; overflow:hidden;">
+        <div id="mcq-progress-fill" style="background:var(--accent-emerald); height:100%; width:0%; transition:width 0.3s ease;"></div>
+      </div>
+
       <div id="mcq-questions-list"></div>
-      <div id="mcq-score-banner" class="mcq-score-bar">
+
+      <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button id="mcq-submit-btn" class="nav-unit-btn primary" style="flex:1;" onclick="mcqQuiz.submitTest()">Submit Test & View Detailed Score</button>
+        <button id="mcq-reset-btn" class="nav-unit-btn" style="display:none;" onclick="mcqQuiz.reset()">↺ Reset & Retake</button>
+      </div>
+
+      <div id="mcq-score-banner" class="mcq-score-bar" style="display:none; margin-top:20px;">
         <div class="score-text" id="mcq-score-text"></div>
-        <p id="mcq-score-desc" style="font-size:13px; color:var(--text-muted); margin-top:4px;"></p>
-        <button class="reset-test-btn" onclick="mcqQuiz.reset()">↺ Retake Quiz</button>
+        <p id="mcq-score-desc" style="font-size:13.5px; color:var(--text-muted); margin:6px 0 12px 0;"></p>
+        <div id="mcq-score-breakdown" style="font-size:13px; margin-bottom:12px;"></div>
       </div>
     `;
 
@@ -79,101 +148,139 @@ class MCQEngine {
       qCard.id = `q-card-${qIndex}`;
 
       const optionsHtml = q.options.map((opt, optIndex) => `
-        <button class="mcq-option" onclick="mcqQuiz.selectOption(${qIndex}, ${optIndex})">
-          <span style="font-weight:700; min-width:20px;">${String.fromCharCode(65 + optIndex)}.</span>
+        <button class="mcq-option" id="opt-btn-${qIndex}-${optIndex}" onclick="mcqQuiz.selectOption(${qIndex}, ${optIndex})">
+          <span style="font-weight:700; min-width:22px;">${String.fromCharCode(65 + optIndex)}.</span>
           <span>${opt}</span>
         </button>
       `).join('');
 
+      const pyqTag = q.is_pyq ? `<span class="badge badge-amber" style="margin-left:6px; font-size:10px;">⭐ PYQ</span>` : '';
+
       qCard.innerHTML = `
-        <div class="mcq-q-text">Q${qIndex + 1}. ${q.question}</div>
+        <div class="mcq-q-text">
+          <span style="font-weight:800; color:var(--accent-emerald);">Q${qIndex + 1}.</span> 
+          ${q.question} ${pyqTag}
+        </div>
         <div class="mcq-options" id="opt-group-${qIndex}">
           ${optionsHtml}
         </div>
-        <div class="mcq-explanation" id="exp-${qIndex}">
-          <strong>💡 Explanation:</strong> ${q.explanation}
+        <div class="mcq-explanation" id="exp-${qIndex}" style="display:none; margin-top:10px; padding:10px; background:var(--surface-alt); border-left:3px solid var(--accent-emerald); border-radius:4px; font-size:13px;">
+          <strong>💡 Solution & Explanation:</strong> ${q.explanation}
         </div>
       `;
       list.appendChild(qCard);
     });
+
+    typesetMath();
   }
 
-  selectOption(qIndex, selectedOptIndex) {
-    const qData = this.questions[qIndex];
+  selectOption(qIndex, optIndex) {
+    if (this.submitted) return; // Prevent change after submit
+
+    this.userAnswers[qIndex] = optIndex;
     const optGroup = document.getElementById(`opt-group-${qIndex}`);
     const buttons = optGroup.querySelectorAll('.mcq-option');
-    const expBox = document.getElementById(`exp-${qIndex}`);
+    buttons.forEach((btn, idx) => {
+      if (idx === optIndex) {
+        btn.style.borderColor = 'var(--accent-emerald)';
+        btn.style.background = 'var(--accent-emerald-light)';
+      } else {
+        btn.style.borderColor = '';
+        btn.style.background = '';
+      }
+    });
 
-    // Disable all options in this question
-    buttons.forEach(btn => btn.style.pointerEvents = 'none');
+    // Update progress bar
+    const answeredCount = this.userAnswers.filter(a => a !== null).length;
+    const progressFill = document.getElementById('mcq-progress-fill');
+    if (progressFill) {
+      progressFill.style.width = `${(answeredCount / this.questions.length) * 100}%`;
+    }
+  }
 
-    if (selectedOptIndex === qData.answer) {
-      buttons[selectedOptIndex].classList.add('correct');
-      this.userScore++;
-    } else {
-      buttons[selectedOptIndex].classList.add('wrong');
-      buttons[qData.answer].classList.add('correct');
+  submitTest() {
+    const unanswered = this.userAnswers.filter(a => a === null).length;
+    if (unanswered > 0) {
+      if (!confirm(`You have ${unanswered} unanswered question(s). Are you sure you want to submit?`)) {
+        return;
+      }
     }
 
-    expBox.style.display = 'block';
-    this.answeredCount++;
+    this.submitted = true;
+    this.userScore = 0;
 
-    if (this.answeredCount === this.questions.length) {
-      this.showScore();
-    }
+    this.questions.forEach((q, qIndex) => {
+      const selected = this.userAnswers[qIndex];
+      const optGroup = document.getElementById(`opt-group-${qIndex}`);
+      const buttons = optGroup.querySelectorAll('.mcq-option');
+      const expBox = document.getElementById(`exp-${qIndex}`);
+
+      // Lock buttons
+      buttons.forEach(btn => btn.style.pointerEvents = 'none');
+
+      // Highlight correct answer
+      buttons[q.answer].classList.add('correct');
+
+      if (selected !== null) {
+        if (selected === q.answer) {
+          this.userScore++;
+        } else {
+          buttons[selected].classList.add('wrong');
+        }
+      }
+
+      expBox.style.display = 'block';
+    });
+
+    const submitBtn = document.getElementById('mcq-submit-btn');
+    const resetBtn = document.getElementById('mcq-reset-btn');
+    if (submitBtn) submitBtn.style.display = 'none';
+    if (resetBtn) resetBtn.style.display = 'inline-block';
+
+    this.showScore();
+    typesetMath();
   }
 
   showScore() {
     const banner = document.getElementById('mcq-score-banner');
     const scoreText = document.getElementById('mcq-score-text');
     const scoreDesc = document.getElementById('mcq-score-desc');
+    const scoreBreakdown = document.getElementById('mcq-score-breakdown');
     const percent = Math.round((this.userScore / this.questions.length) * 100);
 
     banner.style.display = 'block';
-    scoreText.innerText = `You scored ${this.userScore} / ${this.questions.length} (${percent}%)`;
-    
+    scoreText.innerText = `Final Score: ${this.userScore} / ${this.questions.length} (${percent}%)`;
+
     if (percent === 100) {
-      scoreDesc.innerText = "🔥 Outstanding! You have complete command over this Unit's exam concepts!";
-    } else if (percent >= 70) {
-      scoreDesc.innerText = "⭐ Great work! Review the explanations above to achieve a 100% score.";
+      scoreDesc.innerText = "🔥 Flawless performance! You have mastered every key concept in this unit!";
+    } else if (percent >= 75) {
+      scoreDesc.innerText = "⭐ Excellent grasp! Review the flagged explanations below to seal your full marks.";
+    } else if (percent >= 50) {
+      scoreDesc.innerText = "👍 Passing foundation! Review the Essential Pass summary notes and retry.";
     } else {
-      scoreDesc.innerText = "⚠️ Good attempt! Go through the notes again and retry to solidify your marks.";
+      scoreDesc.innerText = "⚠️ Weak performance detected. Study the Full Understanding track and retake.";
     }
+
+    scoreBreakdown.innerHTML = `
+      <span>Correct: <strong style="color:var(--accent-emerald);">${this.userScore}</strong></span> | 
+      <span>Incorrect: <strong style="color:var(--accent-coral);">${this.questions.length - this.userScore}</strong></span>
+    `;
 
     banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
   reset() {
+    this.userAnswers = new Array(this.questions.length).fill(null);
     this.userScore = 0;
-    this.answeredCount = 0;
+    this.submitted = false;
     this.render();
   }
 }
 
-// 4. Reading Progress Bar
-function initProgressBar() {
-  const bar = document.createElement('div');
-  bar.id = 'reading-progress-bar';
-  bar.style.position = 'fixed';
-  bar.style.top = '0';
-  bar.style.left = '0';
-  bar.style.height = '3px';
-  bar.style.background = 'var(--accent-emerald)';
-  bar.style.zIndex = '1000';
-  bar.style.width = '0%';
-  bar.style.transition = 'width 0.1s ease';
-  document.body.appendChild(bar);
-
-  window.addEventListener('scroll', () => {
-    const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    bar.style.width = scrolled + '%';
-  });
-}
-
-// Document Ready
+// 7. Global Initialization
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
-  initProgressBar();
+  initStudyMode();
+  updateCompletionUI();
+  typesetMath();
 });

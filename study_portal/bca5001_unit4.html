@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 4: Knowledge Management Systems | BCA-5001</title>
+  <title>Unit 4: Knowledge Management, SECI & Strategy | BCA-5001 Exam Teacher</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -14,7 +21,7 @@
       <div class="brand-icon" style="background:#b45309;">KM</div>
       <div>
         <div class="brand-title">BCA-5001: Unit IV</div>
-        <div class="brand-subtitle">Structure, SECI & KM Techniques</div>
+        <div class="brand-subtitle">DIKW, SECI Model & KM Strategies</div>
       </div>
     </a>
     <div class="header-actions">
@@ -23,217 +30,238 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#b45309;">
       <div class="badge-row">
-        <span class="badge badge-amber">Subject: BCA-5001</span>
-        <span class="badge badge-emerald">⭐ Tacit vs Explicit & SECI Model</span>
-        <span class="badge badge-coral">Day 4 Final Unit</span>
+        <span class="badge badge-amber">Subject: BCA-5001 (KM)</span>
+        <span class="badge badge-emerald">⭐ DIKW, SECI Matrix & Codification PYQs</span>
+        <span class="badge badge-coral">Day 4 Focus (Distributed Plan)</span>
       </div>
-      <h1 class="unit-title">Unit IV: Knowledge Management Systems (KMS)</h1>
-      <p class="unit-desc">Concept and Structure of KM Systems, Tacit vs Explicit Knowledge, Nonaka's SECI Model, KM Techniques, Appreciation & Limitations.</p>
+      <h1 class="unit-title">Unit IV: Knowledge Management Foundations & Strategy</h1>
+      <p class="unit-desc">Master the DIKW Hierarchy, Tacit vs. Explicit Knowledge, Nonaka's SECI Knowledge Spiral, Codification vs. Personalization Strategies, Communities of Practice (CoPs), and Organizational Barriers.</p>
     </div>
 
-    <!-- Topic 1: Concept of Knowledge Management & DIKW Hierarchy -->
+    <!-- Pedagogical Callout -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Trace the evolution of Data $\to$ Information $\to$ Knowledge $\to$ Wisdom in the DIKW hierarchy.</li>
+        <li>Contrast Tacit and Explicit Knowledge and cite Polanyi's paradox.</li>
+        <li>Diagram and describe all 4 quadrants of Nonaka & Takeuchi's SECI Model (Socialization, Externalization, Combination, Internalization).</li>
+        <li>Compare Hansen's Codification vs. Personalization KM strategies.</li>
+        <li>Define Communities of Practice (CoPs) and analyze cultural barriers to KM adoption.</li>
+      </ol>
+    </div>
+
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: Why Do Organizations Lose Millions When Key Employees Quit?</strong><br>
+      When a master software architect leaves a company, they don't just leave their desk; they walk away with 10 years of unwritten mental models, architectural intuition, and problem-solving tricks stored inside their brain! The company scrambles, projects delay, and mistakes repeat.<br>
+      <strong>Knowledge Management (KM)</strong> is the systematic discipline of converting individual human expertise (tacit knowledge) into collective organizational assets (explicit repositories) and fostering collaborative cultures so knowledge multiplies instead of disappearing!
+    </div>
+
+    <!-- Section 1: The DIKW Hierarchy -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Concept of Knowledge Management & DIKW Hierarchy</span>
+        <span><span class="card-heading-icon">1.</span> The DIKW Pyramid (Data, Info, Knowledge, Wisdom)</span>
       </div>
       <div class="pyq-alert">
-        <span class="pyq-tag">📌 Syllabus Core Focus:</span>
-        <span>Definition of KM, DIKW Pyramid, and Enterprise Knowledge Life Cycle</span>
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2022, 2019 (Explain DIKW pyramid with real-world examples)</span>
       </div>
-      <p><strong>Knowledge Management (KM)</strong> is the systematic, cross-functional process of creating, acquiring, structuring, sharing, and utilizing intellectual assets to enhance organizational performance, decision-making, and competitive advantage.</p>
+      <p>The <strong>DIKW Hierarchy</strong> represents the progressive transformation of unstructured stimuli into high-level strategic enlightenment:</p>
 
       <div class="diagram-box">
-        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
-          <!-- Wisdom -->
-          <polygon points="160,15 195,50 125,50" fill="rgba(225, 29, 72, 0.25)" stroke="#e11d48" stroke-width="1.5" />
-          <text x="142" y="42" font-size="9" font-weight="bold" fill="#e11d48">Wisdom</text>
+        <svg viewBox="0 0 340 180" width="100%" height="auto" style="max-width:340px;">
+          <!-- Top: Wisdom -->
+          <polygon points="170,10 220,50 120,50" fill="rgba(225, 29, 72, 0.3)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="145" y="40" font-size="10" font-weight="bold" fill="#e11d48">Wisdom</text>
 
           <!-- Knowledge -->
-          <polygon points="122,55 198,55 228,95 92,95" fill="rgba(245, 158, 11, 0.25)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="135" y="80" font-size="9" font-weight="bold" fill="#f59e0b">Knowledge</text>
+          <polygon points="120,53 220,53 250,90 90,90" fill="rgba(245, 158, 11, 0.25)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="140" y="78" font-size="10" font-weight="bold" fill="#f59e0b">Knowledge</text>
 
           <!-- Information -->
-          <polygon points="89,100 231,100 261,140 59,140" fill="rgba(13, 148, 136, 0.25)" stroke="#0d9488" stroke-width="1.5" />
-          <text x="132" y="125" font-size="9" font-weight="bold" fill="#0d9488">Information</text>
+          <polygon points="90,93 250,93 280,130 60,130" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="1.8" />
+          <text x="135" y="118" font-size="10" font-weight="bold" fill="#10b981">Information</text>
 
-          <!-- Data -->
-          <polygon points="56,145 264,145 295,175 25,175" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="1.5" />
-          <text x="148" y="165" font-size="9" font-weight="bold" fill="#10b981">Data</text>
+          <!-- Bottom: Data -->
+          <polygon points="60,133 280,133 310,170 30,170" fill="rgba(13, 148, 136, 0.25)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="155" y="158" font-size="10" font-weight="bold" fill="#0d9488">Data</text>
         </svg>
-        <div class="diagram-caption">The Classic DIKW (Data → Information → Knowledge → Wisdom) Hierarchy</div>
+        <div class="diagram-caption">The Classical DIKW Hierarchy Pyramid</div>
       </div>
 
-      <div class="callout callout-info">
-        <strong>The 4 DIKW Levels Compared:</strong>
-        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
-          <li><strong>Data:</strong> Unprocessed, raw objective facts and symbols without context (e.g., <code>100, 120, 150</code>).</li>
-          <li><strong>Information:</strong> Data given structure, context, and purpose (e.g., <em>"Monthly sales grew from 100 to 150 units in Q3"</em>).</li>
-          <li><strong>Knowledge:</strong> Information blended with human experience, rules, contextual understanding, and intuition (e.g., <em>"Demand surges during the Diwali festive season, requiring higher safety stock"</em>).</li>
-          <li><strong>Wisdom:</strong> The ability to apply knowledge prudently for ethical, long-term strategic decisions (e.g., <em>"Balancing inventory buildup against holding costs, credit risks, and supplier lead times"</em>).</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Topic 2: Tacit vs Explicit Knowledge & The SECI Model -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Tacit vs Explicit Knowledge & The SECI Spiral</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ High-Yield Core Topic:</span>
-        <span>Tacit vs Explicit comparison and Nonaka & Takeuchi's SECI Knowledge Matrix</span>
-      </div>
-
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>Explicit Knowledge</th>
-              <th>Tacit Knowledge</th>
+              <th>Level</th>
+              <th>Definition</th>
+              <th>Key Characteristic</th>
+              <th>Healthcare Example</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Definition</strong></td>
-              <td>Codified, documented, and formal knowledge</td>
-              <td>Personal, intuitive, experiential, and contextual knowledge</td>
+              <td><strong>Data</strong></td>
+              <td>Raw, unorganized facts, symbols, or numbers devoid of context.</td>
+              <td>Lacks meaning or purpose on its own.</td>
+              <td><code>"104.2"</code></td>
             </tr>
             <tr>
-              <td><strong>Expression</strong></td>
-              <td>Easily articulated in words, numbers, codes, and diagrams</td>
-              <td>Deeply rooted in personal action, commitment, and ideals</td>
+              <td><strong>Information</strong></td>
+              <td>Data organized, processed, and structured with context and meaning.</td>
+              <td>Answers <em>Who, What, Where, When</em>.</td>
+              <td>"Patient Rohit's body temperature is 104.2°F."</td>
             </tr>
             <tr>
-              <td><strong>Storage Medium</strong></td>
-              <td>Documents, databases, user manuals, software code</td>
-              <td>Human minds, mental models, craftsmanship, muscle memory</td>
+              <td><strong>Knowledge</strong></td>
+              <td>Information applied with human experience, context, and intuition.</td>
+              <td>Answers <em>How</em>; enables actionable decisions.</td>
+              <td>"104.2°F indicates severe hyperpyrexia; administer paracetamol and order blood test."</td>
+            </tr>
+            <tr>
+              <td><strong>Wisdom</strong></td>
+              <td>Evaluated understanding integrating ethics, principles, and long-term values.</td>
+              <td>Answers <em>Why</em>; judges right from wrong.</td>
+              <td>"Evaluating whether paracetamol conflicts with Rohit's liver failure history to prevent toxic damage."</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Section 2: Types of Knowledge: Tacit vs Explicit -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Tacit Knowledge vs. Explicit Knowledge</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2021, 2018 (Fundamental 10-mark comparison!)</span>
+      </div>
+      <p>Knowledge in organizations exists primarily in two complementary forms:</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Tacit Knowledge (Subjective)</th>
+              <th>Explicit Knowledge (Objective)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Nature & Location</strong></td>
+              <td>Stored inside the human brain, muscle memory, and subconscious intuition.</td>
+              <td>Codified and articulated in documents, databases, books, and code.</td>
             </tr>
             <tr>
               <td><strong>Ease of Transfer</strong></td>
-              <td>Easily transmitted via portals, books, and networks</td>
-              <td>Requires direct personal contact, mentoring, and practice</td>
+              <td>Extremely difficult to articulate; transferred via personal observation and apprenticeship.</td>
+              <td>Very easy to replicate, transmit, and broadcast electronically across networks.</td>
             </tr>
             <tr>
-              <td><strong>Real Example</strong></td>
-              <td>Standard Operating Procedures (SOPs), API documentation</td>
-              <td>A master chef's seasoning instinct; an executive's negotiation skill</td>
+              <td><strong>Famous Citation</strong></td>
+              <td><strong>Michael Polanyi (1966):</strong> <em>"We know more than we can tell."</em></td>
+              <td>Structured propositional statements (formulas, code, manuals).</td>
+            </tr>
+            <tr>
+              <td><strong>Examples</strong></td>
+              <td>Riding a bicycle, chef's culinary taste balance, senior surgeon's surgical touch.</td>
+              <td>Python API documentation, corporate HR policy manual, mathematical theorem proof.</td>
+            </tr>
+            <tr>
+              <td><strong>IT Adaptability</strong></td>
+              <td>Low; requires human social interactions, mentoring, and video dialogues.</td>
+              <td>High; efficiently indexed and queried in relational databases and search engines.</td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
 
-      <!-- SECI Model SVG -->
+    <!-- Section 3: Nonaka & Takeuchi's SECI Model -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Nonaka & Takeuchi's SECI Model (Knowledge Spiral)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2020, 2017 (Super-high frequency 10-mark question!)</span>
+      </div>
+      <p>Professors <strong>Ikujiro Nonaka</strong> and <strong>Hirotaka Takeuchi</strong> proposed that organizational knowledge is created through a dynamic, continuous interaction between tacit and explicit knowledge called the <strong>SECI Spiral</strong>:</p>
+
       <div class="diagram-box">
-        <svg viewBox="0 0 320 220" width="100%" height="auto" style="max-width:320px;">
+        <svg viewBox="0 0 340 220" width="100%" height="auto" style="max-width:340px;">
           <!-- Quadrant 1: Socialization (Tacit -> Tacit) -->
-          <rect x="20" y="20" width="135" height="85" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
-          <text x="32" y="38" font-size="9" font-weight="bold" fill="#10b981">SOCIALIZATION</text>
-          <text x="32" y="52" font-size="8" fill="var(--text-main)">Tacit → Tacit</text>
-          <text x="32" y="66" font-size="7.5" fill="var(--text-muted)">• Mentoring</text>
-          <text x="32" y="78" font-size="7.5" fill="var(--text-muted)">• Apprenticeship</text>
-          <text x="32" y="90" font-size="7.5" fill="var(--text-muted)">• Shared experience</text>
+          <rect x="20" y="20" width="145" height="85" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="30" y="40" font-size="11" font-weight="bold" fill="#0d9488">1. SOCIALIZATION</text>
+          <text x="30" y="58" font-size="9" fill="var(--text-main)">Tacit → Tacit</text>
+          <text x="30" y="74" font-size="8" fill="var(--text-muted)">Apprenticeship, observation,</text>
+          <text x="30" y="88" font-size="8" fill="var(--text-muted)">informal chats, mentorship</text>
 
           <!-- Quadrant 2: Externalization (Tacit -> Explicit) -->
-          <rect x="165" y="20" width="135" height="85" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="175" y="38" font-size="9" font-weight="bold" fill="#f59e0b">EXTERNALIZATION</text>
-          <text x="175" y="52" font-size="8" fill="var(--text-main)">Tacit → Explicit</text>
-          <text x="175" y="66" font-size="7.5" fill="var(--text-muted)">• Writing manuals</text>
-          <text x="175" y="78" font-size="7.5" fill="var(--text-muted)">• Concept models</text>
-          <text x="175" y="90" font-size="7.5" fill="var(--text-muted)">• Codifying best practices</text>
+          <rect x="175" y="20" width="145" height="85" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="185" y="40" font-size="11" font-weight="bold" fill="#f59e0b">2. EXTERNALIZATION</text>
+          <text x="185" y="58" font-size="9" fill="var(--text-main)">Tacit → Explicit</text>
+          <text x="185" y="74" font-size="8" fill="var(--text-muted)">Concepts, metaphors,</text>
+          <text x="185" y="88" font-size="8" fill="var(--text-muted)">writing manuals, modeling</text>
 
-          <!-- Quadrant 3: Internalization (Explicit -> Tacit) -->
-          <rect x="20" y="115" width="135" height="85" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
-          <text x="32" y="133" font-size="9" font-weight="bold" fill="#e11d48">INTERNALIZATION</text>
-          <text x="32" y="147" font-size="8" fill="var(--text-main)">Explicit → Tacit</text>
-          <text x="32" y="161" font-size="7.5" fill="var(--text-muted)">• Learning by doing</text>
-          <text x="32" y="173" font-size="7.5" fill="var(--text-muted)">• Practical training</text>
-          <text x="32" y="185" font-size="7.5" fill="var(--text-muted)">• Absorbing SOPs</text>
+          <!-- Quadrant 4: Internalization (Explicit -> Tacit) -->
+          <rect x="20" y="115" width="145" height="85" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="30" y="135" font-size="11" font-weight="bold" fill="#10b981">4. INTERNALIZATION</text>
+          <text x="30" y="153" font-size="9" fill="var(--text-main)">Explicit → Tacit</text>
+          <text x="30" y="169" font-size="8" fill="var(--text-muted)">"Learning by doing",</text>
+          <text x="30" y="183" font-size="8" fill="var(--text-muted)">practice, hands-on training</text>
 
-          <!-- Quadrant 4: Combination (Explicit -> Explicit) -->
-          <rect x="165" y="115" width="135" height="85" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
-          <text x="175" y="133" font-size="9" font-weight="bold" fill="#0d9488">COMBINATION</text>
-          <text x="175" y="52" font-size="8" fill="var(--text-main)">Explicit → Explicit</text>
-          <text x="175" y="161" font-size="7.5" fill="var(--text-muted)">• Synthesizing reports</text>
-          <text x="175" y="173" font-size="7.5" fill="var(--text-muted)">• Merging databases</text>
-          <text x="175" y="185" font-size="7.5" fill="var(--text-muted)">• Publishing digests</text>
-
-          <!-- Center Spiral Indicator -->
-          <circle cx="160" cy="110" r="14" fill="var(--bg-card)" stroke="var(--primary)" stroke-width="2" />
-          <text x="154" y="114" font-size="10" font-weight="bold" fill="var(--primary)">🌀</text>
+          <!-- Quadrant 3: Combination (Explicit -> Explicit) -->
+          <rect x="175" y="115" width="145" height="85" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="185" y="135" font-size="11" font-weight="bold" fill="#e11d48">3. COMBINATION</text>
+          <text x="185" y="153" font-size="9" fill="var(--text-main)">Explicit → Explicit</text>
+          <text x="185" y="169" font-size="8" fill="var(--text-muted)">Merging databases, reports,</text>
+          <text x="185" y="183" font-size="8" fill="var(--text-muted)">synthesizing documents</text>
         </svg>
-        <div class="diagram-caption">Nonaka & Takeuchi's SECI Knowledge Conversion Spiral</div>
+        <div class="diagram-caption">The SECI Matrix: 4 Modes of Knowledge Conversion</div>
       </div>
-    </div>
 
-    <!-- Topic 3: Structure & Architecture of KMS -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Structure & Architecture of a KMS</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">📌 Exam Blueprint:</span>
-        <span>The Three Pillars: People, Processes, and Technology</span>
-      </div>
-      <p>A successful KMS is never merely software. It represents a socio-technical equilibrium supported by three intertwined pillars:</p>
-
-      <div class="callout callout-warning">
-        <strong>The 3 Pillars of KMS:</strong>
+      <div class="callout callout-tip">
+        <strong>Detailed Stage Analysis:</strong>
         <ol class="step-list">
-          <li><strong>People & Culture:</strong> Knowledge champions, subject matter experts (SMEs), and general employees. Crucially requires a trust-based culture where knowledge sharing is recognized and rewarded rather than hoarded.</li>
-          <li><strong>Processes:</strong> Formal workflows for knowledge harvesting, peer review, codification, validation, indexing, and regular retirement of outdated material.</li>
-          <li><strong>Technology:</strong> The digital infrastructure providing secure repositories, semantic search engines, collaborative workspaces, and AI-driven recommendation feeds.</li>
+          <li><strong>Socialization (Tacit $\to$ Tacit):</strong> Individuals share experiences directly through observation, imitation, and shared work environments without using written words. <em>Example:</em> An apprentice chef watches a master chef balance spices.</li>
+          <li><strong>Externalization (Tacit $\to$ Explicit):</strong> The hardest and most crucial step; articulating tacit insights into tangible concepts, analogies, formulas, and written manuals. <em>Example:</em> A software architect writes a system design document detailing how they solved a caching bottleneck.</li>
+          <li><strong>Combination (Explicit $\to$ Explicit):</strong> Systematizing and integrating different bodies of explicit knowledge into larger manuals, repositories, or databases. <em>Example:</em> Collating five regional sales Excel sheets into a single enterprise PDF report.</li>
+          <li><strong>Internalization (Explicit $\to$ Tacit):</strong> Absorbing explicit documents into personal mental models and subconscious reflexes through "learning by doing". <em>Example:</em> A new junior pilot reads the flight operating manual and practices in a flight simulator until flying reflexes become second nature.</li>
         </ol>
       </div>
-
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Architectural Layer</th>
-              <th>Components & Technologies</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>User Interface Layer</strong></td>
-              <td>Enterprise Portals, Mobile Dashboards, Collaborative Chatbots, Discussion Wikis</td>
-            </tr>
-            <tr>
-              <td><strong>Knowledge Services Layer</strong></td>
-              <td>Semantic Search Engines, Rule-Based Taxonomies, Document Versioning, Workflow Routing</td>
-            </tr>
-            <tr>
-              <td><strong>Repository Layer</strong></td>
-              <td>Document Management Systems (DMS), Best-Practice Libraries, FAQ Archives, Relational Databases</td>
-            </tr>
-            <tr>
-              <td><strong>Governance & Security Layer</strong></td>
-              <td>Role-Based Access Control (RBAC), Intellectual Property (IP) Auditing, Compliance Tracking</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
 
-    <!-- Topic 4: Knowledge Management Techniques -->
+    <!-- Section 4: KM Strategies: Codification vs. Personalization -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Techniques & Strategies of Knowledge Management</span>
+        <span><span class="card-heading-icon">4.</span> Hansen's KM Strategies: Codification vs. Personalization</span>
       </div>
       <div class="pyq-alert">
-        <span class="pyq-tag">⭐ High-Yield Concept:</span>
-        <span>Codification vs Personalization Strategy (Hansen, Nohria & Tierney)</span>
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2021, 2019 (Compare Codification vs Personalization strategies)</span>
       </div>
+      <p>Researchers <strong>Morten Hansen, Nitin Nohria, and Thomas Tierney</strong> established that companies must deliberately choose one primary Knowledge Management strategy:</p>
 
-      <p>Organizations balance two primary strategic orientations:</p>
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
               <th>Dimension</th>
@@ -243,84 +271,86 @@
           </thead>
           <tbody>
             <tr>
-              <td><strong>Core Model</strong></td>
-              <td>Knowledge is codified and stored in databases where it can be retrieved and reused.</td>
-              <td>Knowledge is tied to the person who developed it and is shared through direct dialogue.</td>
-            </tr>
-            <tr>
-              <td><strong>Focus</strong></td>
-              <td>High reuse of standardized explicit knowledge.</td>
-              <td>Customized advice for unique, complex, unstructured problems.</td>
+              <td><strong>Core Philosophy</strong></td>
+              <td>Knowledge is extracted from persons, codified into documents, and stored in central searchable repositories for reuse.</td>
+              <td>Knowledge is closely tied to the human expert who developed it; shared primarily through direct interpersonal dialogue.</td>
             </tr>
             <tr>
               <td><strong>IT Investment</strong></td>
-              <td>Heavy investment in search engines, document repositories, and templates.</td>
-              <td>Investment in networks connecting experts (Yellow Pages / Expert Directories).</td>
+              <td>Heavy investment in electronic document management, search engines, databases, and portals.</td>
+              <td>Moderate investment in communication tools: video war-rooms, expert directories ("Yellow Pages"), chat networks.</td>
             </tr>
             <tr>
-              <td><strong>Industry Example</strong></td>
-              <td>Dell, large IT software support, routine tax audit firms.</td>
-              <td>Bain, McKinsey, specialized surgery teams, boutique R&D labs.</td>
+              <td><strong>Business Model</strong></td>
+              <td>Standardized, repeatable solutions with massive scale economies (e.g. Dell, Accenture).</td>
+              <td>Customized, highly novel, bespoke advisory solutions for complex problems (e.g. McKinsey, Bain).</td>
+            </tr>
+            <tr>
+              <td><strong>HR Incentives</strong></td>
+              <td>Employees rewarded for authoring reusable documentation and contributing to central wikis.</td>
+              <td>Employees rewarded for direct peer mentoring, brainstorming, and collaborative problem-solving.</td>
             </tr>
           </tbody>
         </table>
       </div>
+    </div>
 
-      <div class="callout callout-tip">
-        <strong>High-Yield KM Capture & Sharing Techniques:</strong>
+    <!-- Section 5: Communities of Practice & Cultural Barriers -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Communities of Practice (CoPs) & Cultural Barriers</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2020, 2018 (Define CoP, explain why KM projects fail)</span>
+      </div>
+      <p>A <strong>Community of Practice (CoP)</strong>, as defined by cognitive anthropologist <strong>Etienne Wenger</strong>, is a voluntary group of practitioners who share a common craft or profession and interact regularly to share knowledge, solve real-world problems, and improve their skills.</p>
+
+      <div class="callout callout-warning">
+        <strong>The 4 Major Roadblocks to KM Success (Why 70% of KM Initiatives Fail):</strong>
         <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
-          <li><strong>Communities of Practice (CoPs):</strong> Voluntary groups of practitioners who share a common passion or role, collaborating informally to solve mutual challenges.</li>
-          <li><strong>After-Action Reviews (AARs):</strong> Structured debriefings held immediately after a project or critical incident to document: <em>What happened? Why did it happen? What will we do differently next time?</em></li>
-          <li><strong>Knowledge Storytelling:</strong> Preserves the tacit nuance, human emotions, and decision contexts of past crises that cannot be captured in sterile numeric tables.</li>
-          <li><strong>Mentoring & Job Shadowing:</strong> Pairing apprentices with retiring master craftsmen to transfer tacit muscle memory and diagnostic heuristics.</li>
+          <li><strong>The "Knowledge is Power" Cultural Barrier:</strong> Employees fear that if they document their exclusive expertise, they will become expendable and easily fired by management.</li>
+          <li><strong>The "Digital Graveyard" Syndrome:</strong> Portals become dumping grounds for obsolete, conflicting, or poorly tagged PDFs with zero search curation.</li>
+          <li><strong>Over-Reliance on Technology Alone:</strong> Purchasing an expensive KM portal software without altering corporate culture or reward systems produces zero adoption.</li>
+          <li><strong>Difficulty in Measuring ROI:</strong> Knowledge is an intangible asset; calculating the direct rupee return of a wiki article is hard to justify to conservative accountants.</li>
         </ul>
       </div>
     </div>
 
-    <!-- Topic 5: Appreciation & Limitations of KM -->
-    <div class="study-card">
+    <!-- Section 6: Exam Answer Writing Blueprint & Traps -->
+    <div class="study-card track-full">
       <div class="card-heading">
-        <span><span class="card-heading-icon">5.</span> Appreciation (Benefits) & Limitations of KMS</span>
+        <span><span class="card-heading-icon">6.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">📌 Exam Essay Question:</span>
-        <span>Organizational Value Creation vs Real-world Implementation Barriers</span>
-      </div>
-
-      <div class="callout callout-info">
-        <strong>Appreciation: Key Organizational Benefits:</strong>
-        <ol class="step-list">
-          <li><strong>Prevents "Reinventing the Wheel":</strong> Reusing pre-tested software modules or engineering designs slashes project delivery times.</li>
-          <li><strong>Mitigates Brain Drain:</strong> When senior personnel resign or retire, their codified experience remains embedded within organizational assets.</li>
-          <li><strong>Speeds Up Onboarding:</strong> New hires reach peak productivity in days instead of months through structured knowledge repositories.</li>
-          <li><strong>Fosters Accelerated Innovation:</strong> Cross-departmental knowledge sharing sparks novel solutions by connecting disparate ideas.</li>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "The SECI Model":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Introduction (2 Marks):</strong> State the origin: Ikujiro Nonaka and Hirotaka Takeuchi (1995), "The Knowledge-Creating Company". Explain that knowledge conversion occurs between tacit and explicit forms.</li>
+          <li><strong>The $2 \times 2$ Matrix Diagram (3 Marks):</strong> Draw the four quadrants clearly: Socialization (top-left), Externalization (top-right), Internalization (bottom-left), Combination (bottom-right). Draw spiral arrows showing continuous upward elevation.</li>
+          <li><strong>Quadrant Elaboration (4 Marks):</strong> Detail each quadrant with its conversion direction (e.g. Tacit $\to$ Explicit) and give a crisp industry example.</li>
+          <li><strong>Conclusion (1 Mark):</strong> Emphasize that SECI is a continuous spiral that expands across individual, group, organizational, and inter-organizational levels.</li>
         </ol>
       </div>
 
-      <div class="callout callout-warning">
-        <strong>Critical Limitations & Implementation Pitfalls:</strong>
-        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
-          <li><strong>The "Knowledge is Power" Cultural Barrier:</strong> Employees fear that sharing their exclusive expertise renders them replaceable.</li>
-          <li><strong>Information Overload & Outdated Knowledge:</strong> Repositories become digital graveyards if unmanaged, storing contradictory or obsolete data.</li>
-          <li><strong>High Measurement Difficulty:</strong> The Return on Investment (ROI) of KM is difficult to isolate on a quarterly balance sheet.</li>
-          <li><strong>Over-Reliance on Technology Alone:</strong> Buying an expensive portal software without addressing corporate culture leads to guaranteed failure.</li>
-        </ul>
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Mistakes to Avoid:</strong><br>
+        • <strong>Confusing Externalization and Internalization:</strong> Externalization converts Tacit $\to$ Explicit (articulation/writing). Internalization converts Explicit $\to$ Tacit (learning by doing/practice). Mixing them up loses 4 marks!<br>
+        • <strong>Calling Data and Information Synonyms:</strong> Data is raw unorganized symbols (`38.5`). Information has meaning and context (`38.5°C fever`). Never treat them as identical!
       </div>
     </div>
 
-    <!-- Topic 6: Interactive MCQ Exam Drill -->
+    <!-- Interactive MCQ Drill -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">6.</span> Unit IV Exam Mastery MCQ Quiz</span>
+        <span><span class="card-heading-icon">7.</span> Unit IV Examination Mastery MCQ Quiz</span>
       </div>
-      <p>Test your conceptual understanding of DIKW, Tacit vs Explicit knowledge, the SECI model, and KM strategies.</p>
-
+      <p>Verify your conceptual mastery across DIKW, Tacit vs Explicit, SECI spiral, and KM strategies with this 10-question quiz.</p>
       <div id="unit-mcq-container"></div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation -->
+  <!-- Sticky Bottom Navigation Bar -->
   <nav class="nav-bottom">
     <a href="bca5001_unit3.html" class="nav-unit-btn">← Unit III: Mining</a>
     <a href="index.html" class="nav-unit-btn primary">Complete Hub 🏠</a>
@@ -333,15 +363,15 @@
         question: "In the DIKW pyramid, what fundamentally distinguishes Knowledge from Information?",
         options: [
           "Knowledge is simply more data stored on faster SSD drives",
-          "Knowledge combines contextual information with human experience, rules of thumb, and actionable insight",
+          "Knowledge combines contextual information with human experience, rules of thumb, and actionable insight to guide decisions",
           "Knowledge must always be written in assembly code",
           "There is no difference between them"
         ],
         answer: 1,
-        explanation: "Information consists of organized data with meaning, while Knowledge integrates information with personal experience, context, and intuition to guide actual decisions."
+        explanation: "Information consists of organized data with meaning, while Knowledge integrates information with human experience, context, and intuition to guide action."
       },
       {
-        question: "A senior surgeon trains an intern in the operating room through observation and hands-on guidance. In Nonaka's SECI model, this conversion represents:",
+        question: "A senior surgeon trains an intern in the operating theater through observation and hands-on guidance without written manuals. In Nonaka's SECI model, this conversion represents:",
         options: [
           "Externalization (Tacit to Explicit)",
           "Socialization (Tacit to Tacit)",
@@ -352,10 +382,10 @@
         explanation: "Socialization transfers tacit knowledge directly from one individual to another through shared experience, observation, apprenticeship, and mentoring."
       },
       {
-        question: "Writing down a company's unwritten operating guidelines into a formal Standard Operating Procedure (SOP) manual represents which SECI phase?",
+        question: "Documenting an expert engineer's mental problem-solving heuristics into a formal Standard Operating Procedure (SOP) manual represents which SECI phase?",
         options: [
           "Socialization",
-          "Externalization",
+          "Externalization (Tacit to Explicit)",
           "Combination",
           "Internalization"
         ],
@@ -363,10 +393,10 @@
         explanation: "Externalization articulates tacit knowledge into explicit, tangible concepts, such as writing manuals, documentation, or conceptual models."
       },
       {
-        question: "What is the primary hallmark of a 'Codification' Knowledge Management strategy?",
+        question: "What is the primary hallmark of a 'Codification' Knowledge Management strategy according to Hansen et al.?",
         options: [
           "Encouraging employees to keep all ideas strictly inside their heads",
-          "Investing heavily in databases and IT repositories to store and reuse standardized explicit documents",
+          "Investing heavily in databases and IT repositories to extract, store, and reuse standardized explicit documents ('People-to-Documents')",
           "Disabling all internal search engines",
           "Holding informal coffee-table chats without taking notes"
         ],
@@ -382,24 +412,69 @@
           "Hardware cables connecting mainframe terminals"
         ],
         answer: 1,
-        explanation: "Communities of Practice are informal or semi-formal peer networks of people who share a common expertise and collaborate to exchange practical know-how."
+        explanation: "Communities of Practice (CoPs) are informal or semi-formal peer networks of people who share a common expertise and collaborate to exchange practical know-how."
       },
       {
-        question: "Which of the following is commonly cited as the greatest barrier to the successful adoption of a Knowledge Management System?",
+        question: "Which of the following is commonly cited as the greatest cultural barrier to the successful adoption of a Knowledge Management System?",
         options: [
           "Lack of electricity in office buildings",
-          "Cultural resistance and the fear that 'knowledge sharing' diminishes personal job security ('Knowledge is Power' mindset)",
+          "Cultural resistance and the fear that 'knowledge sharing' diminishes personal job security ('Knowledge is Power' hoarding mindset)",
           "Monitors having insufficient color depth",
           "Operating systems supporting too many fonts"
         ],
         answer: 1,
         explanation: "The biggest impediment to KM is organizational culture: employees may hoard knowledge out of fear of losing their unique indispensability or lack of incentives."
+      },
+      {
+        question: "Synthesizing five regional sales reports into a single consolidated enterprise annual report represents which SECI quadrant?",
+        options: [
+          "Socialization",
+          "Externalization",
+          "Combination (Explicit to Explicit)",
+          "Internalization"
+        ],
+        answer: 2,
+        explanation: "Combination integrates, categorizes, and synthesizes multiple bodies of explicit knowledge into larger explicit formats (manuals, databases, reports)."
+      },
+      {
+        question: "What is Michael Polanyi's famous phrase characterizing Tacit Knowledge?",
+        options: [
+          "'Knowledge is power'",
+          "'We know more than we can tell'",
+          "'Time is money'",
+          "'Data is the new oil'"
+        ],
+        answer: 1,
+        explanation: "Michael Polanyi (1966) famously articulated: 'We know more than we can tell', highlighting that human competence vastly exceeds our ability to express it in words."
+      },
+      {
+        question: "Which consulting firm model represents the 'Personalization' KM strategy?",
+        options: [
+          "Selling standardized off-the-shelf software packages",
+          "Providing highly customized, bespoke advice for novel problems by connecting clients with human domain experts through personal dialogue",
+          "Mass producing commodity computer hardware",
+          "Running automated call-center scripts"
+        ],
+        answer: 1,
+        explanation: "Personalization focuses on bespoke solutions for unique high-stakes problems by fostering dialogue and networking among senior experts (e.g. McKinsey)."
+      },
+      {
+        question: "When an employee reads a company's software manual and practices daily until the guidelines become an instinctive operational habit, which SECI phase has occurred?",
+        options: [
+          "Socialization",
+          "Externalization",
+          "Combination",
+          "Internalization (Explicit to Tacit)"
+        ],
+        answer: 3,
+        explanation: "Internalization is the process of absorbing explicit documentation into personal tacit mental models and habits through 'learning by doing'."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit4Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>

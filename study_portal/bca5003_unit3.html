@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 3: Switching, Multiplexing & ARQ | BCA-5003</title>
+  <title>Unit 3: Switching, Multiplexing & Protocols | BCA-5003</title>
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' },
+      options: { renderActions: { addMenu: [] } }
+    };
+  </script>
+  <script async src="js/tex-svg.js"></script>
 </head>
 <body>
 
   <!-- Sticky Mobile Top Bar -->
   <header class="top-header">
     <a href="index.html" class="brand">
-      <div class="brand-icon" style="background:#059669;">CN</div>
+      <div class="brand-icon" style="background:#0f766e;">CN</div>
       <div>
         <div class="brand-title">BCA-5003: Unit III</div>
-        <div class="brand-subtitle">Switching, Multiplexing & Protocols</div>
+        <div class="brand-subtitle">Switching, ARQ & Protocols</div>
       </div>
     </a>
     <div class="header-actions">
@@ -26,53 +38,121 @@
   <main class="container">
 
     <!-- Unit Banner -->
-    <div class="unit-banner" style="border-left-color:#059669;">
+    <div class="unit-banner" style="border-left-color:#0f766e;">
       <div class="badge-row">
         <span class="badge badge-emerald">Subject: BCA-5003</span>
-        <span class="badge badge-amber">⭐ Sliding Window & Switching PYQs</span>
-        <span class="badge badge-coral">Day 2 Priority</span>
+        <span class="badge badge-amber">⭐ Circuit vs Packet & Go-Back-N</span>
+        <span class="badge badge-coral">Day 3 Priority</span>
       </div>
-      <h1 class="unit-title">Unit III: Switching, Multiplexing & Flow Control</h1>
-      <p class="unit-desc">Data Link Layer, Stop-and-Wait, Go-Back-N, Selective Repeat ARQ, Circuit vs Packet Switching, FDM/TDM/WDM, ISDN, and Traffic Shaping.</p>
+      <h1 class="unit-title">Unit III: Switching, Multiplexing & ARQ Protocols</h1>
+      <p class="unit-desc">
+        Circuit vs Packet Switching, Multiplexing (FDM, TDM, WDM), Flow Control, Stop-and-Wait, Go-Back-N, Selective Repeat, and ISDN Architecture.
+      </p>
     </div>
 
-    <!-- Quick Formula Card -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">⚡</span> Essential Protocol Window & Efficiency Formulae</span>
-      </div>
-      <div class="callout callout-formula">
-        <strong>1. Stop-and-Wait ARQ Efficiency:</strong><br>
-        $$\eta = \frac{T_t}{T_t + 2T_p} = \frac{1}{1 + 2a} \quad \text{where } a = \frac{T_p}{T_t} = \frac{\text{Propagation Time}}{\text{Transmission Time}}$$
-      </div>
-      <div class="callout callout-formula">
-        <strong>2. Window Sizes for Sequence Number bits ($m$):</strong><br>
-        • <strong>Go-Back-N ARQ:</strong> Sender Window $W_s = 2^m - 1$, Receiver Window $W_r = 1$<br>
-        • <strong>Selective Repeat ARQ:</strong> Sender Window $W_s = 2^{m-1}$, Receiver Window $W_r = 2^{m-1}$
-      </div>
-      <div class="callout callout-formula">
-        <strong>3. ISDN Interface Standards:</strong><br>
-        • <strong>BRI (Basic Rate Interface):</strong> $2B + D = 2(64) + 16 = \mathbf{144 \text{ kbps}}$<br>
-        • <strong>PRI (Primary Rate - US):</strong> $23B + D = 23(64) + 64 = \mathbf{1.544 \text{ Mbps}}$<br>
-        • <strong>PRI (Primary Rate - Europe):</strong> $30B + 2D = \mathbf{2.048 \text{ Mbps}}$
-      </div>
+    <!-- Dual Study Mode Switcher -->
+    <div class="mode-switch-bar">
+      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
+      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: Flow & Error Control: Go-Back-N vs Selective Repeat -->
+    <!-- Topic 1: Circuit Switching vs Packet Switching -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Go-Back-N vs Selective Repeat ARQ</span>
+        <span><span class="card-heading-icon">1.</span> Circuit Switching vs Packet Switching</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2021 (Comparison & Retransmission strategy)</span>
+        <span>2024–25, 2023–24, 2021, 2017 (Frequently asked for 5–10 marks comparison)</span>
       </div>
 
-      <div class="table-responsive">
-        <table class="study-table">
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
           <thead>
             <tr>
               <th>Feature</th>
+              <th>Circuit Switching (e.g. Traditional Landline)</th>
+              <th>Packet Switching (e.g. Internet IP Network)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Path Setup</strong></td>
+              <td>Dedicated physical path established before data transfer begins</td>
+              <td>No dedicated path; packets are routed independently</td>
+            </tr>
+            <tr>
+              <td><strong>Three Phases</strong></td>
+              <td>Mandatory: 1. Setup $\to$ 2. Data Transfer $\to$ 3. Teardown</td>
+              <td>Connectionless (Datagram) or Logical (Virtual Circuit)</td>
+            </tr>
+            <tr>
+              <td><strong>Bandwidth Allocation</strong></td>
+              <td>Reserved permanently during the call; wasted if parties are silent</td>
+              <td>Dynamic statistical multiplexing; bandwidth shared on demand</td>
+            </tr>
+            <tr>
+              <td><strong>Delay Characteristics</strong></td>
+              <td>Setup delay initially, then constant transmission delay; zero jitter</td>
+              <td>Variable packet queuing delays and jitter at intermediate routers</td>
+            </tr>
+            <tr>
+              <td><strong>Overhead</strong></td>
+              <td>Minimal header overhead after setup</td>
+              <td>Every individual packet must carry source and destination headers</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: Multiplexing Techniques -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Multiplexing: FDM, TDM & WDM</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2023–24, 2020, 2018 (FDM vs TDM and optical WDM explanation)</span>
+      </div>
+
+      <p>
+        Multiplexing combines multiple independent data signals onto a single high-capacity physical transmission link:
+      </p>
+
+      <div class="callout callout-info">
+        <strong>The 3 Primary Multiplexing Techniques:</strong>
+        <ol class="step-list">
+          <li><strong>Frequency-Division Multiplexing (FDM):</strong> Analog technique. The link bandwidth is divided into non-overlapping frequency bands separated by <em>Guard Bands</em> (e.g. FM Radio, Cable TV).</li>
+          <li><strong>Time-Division Multiplexing (TDM):</strong> Digital technique. Devices share the entire bandwidth by taking turns in dedicated time slots:
+            <ul style="margin:4px 0 0 16px;">
+              <li><em>Synchronous TDM:</em> Each device is assigned a fixed time slot, even if it has no data (wastes slots).</li>
+              <li><em>Statistical TDM:</em> Dynamically allocates slots only to active transmitting devices.</li>
+            </ul>
+          </li>
+          <li><strong>Wavelength-Division Multiplexing (WDM):</strong> Optical equivalent of FDM. Multiple laser beams of different colors/wavelengths ($\lambda$) are combined onto a single optical fiber strand.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 3: Flow & Error Control: ARQ Protocols -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> ARQ Protocols: Stop-and-Wait, Go-Back-N & Selective Repeat</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2022, 2019 (Window sizes, timeline behavior, and retransmission differences)</span>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Stop-and-Wait ARQ</th>
               <th>Go-Back-N ARQ</th>
               <th>Selective Repeat ARQ</th>
             </tr>
@@ -80,165 +160,113 @@
           <tbody>
             <tr>
               <td><strong>Sender Window Size ($W_s$)</strong></td>
-              <td>$2^m - 1$</td>
-              <td>$2^{m-1}$</td>
+              <td>$1$ frame</td>
+              <td>$2^m - 1$ frames (for $m$-bit sequence number)</td>
+              <td>$2^{m-1}$ frames</td>
             </tr>
             <tr>
               <td><strong>Receiver Window Size ($W_r$)</strong></td>
-              <td><strong>Strictly 1</strong></td>
-              <td>$2^{m-1}$</td>
+              <td>$1$ frame</td>
+              <td>$1$ frame (discards out-of-order frames)</td>
+              <td>$2^{m-1}$ frames (buffers out-of-order frames)</td>
             </tr>
             <tr>
-              <td><strong>Out-of-Order Frames</strong></td>
-              <td>Discarded immediately</td>
-              <td>Buffered and sorted</td>
+              <td><strong>On Frame Loss</strong></td>
+              <td>Sender retransmits frame after timeout</td>
+              <td>Sender retransmits the lost frame PLUS all subsequent sent frames</td>
+              <td>Sender retransmits ONLY the specific damaged frame (via NAK)</td>
             </tr>
             <tr>
-              <td><strong>Retransmission</strong></td>
-              <td>Retransmits <strong>ALL frames</strong> from the lost frame onwards (Goes back $N$)</td>
-              <td>Retransmits <strong>ONLY the specific damaged frame</strong> (Selective)</td>
-            </tr>
-            <tr>
-              <td><strong>Acknowledgment</strong></td>
-              <td>Cumulative ACK (ACK $n$ confirms all frames up to $n-1$)</td>
-              <td>Individual ACK / NAK for each frame</td>
-            </tr>
-            <tr>
-              <td><strong>Bandwidth Efficiency</strong></td>
-              <td>Lower on error-prone channels</td>
-              <td><strong>Much Higher</strong></td>
+              <td><strong>Efficiency</strong></td>
+              <td>Extremely poor on high-delay links</td>
+              <td>Moderate; wastes bandwidth retransmitting good frames</td>
+              <td>Highest efficiency; requires receiver buffering memory</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="callout callout-tip">
-        <strong>What is Piggybacking?</strong><br>
-        In two-way (full-duplex) communication, instead of sending a dedicated control frame for ACK, the receiver delays the ACK and attaches (piggybacks) it onto its next outgoing data frame. This dramatically saves network bandwidth!
+      <!-- ARQ Retransmission Mechanism -->
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
+          <!-- Sender and Receiver Timelines -->
+          <line x1="60" y1="20" x2="60" y2="160" stroke="var(--text-muted)" stroke-width="1.5" />
+          <line x1="260" y1="20" x2="260" y2="160" stroke="var(--text-muted)" stroke-width="1.5" />
+          <text x="40" y="15" font-size="10" font-weight="bold" fill="var(--text-main)">Sender</text>
+          <text x="240" y="15" font-size="10" font-weight="bold" fill="var(--text-main)">Receiver</text>
+
+          <!-- Frame 0 OK -->
+          <line x1="60" y1="30" x2="260" y2="50" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow)" />
+          <text x="135" y="38" font-size="8.5" fill="#10b981">Frame 0</text>
+          <line x1="260" y1="52" x2="60" y2="72" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3,2" />
+          <text x="145" y="60" font-size="8.5" fill="#10b981">ACK 1</text>
+
+          <!-- Frame 1 Lost -->
+          <line x1="60" y1="80" x2="160" y2="90" stroke="#e11d48" stroke-width="1.5" />
+          <text x="165" y="93" font-size="10" fill="#e11d48">❌ Lost</text>
+          <text x="80" y="85" font-size="8.5" fill="#e11d48">Frame 1</text>
+
+          <!-- Frame 2 Sent & Discarded in GBN -->
+          <line x1="60" y1="95" x2="260" y2="115" stroke="var(--text-muted)" stroke-width="1" />
+          <text x="130" y="105" font-size="8" fill="var(--text-muted)">Frame 2 (Discarded)</text>
+
+          <!-- Timeout & Go-Back-N Retransmit -->
+          <text x="15" y="125" font-size="8" fill="#f59e0b">⏱️ Timeout</text>
+          <line x1="60" y1="130" x2="260" y2="150" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="100" y="138" font-size="8.5" font-weight="bold" fill="#f59e0b">Retransmit Frame 1 & 2</text>
+        </svg>
+        <div class="diagram-caption">Go-Back-N ARQ: Frame 1 loss causes retransmission of all subsequent frames.</div>
       </div>
     </div>
 
-    <!-- Topic 2: Switching Techniques: Circuit vs Message vs Packet -->
+    <!-- Topic 4: ISDN Architecture -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Switching Techniques Compared</span>
+        <span><span class="card-heading-icon">4.</span> ISDN (Integrated Services Digital Network)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2022–23, 2019 (Guaranteed exam question!)</span>
+        <span>2024–25, 2021 (ISDN concept, B-channel vs D-channel, BRI vs PRI)</span>
       </div>
 
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Circuit Switching</th>
-              <th>Message Switching</th>
-              <th>Packet Switching</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Dedicated Physical Path</strong></td>
-              <td><strong>Yes</strong> (Set up before transmission)</td>
-              <td>No</td>
-              <td>No (Independent routes)</td>
-            </tr>
-            <tr>
-              <td><strong>Store-and-Forward</strong></td>
-              <td>No store-and-forward</td>
-              <td>Entire message stored at intermediate nodes</td>
-              <td>Individual small packets stored and forwarded</td>
-            </tr>
-            <tr>
-              <td><strong>Call Setup Phase</strong></td>
-              <td>Required (Connection setup, data transfer, teardown)</td>
-              <td>None</td>
-              <td>None (in Datagram) / Required (in Virtual Circuit)</td>
-            </tr>
-            <tr>
-              <td><strong>Bandwidth Utilization</strong></td>
-              <td>Poor (Reserved even during silence)</td>
-              <td>Moderate</td>
-              <td><strong>Highest (Dynamic statistical multiplexing)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>Example</strong></td>
-              <td>Traditional Telephone Network (PSTN)</td>
-              <td>Telegraph, Electronic mail</td>
-              <td>The modern <strong>Internet (IP)</strong></td>
-            </tr>
-          </tbody>
-        </table>
+      <p>
+        <strong>ISDN</strong> provides end-to-end digital transmission of voice, video, and packet data over standard copper telephone lines.
+      </p>
+
+      <div class="callout callout-info">
+        <strong>ISDN Channels & Interfaces:</strong>
+        <ul style="margin:4px 0 0 16px; line-height:1.6;">
+          <li><strong>B-Channel (Bearer):</strong> $64 \text{ kbps}$ digital channel for carrying user voice, audio, and data.</li>
+          <li><strong>D-Channel (Delta):</strong> $16 \text{ kbps}$ (in BRI) or $64 \text{ kbps}$ (in PRI) for call signaling, setup, and teardown.</li>
+          <li><strong>Basic Rate Interface (BRI):</strong> Consists of $2B + D = 2(64) + 16 = \mathbf{144 \text{ kbps}}$ (suitable for residential and small business connections).</li>
+          <li><strong>Primary Rate Interface (PRI):</strong>
+            <ul style="margin:2px 0 0 16px;">
+              <li>North America / Japan: $23B + D = 23(64) + 64 = \mathbf{1.544 \text{ Mbps}}$ (T1 carrier).</li>
+              <li>Europe / International: $30B + 2D = 30(64) + 64 + 64 = \mathbf{2.048 \text{ Mbps}}$ (E1 carrier).</li>
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <!-- Topic 3: Multiplexing Techniques (FDM, TDM, WDM) -->
+    <!-- Topic 5: Interactive MCQ Exam Drill (10 Questions) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Multiplexing: FDM vs TDM vs WDM</span>
+        <span><span class="card-heading-icon">📝</span> Unit III Exam Mastery MCQ Quiz (10 Questions)</span>
       </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2022–23, 2021, 2018, 2017 (Combine multiple signals over one medium)</span>
-      </div>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
+        Answer all 10 questions covering switching mechanisms, ARQ window calculations, and ISDN standards.
+      </p>
 
-      <ul class="key-points">
-        <li><strong>FDM (Frequency Division Multiplexing):</strong> Analog technique where channel bandwidth is divided into discrete frequency slots separated by <em>guard bands</em> to prevent crosstalk (Used in FM radio, Cable TV).</li>
-        <li><strong>TDM (Time Division Multiplexing):</strong> Digital technique where entire bandwidth is assigned to each user for a specific repeating time slot. Synchronous TDM assigns fixed slots; Statistical TDM assigns dynamically based on demand.</li>
-        <li><strong>WDM (Wavelength Division Multiplexing):</strong> Analog optical technique used in fiber optics where different data streams are modulated onto different wavelengths (colors) of laser light and transmitted simultaneously through a single fiber.</li>
-      </ul>
+      <div id="unit-mcq-container"></div>
     </div>
-
-    <!-- Topic 4: Traffic Shaping: Leaky Bucket vs Token Bucket -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Congestion Control: Leaky Bucket vs Token Bucket</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2023–24 (Traffic Shaping algorithms)</span>
-      </div>
-
-      <div class="table-responsive">
-        <table class="study-table">
-          <thead>
-            <tr>
-              <th>Parameter</th>
-              <th>Leaky Bucket Algorithm</th>
-              <th>Token Bucket Algorithm</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Output Rate</strong></td>
-              <td><strong>Rigid constant rate</strong> regardless of input burst</td>
-              <td>Can transmit at <strong>bursty rate</strong> if tokens are available</td>
-            </tr>
-            <tr>
-              <td><strong>Action on Overflow</strong></td>
-              <td>Discards excess packets when bucket is full</td>
-              <td>Discards excess tokens (packets wait or are transmitted)</td>
-            </tr>
-            <tr>
-              <td><strong>Bursty Traffic Handling</strong></td>
-              <td>Completely smooths bursts (No burst transmission)</td>
-              <td>Allows controlled bursts up to token capacity</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Interactive MCQ Test Container -->
-    <div id="unit-mcq-container" class="mcq-container"></div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation Bar -->
-  <nav class="bottom-nav">
-    <a href="bca5003_unit2.html" class="nav-unit-btn">← Unit II</a>
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5003_unit2.html" class="nav-unit-btn">← Unit II: Media</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
     <a href="bca5003_unit4.html" class="nav-unit-btn primary">Next: Unit IV →</a>
   </nav>
 
@@ -246,40 +274,31 @@
   <script>
     const unit3Questions = [
       {
-        question: "In Go-Back-N ARQ using m-bit sequence numbers, what is the maximum permissible sender window size (Ws)?",
+        question: "In Go-Back-N ARQ with an m-bit sequence number, what is the maximum sender window size (Ws)?",
         options: [
           "2^m",
           "2^m - 1",
-          "2^(m - 1)",
-          "m^2"
+          "2^(m-1)",
+          "m"
         ],
         answer: 1,
-        explanation: "In Go-Back-N, the sender window size must be at most 2^m - 1 to prevent ambiguity between duplicate ACKs and new ACKs if all ACKs are lost."
+        is_pyq: true,
+        explanation: "To prevent confusion between new frames and retransmissions when ACKs are lost, the sender window in Go-Back-N must not exceed $2^m - 1$."
       },
       {
         question: "What is the receiver window size (Wr) in Go-Back-N ARQ?",
         options: [
-          "Always 1",
+          "1",
           "2^m - 1",
-          "2^(m - 1)",
-          "Equal to the sender window size"
+          "2^(m-1)",
+          "Infinite"
         ],
         answer: 0,
-        explanation: "Go-Back-N receivers accept only the single expected in-order frame. Its receiver window size is strictly 1; any out-of-order frame is discarded."
+        is_pyq: true,
+        explanation: "The receiver window in Go-Back-N is strictly 1, meaning it accepts frames only in strict sequential order and discards out-of-order frames."
       },
       {
-        question: "Which switching technique establishes a dedicated physical communication path before data transmission starts?",
-        options: [
-          "Packet Switching",
-          "Message Switching",
-          "Circuit Switching",
-          "Datagram Switching"
-        ],
-        answer: 2,
-        explanation: "Circuit switching requires a 3-phase process (connection setup, data transfer, connection release) reserving a dedicated physical circuit (like landline phones)."
-      },
-      {
-        question: "What is the total data rate of an ISDN Basic Rate Interface (BRI) consisting of 2B + D channels?",
+        question: "What is the total data transmission rate of an ISDN Basic Rate Interface (BRI)?",
         options: [
           "64 kbps",
           "128 kbps",
@@ -287,29 +306,92 @@
           "1.544 Mbps"
         ],
         answer: 2,
-        explanation: "BRI consists of two 64 kbps B-channels (bearer) and one 16 kbps D-channel (signaling). Total bit rate = 2*64 + 16 = 144 kbps."
+        is_pyq: true,
+        explanation: "BRI consists of $2B + D = 2(64) + 16 = 144$ kbps."
       },
       {
-        question: "Which traffic shaping algorithm allows transmission of bursty traffic up to the accumulated capacity?",
+        question: "Which switching technique dedicates a continuous physical communication path between sender and receiver before transmission begins?",
         options: [
-          "Leaky Bucket",
-          "Token Bucket",
-          "Stop-and-Wait",
-          "Pure ALOHA"
+          "Packet Switching",
+          "Circuit Switching",
+          "Message Switching",
+          "Cell Switching"
         ],
         answer: 1,
-        explanation: "The Token Bucket algorithm accumulates tokens at a fixed rate, allowing a sudden burst of packets to transmit immediately as long as tokens are available."
+        is_pyq: true,
+        explanation: "Circuit switching establishes a dedicated end-to-end physical circuit (setup, data transfer, teardown) reserved exclusively for the duration of the call."
       },
       {
-        question: "Attaching an acknowledgment (ACK) to an outgoing data packet instead of sending a separate ACK frame is called:",
+        question: "What is the maximum sender window size in Selective Repeat ARQ using an m-bit sequence number?",
         options: [
-          "Pipelining",
-          "Piggybacking",
-          "Framing",
-          "Token Passing"
+          "2^m",
+          "2^m - 1",
+          "2^(m-1)",
+          "2^m / 4"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "In Selective Repeat, both the sender and receiver windows have size $2^{m-1}$ to prevent overlapping sequence number confusion."
+      },
+      {
+        question: "Why does Circuit Switching have poor line efficiency compared to Packet Switching?",
+        options: [
+          "Because cables are too thin",
+          "Because the reserved channel remains idle and cannot be shared during pauses in conversation",
+          "Because packets collide frequently",
+          "Because signals travel slower in circuits"
         ],
         answer: 1,
-        explanation: "Piggybacking is the technique of delaying an outgoing acknowledgment and hitchhiking it onto the header of the next outbound data frame to save bandwidth."
+        is_pyq: true,
+        explanation: "Circuit switching permanently reserves bandwidth; if communication pauses, the reserved capacity cannot be dynamically reassigned to other users."
+      },
+      {
+        question: "In ISDN, what is the primary role of the D-Channel (Delta channel)?",
+        options: [
+          "To carry high-speed video frames",
+          "To carry out-of-band call signaling, setup, and teardown control packets",
+          "To supply electrical battery power to phones",
+          "To synchronize clock oscillators"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "The D-channel is the signaling channel that handles call establishment, routing, and tear-down, leaving the B-channels free for pure user data."
+      },
+      {
+        question: "What is the key advantage of Selective Repeat ARQ over Go-Back-N ARQ?",
+        options: [
+          "It uses simpler hardware",
+          "Only damaged/lost frames are retransmitted, avoiding wasted retransmissions of successfully received frames",
+          "It does not require timers",
+          "It eliminates the need for sequence numbers"
+        ],
+        answer: 1,
+        is_pyq: true,
+        explanation: "Selective Repeat uses receiver buffering to hold out-of-order frames, requesting retransmission of only the specific missing frame via negative acknowledgments (NAK)."
+      },
+      {
+        question: "Which optical multiplexing technique combines multiple light signals of different wavelengths onto a single fiber?",
+        options: [
+          "TDM",
+          "FDM",
+          "WDM (Wavelength Division Multiplexing)",
+          "CDM"
+        ],
+        answer: 2,
+        is_pyq: true,
+        explanation: "WDM combines multiple optical carrier signals onto a single optical fiber by using different wavelengths (colors) of laser light."
+      },
+      {
+        question: "In Stop-and-Wait ARQ, if an ACK frame sent by the receiver is lost in transit, what happens?",
+        options: [
+          "The connection is permanently terminated",
+          "The sender's timer expires, and the sender retransmits the same frame; receiver discards duplicate using sequence numbers",
+          "The receiver re-sends all previous data",
+          "The router generates an ICMP crash report"
+        ],
+        answer: 1,
+        is_pyq: false,
+        explanation: "When the sender's retransmission timer expires without receiving an ACK, it retransmits the frame. The receiver uses alternating 0/1 sequence numbers to detect and discard the duplicate."
       }
     ];
 
