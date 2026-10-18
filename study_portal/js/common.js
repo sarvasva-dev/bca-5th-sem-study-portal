@@ -277,7 +277,7 @@ class MCQEngine {
   }
 }
 
-// 7. Interactive Animated Video Theater Engine
+// 7. Interactive Animated Video Theater Engine with Sarvam AI Voice Sync
 class AnimatedVideoTheater {
   constructor(config) {
     this.canvas = document.getElementById(config.canvasId);
@@ -289,6 +289,8 @@ class AnimatedVideoTheater {
     this.playbackSpeed = 1;
     this.progress = 0;
     this.animId = null;
+    this.soundEnabled = true;
+    this.currentAudio = null;
 
     // UI elements
     this.playBtn = document.getElementById(config.playBtnId);
@@ -296,6 +298,7 @@ class AnimatedVideoTheater {
     this.subEnEl = document.getElementById(config.subEnId);
     this.subHiEl = document.getElementById(config.subHiId);
     this.speedBtn = document.getElementById(config.speedBtnId);
+    this.soundBtn = document.getElementById(config.soundBtnId);
 
     this.setupCanvas();
     this.updateUI();
@@ -330,6 +333,10 @@ class AnimatedVideoTheater {
     if (this.playBtn) {
       this.playBtn.innerHTML = this.isPlaying ? '⏸️ Pause' : '▶️ Play Video';
     }
+    if (this.soundBtn) {
+      this.soundBtn.innerHTML = this.soundEnabled ? '🔊 Voice ON' : '🔇 Voice OFF';
+      this.soundBtn.style.color = this.soundEnabled ? '#10b981' : '#94a3b8';
+    }
   }
 
   render() {
@@ -340,47 +347,97 @@ class AnimatedVideoTheater {
     }
   }
 
+  stopCurrentAudio() {
+    if (this.currentAudio) {
+      this.currentAudio.pause();
+      this.currentAudio.onended = null;
+      this.currentAudio.ontimeupdate = null;
+      this.currentAudio = null;
+    }
+  }
+
   play() {
     if (this.isPlaying) return;
     this.isPlaying = true;
     this.updateUI();
+    this.playStep(this.currentStep);
+  }
+
+  playStep(stepIndex) {
+    if (!this.isPlaying) return;
+    this.currentStep = stepIndex;
+    this.progress = 0;
+    this.updateUI();
+    this.stopCurrentAudio();
+
+    const step = this.steps[stepIndex];
+    if (this.soundEnabled && step && step.audioSrc) {
+      const audio = new Audio(step.audioSrc);
+      this.currentAudio = audio;
+      audio.playbackRate = this.playbackSpeed;
+
+      audio.ontimeupdate = () => {
+        if (audio.duration) {
+          this.progress = Math.min(1, audio.currentTime / audio.duration);
+          this.render();
+        }
+      };
+
+      audio.onended = () => {
+        this.progress = 1;
+        this.render();
+        setTimeout(() => {
+          if (!this.isPlaying) return;
+          if (this.currentStep < this.steps.length - 1) {
+            this.playStep(this.currentStep + 1);
+          } else {
+            this.pause();
+          }
+        }, 800 / this.playbackSpeed);
+      };
+
+      audio.play().catch((err) => {
+        console.warn('Audio autoplay prevented, using timer fallback:', err);
+        this.runTimerFallback();
+      });
+    } else {
+      this.runTimerFallback();
+    }
+  }
+
+  runTimerFallback() {
     let lastTime = performance.now();
+    const duration = 5.0 / this.playbackSpeed;
+    let elapsed = 0;
 
     const loop = (now) => {
       if (!this.isPlaying) return;
       const dt = (now - lastTime) / 1000;
       lastTime = now;
-      this.progress += dt * 0.8 * this.playbackSpeed;
+      elapsed += dt;
+      this.progress = Math.min(1, elapsed / duration);
+      this.render();
 
       if (this.progress >= 1) {
-        this.progress = 1;
-        this.render();
-        // Advance to next step after brief pause
         setTimeout(() => {
           if (!this.isPlaying) return;
           if (this.currentStep < this.steps.length - 1) {
-            this.currentStep++;
-            this.progress = 0;
-            this.updateUI();
-            lastTime = performance.now();
-            this.animId = requestAnimationFrame(loop);
+            this.playStep(this.currentStep + 1);
           } else {
             this.pause();
           }
-        }, 1200 / this.playbackSpeed);
+        }, 800 / this.playbackSpeed);
         return;
       }
-
-      this.render();
       this.animId = requestAnimationFrame(loop);
     };
-
     this.animId = requestAnimationFrame(loop);
   }
 
   pause() {
     this.isPlaying = false;
     if (this.animId) cancelAnimationFrame(this.animId);
+    this.stopCurrentAudio();
     this.updateUI();
   }
 
@@ -394,6 +451,16 @@ class AnimatedVideoTheater {
       }
       this.play();
     }
+  }
+
+  toggleSound() {
+    this.soundEnabled = !this.soundEnabled;
+    if (!this.soundEnabled && this.currentAudio) {
+      this.currentAudio.pause();
+    } else if (this.soundEnabled && this.isPlaying) {
+      this.playStep(this.currentStep);
+    }
+    this.updateUI();
   }
 
   nextStep() {
@@ -430,6 +497,9 @@ class AnimatedVideoTheater {
     if (this.speedBtn) {
       this.speedBtn.innerText = `⚡ ${this.playbackSpeed}x`;
     }
+    if (this.currentAudio) {
+      this.currentAudio.playbackRate = this.playbackSpeed;
+    }
   }
 }
 
@@ -445,6 +515,7 @@ function setupNewtonRaphsonTheater(canvasId) {
   const steps = [
     {
       title: "Problem Setup & Continuous Function Curve",
+      audioSrc: "audio/nr_step0.wav",
       subEn: "<strong>Objective:</strong> Find the positive root of $f(x) = x^2 - 5 = 0$ (i.e. $\\sqrt{5} \\approx 2.2361$). The green curve represents $y = f(x)$ intersecting the x-axis at $\\alpha$.",
       subHi: "<strong>Hindi Samjhaun:</strong> Hume $x^2 - 5 = 0$ ka positive root $\\sqrt{5}$ nikalna hai. Green curve $y = f(x)$ hai jo x-axis ko red dot $\\alpha$ par cut karta hai.",
       draw: (ctx, w, h, p) => {
@@ -455,6 +526,7 @@ function setupNewtonRaphsonTheater(canvasId) {
     },
     {
       title: "Initial Guess $x_0 = 3.2$ & Function Point",
+      audioSrc: "audio/nr_step1.wav",
       subEn: "<strong>Initial Guess:</strong> We choose $x_0 = 3.2$. Projecting vertically up gives the curve point $(x_0, f(x_0)) = (3.2, 5.24)$.",
       subHi: "<strong>Hindi Samjhaun:</strong> Pehla guess $x_0 = 3.2$ liya. Yahan se upar curve par point $(x_0, f(x_0))$ locate hua.",
       draw: (ctx, w, h, p) => {
@@ -466,6 +538,7 @@ function setupNewtonRaphsonTheater(canvasId) {
     },
     {
       title: "Iteration 1: Tangent Descent to $x_1 = 2.381$",
+      audioSrc: "audio/nr_step2.wav",
       subEn: "<strong>Tangent Line Descent:</strong> The tangent at $(x_0, f(x_0))$ has slope $f'(x_0) = 6.4$. Following this tangent down hits the x-axis at $x_1 = 3.2 - \\frac{5.24}{6.4} = \\mathbf{2.381}$.",
       subHi: "<strong>Hindi Samjhaun:</strong> $(x_0, f(x_0))$ se tangent draw hui. Tangent line tezi se neeche aakar x-axis ko $x_1 = 2.381$ par cut karti hai!",
       draw: (ctx, w, h, p) => {
@@ -482,6 +555,7 @@ function setupNewtonRaphsonTheater(canvasId) {
     },
     {
       title: "Iteration 2: Quadratic Convergence ($p=2$) to $x_2 = 2.239$",
+      audioSrc: "audio/nr_step3.wav",
       subEn: "<strong>Quadratic Convergence in Action:</strong> From $x_1 = 2.381$, we project up and cast the second tangent. It strikes at $x_2 = \\mathbf{2.239}$, virtually identical to true root $\\alpha = 2.236$ in just 2 steps!",
       subHi: "<strong>Hindi Samjhaun:</strong> Dusri iteration me tangent $x_1$ se seedha $x_2 = 2.239$ par aati hai! Sirf 2 steps me accuracy double ho gayi!",
       draw: (ctx, w, h, p) => {
@@ -627,6 +701,7 @@ function setupNewtonRaphsonTheater(canvasId) {
     subEnId: 'nr-sub-en',
     subHiId: 'nr-sub-hi',
     speedBtnId: 'nr-btn-speed',
+    soundBtnId: 'nr-btn-sound',
     steps: steps
   });
 }
@@ -639,6 +714,7 @@ function setupTcpHandshakeTheater(canvasId) {
   const steps = [
     {
       title: "Initial State: Client CLOSED, Server in LISTEN Mode",
+      audioSrc: "audio/tcp_step0.wav",
       subEn: "<strong>Connection Setup:</strong> Server is passive and listening on port 80/443 (<code>LISTEN</code>). Client is ready to initiate a reliable TCP connection (<code>CLOSED</code>).",
       subHi: "<strong>Hindi Samjhaun:</strong> Server port 80 par wait kar raha hai (<code>LISTEN</code>). Client abhi <code>CLOSED</code> state me hai aur connection establish karna chahta hai.",
       draw: (ctx, w, h, p) => {
@@ -647,6 +723,7 @@ function setupTcpHandshakeTheater(canvasId) {
     },
     {
       title: "Step 1: Client sends SYN packet (seq = 100)",
+      audioSrc: "audio/tcp_step1.wav",
       subEn: "<strong>SYN Transmission:</strong> Client generates Initial Sequence Number (ISN = 100), sets SYN flag = 1, moves to <code>SYN_SENT</code>, and transmits the segment across the network.",
       subHi: "<strong>Hindi Samjhaun:</strong> Client <code>SYN (seq=100)</code> packet bhejta hai: 'Hey server, kya tum ready ho?' Client <code>SYN_SENT</code> state me chala gaya.",
       draw: (ctx, w, h, p) => {
@@ -656,6 +733,7 @@ function setupTcpHandshakeTheater(canvasId) {
     },
     {
       title: "Step 2: Server responds with SYN-ACK (seq = 300, ack = 101)",
+      audioSrc: "audio/tcp_step2.wav",
       subEn: "<strong>SYN-ACK Response:</strong> Server allocates connection buffers, picks its own ISN = 300, acknowledges Client's seq (ack = 100 + 1 = 101), sets SYN=1 and ACK=1, and shifts to <code>SYN_RCVD</code>.",
       subHi: "<strong>Hindi Samjhaun:</strong> Server bolta hai: 'Haan main ready hoon! Mujhe seq 100 mil gaya (ack=101), aur mera seq 300 hai.' Server <code>SYN_RCVD</code> state me chala gaya.",
       draw: (ctx, w, h, p) => {
@@ -665,6 +743,7 @@ function setupTcpHandshakeTheater(canvasId) {
     },
     {
       title: "Step 3: Client confirms with ACK (seq = 101, ack = 301)",
+      audioSrc: "audio/tcp_step3.wav",
       subEn: "<strong>Final ACK & Connection ESTABLISHED:</strong> Client verifies ack=101, acknowledges Server's seq (ack = 300 + 1 = 301). Both sides are now in <code>ESTABLISHED</code> state, ready for full-duplex data streaming!",
       subHi: "<strong>Hindi Samjhaun:</strong> Client confirm karta hai: 'Got it! Handshake complete!' Dono sides <code>ESTABLISHED</code> ho gayi aur reliable data transfer shuru!",
       draw: (ctx, w, h, p) => {
@@ -746,6 +825,7 @@ function setupTcpHandshakeTheater(canvasId) {
     subEnId: 'tcp-sub-en',
     subHiId: 'tcp-sub-hi',
     speedBtnId: 'tcp-btn-speed',
+    soundBtnId: 'tcp-btn-sound',
     steps: steps
   });
 }
@@ -758,6 +838,7 @@ function setupJvmMemoryTheater(canvasId) {
   const steps = [
     {
       title: "JVM Runtime Architecture Layout",
+      audioSrc: "audio/jvm_step0.wav",
       subEn: "<strong>JVM Memory Architecture:</strong> Method Area (Class metadata), Heap (Runtime Objects), and JVM Stack (Per-thread method frames).",
       subHi: "<strong>Hindi Samjhaun:</strong> JVM Memory 3 main parts me divided hai: Method Area, Heap (objects ke liye), aur Call Stack (local variables ke liye).",
       draw: (ctx, w, h, p) => {
@@ -766,6 +847,7 @@ function setupJvmMemoryTheater(canvasId) {
     },
     {
       title: "Step 1: ClassLoader Loads Student.class into Method Area",
+      audioSrc: "audio/jvm_step1.wav",
       subEn: "<strong>ClassLoader Subsystem:</strong> <code>Student.class</code> bytecode is loaded, linked, verified, and placed into the shared Method Area.",
       subHi: "<strong>Hindi Samjhaun:</strong> ClassLoader <code>Student.class</code> ko load karke Method Area me class structure aur bytecode store karta hai.",
       draw: (ctx, w, h, p) => {
@@ -775,6 +857,7 @@ function setupJvmMemoryTheater(canvasId) {
     },
     {
       title: "Step 2: Thread Call Stack Pushes main() Stack Frame",
+      audioSrc: "audio/jvm_step2.wav",
       subEn: "<strong>Call Stack Activation:</strong> When <code>main()</code> is invoked, a Stack Frame is pushed containing Local Variables Array and Operand Stack.",
       subHi: "<strong>Hindi Samjhaun:</strong> Main thread start hote hi JVM Stack par <code>main()</code> method ka Frame push ho jata hai.",
       draw: (ctx, w, h, p) => {
@@ -784,6 +867,7 @@ function setupJvmMemoryTheater(canvasId) {
     },
     {
       title: "Step 3: Object Instantiation (Student s1 = new Student('Amit'))",
+      audioSrc: "audio/jvm_step3.wav",
       subEn: "<strong>Heap Allocation & Reference Pointer:</strong> <code>new</code> allocates object on Heap at address <code>0x7FA0</code>. Stack variable <code>s1</code> stores the reference address.",
       subHi: "<strong>Hindi Samjhaun:</strong> Heap me actual object banta hai (<code>name='Amit'</code>), aur Stack ka variable <code>s1</code> uske address <code>0x7FA0</code> ko point karta hai!",
       draw: (ctx, w, h, p) => {
@@ -794,6 +878,7 @@ function setupJvmMemoryTheater(canvasId) {
     },
     {
       title: "Step 4: Dereferencing (s1 = null) & Garbage Collector (GC)",
+      audioSrc: "audio/jvm_step4.wav",
       subEn: "<strong>Garbage Collection (GC):</strong> When <code>s1 = null</code>, the reference pointer breaks. The unreferenced Heap object is swept by the Garbage Collector!",
       subHi: "<strong>Hindi Samjhaun:</strong> Jab reference null hota hai, link tut jati hai. Garbage Collector (GC) unused memory ko sweep karke free kar deta hai!",
       draw: (ctx, w, h, p) => {
@@ -920,6 +1005,7 @@ function setupJvmMemoryTheater(canvasId) {
     subEnId: 'jvm-sub-en',
     subHiId: 'jvm-sub-hi',
     speedBtnId: 'jvm-btn-speed',
+    soundBtnId: 'jvm-btn-sound',
     steps: steps
   });
 }
