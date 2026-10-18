@@ -56,57 +56,191 @@
       <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: Initial Value Problem & Euler's Method -->
+    <!-- Topic 1: Initial Value Problems & Single-Step vs Multi-Step Methods -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Initial Value Problems & Euler's Method</span>
+        <span><span class="card-heading-icon">1.</span> Initial Value Problems & Method Classifications</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2018 (Single-step vs Multi-step methods, Local vs Global error)</span>
       </div>
 
       <div class="callout callout-objective">
         <strong>🎯 Learning Objectives:</strong>
         <ul style="margin:4px 0 0 16px;">
-          <li>Define an Initial Value Problem (IVP): $\frac{dy}{dx} = f(x, y)$ with condition $y(x_0) = y_0$.</li>
-          <li>Understand Euler's tangent step algorithm and its error limitations ($O(h)$ global error).</li>
+          <li>Define an Initial Value Problem (IVP) of first order: $\frac{dy}{dx} = f(x, y)$ subject to $y(x_0) = y_0$.</li>
+          <li>Distinguish Single-Step methods (Euler, RK4) from Multi-Step Predictor-Corrector methods (Milne, Adams).</li>
+          <li>Contrast Local Truncation Error $O(h^{p+1})$ with Global Accumulated Error $O(h^p)$.</li>
         </ul>
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Euler's Iteration Formula:</strong><br>
-        $$y_{n+1} = y_n + h \cdot f(x_n, y_n)$$
-        <em>Condition:</em> Step size $h = x_{n+1} - x_n$. Truncation error: Local $= O(h^2)$, Global $= O(h)$.
+      <div class="callout callout-intuition">
+        <strong>💡 Conceptual Intuition: Why Do Numerical ODE Solvers Exist When We Know Calculus?</strong><br>
+        In basic calculus, you learn to solve simple differential equations like $\frac{dy}{dx} = 2x \implies y = x^2 + C$. But in real-world aerodynamics, robotics, and financial modeling, equations like $\frac{dy}{dx} = x^2 + \sin(xy)$ have <strong>no closed-form analytical solution</strong>! We cannot find a neat mathematical formula.<br>
+        Numerical methods march along the curve step-by-step ($x_0 \to x_1 \to x_2 \dots$), computing the slope at each instant to trace out the exact numerical trajectory with extraordinary accuracy!
       </div>
 
-      <p>
-        <strong>Geometric Principle:</strong> Euler's method approximates the solution curve by straight-line tangent segments across step size $h$. Because the tangent direction changes continuously, Euler's method drifts away from the true curve unless $h$ is very small.
-      </p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Single-Step Methods (Euler, Modified Euler, RK4)</th>
+              <th>Multi-Step Methods (Milne-Simpson, Adams-Bashforth)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Information Required</strong></td>
+              <td>Computes $y_{n+1}$ using information strictly from the <strong>single immediately preceding point</strong> $(x_n, y_n)$.</td>
+              <td>Computes $y_{n+1}$ using information from <strong>several preceding historical points</strong>: $(x_n, y_n), (x_{n-1}, y_{n-1}), \dots, (x_{n-3}, y_{n-3})$.</td>
+            </tr>
+            <tr>
+              <td><strong>Self-Starting Ability</strong></td>
+              <td><strong>Self-starting</strong>; can begin immediately with only the single initial condition $(x_0, y_0)$.</td>
+              <td><strong>Cannot self-start</strong>; requires a single-step method (like RK4) to generate the first 3 or 4 starting points!</td>
+            </tr>
+            <tr>
+              <td><strong>Step Size Changing</strong></td>
+              <td>Very easy to dynamically double or halve step size $h$ adaptively.</td>
+              <td>Extremely difficult to change step size $h$ midway without re-starting.</td>
+            </tr>
+            <tr>
+              <td><strong>Function Evaluations</strong></td>
+              <td>Requires multiple slope evaluations per step (e.g. RK4 requires 4 function evaluations per step).</td>
+              <td>Requires fewer new function evaluations per step because past values are reused from memory.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Topic 2: Picard's Method of Successive Approximations -->
+    <!-- Topic 2: Taylor Series Method -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Picard's Successive Approximations</span>
+        <span><span class="card-heading-icon">2.</span> Taylor's Series Method for ODEs</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2018 (Derivation and 5–10 mark analytical integration question)</span>
+        <span>2024–25, 2022, 2019 (Taylor series method derivation and 10-mark solved problem)</span>
+      </div>
+
+      <p>
+        Taylor's series expresses the solution $y(x)$ in the neighborhood of $x_0$ as an infinite power series expansion:
+      </p>
+
+      <div class="callout callout-formula">
+        <strong>Taylor Series Expansion Formula:</strong><br>
+        $$y(x) = y_0 + (x - x_0) y_0' + \frac{(x - x_0)^2}{2!} y_0'' + \frac{(x - x_0)^3}{3!} y_0''' + \frac{(x - x_0)^4}{4!} y_0^{(iv)} + \dots$$
+        where higher derivatives are obtained by successive implicit differentiation of $y' = f(x, y)$ with respect to $x$:
+        $$y'' = \frac{\partial f}{\partial x} + \frac{\partial f}{\partial y} y', \quad y''' = \frac{d}{dx}(y''), \quad \dots$$
+      </div>
+
+      <!-- Solved Taylor Problem -->
+      <div class="callout callout-tip">
+        <strong>📝 Master Solved University Problem (Taylor Series):</strong><br>
+        Solve $\frac{dy}{dx} = x^2 + y$ with initial condition $y(0) = 1$. Use Taylor's series up to the fourth-degree term to compute $y(0.1)$ correct to 4 decimal places.
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Step 1: Compute Derivatives at $(x_0, y_0) = (0, 1)$:</strong><br>
+          • $y' = x^2 + y \implies y_0' = 0^2 + 1 = \mathbf{1}$<br>
+          • $y'' = \frac{d}{dx}(x^2 + y) = 2x + y' \implies y_0'' = 2(0) + 1 = \mathbf{1}$<br>
+          • $y''' = \frac{d}{dx}(2x + y') = 2 + y'' \implies y_0''' = 2 + 1 = \mathbf{3}$<br>
+          • $y^{(iv)} = \frac{d}{dx}(2 + y'') = y''' \implies y_0^{(iv)} = \mathbf{3}$
+        </div>
+        <div class="step-item">
+          <strong>Step 2: Construct Taylor Polynomial ($x_0 = 0$):</strong><br>
+          $$y(x) = 1 + x(1) + \frac{x^2}{2}(1) + \frac{x^3}{6}(3) + \frac{x^4}{24}(3)$$
+          $$y(x) = 1 + x + \frac{x^2}{2} + \frac{x^3}{2} + \frac{x^4}{8}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 3: Evaluate at $x = 0.1$:</strong><br>
+          $$y(0.1) = 1 + 0.1 + \frac{0.01}{2} + \frac{0.001}{2} + \frac{0.0001}{8}$$
+          $$y(0.1) = 1 + 0.1 + 0.005 + 0.0005 + 0.0000125 = \mathbf{1.1055}$$
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 3: Euler's Method & Modified Euler (Heun's) Predictor-Corrector -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Euler's Method & Modified Euler's (Heun's) Method</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2020, 2017 (Modified Euler derivation, predictor-corrector algorithm & numerical)</span>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
       <div class="callout callout-formula">
-        <strong>Picard's Iterative Integral Formula:</strong><br>
+        <strong>1. Standard Euler's Method (First Order, $O(h)$ Global Error):</strong><br>
+        $$y_{n+1} = y_n + h \cdot f(x_n, y_n)$$
+        <em>Limitation:</em> Approximates curve by tangent at the start of interval. Error grows linearly with step size $h$.<br><br>
+        <strong>2. Modified Euler's (Heun's) Predictor-Corrector Method (Second Order, $O(h^2)$ Global Error):</strong><br>
+        • <strong>Predictor Step:</strong> Predicts preliminary value $y_{n+1}^*$ using standard Euler:<br>
+        $$y_{n+1}^* = y_n + h \cdot f(x_n, y_n)$$
+        • <strong>Corrector Step:</strong> Refines value using average of slopes at interval endpoints (Trapezoidal slope):<br>
+        $$y_{n+1} = y_n + \frac{h}{2} \Big[ f(x_n, y_n) + f\big(x_{n+1}, y_{n+1}^*\big) \Big]$$
+      </div>
+
+      <!-- Solved Modified Euler Problem -->
+      <div class="callout callout-tip">
+        <strong>📝 Master Solved University Problem (Modified Euler):</strong><br>
+        Solve $\frac{dy}{dx} = x + y$ with $y(0) = 1$. Find $y(0.1)$ using Modified Euler's method with step size $h = 0.1$.
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Given:</strong> $f(x, y) = x + y$, $x_0 = 0, y_0 = 1, h = 0.1 \implies x_1 = 0.1$.
+        </div>
+        <div class="step-item">
+          <strong>Step 1: Predictor Step (Standard Euler):</strong><br>
+          $$f(x_0, y_0) = 0 + 1 = 1$$
+          $$y_1^* = y_0 + h \cdot f(x_0, y_0) = 1 + (0.1)(1) = \mathbf{1.1000}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 2: Corrector Step:</strong><br>
+          Evaluate slope at predicted endpoint: $f(x_1, y_1^*) = f(0.1, 1.10) = 0.1 + 1.10 = \mathbf{1.2000}$<br>
+          Compute average slope and corrected $y_1$:<br>
+          $$y_1 = y_0 + \frac{h}{2} \Big[ f(x_0, y_0) + f(x_1, y_1^*) \Big] = 1 + \frac{0.1}{2} [1.0000 + 1.2000]$$
+          $$y_1 = 1 + 0.05 \times 2.2000 = 1 + 0.1100 = \mathbf{1.1100}$$
+          <em>Notice:</em> Pure Euler gave $1.1000$, whereas Modified Euler gives $1.1100$ (much closer to the true analytical value $1.11034$!).
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 4: Picard's Method of Successive Approximations -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Picard's Method of Successive Approximations</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022, 2018 (Derivation and successive integral approximations)</span>
+      </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <p>
+        Picard's method transforms the differential equation $\frac{dy}{dx} = f(x, y)$ into an equivalent <strong>Volterra Integral Equation</strong>:
+      </p>
+
+      <div class="callout callout-formula">
+        <strong>Picard's Iterative Integral Scheme:</strong><br>
         $$y^{(k+1)}(x) = y_0 + \int_{x_0}^x f\Big(t, y^{(k)}(t)\Big) \, dt$$
-        where initial approximation $y^{(0)}(x) = y_0$ (constant).
+        Starting with the 0th approximation: $y^{(0)}(x) = y_0$ (constant).
       </div>
 
       <!-- Worked Numerical -->
       <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical:</strong><br>
-        <em>Problem:</em> Given $\frac{dy}{dx} = x + y^2$ with $y(0) = 1$, find the first two successive approximations using Picard's method.
+        <strong>📝 Master Solved University Problem (Picard's Method):</strong><br>
+        Given $\frac{dy}{dx} = x + y^2$ with $y(0) = 1$, obtain the first two successive approximations.
       </div>
       <div class="step-list">
         <div class="step-item">
-          <strong>Initial Starting Values:</strong> $x_0 = 0, y_0 = 1$. Let $y^{(0)} = 1$.
+          <strong>Initial Starting Values:</strong> $x_0 = 0, y_0 = 1$. Let $y^{(0)}(x) = 1$.
         </div>
         <div class="step-item">
           <strong>First Approximation $y^{(1)}(x)$:</strong><br>
@@ -114,26 +248,27 @@
         </div>
         <div class="step-item">
           <strong>Second Approximation $y^{(2)}(x)$:</strong><br>
-          Substitute $y^{(1)} = 1 + x + \frac{x^2}{2}$ into $f(t, y) = t + y^2$ (neglecting powers $x^3$ and above if small):<br>
-          $$(y^{(1)})^2 = \left(1 + x + \frac{x^2}{2}\right)^2 \approx 1 + 2x + 2x^2$$
-          $$y^{(2)}(x) = 1 + \int_0^x \Big[ t + (1 + 2t + 2t^2) \Big] dt = 1 + \int_0^x (1 + 3t + 2t^2) dt = \mathbf{1 + x + \frac{3x^2}{2} + \frac{2x^3}{3}}$$
+          Substitute $y^{(1)}(t) = 1 + t + \frac{t^2}{2}$ into $f(t, y) = t + y^2$:<br>
+          $$(y^{(1)})^2 = \left(1 + t + \frac{t^2}{2}\right)^2 = 1 + 2t + 2t^2 + t^3 + \frac{t^4}{4}$$
+          $$y^{(2)}(x) = 1 + \int_0^x \left[ t + 1 + 2t + 2t^2 + t^3 + \frac{t^4}{4} \right] dt = 1 + \int_0^x \left( 1 + 3t + 2t^2 + t^3 + \frac{t^4}{4} \right) dt$$
+          $$y^{(2)}(x) = 1 + \left[ t + \frac{3t^2}{2} + \frac{2t^3}{3} + \frac{t^4}{4} + \frac{t^5}{20} \right]_0^x = \mathbf{1 + x + \frac{3x^2}{2} + \frac{2x^3}{3} + \frac{x^4}{4} + \frac{x^5}{20}}$$
         </div>
       </div>
     </div>
 
-    <!-- Topic 3: Runge-Kutta 4th Order Method (RK4) -->
+    <!-- Topic 5: Runge-Kutta 4th Order Method (RK4) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Runge-Kutta 4th Order Method (RK4)</span>
+        <span><span class="card-heading-icon">5.</span> Runge-Kutta 4th Order Method (RK4)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2021, 2019, 2015 (Repeatedly asked for 10 marks — highest weightage!)</span>
+        <span>2025–26, 2023–24, 2021, 2019, 2015 (Repeatedly asked for 10 marks — Highest Examination Weightage!)</span>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
       <div class="callout callout-formula">
-        <strong>The 4 Slopes & Increment Formula:</strong><br>
+        <strong>The RK4 Mathematical Formulas:</strong><br>
         $$\begin{aligned}
         k_1 &= h \cdot f(x_0, y_0) \\
         k_2 &= h \cdot f\left( x_0 + \frac{h}{2}, y_0 + \frac{k_1}{2} \right) \\
@@ -142,12 +277,12 @@
         \Delta y &= \frac{1}{6} \Big( k_1 + 2k_2 + 2k_3 + k_4 \Big) \\
         y(x_0 + h) &= y_0 + \Delta y
         \end{aligned}$$
-        <em>Why RK4 is Supreme:</em> It achieves fourth-order accuracy ($O(h^4)$ global error) matching Taylor series through $h^4$, <strong>without requiring any analytical differentiation</strong>!
+        <em>Why RK4 is Supreme:</em> It achieves fourth-order accuracy ($O(h^4)$ global error) matching Taylor series through $h^4$, <strong>without requiring any analytical differentiation</strong>! The weighting $(1:2:2:1)/6$ is identical to Simpson's $1/3$ rule!
       </div>
 
       <!-- Fully Solved Step-by-Step RK4 Problem -->
       <div class="callout callout-tip">
-        <strong>📝 Master Solved University Problem:</strong><br>
+        <strong>📝 Master Solved University Problem (5-Decimal Precision):</strong><br>
         Apply the Runge-Kutta 4th Order method to find $y(0.1)$ given:
         $$\frac{dy}{dx} = x + y, \quad y(0) = 1, \quad \text{with step size } h = 0.1$$
       </div>
@@ -159,23 +294,23 @@
           $f(x, y) = x + y$, initial values $x_0 = 0, y_0 = 1$, step size $h = 0.1$.
         </div>
         <div class="step-item">
-          <strong>Step 1: Calculate $k_1$:</strong><br>
+          <strong>Step 1: Calculate $k_1$ (Slope at left boundary):</strong><br>
           $$k_1 = h \cdot f(x_0, y_0) = 0.1 \times (0 + 1) = \mathbf{0.10000}$$
         </div>
         <div class="step-item">
-          <strong>Step 2: Calculate $k_2$:</strong><br>
+          <strong>Step 2: Calculate $k_2$ (First trial slope at midpoint):</strong><br>
           $$x_0 + \frac{h}{2} = 0 + 0.05 = 0.05$$
           $$y_0 + \frac{k_1}{2} = 1 + \frac{0.10000}{2} = 1.05$$
           $$k_2 = h \cdot f(0.05, 1.05) = 0.1 \times (0.05 + 1.05) = 0.1 \times 1.10 = \mathbf{0.11000}$$
         </div>
         <div class="step-item">
-          <strong>Step 3: Calculate $k_3$:</strong><br>
+          <strong>Step 3: Calculate $k_3$ (Second trial slope at midpoint):</strong><br>
           $$x_0 + \frac{h}{2} = 0.05$$
           $$y_0 + \frac{k_2}{2} = 1 + \frac{0.11000}{2} = 1.055$$
           $$k_3 = h \cdot f(0.05, 1.055) = 0.1 \times (0.05 + 1.055) = 0.1 \times 1.105 = \mathbf{0.11050}$$
         </div>
         <div class="step-item">
-          <strong>Step 4: Calculate $k_4$:</strong><br>
+          <strong>Step 4: Calculate $k_4$ (Slope at right boundary):</strong><br>
           $$x_0 + h = 0 + 0.1 = 0.1$$
           $$y_0 + k_3 = 1 + 0.11050 = 1.11050$$
           $$k_4 = h \cdot f(0.1, 1.11050) = 0.1 \times (0.1 + 1.11050) = 0.1 \times 1.21050 = \mathbf{0.12105}$$
@@ -189,8 +324,95 @@
         <div class="step-item">
           <strong>Step 6: Compute Final Value $y(0.1)$:</strong><br>
           $$y(0.1) = y_0 + \Delta y = 1 + 0.11034 = \mathbf{1.11034}$$
-          <em>Exact Analytical Verification:</em> Solution is $y = 2e^x - x - 1$. For $x = 0.1$: $y = 2(1.10517) - 0.1 - 1 = 1.11034$ (Error is less than $10^{-5}$!).
+          <em>Exact Analytical Verification:</em> Analytical solution of $\frac{dy}{dx} - y = x$ via integrating factor is $y = 2e^x - x - 1$.<br>
+          For $x = 0.1$: $y = 2e^{0.1} - 0.1 - 1 = 2(1.1051709) - 1.1 = 2.2103418 - 1.1 = \mathbf{1.1103418}$!<br>
+          The RK4 result matches the exact analytical answer to <strong>5 full decimal places</strong>!
         </div>
+      </div>
+    </div>
+
+    <!-- Topic 6: Comprehensive Comparison Matrix of ODE Solvers -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Comprehensive Comparison Matrix of ODE Solvers</span>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Order of Accuracy</th>
+              <th>Global Error</th>
+              <th>Analytical Derivatives Needed?</th>
+              <th>Self-Starting?</th>
+              <th>Primary Limitation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Euler's Method</strong></td>
+              <td>1st Order</td>
+              <td>$O(h)$</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Very inaccurate; requires tiny $h$, causing round-off errors.</td>
+            </tr>
+            <tr>
+              <td><strong>Modified Euler</strong></td>
+              <td>2nd Order</td>
+              <td>$O(h^2)$</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Requires two function evaluations per step.</td>
+            </tr>
+            <tr>
+              <td><strong>Taylor Series</strong></td>
+              <td>$p$-th Order</td>
+              <td>$O(h^p)$</td>
+              <td><strong>Yes</strong> (repeated $y'', y''', \dots$)</td>
+              <td>Yes</td>
+              <td>Analytical derivatives become impossible for complex $f(x, y)$.</td>
+            </tr>
+            <tr>
+              <td><strong>Picard's Method</strong></td>
+              <td>Analytical Series</td>
+              <td>Truncation error</td>
+              <td>No (requires symbolic integration)</td>
+              <td>Yes</td>
+              <td>Fails when $\int f(t, y) dt$ cannot be integrated in closed form.</td>
+            </tr>
+            <tr>
+              <td><strong>Runge-Kutta 4th (RK4)</strong></td>
+              <td><strong>4th Order</strong></td>
+              <td>$O(h^4)$</td>
+              <td><strong>No</strong> (only evaluations of $f$)</td>
+              <td><strong>Yes</strong></td>
+              <td>Computationally heavy (4 function evaluations per step).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 7: Exam Answer Blueprint & Pitfalls to Avoid -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Runge-Kutta 4th Order Method":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Formulas First (2 Marks):</strong> Write all four slope equations ($k_1, k_2, k_3, k_4$) and $\Delta y = \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)$ clearly before plugging in numbers.</li>
+          <li><strong>Step-by-Step Values (5 Marks):</strong> Calculate each $k_i$ on a separate labeled line. Keep at least 4 to 5 decimal places to avoid premature rounding error.</li>
+          <li><strong>Weighted Sum (2 Marks):</strong> Show $k_1 + 2k_2 + 2k_3 + k_4$ addition explicitly before dividing by 6.</li>
+          <li><strong>Final Addition (1 Mark):</strong> Clearly write $y(x_1) = y_0 + \Delta y$ with boxed final answer.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Forgetting to multiply by $h$:</strong> Remember $k_i = h \cdot f(\dots)$. Leaving out the $h$ factor makes your slope 10 times too large ($h = 0.1$) and ruins the entire calculation!<br>
+        • <strong>Using $k_1$ instead of $k_2$ when calculating $k_3$:</strong> Notice: $k_3 = h f(x_0 + \frac{h}{2}, y_0 + \frac{\mathbf{k_2}}{2})$. Accidentally reusing $k_1$ is the most frequent student error!
       </div>
     </div>
 

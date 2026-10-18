@@ -56,48 +56,85 @@
       <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: JSP Concept & Translation Lifecycle -->
+    <!-- Topic 1: JSP Architecture & Complete Translation Lifecycle -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> JSP Architecture & Lifecycle</span>
+        <span><span class="card-heading-icon">1.</span> JSP Architecture & Translation Lifecycle</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2019, 2017 (JSP lifecycle translation, jspInit vs _jspService)</span>
+        <span>2024–25, 2022, 2019, 2017 (JSP lifecycle translation, jspInit vs _jspService — 10-Mark Core Theory)</span>
       </div>
 
       <div class="callout callout-objective">
         <strong>🎯 Learning Objectives:</strong>
         <ul style="margin:4px 0 0 16px;">
-          <li>Understand how a <code>.jsp</code> page is translated and compiled into a Java Servlet.</li>
+          <li>Understand how the Web Container translates and compiles a <code>.jsp</code> page into a Java Servlet.</li>
           <li>Trace the three core lifecycle hooks: <code>jspInit()</code>, <code>_jspService()</code>, <code>jspDestroy()</code>.</li>
+          <li>Contrast runtime request handling with compilation-time translation.</li>
         </ul>
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <p>
-        <strong>What is JSP?</strong> Java Server Pages (JSP) is a server-side technology used to create dynamic, data-driven web pages. A JSP page is primarily an HTML template with embedded Java code tags.
-      </p>
-
-      <div class="callout callout-info">
-        <strong>The Under-the-Hood Secret of JSP:</strong><br>
-        <em>"A JSP page IS a Servlet!"</em> When a client first requests <code>mypage.jsp</code>:
-        <ol class="step-list">
-          <li><strong>Translation:</strong> The JSP engine parses the page and translates it into a standard Java Servlet source file (<code>mypage_jsp.java</code>).</li>
-          <li><strong>Compilation:</strong> The Java compiler compiles the generated servlet into bytecode (<code>mypage_jsp.class</code>).</li>
-          <li><strong>Loading & Execution:</strong> The container loads the class into memory, invokes <code>jspInit()</code> once, and calls <code>_jspService(req, res)</code> for incoming requests.</li>
-        </ol>
+      <div class="callout callout-intuition">
+        <strong>💡 Conceptual Intuition: Why Did Sun Microsystems Create JSP When Servlets Already Existed?</strong><br>
+        In pure Servlets, web developers had to write HTML tags inside long, awkward Java print statements: <code>out.println("&lt;table&gt;&lt;tr&gt;&lt;td&gt;" + data + "&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;");</code>. This was painful to maintain, and frontend designers could not work on the UI without breaking Java code!<br>
+        <strong>JavaServer Pages (JSP)</strong> reversed this paradigm: write standard HTML, CSS, and JavaScript freely, and embed dynamic Java code inside special tags (<code>&lt;% ... %&gt;</code>). Under the hood, <em>the web server translates the entire JSP into a high-performance Java Servlet</em> automatically!
       </div>
+
+      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+
+      <!-- Accurate SVG JSP Lifecycle Diagram -->
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 220" width="100%" height="auto" style="max-width:340px;">
+          <!-- Box 1: Client Request -->
+          <rect x="20" y="15" width="300" height="28" rx="4" fill="rgba(148, 163, 184, 0.2)" stroke="var(--border-color)" />
+          <text x="50" y="33" font-size="9.5" font-weight="bold" fill="var(--text-main)">1. Client Requests Page (mypage.jsp)</text>
+
+          <line x1="170" y1="43" x2="170" y2="60" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Box 2: Translation & Compilation -->
+          <rect x="20" y="60" width="300" height="34" rx="4" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="35" y="76" font-size="9.5" font-weight="bold" fill="#f59e0b">2. Translation (JSP → Servlet .java) &amp; Compilation (.class)</text>
+          <text x="35" y="88" font-size="8" fill="var(--text-muted)">[Performed ONLY on first request or if .jsp was modified]</text>
+
+          <line x1="170" y1="94" x2="170" y2="110" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Box 3: Loading & jspInit() -->
+          <rect x="20" y="110" width="300" height="28" rx="4" fill="rgba(13, 148, 136, 0.15)" stroke="#0d9488" stroke-width="1.5" />
+          <text x="45" y="128" font-size="9.5" font-weight="bold" fill="#0d9488">3. Class Loading, Instantiation &amp; jspInit() [Called Once]</text>
+
+          <line x1="170" y1="138" x2="170" y2="155" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Box 4: _jspService() -->
+          <rect x="20" y="155" width="300" height="32" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="40" y="170" font-size="10" font-weight="bold" fill="#10b981">4. _jspService(request, response) [Called per Request]</text>
+          <text x="40" y="182" font-size="8" fill="var(--text-muted)">Dispatches worker thread; executes scriptlets &amp; generates HTML</text>
+
+          <line x1="170" y1="187" x2="170" y2="200" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Box 5: jspDestroy() -->
+          <rect x="20" y="200" width="300" height="20" rx="4" fill="rgba(225, 29, 72, 0.15)" stroke="#e11d48" stroke-width="1.2" />
+          <text x="60" y="214" font-size="9" font-weight="bold" fill="#e11d48">5. jspDestroy() [Called Once upon Server Shutdown]</text>
+        </svg>
+        <div class="diagram-caption">The Complete 5-Stage JavaServer Pages (JSP) Lifecycle</div>
+      </div>
+
+      <p><strong>The Lifecycle Methods in Detail:</strong></p>
+      <ol class="step-list">
+        <li><strong><code>public void jspInit()</code>:</strong> Invoked by the web container strictly once when the translated servlet instance is initialized. Developers can override this method to open database connections or read configuration parameters.</li>
+        <li><strong><code>public void _jspService(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException</code>:</strong> Invoked for every incoming client HTTP request by an allocated container worker thread. <em>Critical Rule:</em> Developers <strong>cannot override</strong> <code>_jspService()</code> because the JSP engine generates its method body automatically from the HTML and scriptlet tags!</li>
+        <li><strong><code>public void jspDestroy()</code>:</strong> Invoked by the container strictly once when the application is undeployed or the server shuts down, allowing cleanup of persistent resources.</li>
+      </ol>
     </div>
 
-    <!-- Topic 2: JSP vs Servlets -->
+    <!-- Topic 2: JSP vs Servlets (MVC Pattern Role) -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> JSP vs Servlets (MVC Pattern Role)</span>
+        <span><span class="card-heading-icon">2.</span> JSP vs Servlets (MVC Architecture Role)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2021, 2018 (When to use JSP vs Servlet in enterprise web apps)</span>
+        <span>2024–25, 2021, 2018 (When to use JSP vs Servlet in enterprise web apps — 10-Mark Question!)</span>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
@@ -105,120 +142,322 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
+              <th>Evaluation Parameter</th>
               <th>Java Servlets</th>
-              <th>Java Server Pages (JSP)</th>
+              <th>JavaServer Pages (JSP)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Core Nature</strong></td>
-              <td>HTML embedded inside Java code: <code>out.println("&lt;h1&gt;" + data + "&lt;/h1&gt;");</code></td>
-              <td>Java embedded inside HTML tags: <code>&lt;h1&gt;&lt;%= data %&gt;&lt;/h1&gt;</code></td>
+              <td>HTML embedded inside Java code using <code>out.println()</code> statements.</td>
+              <td>Java code embedded inside standard HTML/CSS markup using special tags.</td>
             </tr>
             <tr>
-              <td><strong>Primary Role (MVC)</strong></td>
-              <td><strong>Controller</strong>: Handles business logic, authentication, and database routing</td>
-              <td><strong>View</strong>: Renders dynamic presentations, layouts, and user interfaces</td>
+              <td><strong>Primary Role in MVC</strong></td>
+              <td><strong>Controller</strong>: Handles HTTP requests, session logic, authentication, and database routing.</td>
+              <td><strong>View</strong>: Renders dynamic presentations, layouts, tables, and user interfaces.</td>
             </tr>
             <tr>
-              <td><strong>Deployment Speed</strong></td>
-              <td>Code changes require explicit recompilation and web server redeployment</td>
-              <td>Changes to <code>.jsp</code> files are recompiled automatically by the container at runtime</td>
+              <td><strong>Modification & Deployment</strong></td>
+              <td>Any code change requires explicit recompilation and web application redeployment.</td>
+              <td>Changes to <code>.jsp</code> files are automatically re-translated and compiled by the container on the fly!</td>
             </tr>
             <tr>
-              <td><strong>Design Separation</strong></td>
-              <td>Difficult for UI designers to read or edit</td>
-              <td>Easy for frontend designers to style using HTML/CSS without knowing deep Java</td>
+              <td><strong>Developer Suitability</strong></td>
+              <td>Best suited for backend Java software engineers; difficult for UI designers to touch.</td>
+              <td>Ideal for frontend web designers who can format HTML/CSS without deep Java expertise.</td>
+            </tr>
+            <tr>
+              <td><strong>Compilation Target</strong></td>
+              <td>Java source file compiled directly to bytecode (<code>.class</code>).</td>
+              <td>Translated first into a Java Servlet source file, and then compiled into bytecode.</td>
+            </tr>
+            <tr>
+              <td><strong>Custom Tag Libraries</strong></td>
+              <td>Does not natively support custom XML tag libraries.</td>
+              <td>Supports rich tag libraries (JSTL, custom tags) to eliminate raw Java code completely.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 3: Scripting Elements & The 9 Implicit Objects -->
+    <!-- Topic 3: JSP Directives: page, include & taglib -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Scripting Elements & The 9 Implicit Objects</span>
+        <span><span class="card-heading-icon">3.</span> JSP Directives: page, include & taglib</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2020 (Name and describe all 9 implicit objects in detail)</span>
+        <span>2025–26, 2023–24, 2020, 2017 (Explain JSP Directives; Static vs Dynamic Include)</span>
+      </div>
+
+      <p>
+        <strong>Directives (<code>&lt;%@ directive attribute="value" %&gt;</code>)</strong> are messages sent to the JSP container that control how the entire JSP page is translated into a servlet. They do not produce direct output to the client.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Directive</th>
+              <th>Syntax Example</th>
+              <th>Purpose & Key Attributes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Page Directive</strong></td>
+              <td><code>&lt;%@ page import="java.util.*" isErrorPage="false" %&gt;</code></td>
+              <td>Defines page-wide attributes: <code>import</code>, <code>contentType</code>, <code>session</code>, <code>isErrorPage</code>, <code>errorPage</code>, <code>buffer</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Include Directive</strong></td>
+              <td><code>&lt;%@ include file="header.jsp" %&gt;</code></td>
+              <td><strong>Static Include</strong>: Merges the source code of the target file into the current page at <em>translation time</em> before compiling.</td>
+            </tr>
+            <tr>
+              <td><strong>Taglib Directive</strong></td>
+              <td><code>&lt;%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %&gt;</code></td>
+              <td>Declares a custom tag library or JSTL prefix to be used throughout the JSP page.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>⚠️ Static Include (<code>&lt;%@ include %&gt;</code>) vs Dynamic Include (<code>&lt;jsp:include&gt;</code>):</strong><br>
+        • <code>&lt;%@ include file="navbar.jsp" %&gt;</code> (Static): Merges file text during <em>translation phase</em>. Only ONE servlet class is generated. If <code>navbar.jsp</code> is modified, the parent page may not reflect updates without manual re-translation.<br>
+        • <code>&lt;jsp:include page="navbar.jsp" /&gt;</code> (Dynamic): Executes the target page at <em>request time</em> via <code>RequestDispatcher.include()</code>. TWO separate servlets are generated. Any changes to <code>navbar.jsp</code> appear instantly on the next refresh!
+      </div>
+    </div>
+
+    <!-- Topic 4: Scripting Elements & Class Placement -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Scripting Elements & Generated Servlet Placement</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022, 2019 (Explain Scriptlets, Expressions, and Declarations with code)</span>
+      </div>
+
+      <p>JSP offers three primary syntax mechanisms to embed Java logic into an HTML document:</p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Scripting Tag</th>
+              <th>Syntax</th>
+              <th>Where Placed in Generated Servlet</th>
+              <th>Key Examination Rule</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Declaration</strong></td>
+              <td><code>&lt;%! int count = 0; %&gt;</code><br><code>&lt;%! public int add(int a, int b) { return a+b; } %&gt;</code></td>
+              <td>Placed <strong>outside <code>_jspService()</code></strong> directly in the servlet class body as instance variables and methods.</td>
+              <td>Variables declared here are <strong>instance variables</strong> shared by all concurrent user requests (thread-safety risk!).</td>
+            </tr>
+            <tr>
+              <td><strong>Scriptlet</strong></td>
+              <td><code>&lt;% int x = 10; out.println(x); %&gt;</code></td>
+              <td>Placed <strong>inside the body of <code>_jspService()</code></strong>.</td>
+              <td>Variables declared here are <strong>local variables</strong> allocated on the thread stack per request (thread-safe).</td>
+            </tr>
+            <tr>
+              <td><strong>Expression</strong></td>
+              <td><code>&lt;%= new java.util.Date() %&gt;</code></td>
+              <td>Translated into an argument of <code>out.print(...)</code> inside <code>_jspService()</code>: <code>out.print(new java.util.Date());</code></td>
+              <td><strong>NEVER place a semicolon (;)</strong> at the end of an expression! Writing <code>&lt;%= x; %&gt;</code> produces invalid Java syntax <code>out.print(x;);</code> and crashes compilation!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 5: The 9 Implicit Objects & The 4 Scopes -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> The 9 Implicit Objects & The 4 Scopes</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2020 (Name and describe all 9 implicit objects & 4 scopes — Guaranteed 10 Marks!)</span>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-tip">
-        <strong>The 3 Primary JSP Scripting Elements:</strong>
-        <ul style="margin:4px 0 0 16px; line-height:1.6;">
-          <li><strong>Scriptlet (<code>&lt;% ... %&gt;</code>):</strong> Contains arbitrary Java statements placed directly inside the <code>_jspService()</code> method body.</li>
-          <li><strong>Expression (<code>&lt;%= ... %&gt;</code>):</strong> Evaluates a Java expression and outputs it to the browser. <em>Important: NEVER put a semicolon <code>;</code> inside an expression!</em></li>
-          <li><strong>Declaration (<code>&lt;%! ... %&gt;</code>):</strong> Declares class-level variables and methods placed <em>outside</em> the service method.</li>
-        </ul>
-      </div>
+      <p>
+        The JSP container automatically declares and initializes <strong>Nine Pre-Defined Objects</strong> inside the <code>_jspService()</code> method body so developers can use them immediately in scriptlets and expressions without any explicit instantiation:
+      </p>
 
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
               <th>Implicit Object</th>
-              <th>Underlying Java Class / Interface</th>
+              <th>Underlying Java Type</th>
+              <th>Native Scope</th>
               <th>Core Functionality</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><code>request</code></td>
-              <td><code>HttpServletRequest</code></td>
-              <td>Accesses form parameters (<code>getParameter()</code>), headers, and cookies.</td>
+              <td><code>javax.servlet.http.HttpServletRequest</code></td>
+              <td>Request</td>
+              <td>Reads HTTP request parameters (<code>getParameter()</code>), headers, cookies, and HTTP methods.</td>
             </tr>
             <tr>
               <td><code>response</code></td>
-              <td><code>HttpServletResponse</code></td>
-              <td>Manages outgoing response headers, content types, and redirects.</td>
+              <td><code>javax.servlet.http.HttpServletResponse</code></td>
+              <td>Page</td>
+              <td>Configures response headers, MIME content types, cookies, and client redirection (<code>sendRedirect()</code>).</td>
             </tr>
             <tr>
               <td><code>out</code></td>
-              <td><code>JspWriter</code></td>
-              <td>Buffered output stream used to write content to client HTML page.</td>
+              <td><code>javax.servlet.jsp.JspWriter</code></td>
+              <td>Page</td>
+              <td>Buffered character output stream used to write HTML markup to the client's browser.</td>
             </tr>
             <tr>
               <td><code>session</code></td>
-              <td><code>HttpSession</code></td>
-              <td>Stores user session state across multiple page visits.</td>
+              <td><code>javax.servlet.http.HttpSession</code></td>
+              <td>Session</td>
+              <td>Stores user-specific session state across multiple HTTP requests (e.g. login credentials, shopping cart).</td>
             </tr>
             <tr>
               <td><code>application</code></td>
-              <td><code>ServletContext</code></td>
-              <td>Application-wide context shared across all users and pages in the webapp.</td>
+              <td><code>javax.servlet.ServletContext</code></td>
+              <td>Application</td>
+              <td>Global shared context accessible by every user, servlet, and JSP across the entire web application.</td>
             </tr>
             <tr>
               <td><code>config</code></td>
-              <td><code>ServletConfig</code></td>
-              <td>Retrieves servlet initialization parameters.</td>
+              <td><code>javax.servlet.ServletConfig</code></td>
+              <td>Page</td>
+              <td>Retrieves servlet/JSP initialization parameters defined in <code>web.xml</code>.</td>
             </tr>
             <tr>
               <td><code>pageContext</code></td>
-              <td><code>PageContext</code></td>
-              <td>Provides central access to all scopes (page, request, session, application).</td>
+              <td><code>javax.servlet.jsp.PageContext</code></td>
+              <td>Page</td>
+              <td>Central context providing programmatic access to all 4 scopes, attributes, and other implicit objects.</td>
             </tr>
             <tr>
               <td><code>page</code></td>
-              <td><code>java.lang.Object</code> (this)</td>
-              <td>Represents the current translated servlet instance.</td>
+              <td><code>java.lang.Object</code> (<code>this</code>)</td>
+              <td>Page</td>
+              <td>Synonym for the <code>this</code> keyword representing the current translated servlet instance.</td>
             </tr>
             <tr>
               <td><code>exception</code></td>
               <td><code>java.lang.Throwable</code></td>
-              <td>Available strictly in designated error pages (<code>isErrorPage="true"</code>).</td>
+              <td>Page</td>
+              <td>Only available in designated error pages (pages with <code>&lt;%@ page isErrorPage="true" %&gt;</code>).</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Solved JSP University Problem -->
+      <div class="callout callout-objective">
+        <strong>The 4 Attribute Scopes in JSP:</strong>
+        <ol class="step-list">
+          <li><strong>Page Scope (Default):</strong> Objects are accessible only within the current JSP page. Memory is freed as soon as the response is sent.</li>
+          <li><strong>Request Scope:</strong> Objects survive across server-side forward operations (<code>RequestDispatcher.forward()</code>) until the client request terminates.</li>
+          <li><strong>Session Scope:</strong> Objects persist across multiple requests from the same user browser until session timeout or logout (<code>session.invalidate()</code>).</li>
+          <li><strong>Application Scope:</strong> Objects live in server RAM from server boot to server shutdown, shared by all users worldwide.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 6: JavaBeans in JSP -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> JavaBeans in JSP (Standard Action Tags)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2018 (Explain JavaBeans and jsp:useBean, jsp:setProperty, jsp:getProperty)</span>
+      </div>
+
+      <p>
+        A <strong>JavaBean</strong> is a reusable software component written in Java. In the MVC architecture, JavaBeans represent the <strong>Model</strong> layer.
+      </p>
+
+      <div class="callout callout-info">
+        <strong>The 3 Essential Rules of a JavaBean Class:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Must implement <code>java.io.Serializable</code>.</li>
+          <li>Must provide a <strong>public no-argument constructor</strong> (default constructor).</li>
+          <li>All properties must be <code>private</code>, accessed strictly via public <strong>getters</strong> and <strong>setters</strong> (e.g. <code>getName()</code> and <code>setName()</code>).</li>
+        </ul>
+      </div>
+
       <div class="code-container">
         <div class="code-header">
-          <span>Complete JSP Program (Sum of Numbers 1 to 25)</span>
+          <span>StudentBean.java (Model Class)</span>
+          <button class="copy-btn" onclick="copyCode(this, 'code-student-bean')">Copy</button>
+        </div>
+        <pre><code id="code-student-bean">package com.exam;
+import java.io.Serializable;
+
+public class StudentBean implements Serializable {
+    private String name;
+    private int marks;
+
+    // 1. Mandatory public no-arg constructor
+    public StudentBean() {}
+
+    // 2. Getter and Setter methods
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public int getMarks() { return marks; }
+    public void setMarks(int marks) { this.marks = marks; }
+}</code></pre>
+      </div>
+
+      <div class="code-container" style="margin-top:14px;">
+        <div class="code-header">
+          <span>JSP Action Tags: studentDisplay.jsp</span>
+          <button class="copy-btn" onclick="copyCode(this, 'code-student-jsp')">Copy</button>
+        </div>
+        <pre><code id="code-student-jsp">&lt;%@ page language="java" contentType="text/html; charset=UTF-8" %&gt;
+&lt;!-- Instantiate or locate existing JavaBean in session scope --&gt;
+&lt;jsp:useBean id="student" class="com.exam.StudentBean" scope="session" /&gt;
+
+&lt;!-- Set bean properties automatically from HTTP request form parameters --&gt;
+&lt;jsp:setProperty name="student" property="*" /&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;&lt;title&gt;Student Details&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Student Profile&lt;/h2&gt;
+    &lt;p&gt;Student Name: &lt;b&gt;&lt;jsp:getProperty name="student" property="name" /&gt;&lt;/b&gt;&lt;/p&gt;
+    &lt;p&gt;Marks Scored: &lt;b&gt;&lt;jsp:getProperty name="student" property="marks" /&gt;&lt;/b&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- Topic 7: Solved University Exam Program -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> Solved University Exam Program: Sum of Numbers 1 to 25</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2023–24, 2020 (Write a complete JSP page demonstrating Declarations, Scriptlets, and Expressions)</span>
+      </div>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span>Complete JSP Program (sumCalculation.jsp)</span>
           <button class="copy-btn" onclick="copyCode(this, 'code-jsp')">Copy</button>
         </div>
         <pre><code id="code-jsp">&lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%&gt;
@@ -231,21 +470,43 @@
     &lt;h2&gt;Sum of Integers from 1 to 25&lt;/h2&gt;
 
     &lt;%! 
-        // JSP Declaration: class-level helper method
+        // JSP Declaration: class-level helper method placed outside _jspService()
         int computeSum(int n) {
-            return (n * (n + 1)) / 2; // Mathematical summation formula
+            return (n * (n + 1)) / 2; // Mathematical summation formula: n(n+1)/2
         }
     %&gt;
 
     &lt;%
-        // JSP Scriptlet: procedural calculation inside service()
+        // JSP Scriptlet: procedural calculation inside _jspService() method body
         int total = computeSum(25);
     %&gt;
 
-    &lt;p&gt;The calculated sum is: &lt;strong&gt;&lt;%= total %&gt;&lt;/strong&gt;&lt;/p&gt;
-    &lt;p&gt;Server Time: &lt;%= new java.util.Date() %&gt;&lt;/p&gt;
+    &lt;p&gt;The calculated sum of integers 1 to 25 is: &lt;strong&gt;&lt;%= total %&gt;&lt;/strong&gt;&lt;/p&gt;
+    &lt;p&gt;Server Execution Timestamp: &lt;%= new java.util.Date() %&gt;&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- Topic 8: Exam Answer Blueprint & Pitfalls to Avoid -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">8.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "JSP Lifecycle & Implicit Objects":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Translation to Servlet (2 Marks):</strong> Explicitly explain that JSP is translated into a Servlet by the container on the first request. Draw the 5-box lifecycle flow.</li>
+          <li><strong>The 3 Lifecycle Methods (3 Marks):</strong> Write signatures for `jspInit()`, `_jspService()`, and `jspDestroy()`. State that `_jspService()` cannot be overridden.</li>
+          <li><strong>9 Implicit Objects Table (4 Marks):</strong> Create a table listing all 9 objects with their underlying Java classes and scopes.</li>
+          <li><strong>Scripting Syntax (1 Mark):</strong> Write examples of `<%! %>`, `<% %>`, and `<%= %>`.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Writing a semicolon inside an expression:</strong> Writing `<%= count; %>` causes an instant syntax error `out.print(count;);`! Never put semicolons in expressions!<br>
+        • <strong>Confusing Static and Dynamic Include:</strong> Static include (`<%@ include %>`) merges code at translation time. Dynamic include (`<jsp:include>`) executes at request time via `RequestDispatcher`. Mixing them up loses 4 marks!
       </div>
     </div>
 

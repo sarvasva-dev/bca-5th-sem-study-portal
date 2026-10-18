@@ -56,14 +56,23 @@
       <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: TCP vs UDP -->
+    <!-- Topic 1: Transport Layer: TCP vs UDP -->
     <div class="study-card">
       <div class="card-heading">
         <span><span class="card-heading-icon">1.</span> Transport Layer: TCP vs UDP</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2023–24, 2021, 2018 (Asked almost every year for 5–10 marks)</span>
+        <span>2024–25, 2023–24, 2021, 2018 (Asked almost every year for 5–10 marks — Core Comparison!)</span>
+      </div>
+
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Understand process-to-process communication using Socket Addressing (IP + Port Number).</li>
+          <li>Contrast Connection-Oriented byte streams (TCP) with Connectionless datagrams (UDP).</li>
+          <li>Analyze reliability trade-offs (retransmissions vs real-time latency).</li>
+        </ul>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
@@ -71,101 +80,221 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
+              <th>Evaluation Parameter</th>
               <th>TCP (Transmission Control Protocol)</th>
               <th>UDP (User Datagram Protocol)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Connection Type</strong></td>
-              <td>Connection-Oriented (3-way handshake before transfer)</td>
-              <td>Connectionless (fire-and-forget; no pre-established session)</td>
+              <td><strong>Connection Paradigm</strong></td>
+              <td><strong>Connection-Oriented</strong>; requires a formal 3-way handshake to establish a virtual session before sending payload.</td>
+              <td><strong>Connectionless</strong>; sends independent datagrams directly without prior negotiation or session state.</td>
             </tr>
             <tr>
-              <td><strong>Reliability</strong></td>
-              <td>Guaranteed; uses positive ACKs, timeouts, and retransmissions</td>
-              <td>Unreliable; best-effort delivery; packets can be lost, reordered, or duplicated</td>
+              <td><strong>Transmission Reliability</strong></td>
+              <td><strong>100% Guaranteed Reliability</strong>; uses sequence numbers, positive ACKs, checksums, and automatic retransmission (ARQ).</td>
+              <td><strong>Unreliable ("Best Effort")</strong>; packets may be dropped, duplicated, or arrive out of order with zero retransmission.</td>
             </tr>
             <tr>
-              <td><strong>Header Size</strong></td>
-              <td>Variable: <strong>20 to 60 bytes</strong></td>
-              <td>Fixed: <strong>8 bytes</strong> (low overhead)</td>
+              <td><strong>Header Overhead</strong></td>
+              <td>Heavy: <strong>20 to 60 bytes</strong> (includes sequence numbers, acknowledgment numbers, window sizes, flags).</td>
+              <td>Lightweight: <strong>8 bytes fixed</strong> (Source Port, Destination Port, Length, Checksum).</td>
+            </tr>
+            <tr>
+              <td><strong>Data Transfer Stream</strong></td>
+              <td>Continuous <strong>Byte Stream</strong>; packets are segmented, numbered, and reassembled into the exact original order.</td>
+              <td>Discrete <strong>Message/Datagram Stream</strong>; packet boundaries are preserved as separate units.</td>
             </tr>
             <tr>
               <td><strong>Flow & Congestion Control</strong></td>
-              <td>Yes; dynamic sliding window and congestion window</td>
-              <td>None; applications must regulate their own transmission rate</td>
+              <td>Comprehensive; uses Sliding Window (flow control) and Congestion Windows (Slow Start, Congestion Avoidance, AIMD).</td>
+              <td><strong>None</strong>; transmits as fast as the application generates data regardless of network buffer status.</td>
             </tr>
             <tr>
-              <td><strong>Real Applications</strong></td>
-              <td>Web browsing (HTTP/HTTPS), File transfer (FTP), Email (SMTP), SSH</td>
-              <td>Live video streaming, VoIP (WhatsApp calls), Online gaming, DNS queries, DHCP</td>
+              <td><strong>Speed & Latency</strong></td>
+              <td>Slower; handshakes, acknowledgments, and retransmission delays introduce latency.</td>
+              <td><strong>Extremely fast & real-time</strong>; zero connection overhead or wait states.</td>
+            </tr>
+            <tr>
+              <td><strong>Practical Applications</strong></td>
+              <td>Web browsing (HTTP/HTTPS), File transfers (FTP), Email (SMTP/IMAP), Secure shell (SSH).</td>
+              <td>Live video streaming (YouTube Live), VoIP calls (WhatsApp/Zoom), DNS lookups, DHCP, Online multiplayer gaming.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 2: TCP 3-Way Handshake Connection Establishment -->
+    <!-- Topic 2: TCP Segment Header Format -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> TCP 3-Way Handshake Mechanism</span>
+        <span><span class="card-heading-icon">2.</span> TCP Segment Header Architecture</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2022, 2019 (Complete diagram and SYN/ACK sequence numbering)</span>
+        <span>2024–25, 2022, 2019 (Draw and explain the TCP header format and all 6 control flags — 10 Marks!)</span>
       </div>
 
       <p>
-        Before transmitting any user payload data, TCP establishes a synchronized virtual connection using three control segments:
+        A TCP header has a minimum length of <strong>20 bytes</strong> (when options are absent) and a maximum of <strong>60 bytes</strong>:
       </p>
 
-      <!-- Accurate SVG Handshake Diagram -->
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Field Name</th>
+              <th>Bit Size</th>
+              <th>Functional Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Source Port Address</strong></td>
+              <td>16 bits</td>
+              <td>Identifies the sending application process on the source host.</td>
+            </tr>
+            <tr>
+              <td><strong>Destination Port Address</strong></td>
+              <td>16 bits</td>
+              <td>Identifies the receiving application process on the destination host.</td>
+            </tr>
+            <tr>
+              <td><strong>Sequence Number</strong></td>
+              <td>32 bits</td>
+              <td>Identifies the position of the first data byte in this segment relative to the total byte stream.</td>
+            </tr>
+            <tr>
+              <td><strong>Acknowledgment Number</strong></td>
+              <td>32 bits</td>
+              <td>Valid if ACK flag is set; indicates the next expected byte number the receiver anticipates receiving.</td>
+            </tr>
+            <tr>
+              <td><strong>Header Length (HLEN)</strong></td>
+              <td>4 bits</td>
+              <td>Specifies header length in 32-bit (4-byte) words. Minimum value is $5$ ($5 \times 4 = 20$ bytes).</td>
+            </tr>
+            <tr>
+              <td><strong>Reserved</strong></td>
+              <td>6 bits</td>
+              <td>Reserved for future definition (must be 0).</td>
+            </tr>
+            <tr>
+              <td><strong>Control Flags</strong></td>
+              <td>6 bits</td>
+              <td>Six 1-bit flags controlling connection state: <strong>URG, ACK, PSH, RST, SYN, FIN</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Window Size</strong></td>
+              <td>16 bits</td>
+              <td>Advertises receiver's available buffer capacity for sliding-window <strong>flow control</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Checksum</strong></td>
+              <td>16 bits</td>
+              <td>Mandatory 16-bit 1's complement checksum covering TCP header, payload, and pseudo-IP header.</td>
+            </tr>
+            <tr>
+              <td><strong>Urgent Pointer</strong></td>
+              <td>16 bits</td>
+              <td>Valid only if URG flag is set; points to the end of urgent out-of-band data.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-objective">
+        <strong>The 6 TCP Control Flags (Guaranteed 5-Mark Question):</strong>
+        <ul style="margin:4px 0 0 16px; line-height:1.6;">
+          <li><strong>URG (Urgent):</strong> Indicates that the Urgent Pointer field is valid and data should be processed with top priority.</li>
+          <li><strong>ACK (Acknowledgment):</strong> Indicates that the Acknowledgment Number field contains valid confirmation data.</li>
+          <li><strong>PSH (Push):</strong> Instructs the receiver to push buffered data immediately to the application without waiting for buffers to fill.</li>
+          <li><strong>RST (Reset):</strong> Aborts and resets an invalid or broken connection immediately.</li>
+          <li><strong>SYN (Synchronize):</strong> Initiates a connection and synchronizes initial sequence numbers during the 3-way handshake.</li>
+          <li><strong>FIN (Finish):</strong> Indicates that the sender has finished transmitting data and requests graceful connection termination.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 3: TCP Connection Management: Handshake & Teardown -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> TCP Connection Management: 3-Way Handshake & 4-Way Teardown</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2021, 2017 (Complete sequence diagrams for establishment and termination)</span>
+      </div>
+
+      <p><strong>1. Connection Establishment (3-Way Handshake):</strong></p>
       <div class="diagram-box">
-        <svg viewBox="0 0 320 200" width="100%" height="auto" style="max-width:320px;">
+        <svg viewBox="0 0 320 190" width="100%" height="auto" style="max-width:320px;">
           <!-- Vertical timelines -->
-          <line x1="60" y1="20" x2="60" y2="180" stroke="var(--text-muted)" stroke-width="2" />
-          <line x1="260" y1="20" x2="260" y2="180" stroke="var(--text-muted)" stroke-width="2" />
+          <line x1="60" y1="20" x2="60" y2="170" stroke="var(--text-muted)" stroke-width="2" />
+          <line x1="260" y1="20" x2="260" y2="170" stroke="var(--text-muted)" stroke-width="2" />
           <text x="35" y="15" font-size="11" font-weight="bold" fill="var(--text-main)">Client</text>
           <text x="240" y="15" font-size="11" font-weight="bold" fill="var(--text-main)">Server</text>
 
           <!-- Step 1: SYN -->
-          <line x1="60" y1="35" x2="260" y2="70" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+          <line x1="60" y1="35" x2="260" y2="65" stroke="#10b981" stroke-width="2" />
           <text x="80" y="45" font-size="9" font-weight="bold" fill="#10b981">1. SYN: Seq = x</text>
           <text x="80" y="58" font-size="7.5" fill="var(--text-muted)">(Synchronize initial sequence number)</text>
 
           <!-- Step 2: SYN + ACK -->
-          <line x1="260" y1="80" x2="60" y2="115" stroke="#f59e0b" stroke-width="2" />
-          <text x="130" y="90" font-size="9" font-weight="bold" fill="#f59e0b">2. SYN + ACK</text>
-          <text x="120" y="103" font-size="8" fill="#f59e0b">Seq = y, Ack = x + 1</text>
+          <line x1="260" y1="75" x2="60" y2="105" stroke="#f59e0b" stroke-width="2" />
+          <text x="130" y="85" font-size="9" font-weight="bold" fill="#f59e0b">2. SYN + ACK</text>
+          <text x="120" y="98" font-size="8" fill="#f59e0b">Seq = y, Ack = x + 1</text>
 
           <!-- Step 3: ACK -->
-          <line x1="60" y1="125" x2="260" y2="160" stroke="#10b981" stroke-width="2" />
-          <text x="80" y="135" font-size="9" font-weight="bold" fill="#10b981">3. ACK: Seq = x + 1</text>
-          <text x="140" y="148" font-size="8" fill="#10b981">Ack = y + 1</text>
+          <line x1="60" y1="115" x2="260" y2="145" stroke="#10b981" stroke-width="2" />
+          <text x="80" y="125" font-size="9" font-weight="bold" fill="#10b981">3. ACK: Seq = x + 1</text>
+          <text x="140" y="138" font-size="8" fill="#10b981">Ack = y + 1</text>
 
           <!-- Established Status -->
-          <rect x="90" y="170" width="140" height="22" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1" />
-          <text x="100" y="185" font-size="9" font-weight="bold" fill="#10b981">CONNECTION ESTABLISHED</text>
+          <rect x="90" y="155" width="140" height="22" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1" />
+          <text x="100" y="170" font-size="9" font-weight="bold" fill="#10b981">CONNECTION ESTABLISHED</text>
         </svg>
-        <div class="diagram-caption">The TCP 3-Way Handshake Connection Establishment Sequence</div>
+        <div class="diagram-caption">The TCP 3-Way Handshake Connection Establishment</div>
       </div>
 
-      <div class="callout callout-info">
-        <strong>The 3 Handshake Steps Explained:</strong>
-        <ol class="step-list">
-          <li><strong>Step 1 (SYN):</strong> Client sends a segment with the <code>SYN</code> control flag set and chooses a random Initial Sequence Number (ISN) $x$.</li>
-          <li><strong>Step 2 (SYN + ACK):</strong> Server allocates connection buffers, picks its own sequence number $y$, and sends an acknowledgment acknowledging $x$: <code>Ack = x + 1</code>.</li>
-          <li><strong>Step 3 (ACK):</strong> Client confirms receipt of server's sequence number: <code>Ack = y + 1</code>. Data transfer can now commence bidirectionally.</li>
-        </ol>
+      <p style="margin-top:16px;"><strong>2. Connection Termination (4-Way Handshake / Graceful Teardown):</strong></p>
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 200" width="100%" height="auto" style="max-width:320px;">
+          <!-- Vertical timelines -->
+          <line x1="60" y1="20" x2="60" y2="185" stroke="var(--text-muted)" stroke-width="2" />
+          <line x1="260" y1="20" x2="260" y2="185" stroke="var(--text-muted)" stroke-width="2" />
+          <text x="35" y="15" font-size="11" font-weight="bold" fill="var(--text-main)">Client</text>
+          <text x="240" y="15" font-size="11" font-weight="bold" fill="var(--text-main)">Server</text>
+
+          <!-- Step 1: FIN from Client -->
+          <line x1="60" y1="35" x2="260" y2="65" stroke="#e11d48" stroke-width="2" />
+          <text x="80" y="45" font-size="9" font-weight="bold" fill="#e11d48">1. FIN: Seq = u</text>
+          <text x="80" y="58" font-size="7.5" fill="var(--text-muted)">(Client closes active send channel)</text>
+
+          <!-- Step 2: ACK from Server -->
+          <line x1="260" y1="75" x2="60" y2="105" stroke="#f59e0b" stroke-width="2" />
+          <text x="120" y="85" font-size="9" font-weight="bold" fill="#f59e0b">2. ACK: Ack = u + 1</text>
+          <text x="120" y="98" font-size="7.5" fill="var(--text-muted)">(Half-closed state; server flushes data)</text>
+
+          <!-- Step 3: FIN from Server -->
+          <line x1="260" y1="115" x2="60" y2="145" stroke="#e11d48" stroke-width="2" />
+          <text x="120" y="125" font-size="9" font-weight="bold" fill="#e11d48">3. FIN: Seq = v</text>
+          <text x="120" y="138" font-size="7.5" fill="var(--text-muted)">(Server closes its send channel)</text>
+
+          <!-- Step 4: ACK from Client -->
+          <line x1="60" y1="150" x2="260" y2="175" stroke="#10b981" stroke-width="2" />
+          <text x="80" y="162" font-size="9" font-weight="bold" fill="#10b981">4. ACK: Ack = v + 1</text>
+          <text x="80" y="174" font-size="7.5" fill="var(--text-muted)">(Client enters TIME_WAIT 2MSL)</text>
+        </svg>
+        <div class="diagram-caption">The TCP 4-Way Handshake Connection Termination Flow</div>
       </div>
     </div>
 
-    <!-- Topic 3: Application Protocols: DNS, Email & Web -->
+    <!-- Topic 4: Application Layer Protocols: DNS, Email & Web -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Application Layer Protocols</span>
+        <span><span class="card-heading-icon">4.</span> Application Layer Protocols: DNS, Email (SMTP/POP3/IMAP) & Web</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
@@ -179,7 +308,7 @@
               <th>Protocol</th>
               <th>Default Port</th>
               <th>Transport Protocol</th>
-              <th>Core Function</th>
+              <th>Core Function & Directionality</th>
             </tr>
           </thead>
           <tbody>
@@ -187,45 +316,51 @@
               <td><strong>DNS</strong> (Domain Name System)</td>
               <td>Port 53</td>
               <td>UDP (queries) / TCP (zone transfers)</td>
-              <td>Resolves human-readable domain names (e.g. <code>google.com</code>) to 32-bit IP addresses.</td>
+              <td>Translates human-readable domain names (e.g. <code>google.com</code>) into 32-bit IPv4 or 128-bit IPv6 addresses via hierarchical trees (Root $\to$ TLD $\to$ Authoritative).</td>
             </tr>
             <tr>
               <td><strong>SMTP</strong> (Simple Mail Transfer)</td>
               <td>Port 25 / 587</td>
               <td>TCP</td>
-              <td><strong>Push Protocol</strong>: Uploads outgoing emails from client to server, and transfers emails between mail servers.</td>
+              <td><strong>Push Protocol</strong>: Uploads outgoing emails from sender's client to mail server, and transfers emails between intermediary mail servers.</td>
             </tr>
             <tr>
               <td><strong>POP3</strong> (Post Office Protocol 3)</td>
               <td>Port 110</td>
               <td>TCP</td>
-              <td><strong>Pull Protocol</strong>: Downloads emails to local client and deletes them from server by default (single-device).</td>
+              <td><strong>Pull Protocol</strong>: Downloads emails to a single local device and deletes them from the server by default (single-device model).</td>
             </tr>
             <tr>
               <td><strong>IMAP</strong> (Internet Message Access)</td>
               <td>Port 143</td>
               <td>TCP</td>
-              <td><strong>Pull Protocol</strong>: Synchronizes emails and folders across multiple devices (mobile, laptop) while keeping copies on server.</td>
+              <td><strong>Pull Protocol</strong>: Synchronizes folders, read/unread states, and messages across multiple devices (phone, laptop) while preserving copies on the server.</td>
             </tr>
             <tr>
               <td><strong>HTTP / HTTPS</strong></td>
               <td>Port 80 / 443</td>
               <td>TCP</td>
-              <td>Transfers web pages; HTTPS uses SSL/TLS encryption for end-to-end security.</td>
+              <td>Transfers hypertext web documents; HTTPS encrypts traffic using TLS/SSL to prevent eavesdropping and MITM attacks.</td>
+            </tr>
+            <tr>
+              <td><strong>FTP</strong> (File Transfer Protocol)</td>
+              <td>Port 21 (control) &amp; Port 20 (data)</td>
+              <td>TCP</td>
+              <td>Uses <strong>two separate connections</strong>: Port 21 sends commands (user, pass, get), Port 20 streams actual file data bytes.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 4: Cryptography & Network Security -->
+    <!-- Topic 5: Network Security & Cryptography: Symmetric vs Asymmetric & RSA -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Cryptography: Symmetric vs Asymmetric & Digital Signatures</span>
+        <span><span class="card-heading-icon">5.</span> Cryptography: Symmetric vs Asymmetric & The RSA Algorithm</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2020, 2016 (Symmetric vs Asymmetric, RSA algorithm, and Digital Signatures)</span>
+        <span>2025–26, 2023–24, 2020, 2016 (Symmetric vs Asymmetric, RSA algorithm, and Digital Signatures — 15 Marks!)</span>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
@@ -233,7 +368,7 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
+              <th>Evaluation Parameter</th>
               <th>Symmetric Key Cryptography (Secret Key)</th>
               <th>Asymmetric Key Cryptography (Public Key)</th>
             </tr>
@@ -241,43 +376,105 @@
           <tbody>
             <tr>
               <td><strong>Number of Keys</strong></td>
-              <td><strong>One single secret key</strong> shared by both sender and receiver</td>
-              <td><strong>Two mathematically linked keys</strong>: Public Key (open) + Private Key (kept secret)</td>
+              <td><strong>One single secret key</strong> shared by both sender and receiver.</td>
+              <td><strong>Two mathematically linked keys</strong>: Public Key (open) + Private Key (kept secret).</td>
             </tr>
             <tr>
               <td><strong>Encryption / Decryption</strong></td>
-              <td>Same key encrypts and decrypts: $C = E_K(P), P = D_K(C)$</td>
-              <td>Public key encrypts $\to$ Only matching Private key can decrypt</td>
+              <td>Same key encrypts and decrypts: $C = E_K(P), P = D_K(C)$.</td>
+              <td>Public key encrypts $\to$ Only matching Private key can decrypt.</td>
             </tr>
             <tr>
-              <td><strong>Key Distribution</strong></td>
-              <td>Major problem: How to securely share the secret key over an insecure channel?</td>
-              <td>Solved: Public key can be freely distributed to the world</td>
+              <td><strong>Key Distribution Problem</strong></td>
+              <td>Major problem: How to securely share the secret key over an untrusted network?</td>
+              <td>Solved: Public key can be broadcast freely to the entire world without secrecy.</td>
             </tr>
             <tr>
-              <td><strong>Speed</strong></td>
-              <td>Extremely fast; ideal for encrypting large gigabytes of bulk data</td>
-              <td>Computationally slow (heavy modular exponentiation of prime numbers)</td>
+              <td><strong>Computational Speed</strong></td>
+              <td>Extremely fast; ideal for encrypting multi-gigabyte databases and video streams.</td>
+              <td>Computationally slow; relies on heavy modular exponentiation of large prime numbers.</td>
             </tr>
             <tr>
               <td><strong>Standard Algorithms</strong></td>
-              <td>DES, 3DES, AES (Advanced Encryption Standard)</td>
-              <td>RSA (Rivest-Shamir-Adleman), Diffie-Hellman, ECC</td>
+              <td>DES (56-bit), 3DES (168-bit), AES (128, 192, 256-bit).</td>
+              <td>RSA (Rivest-Shamir-Adleman), Diffie-Hellman, ECC (Elliptic Curve).</td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      <!-- Master Solved RSA Numerical -->
       <div class="callout callout-tip">
-        <strong>Digital Signatures & Non-Repudiation:</strong>
-        <p>
-          A <strong>Digital Signature</strong> provides authenticity, integrity, and non-repudiation:
-        </p>
+        <strong>📝 Master Solved University RSA Numerical (Step-by-Step):</strong><br>
+        In an RSA cryptosystem, choose prime numbers $p = 3$ and $q = 11$. Given public encryption exponent $e = 7$, encrypt plaintext message $M = 2$ and decrypt the resulting ciphertext $C$.
+      </div>
+
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Step 1: Compute Modulus $n$:</strong><br>
+          $$n = p \times q = 3 \times 11 = \mathbf{33}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 2: Compute Euler's Totient $\phi(n)$:</strong><br>
+          $$\phi(n) = (p - 1)(q - 1) = (3 - 1)(11 - 1) = 2 \times 10 = \mathbf{20}$$
+        </div>
+        <div class="step-item">
+          <strong>Step 3: Verify Public Exponent $e$:</strong><br>
+          Given $e = 7$. Check: $1 < e < \phi(n)$ and $\gcd(7, 20) = 1$ (coprime ✓).<br>
+          <strong>Public Key:</strong> $\{e, n\} = \{\mathbf{7, 33}\}$.
+        </div>
+        <div class="step-item">
+          <strong>Step 4: Compute Private Decryption Exponent $d$:</strong><br>
+          Condition: $d \cdot e \equiv 1 \pmod{\phi(n)} \implies 7d \equiv 1 \pmod{20}$<br>
+          Find integer $k$ such that $7d = 20k + 1$:<br>
+          • For $k = 1$: $7d = 21 \implies d = \frac{21}{7} = \mathbf{3}$<br>
+          <strong>Private Key:</strong> $\{d, n\} = \{\mathbf{3, 33}\}$.
+        </div>
+        <div class="step-item">
+          <strong>Step 5: Encryption of Plaintext $M = 2$:</strong><br>
+          $$C = M^e \pmod n = 2^7 \pmod{33} = 128 \pmod{33}$$
+          $128 = 3 \times 33 + 29 = 99 + 29 \implies \mathbf{C = 29}$. Ciphertext is 29!
+        </div>
+        <div class="step-item">
+          <strong>Step 6: Decryption of Ciphertext $C = 29$:</strong><br>
+          $$M = C^d \pmod n = 29^3 \pmod{33}$$
+          Notice: $29 \equiv -4 \pmod{33}$<br>
+          $$29^3 \equiv (-4)^3 = -64 \pmod{33}$$
+          $$-64 = -2 \times 33 + 2 \implies \mathbf{M = 2}$$
+          <em>Verification:</em> Original plaintext $M = 2$ recovered perfectly!
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Digital Signatures & Non-Repudiation:</strong><br>
+        A <strong>Digital Signature</strong> provides authenticity, integrity, and non-repudiation:
         <ol class="step-list">
-          <li><strong>Signing:</strong> The sender generates a cryptographic hash of the document and encrypts the hash using the <strong>Sender's Private Key</strong>.</li>
-          <li><strong>Verification:</strong> The receiver decrypts the signature using the <strong>Sender's Public Key</strong> and compares it with the hash of the received document.</li>
+          <li><strong>Signing:</strong> The sender generates a cryptographic hash of the document (e.g. SHA-256) and encrypts the hash using the <strong>Sender's Private Key</strong>.</li>
+          <li><strong>Verification:</strong> The receiver decrypts the signature using the <strong>Sender's Public Key</strong> and compares it with the freshly computed hash of the received document.</li>
           <li>If the hashes match, it guarantees that: (1) The document was not altered in transit, and (2) The sender cannot deny having sent it (Non-repudiation)!</li>
         </ol>
+      </div>
+    </div>
+
+    <!-- Topic 6: Exam Answer Blueprint & Pitfalls to Avoid -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "TCP vs UDP & 3-Way Handshake":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Comparison Table (4 Marks):</strong> Create a clean 6-row table comparing connection model, reliability, headers (20B vs 8B), flow control, and application examples.</li>
+          <li><strong>Handshake Timeline Diagram (3 Marks):</strong> Draw client and server vertical axes with arrows: SYN (Seq=x) $\to$ SYN+ACK (Seq=y, Ack=x+1) $\to$ ACK (Seq=x+1, Ack=y+1).</li>
+          <li><strong>Step Explanations (2 Marks):</strong> Explain what happens at each step (ISN negotiation, buffer allocation).</li>
+          <li><strong>Teardown Mention (1 Mark):</strong> State that termination requires a 4-way handshake using FIN and ACK flags.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Confusing Public and Private Keys in Encryption vs Signing:</strong> For confidentiality, encrypt with the <em>Receiver's Public Key</em>. For digital signatures, encrypt with the <em>Sender's Private Key</em>! Mixing these up loses 5 marks!<br>
+        • <strong>Calculating $\phi(n)$ incorrectly:</strong> Remember that $\phi(n) = (p-1)(q-1)$, NOT $p \times q$! Modulus $n = p \times q$, but totient uses $(p-1)(q-1)$!
       </div>
     </div>
 
