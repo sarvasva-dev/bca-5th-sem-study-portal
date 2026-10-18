@@ -277,7 +277,68 @@ class MCQEngine {
   }
 }
 
-// 7. Interactive Animated Video Theater Engine with Sarvam AI Voice Sync
+// 7. Interactive Animated Video Theater Engine with Sarvam AI Voice Sync & Offline Cache
+
+const PlayerState = {
+  IDLE: 'IDLE',
+  LOADING: 'LOADING',
+  PLAYING: 'PLAYING',
+  PAUSED: 'PAUSED',
+  COMPLETED: 'COMPLETED',
+  AUDIO_UNAVAILABLE: 'AUDIO_UNAVAILABLE',
+  ERROR: 'ERROR'
+};
+
+const AudioCache = {
+  dbName: 'study_portal_tts_cache',
+  dbVersion: 1,
+  _db: null,
+  async getDB() {
+    if (this._db) return this._db;
+    if (typeof window === 'undefined' || !window.indexedDB) return null;
+    return new Promise((resolve) => {
+      const req = indexedDB.open(this.dbName, this.dbVersion);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('audios')) {
+          db.createObjectStore('audios', { keyPath: 'key' });
+        }
+      };
+      req.onsuccess = () => {
+        this._db = req.result;
+        resolve(this._db);
+      };
+      req.onerror = () => resolve(null);
+    });
+  },
+  async get(key) {
+    const db = await this.getDB();
+    if (!db) return null;
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction('audios', 'readonly');
+        const store = tx.objectStore('audios');
+        const req = store.get(key);
+        req.onsuccess = () => resolve(req.result ? req.result.blob : null);
+        req.onerror = () => resolve(null);
+      } catch {
+        resolve(null);
+      }
+    });
+  },
+  async set(key, blob) {
+    const db = await this.getDB();
+    if (!db) return;
+    try {
+      const tx = db.transaction('audios', 'readwrite');
+      const store = tx.objectStore('audios');
+      store.put({ key, blob, timestamp: Date.now() });
+    } catch (err) {
+      console.warn('AudioCache set error:', err);
+    }
+  }
+};
+
 class AnimatedVideoTheater {
   constructor(config) {
     this.canvas = document.getElementById(config.canvasId);
@@ -285,12 +346,14 @@ class AnimatedVideoTheater {
     this.ctx = this.canvas.getContext('2d');
     this.steps = config.steps || [];
     this.currentStep = 0;
+    this.state = PlayerState.IDLE;
     this.isPlaying = false;
     this.playbackSpeed = 1;
     this.progress = 0;
     this.animId = null;
     this.soundEnabled = true;
     this.currentAudio = null;
+    this.currentBlobUrl = null;
 
     // UI elements
     this.playBtn = document.getElementById(config.playBtnId);
@@ -299,8 +362,10 @@ class AnimatedVideoTheater {
     this.subHiEl = document.getElementById(config.subHiId);
     this.speedBtn = document.getElementById(config.speedBtnId);
     this.soundBtn = document.getElementById(config.soundBtnId);
+    this.badgeEl = document.getElementById(config.badgeId) || (this.canvas.closest('.concept-theater') ? this.canvas.closest('.concept-theater').querySelector('.theater-badge') : null);
 
     this.setupCanvas();
+    this.setupAccessibility();
     this.updateUI();
     this.render();
 
@@ -320,6 +385,55 @@ class AnimatedVideoTheater {
     this.ctx.scale(dpr, dpr);
   }
 
+  setupAccessibility() {
+    this.canvas.setAttribute('tabindex', '0');
+    this.canvas.setAttribute('role', 'region');
+    this.canvas.setAttribute('aria-label', 'Interactive Educational Animated Video');
+    this.canvas.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        this.togglePlay();
+      } else if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        this.nextStep();
+      } else if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+        this.prevStep();
+      }
+    });
+  }
+
+  updateState(newState) {
+    this.state = newState;
+    if (this.badgeEl) {
+      switch (newState) {
+        case PlayerState.PLAYING:
+          this.badgeEl.innerText = '▶️ Playing (60 FPS)';
+          this.badgeEl.style.background = '#059669';
+          break;
+        case PlayerState.PAUSED:
+          this.badgeEl.innerText = '⏸️ Paused';
+          this.badgeEl.style.background = '#d97706';
+          break;
+        case PlayerState.LOADING:
+          this.badgeEl.innerText = '⏳ Loading Voice...';
+          this.badgeEl.style.background = '#0d9488';
+          break;
+        case PlayerState.AUDIO_UNAVAILABLE:
+          this.badgeEl.innerText = '💬 Captions-Only Mode';
+          this.badgeEl.style.background = '#475569';
+          break;
+        case PlayerState.COMPLETED:
+          this.badgeEl.innerText = '✓ Completed';
+          this.badgeEl.style.background = '#059669';
+          break;
+        default:
+          this.badgeEl.innerText = '🎙️ Sarvam AI Voice Sync';
+          this.badgeEl.style.background = '#059669';
+      }
+    }
+  }
+
   updateUI() {
     if (this.stepIndicator) {
       this.stepIndicator.innerText = `Step ${this.currentStep + 1} of ${this.steps.length}: ${this.steps[this.currentStep].title}`;
@@ -332,6 +446,7 @@ class AnimatedVideoTheater {
     }
     if (this.playBtn) {
       this.playBtn.innerHTML = this.isPlaying ? '⏸️ Pause' : '▶️ Play Video';
+      this.playBtn.setAttribute('aria-label', this.isPlaying ? 'Pause Animation' : 'Play Animation');
     }
     if (this.soundBtn) {
       this.soundBtn.innerHTML = this.soundEnabled ? '🔊 Voice ON' : '🔇 Voice OFF';
@@ -354,16 +469,21 @@ class AnimatedVideoTheater {
       this.currentAudio.ontimeupdate = null;
       this.currentAudio = null;
     }
+    if (this.currentBlobUrl) {
+      URL.revokeObjectURL(this.currentBlobUrl);
+      this.currentBlobUrl = null;
+    }
   }
 
-  play() {
+  async play() {
     if (this.isPlaying) return;
     this.isPlaying = true;
+    this.updateState(PlayerState.PLAYING);
     this.updateUI();
     this.playStep(this.currentStep);
   }
 
-  playStep(stepIndex) {
+  async playStep(stepIndex) {
     if (!this.isPlaying) return;
     this.currentStep = stepIndex;
     this.progress = 0;
@@ -371,8 +491,54 @@ class AnimatedVideoTheater {
     this.stopCurrentAudio();
 
     const step = this.steps[stepIndex];
-    if (this.soundEnabled && step && step.audioSrc) {
-      const audio = new Audio(step.audioSrc);
+    if (!this.soundEnabled || !step) {
+      this.updateState(PlayerState.AUDIO_UNAVAILABLE);
+      this.runTimerFallback();
+      return;
+    }
+
+    let audioUrl = null;
+
+    if (step.audioSrc) {
+      audioUrl = step.audioSrc;
+    } else {
+      const cacheKey = `tts_${stepIndex}_${(step.subHi || step.subEn).slice(0, 30)}`;
+      const cachedBlob = await AudioCache.get(cacheKey);
+      if (cachedBlob) {
+        audioUrl = URL.createObjectURL(cachedBlob);
+        this.currentBlobUrl = audioUrl;
+      } else {
+        try {
+          this.updateState(PlayerState.LOADING);
+          const resp = await fetch('/api/tts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: step.subHi || step.subEn, speaker: step.speaker || 'aditya' })
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.audio_base64) {
+              const byteCharacters = atob(data.audio_base64);
+              const byteNumbers = new Array(byteCharacters.length);
+              for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+              }
+              const byteArray = new Uint8Array(byteNumbers);
+              const blob = new Blob([byteArray], { type: 'audio/wav' });
+              await AudioCache.set(cacheKey, blob);
+              audioUrl = URL.createObjectURL(blob);
+              this.currentBlobUrl = audioUrl;
+            }
+          }
+        } catch (err) {
+          console.warn('/api/tts endpoint unavailable or offline:', err);
+        }
+      }
+    }
+
+    if (audioUrl) {
+      this.updateState(PlayerState.PLAYING);
+      const audio = new Audio(audioUrl);
       this.currentAudio = audio;
       audio.playbackRate = this.playbackSpeed;
 
@@ -391,16 +557,19 @@ class AnimatedVideoTheater {
           if (this.currentStep < this.steps.length - 1) {
             this.playStep(this.currentStep + 1);
           } else {
+            this.updateState(PlayerState.COMPLETED);
             this.pause();
           }
         }, 800 / this.playbackSpeed);
       };
 
       audio.play().catch((err) => {
-        console.warn('Audio autoplay prevented, using timer fallback:', err);
+        console.warn('Audio playback prevented by browser autoplay policy:', err);
+        this.updateState(PlayerState.AUDIO_UNAVAILABLE);
         this.runTimerFallback();
       });
     } else {
+      this.updateState(PlayerState.AUDIO_UNAVAILABLE);
       this.runTimerFallback();
     }
   }
@@ -424,6 +593,7 @@ class AnimatedVideoTheater {
           if (this.currentStep < this.steps.length - 1) {
             this.playStep(this.currentStep + 1);
           } else {
+            this.updateState(PlayerState.COMPLETED);
             this.pause();
           }
         }, 800 / this.playbackSpeed);
@@ -436,6 +606,7 @@ class AnimatedVideoTheater {
 
   pause() {
     this.isPlaying = false;
+    this.updateState(PlayerState.PAUSED);
     if (this.animId) cancelAnimationFrame(this.animId);
     this.stopCurrentAudio();
     this.updateUI();
@@ -510,14 +681,14 @@ function setupNewtonRaphsonTheater(canvasId) {
 
   const f = (x) => x * x - 5;
   const fPrime = (x) => 2 * x;
-  const root = Math.sqrt(5); // ~2.236
+  const root = Math.sqrt(5); // ~2.236068
 
   const steps = [
     {
-      title: "Problem Setup & Continuous Function Curve",
+      title: "Problem Setup: Root of f(x) = x² - 5 = 0",
       audioSrc: "audio/nr_step0.wav",
-      subEn: "<strong>Objective:</strong> Find the positive root of $f(x) = x^2 - 5 = 0$ (i.e. $\\sqrt{5} \\approx 2.2361$). The green curve represents $y = f(x)$ intersecting the x-axis at $\\alpha$.",
-      subHi: "<strong>Hindi Samjhaun:</strong> Hume $x^2 - 5 = 0$ ka positive root $\\sqrt{5}$ nikalna hai. Green curve $y = f(x)$ hai jo x-axis ko red dot $\\alpha$ par cut karta hai.",
+      subEn: "<strong>Objective:</strong> Find the positive root of $f(x) = x^2 - 5 = 0$ (i.e. $\\alpha = \\sqrt{5} \\approx 2.23607$). The teal curve represents $y = f(x)$ intersecting the x-axis at $\\alpha$.",
+      subHi: "<strong>Hindi Samjhaun:</strong> Hume $f(x) = x^2 - 5 = 0$ ka positive root $\\alpha = \\sqrt{5} \\approx 2.23607$ nikalna hai. Teal curve $y = f(x)$ hai jo x-axis ko red dot $\\alpha$ par cut karta hai.",
       draw: (ctx, w, h, p) => {
         drawAxes(ctx, w, h);
         drawCurve(ctx, w, h, f);
@@ -525,10 +696,10 @@ function setupNewtonRaphsonTheater(canvasId) {
       }
     },
     {
-      title: "Initial Guess $x_0 = 3.2$ & Function Point",
+      title: "Initial Guess x₀ = 3.2 & Function Value f(x₀) = 5.24",
       audioSrc: "audio/nr_step1.wav",
-      subEn: "<strong>Initial Guess:</strong> We choose $x_0 = 3.2$. Projecting vertically up gives the curve point $(x_0, f(x_0)) = (3.2, 5.24)$.",
-      subHi: "<strong>Hindi Samjhaun:</strong> Pehla guess $x_0 = 3.2$ liya. Yahan se upar curve par point $(x_0, f(x_0))$ locate hua.",
+      subEn: "<strong>Initial Guess:</strong> We choose $x_0 = 3.2$. Projecting vertically up gives point $(x_0, f(x_0)) = (3.2, 5.24)$ with derivative $f'(x_0) = 6.4$.",
+      subHi: "<strong>Hindi Samjhaun:</strong> Pehla guess $x_0 = 3.2$ liya. Curve par point $(x_0, f(x_0)) = (3.2, 5.24)$ locate hua, jahan derivative $f'(x_0) = 6.4$ hai.",
       draw: (ctx, w, h, p) => {
         drawAxes(ctx, w, h);
         drawCurve(ctx, w, h, f);
@@ -537,10 +708,10 @@ function setupNewtonRaphsonTheater(canvasId) {
       }
     },
     {
-      title: "Iteration 1: Tangent Descent to $x_1 = 2.381$",
+      title: "Iteration 1: Tangent Descent to x₁ = 2.38125",
       audioSrc: "audio/nr_step2.wav",
-      subEn: "<strong>Tangent Line Descent:</strong> The tangent at $(x_0, f(x_0))$ has slope $f'(x_0) = 6.4$. Following this tangent down hits the x-axis at $x_1 = 3.2 - \\frac{5.24}{6.4} = \\mathbf{2.381}$.",
-      subHi: "<strong>Hindi Samjhaun:</strong> $(x_0, f(x_0))$ se tangent draw hui. Tangent line tezi se neeche aakar x-axis ko $x_1 = 2.381$ par cut karti hai!",
+      subEn: "<strong>Tangent Line Descent:</strong> Tangent at $(x_0, f(x_0))$ strikes the x-axis at $x_1 = 3.2 - \\frac{5.24}{6.4} = \\mathbf{2.38125}$. Error drops from $0.9639$ to $0.1452$.",
+      subHi: "<strong>Hindi Samjhaun:</strong> $(x_0, f(x_0))$ se tangent line x-axis ko exactly $x_1 = 2.38125$ par cut karti hai! Error $0.9639$ se ghat kar $0.1452$ ho gaya.",
       draw: (ctx, w, h, p) => {
         drawAxes(ctx, w, h);
         drawCurve(ctx, w, h, f);
@@ -549,15 +720,15 @@ function setupNewtonRaphsonTheater(canvasId) {
         const x1 = 3.2 - f(3.2) / fPrime(3.2);
         drawTangent(ctx, w, h, 3.2, f(3.2), x1, "#f59e0b", p);
         if (p > 0.8) {
-          drawAxisPoint(ctx, w, h, x1, "x₁ = 2.381", "#10b981");
+          drawAxisPoint(ctx, w, h, x1, "x₁ = 2.38125", "#10b981");
         }
       }
     },
     {
-      title: "Iteration 2: Quadratic Convergence ($p=2$) to $x_2 = 2.239$",
+      title: "Iteration 2: Quadratic Convergence (p = 2) to x₂ = 2.24049",
       audioSrc: "audio/nr_step3.wav",
-      subEn: "<strong>Quadratic Convergence in Action:</strong> From $x_1 = 2.381$, we project up and cast the second tangent. It strikes at $x_2 = \\mathbf{2.239}$, virtually identical to true root $\\alpha = 2.236$ in just 2 steps!",
-      subHi: "<strong>Hindi Samjhaun:</strong> Dusri iteration me tangent $x_1$ se seedha $x_2 = 2.239$ par aati hai! Sirf 2 steps me accuracy double ho gayi!",
+      subEn: "<strong>Quadratic Convergence:</strong> Evaluating at $x_1 = 2.38125$ gives $f(x_1) = 0.67035$. Next tangent strikes at $x_2 = 2.38125 - \\frac{0.67035}{4.7625} = \\mathbf{2.24049}$. Next is $x_3 = 2.23607 \\approx \\sqrt{5}$!",
+      subHi: "<strong>Hindi Samjhaun:</strong> Dusri iteration me tangent $x_1$ se seedha $x_2 = 2.24049$ par aati hai! Agle step me $x_3 = 2.23607 \\approx \\sqrt{5}$ mil jata hai!",
       draw: (ctx, w, h, p) => {
         drawAxes(ctx, w, h);
         drawCurve(ctx, w, h, f);
@@ -565,13 +736,13 @@ function setupNewtonRaphsonTheater(canvasId) {
         const x1 = 3.2 - f(3.2) / fPrime(3.2);
         drawPointAndProjection(ctx, w, h, 3.2, f(3.2), "x₀", "#94a3b8", 1);
         drawTangent(ctx, w, h, 3.2, f(3.2), x1, "#94a3b8", 1);
-        drawAxisPoint(ctx, w, h, x1, "x₁", "#f59e0b");
+        drawAxisPoint(ctx, w, h, x1, "x₁ = 2.38125", "#f59e0b");
 
         drawPointAndProjection(ctx, w, h, x1, f(x1), "", "#f59e0b", p);
         const x2 = x1 - f(x1) / fPrime(x1);
         drawTangent(ctx, w, h, x1, f(x1), x2, "#10b981", p);
         if (p > 0.8) {
-          drawAxisPoint(ctx, w, h, x2, "x₂ = 2.239", "#10b981");
+          drawAxisPoint(ctx, w, h, x2, "x₂ = 2.24049", "#10b981");
         }
       }
     }
@@ -1010,7 +1181,447 @@ function setupJvmMemoryTheater(canvasId) {
   });
 }
 
-// 11. Global Initialization
+// 11. Herbert Simon 4-Phase Decision Process Animated Video Factory (BCA-5001 KM)
+function setupKmDecisionTheater(canvasId) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+
+  const steps = [
+    {
+      title: "Herbert Simon's 4-Phase Decision Framework Overview",
+      audioSrc: "audio/km_step0.wav",
+      subEn: "<strong>Simon's Decision Process:</strong> Rational decision-making operates in 4 sequential stages (Intelligence &rarr; Design &rarr; Choice &rarr; Implementation) connected by continuous feedback loops.",
+      subHi: "<strong>Hindi Samjhaun:</strong> हर्बर्ट साइमन का डिसीजन मॉडल: इंटेलिजेंस, डिज़ाइन, चॉइस और इम्प्लीमेंटेशन के 4 स्टेप्स फीडबैक लूप के साथ काम करते हैं।",
+      draw: (ctx, w, h, p) => {
+        drawPhaseBoxes(ctx, w, h, -1, p);
+        drawDetailOverview(ctx, w, h, p);
+      }
+    },
+    {
+      title: "Phase 1: Intelligence — Environmental Scanning & Problem Discovery",
+      audioSrc: "audio/km_step1.wav",
+      subEn: "<strong>Phase 1 (Intelligence):</strong> Continuously scanning internal ERP records and market data to detect problems or emerging opportunities (e.g., detecting unexpected 28% drop in quarterly sales).",
+      subHi: "<strong>Hindi Samjhaun:</strong> पहला चरण इंटेलिजेंस फेज़ है। डेटा स्कैन करके समस्या की खोज करना, जैसे सेल्स में अचानक 28% गिरावट डिटेक्ट होना।",
+      draw: (ctx, w, h, p) => {
+        drawPhaseBoxes(ctx, w, h, 0, p);
+        drawDetailIntelligence(ctx, w, h, p);
+      }
+    },
+    {
+      title: "Phase 2: Design — Formulating & Modeling Alternatives",
+      audioSrc: "audio/km_step2.wav",
+      subEn: "<strong>Phase 2 (Design):</strong> Inventing, formulating, and simulating alternative courses of action. Mathematical models forecast the consequences of each strategy before committing capital.",
+      subHi: "<strong>Hindi Samjhaun:</strong> दूसरा चरण डिज़ाइन फेज़ है। समाधान के संभावित विकल्प तैयार करना और मॉडल्स के ज़रिए उनके संभावित परिणामों का अनुमान लगाना।",
+      draw: (ctx, w, h, p) => {
+        drawPhaseBoxes(ctx, w, h, 1, p);
+        drawDetailDesign(ctx, w, h, p);
+      }
+    },
+    {
+      title: "Phase 3: Choice — Multi-Criteria Selection & Sensitivity Analysis",
+      audioSrc: "audio/km_step3.wav",
+      subEn: "<strong>Phase 3 (Choice):</strong> Evaluating generated alternatives against constraints (cost, risk, ROI) using decision matrices and sensitivity analysis to select the single optimal strategy.",
+      subHi: "<strong>Hindi Samjhaun:</strong> तीसरा चरण चॉइस फेज़ है। सभी विकल्पों का कॉस्ट, रिस्क और रिटर्न के आधार पर मूल्यांकन करके सबसे बेस्ट ऑप्शन को चुनना।",
+      draw: (ctx, w, h, p) => {
+        drawPhaseBoxes(ctx, w, h, 2, p);
+        drawDetailChoice(ctx, w, h, p);
+      }
+    },
+    {
+      title: "Phase 4: Implementation & Closed-Loop Feedback",
+      audioSrc: "audio/km_step4.wav",
+      subEn: "<strong>Phase 4 (Implementation & Feedback):</strong> Executing the selected strategy, deploying resources, and monitoring outcomes. If performance deviates from goals, feedback loops trigger redesign or problem redefinition!",
+      subHi: "<strong>Hindi Samjhaun:</strong> चौथा चरण इम्प्लीमेंटेशन है। फैसले को लागू करना और फीडबैक लूप से मॉनिटर करना ताकि कमियाँ आने पर डिज़ाइन या इंटेलिजेंस में वापस जा सकें।",
+      draw: (ctx, w, h, p) => {
+        drawPhaseBoxes(ctx, w, h, 3, p);
+        drawDetailImplementation(ctx, w, h, p);
+      }
+    }
+  ];
+
+  const phases = [
+    { title: "1. Intelligence", subtitle: "Problem Discovery", color: "#0d9488" },
+    { title: "2. Design", subtitle: "Model Alternatives", color: "#f59e0b" },
+    { title: "3. Choice", subtitle: "Select Best Option", color: "#10b981" },
+    { title: "4. Implementation", subtitle: "Execute & Monitor", color: "#e11d48" }
+  ];
+
+  function drawPhaseBoxes(ctx, w, h, activeIndex, p) {
+    const padX = 24;
+    const boxW = (w - padX * 2 - 3 * 20) / 4;
+    const boxH = 58;
+    const topY = 22;
+
+    for (let i = 0; i < 4; i++) {
+      const bx = padX + i * (boxW + 20);
+      const phase = phases[i];
+      const isActive = (i === activeIndex);
+
+      ctx.fillStyle = isActive ? 'rgba(30, 41, 59, 0.95)' : 'rgba(30, 41, 59, 0.6)';
+      ctx.strokeStyle = isActive ? phase.color : '#475569';
+      ctx.lineWidth = isActive ? 2.5 : 1.2;
+      ctx.beginPath();
+      ctx.roundRect(bx, topY, boxW, boxH, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      if (isActive) {
+        ctx.fillStyle = phase.color;
+        ctx.beginPath();
+        ctx.arc(bx + 14, topY + 16, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = isActive ? '#ffffff' : '#cbd5e1';
+      ctx.font = isActive ? 'bold 11px sans-serif' : '10.5px sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(phase.title, bx + (isActive ? 24 : 12), topY + 22);
+
+      ctx.fillStyle = isActive ? phase.color : '#94a3b8';
+      ctx.font = '9px sans-serif';
+      ctx.fillText(phase.subtitle, bx + 12, topY + 42);
+
+      // Arrow to next box
+      if (i < 3) {
+        const arrowX = bx + boxW + 4;
+        const arrowY = topY + boxH / 2;
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(arrowX, arrowY);
+        ctx.lineTo(arrowX + 11, arrowY);
+        ctx.lineTo(arrowX + 8, arrowY - 3);
+        ctx.moveTo(arrowX + 11, arrowY);
+        ctx.lineTo(arrowX + 8, arrowY + 3);
+        ctx.stroke();
+      }
+    }
+  }
+
+  function drawDetailOverview(ctx, w, h, p) {
+    const py = 105;
+    const pw = w - 48;
+    const ph = h - py - 20;
+
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(24, py, pw, ph, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText("⭐ Herbert A. Simon's Rational Decision Model (CSJMU High-Yield 10-Mark Core)", 40, py + 26);
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10.5px sans-serif';
+    ctx.fillText("Decision-making is not a single snap event—it is an iterative, structured system:", 40, py + 48);
+
+    const bullets = [
+      { tag: "Intelligence:", desc: "Finding occasions for making a decision (What is the problem?).", col: "#0d9488" },
+      { tag: "Design:", desc: "Finding, developing, and analyzing possible courses of action (What are options?).", col: "#f59e0b" },
+      { tag: "Choice:", desc: "Selecting a particular course of action from those available (Which is best?).", col: "#10b981" },
+      { tag: "Implementation:", desc: "Putting selected decision into effect and evaluating results with feedback.", col: "#e11d48" }
+    ];
+
+    bullets.forEach((b, idx) => {
+      const by = py + 72 + idx * 22;
+      ctx.fillStyle = b.col;
+      ctx.font = 'bold 10.5px sans-serif';
+      ctx.fillText(b.tag, 40, by);
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '10px sans-serif';
+      ctx.fillText(b.desc, 140, by);
+    });
+
+    // Feedback Loop arc indicator
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(pw - 30, py + 140);
+    ctx.quadraticCurveTo(pw / 2, py + ph + 8, 80, py + 140);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 9.5px sans-serif';
+    ctx.fillText("Closed-Loop Feedback: Iteration occurs whenever outcomes fail criteria", 130, py + ph - 8);
+  }
+
+  function drawDetailIntelligence(ctx, w, h, p) {
+    const py = 105;
+    const pw = w - 48;
+    const ph = h - py - 20;
+
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#0d9488';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.roundRect(24, py, pw, ph, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#0d9488';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText("📡 Phase 1 Work Area: Environmental Scanning & Problem Detection", 40, py + 26);
+
+    // Data sources
+    const sources = ["ERP Database", "Sales Log", "Market Intelligence", "Customer Feedback"];
+    sources.forEach((s, idx) => {
+      const sx = 40 + idx * 145;
+      const sy = py + 45;
+      ctx.fillStyle = '#334155';
+      ctx.beginPath();
+      ctx.roundRect(sx, sy, 135, 26, 4);
+      ctx.fill();
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '9.5px sans-serif';
+      ctx.fillText(s, sx + 10, sy + 17);
+    });
+
+    // Scanner beam animation
+    const scanX = 40 + (pw - 80) * p;
+    ctx.strokeStyle = '#0d9488';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(scanX, py + 45);
+    ctx.lineTo(scanX, py + 71);
+    ctx.stroke();
+
+    // Alert Box triggered by scanning
+    if (p > 0.4) {
+      ctx.fillStyle = 'rgba(225, 29, 72, 0.18)';
+      ctx.strokeStyle = '#e11d48';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(40, py + 86, pw - 80, 52, 6);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#fb7185';
+      ctx.font = 'bold 11px sans-serif';
+      ctx.fillText("⚠️ PROBLEM DETECTED BY DSS EXCEPTION MONITOR:", 52, py + 106);
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '10px monospace';
+      ctx.fillText("Quarterly Revenue Deficit: -28.4% below forecast in Region-North (Threshold = -5%).", 52, py + 125);
+    }
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '9.5px sans-serif';
+    ctx.fillText("DSS Role: Query tools, executive dashboards, and statistical variance filters detect deviations automatically.", 40, py + ph - 10);
+  }
+
+  function drawDetailDesign(ctx, w, h, p) {
+    const py = 105;
+    const pw = w - 48;
+    const ph = h - py - 20;
+
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.roundRect(24, py, pw, ph, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#f59e0b';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText("⚙️ Phase 2 Work Area: Formulating & Simulating Strategic Alternatives", 40, py + 26);
+
+    const alts = [
+      { name: "Alternative A: Targeted Social & Search Campaign", cost: "₹1.5 Lakh", roi: "+32% Growth", risk: "Low", fit: "High" },
+      { name: "Alternative B: Direct 15% Price Reduction", cost: "Margin Loss", roi: "+14% Volume", risk: "High", fit: "Low" },
+      { name: "Alternative C: Regional Wholesale Incentives", cost: "₹2.2 Lakh", roi: "+24% Growth", risk: "Med", fit: "Med" }
+    ];
+
+    alts.forEach((a, idx) => {
+      const ay = py + 46 + idx * 32;
+      const progressThresh = 0.2 + idx * 0.25;
+      const show = p >= progressThresh;
+
+      ctx.fillStyle = show ? '#334155' : 'rgba(51, 65, 85, 0.4)';
+      ctx.beginPath();
+      ctx.roundRect(40, ay, pw - 80, 27, 4);
+      ctx.fill();
+
+      ctx.fillStyle = show ? '#ffffff' : '#64748b';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillText(a.name, 50, ay + 17);
+
+      if (show) {
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '9px monospace';
+        ctx.fillText(`Cost: ${a.cost} | Est. ROI: ${a.roi} | Risk: ${a.risk}`, 380, ay + 17);
+      }
+    });
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '9.5px sans-serif';
+    ctx.fillText("DSS Role: Forecasting models, linear programming, and Monte Carlo simulation estimate consequences.", 40, py + ph - 10);
+  }
+
+  function drawDetailChoice(ctx, w, h, p) {
+    const py = 105;
+    const pw = w - 48;
+    const ph = h - py - 20;
+
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#10b981';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.roundRect(24, py, pw, ph, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText("🎯 Phase 3 Work Area: Multi-Criteria Selection & Sensitivity Matrix", 40, py + 26);
+
+    // Matrix Header
+    const my = py + 46;
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(40, my, pw - 80, 22);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 9px sans-serif';
+    ctx.fillText("CANDIDATE ALTERNATIVE", 50, my + 15);
+    ctx.fillText("ROI WEIGHT (40%)", 240, my + 15);
+    ctx.fillText("RISK SCORE (30%)", 360, my + 15);
+    ctx.fillText("SPEED (30%)", 480, my + 15);
+    ctx.fillText("TOTAL SCORE", 570, my + 15);
+
+    // Row 1: Option A (Selected)
+    const isSelected = p > 0.4;
+    ctx.fillStyle = isSelected ? 'rgba(16, 185, 129, 0.18)' : '#334155';
+    ctx.strokeStyle = isSelected ? '#10b981' : '#334155';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.roundRect(40, my + 26, pw - 80, 26, 4);
+    ctx.fill();
+    if (isSelected) ctx.stroke();
+
+    ctx.fillStyle = isSelected ? '#ffffff' : '#cbd5e1';
+    ctx.font = 'bold 9.5px sans-serif';
+    ctx.fillText(isSelected ? "✓ Option A: Digital Campaign" : "Option A: Digital Campaign", 50, my + 43);
+    ctx.fillText("36 / 40", 250, my + 43);
+    ctx.fillText("28 / 30", 370, my + 43);
+    ctx.fillText("27 / 30", 490, my + 43);
+    ctx.fillStyle = '#10b981';
+    ctx.fillText("91 / 100", 580, my + 43);
+
+    // Row 2: Option B
+    ctx.fillStyle = '#1e293b';
+    ctx.beginPath();
+    ctx.roundRect(40, my + 56, pw - 80, 24, 4);
+    ctx.fill();
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '9px sans-serif';
+    ctx.fillText("Option B: Price Reduction", 50, my + 72);
+    ctx.fillText("16 / 40", 250, my + 72);
+    ctx.fillText("12 / 30", 370, my + 72);
+    ctx.fillText("29 / 30", 490, my + 72);
+    ctx.fillText("57 / 100", 580, my + 72);
+
+    if (isSelected) {
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.fillText("🏆 RATIONAL CHOICE: Option A selected with highest multi-attribute utility value (91/100).", 40, py + ph - 12);
+    } else {
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '9.5px sans-serif';
+      ctx.fillText("DSS Role: Sensitivity analysis, What-If criteria weighting, and decision trees ensure rational choice.", 40, py + ph - 12);
+    }
+  }
+
+  function drawDetailImplementation(ctx, w, h, p) {
+    const py = 105;
+    const pw = w - 48;
+    const ph = h - py - 20;
+
+    ctx.fillStyle = '#1e293b';
+    ctx.strokeStyle = '#e11d48';
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.roundRect(24, py, pw, ph, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#e11d48';
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillText("🚀 Phase 4 Work Area: Execution & Continuous Closed-Loop Feedback", 40, py + 26);
+
+    // Milestones
+    const stepsList = [
+      { label: "1. Budget Allocated", done: true },
+      { label: "2. Marketing Team Briefed", done: true },
+      { label: "3. Campaign Deployed to Production", done: p > 0.3 },
+      { label: "4. Real-Time Telemetry Monitored", done: p > 0.6 }
+    ];
+
+    stepsList.forEach((s, idx) => {
+      const sx = 40 + idx * 145;
+      const sy = py + 46;
+      ctx.fillStyle = s.done ? '#064e3b' : '#334155';
+      ctx.strokeStyle = s.done ? '#10b981' : '#475569';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.roundRect(sx, sy, 135, 26, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = s.done ? '#a7f3d0' : '#94a3b8';
+      ctx.font = 'bold 9px sans-serif';
+      ctx.fillText((s.done ? "✓ " : "○ ") + s.label, sx + 6, sy + 17);
+    });
+
+    // Dynamic Feedback Loop Arrow running across bottom back to Intelligence
+    const feedbackProgress = Math.min(1, Math.max(0, (p - 0.4) / 0.6));
+    const startX = pw - 20;
+    const endX = 50;
+    const curX = startX - (startX - endX) * feedbackProgress;
+    const arcY = py + 105;
+
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath();
+    ctx.moveTo(startX, arcY);
+    ctx.lineTo(curX, arcY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    if (feedbackProgress > 0) {
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.arc(curX, arcY, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#f59e0b';
+      ctx.font = 'bold 9.5px sans-serif';
+      ctx.fillText("🔄 Closed-Loop Feedback: Telemetry returns to Intelligence & Design if Variance > 5%", 60, arcY - 8);
+    }
+
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '9.5px sans-serif';
+    ctx.fillText("DSS Role: Post-implementation performance tracking; triggers corrective loop if sales deviate from target.", 40, py + ph - 10);
+  }
+
+  window.kmTheater = new AnimatedVideoTheater({
+    canvasId: canvasId,
+    playBtnId: 'km-btn-play',
+    stepIndicatorId: 'km-step-ind',
+    subEnId: 'km-sub-en',
+    subHiId: 'km-sub-hi',
+    speedBtnId: 'km-btn-speed',
+    soundBtnId: 'km-btn-sound',
+    steps: steps
+  });
+}
+
+// 12. Global Initialization
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initStudyMode();
@@ -1027,6 +1638,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('jvm-theater-canvas')) {
     setupJvmMemoryTheater('jvm-theater-canvas');
   }
+  if (document.getElementById('km-theater-canvas')) {
+    setupKmDecisionTheater('km-theater-canvas');
+  }
 });
+
 
 

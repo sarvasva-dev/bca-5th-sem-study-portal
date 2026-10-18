@@ -133,6 +133,40 @@
       </div>
       <p>Nobel laureate <strong>Herbert A. Simon</strong> formulated the classic four-phase rational decision-making model. Every business decision progresses through these four sequential stages with continuous feedback loops:</p>
 
+      <!-- Animated Video Concept Theater: Herbert Simon Decision Model -->
+      <div class="concept-theater">
+        <div class="theater-header">
+          <div class="theater-title">
+            <span>🎬</span>
+            <span>Animated Video Explainer: Herbert Simon's 4-Phase Decision Process</span>
+          </div>
+          <span class="theater-badge">🎙️ Sarvam AI Voice Sync</span>
+        </div>
+
+        <div class="theater-screen-wrapper">
+          <canvas id="km-theater-canvas" class="theater-canvas"></canvas>
+        </div>
+
+        <div class="theater-controls-bar">
+          <div class="theater-btn-group">
+            <button id="km-btn-play" class="theater-btn btn-primary-play" onclick="window.kmTheater && window.kmTheater.togglePlay()">▶️ Play Video</button>
+            <button class="theater-btn" onclick="window.kmTheater && window.kmTheater.prevStep()" title="Previous Step">⏮️</button>
+            <button class="theater-btn" onclick="window.kmTheater && window.kmTheater.nextStep()" title="Next Step">⏭️</button>
+            <button class="theater-btn" onclick="window.kmTheater && window.kmTheater.replay()" title="Replay Animation">🔄 Replay</button>
+          </div>
+          <div class="theater-btn-group">
+            <span id="km-step-ind" class="theater-step-indicator">Step 1 of 5: Overview</span>
+            <button id="km-btn-sound" class="theater-btn" onclick="window.kmTheater && window.kmTheater.toggleSound()" title="Toggle Voiceover Audio">🔊 Voice ON</button>
+            <button id="km-btn-speed" class="theater-btn" onclick="window.kmTheater && window.kmTheater.toggleSpeed()">⚡ 1x</button>
+          </div>
+        </div>
+
+        <div class="theater-subtitle-box">
+          <div id="km-sub-en" class="theater-subtitle-en"><strong>Overview:</strong> Herbert Simon's 4-Phase Rational Decision Model.</div>
+          <div id="km-sub-hi" class="theater-subtitle-hi"><strong>Hindi Samjhaun:</strong> निर्णय प्रक्रिया चार चरणों में पूरी होती है।</div>
+        </div>
+      </div>
+
       <div class="diagram-box">
         <svg viewBox="0 0 340 220" width="100%" height="auto" style="max-width:340px;">
           <!-- 1. Intelligence -->

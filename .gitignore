@@ -2,7 +2,17 @@
 All_In_One_Master_Guides/
 BCA_V_Sem_Hard_Copies/
 Hard_Copy_Notes/
+Soft_Copy_Notes/
+Previous_Years_Question_Papers_PYQs/
+5_BCA-5005_Minor_Project/
 backups/
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
 
 # System and temporary files
 /tmp/
@@ -12,3 +22,4 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+

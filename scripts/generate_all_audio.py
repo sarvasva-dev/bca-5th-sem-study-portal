@@ -4,7 +4,12 @@ import json
 import base64
 import time
 
-API_KEY = "sk_qc9noagi_R1TGM6dV0uZqFoxrNEXGQgBV"
+API_KEY = os.environ.get("SARVAM_API_KEY")
+if not API_KEY:
+    print("Error: SARVAM_API_KEY environment variable is not set.")
+    print("Please set SARVAM_API_KEY=your_key_here before running this script.")
+    exit(1)
+
 URL = "https://api.sarvam.ai/text-to-speech"
 HEADERS = {
     "api-subscription-key": API_KEY,
@@ -83,6 +88,33 @@ AUDIO_SCRIPTS = [
     {
         "filename": "jvm_step4.wav",
         "text": "जब s1 बराबर नल किया जाता है, तो रेफरेंस टूट जाता है, और गारबेज कलेक्टर हीप से अनयूज्ड मेमोरी को ऑटोमैटिकली स्वीप करके फ्री कर देता है!",
+        "speaker": "aditya"
+    },
+
+    # 4. Herbert Simon Decision Model (BCA-5001 Unit 1)
+    {
+        "filename": "km_step0.wav",
+        "text": "नमस्ते! हर्बर्ट साइमन का डिसीजन मेकिंग मॉडल बिज़नेस इंटेलिजेंस और डीएसएस का सबसे महत्वपूर्ण टॉपिक है। यह निर्णय प्रक्रिया चार मुख्य चरणों में पूरी होती है।",
+        "speaker": "aditya"
+    },
+    {
+        "filename": "km_step1.wav",
+        "text": "पहला चरण है इंटेलिजेंस फेज़। इसमें एक्सटर्नल और इंटरनल डेटा को स्कैन करके समस्या या अवसर की पहचान की जाती है, जैसे सेल्स में अचानक गिरावट।",
+        "speaker": "aditya"
+    },
+    {
+        "filename": "km_step2.wav",
+        "text": "दूसरा चरण है डिज़ाइन फेज़। यहाँ समस्या के समाधान के लिए संभावित रास्ते और अल्टरनेटिव्स डेवलप और मॉडल किए जाते हैं।",
+        "speaker": "aditya"
+    },
+    {
+        "filename": "km_step3.wav",
+        "text": "तीसरा चरण है चॉइस फेज़। जनरेट किए गए सभी विकल्पों का मूल्यांकन करके कॉस्ट, रिस्क, और लाभ के आधार पर सबसे उपयुक्त फैसला चुना जाता है।",
+        "speaker": "aditya"
+    },
+    {
+        "filename": "km_step4.wav",
+        "text": "चौथा चरण है इम्प्लीमेंटेशन। चुने गए निर्णय को धरातल पर लागू किया जाता है और फीडबैक लूप के ज़रिए लगातार मॉनिटर किया जाता है।",
         "speaker": "aditya"
     }
 ]

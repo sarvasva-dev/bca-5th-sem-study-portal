@@ -17,6 +17,7 @@ import json
 import sys
 
 PORTAL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+BASE_DIR = os.path.abspath(os.path.join(PORTAL_DIR, ".."))
 REQUIRED_PAGES = [
     "index.html",
     # BCA-5004: Numerical Methods (5 units)
@@ -190,6 +191,45 @@ def run_tests():
                 check(True, f"{label} parses as valid JSON (Type: {type(data).__name__})")
             except Exception as e:
                 check(False, f"{label} JSON parsing", str(e))
+
+    # TEST 8: Animated Concept Video Theaters & Voice Narration Integrity
+    print("\n--- Phase 8: Animated Video Concept Theaters & Voice Assets ---")
+    theaters = [
+        ("BCA-5004 Unit 1 (Newton-Raphson)", "bca5004_unit1.html", "nr-theater-canvas"),
+        ("BCA-5002 Unit 1 (JVM Memory)", "bca5002_unit1.html", "jvm-theater-canvas"),
+        ("BCA-5003 Unit 5 (TCP 3-Way Handshake)", "bca5003_unit5.html", "tcp-theater-canvas"),
+        ("BCA-5001 Unit 1 (Herbert Simon Decision Model)", "bca5001_unit1.html", "km-theater-canvas")
+    ]
+    for subject_label, page, canvas_id in theaters:
+        page_path = os.path.join(PORTAL_DIR, page)
+        with open(page_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        check(f'id="{canvas_id}"' in content, f"{subject_label} embeds canvas #{canvas_id}")
+        check('class="concept-theater"' in content, f"{subject_label} has concept-theater container")
+        check('theater-badge' in content, f"{subject_label} has voice badge")
+
+    expected_audios = [
+        # Newton-Raphson
+        "nr_step0.wav", "nr_step1.wav", "nr_step2.wav", "nr_step3.wav",
+        # TCP Handshake
+        "tcp_step0.wav", "tcp_step1.wav", "tcp_step2.wav", "tcp_step3.wav",
+        # JVM Memory
+        "jvm_step0.wav", "jvm_step1.wav", "jvm_step2.wav", "jvm_step3.wav", "jvm_step4.wav",
+        # Herbert Simon KM
+        "km_step0.wav", "km_step1.wav", "km_step2.wav", "km_step3.wav", "km_step4.wav"
+    ]
+    audio_dir = os.path.join(PORTAL_DIR, "audio")
+    for a_file in expected_audios:
+        a_path = os.path.join(audio_dir, a_file)
+        exists = os.path.isfile(a_path)
+        check(exists, f"Audio asset {a_file} exists on disk")
+        if exists:
+            size_kb = os.path.getsize(a_path) / 1024
+            check(size_kb > 50, f"Audio asset {a_file} is non-trivial studio recording ({size_kb:.1f} KB > 50 KB)")
+
+    # Test Proxy & Security Integrity
+    check(os.path.isfile(os.path.join(BASE_DIR, "server.py")), "server.py dev proxy exists")
+    check(os.path.isfile(os.path.join(BASE_DIR, "api/tts.py")), "api/tts.py Vercel serverless proxy exists")
 
     # SUMMARY
     print("\n" + "=" * 70)
