@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 1: Roots of Equations | BCA-5004 Numerical Methods</title>
+  <title>Unit 1: Roots of Equations | BCA-5004 Masterclass</title>
   <link rel="stylesheet" href="css/style.css">
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      svg: { fontCache: 'global' },
-      options: { renderActions: { addMenu: [] } }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
     };
   </script>
-  <script async src="js/tex-svg.js"></script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -26,7 +21,7 @@
       <div class="brand-icon" style="background:#0d9488;">NM</div>
       <div>
         <div class="brand-title">BCA-5004: Unit I</div>
-        <div class="brand-subtitle">Roots of Non-Linear Equations</div>
+        <div class="brand-subtitle">Roots of Non-Linear Algebraic Equations</div>
       </div>
     </a>
     <div class="header-actions">
@@ -35,137 +30,127 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#0d9488;">
       <div class="badge-row">
-        <span class="badge badge-emerald">Subject: BCA-5004</span>
-        <span class="badge badge-amber">⭐ High Weightage (20–25 Marks)</span>
-        <span class="badge badge-coral">Day 1 Priority</span>
+        <span class="badge badge-amber">Subject: BCA-5004 (NM)</span>
+        <span class="badge badge-emerald">⭐ Bisection, Regula-Falsi & Newton-Raphson PYQs</span>
+        <span class="badge badge-coral">Day 1 Focus (Distributed Plan)</span>
       </div>
       <h1 class="unit-title">Unit I: Roots of Non-Linear Equations</h1>
-      <p class="unit-desc">
-        Master Bisection, Regula-Falsi, Newton-Raphson, Quadratic Convergence Proof, and Descartes' Rule of Signs with complete step-by-step arithmetic.
-      </p>
+      <p class="unit-desc">Master the theory of non-linear equations, the Bracketing Principle, Bisection Convergence Proof, Regula-Falsi Chord Derivation, Newton-Raphson Quadratic Convergence ($p=2$), Descartes' Rule of Signs, and Solved Examination Numericals.</p>
     </div>
 
-    <!-- Dual Study Mode Switcher -->
-    <div class="mode-switch-bar">
-      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
-      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    <!-- Learning Objectives -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Define a root and apply the Intermediate Value Theorem to determine bracketing intervals ($f(a)f(b) < 0$).</li>
+        <li>State the Bisection algorithm, prove its guaranteed convergence, and calculate the minimum iteration bound $n \ge \log_2((b-a)/\epsilon) - 1$.</li>
+        <li>Derive the Regula-Falsi (False Position) formula algebraically using the two-point chord equation.</li>
+        <li>Derive the Newton-Raphson formula using Taylor series expansion and prove its Quadratic Order of Convergence ($p = 2$).</li>
+        <li>Analyze the 3 critical failure conditions of Newton-Raphson ($f'(x_n) = 0$, inflection points, poor initial guess).</li>
+        <li>Apply Descartes' Rule of Signs to bound the number of positive, negative, and complex roots.</li>
+      </ol>
     </div>
 
-    <!-- Topic 1: Foundations of Root Finding -->
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: Why Do We Need Numerical Methods to Find Roots?</strong><br>
+      In school, we solve quadratic equations $ax^2 + bx + c = 0$ easily using the quadratic formula $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$. But what if you encounter an equation like:
+      $$x e^x - 1 = 0 \quad \text{or} \quad x^3 - x - 11 = 0 \quad \text{or} \quad \cos(x) - x = 0$$
+      By the Abel-Ruffini theorem, general polynomials of degree 5 or higher (and transcendental equations mixing algebra with trigonometry/exponentials) have **no closed-form algebraic formula**!<br>
+      **Numerical Methods** solve this by starting with a rough guess and generating a sequence of approximations $x_0, x_1, x_2, \dots \to \alpha$ that zoom in on the true root with pinpoint decimal precision!
+    </div>
+
+    <!-- Section 1: Foundations & Bracketing Principle -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Core Concepts: Roots & Bracketing Methods</span>
-      </div>
-
-      <div class="callout callout-objective">
-        <strong>🎯 Learning Objectives:</strong>
-        <ul style="margin:4px 0 0 16px;">
-          <li>Define what constitutes a root of an equation $f(x) = 0$.</li>
-          <li>Understand the Intermediate Value Theorem (Bolzano's Theorem).</li>
-          <li>Distinguish between <em>Bracketing (Closed) Methods</em> and <em>Open Methods</em>.</li>
-        </ul>
-      </div>
-
-      <div class="callout callout-intuition">
-        <strong>💡 Everyday Intuition:</strong>
-        Think of finding a root like tracking where a roller coaster dips below ground level. If the coaster is at height $+10$ meters at time $t=1$ and at $-5$ meters at time $t=2$, it <em>must</em> have crossed ground level (height $0$) somewhere between $t=1$ and $t=2$. That crossing point is the <strong>root</strong>!
-      </div>
-
-      <p>
-        <strong>Formal Definition:</strong> A number $\alpha$ is called a <strong>root</strong> or <strong>zero</strong> of an equation $f(x) = 0$ if and only if $f(\alpha) = 0$. In analytical algebra, linear and quadratic equations have exact closed-form solutions (like the quadratic formula). However, transcendental and higher-order polynomial equations (e.g., $x^3 - 4x - 9 = 0$ or $x e^x = 1$) cannot be solved analytically. We must use <strong>iterative numerical methods</strong> to approximate roots to any desired accuracy.
-      </p>
-
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Classification</th>
-              <th>Method Name</th>
-              <th>Initial Guesses Needed</th>
-              <th>Guaranteed to Converge?</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Bracketing (Closed)</strong></td>
-              <td>Bisection, Regula-Falsi</td>
-              <td>Two points $a, b$ such that $f(a) \cdot f(b) < 0$</td>
-              <td><strong>Yes</strong> (Always converges if $f$ is continuous)</td>
-            </tr>
-            <tr>
-              <td><strong>Open Methods</strong></td>
-              <td>Newton-Raphson, Secant</td>
-              <td>One or two points without sign condition</td>
-              <td><strong>No</strong> (Much faster, but can diverge if initial guess is poor)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Topic 2: Bisection Method -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> The Bisection Method (Bolzano's Method)</span>
+        <span><span class="card-heading-icon">1.</span> Mathematical Foundations & The Bracketing Principle</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2019, 2016 (Frequently asked for 5–10 marks with numerical problem)</span>
+        <span>2024–25, 2021 (Sign test for root existence, bracketing interval)</span>
       </div>
+      <p>A real number $\alpha$ is defined as a <strong>root</strong> (or zero) of an equation $f(x) = 0$ if and only if $f(\alpha) = 0$. Geometrically, a real root is the $x$-coordinate where the graph $y = f(x)$ crosses or touches the $x$-axis.</p>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Bisection Iteration Formula:</strong><br>
-        $$c_n = \frac{a_n + b_n}{2}$$
-        <em>Condition:</em> $f(a) \cdot f(b) < 0$. Error after $n$ iterations: $\epsilon_n \le \frac{b - a}{2^n}$.
+      <div class="callout callout-info">
+        <strong>The Bracketing Principle (Intermediate Value Theorem):</strong><br>
+        Let $f(x)$ be a continuous function on a closed interval $[a, b]$. If the function values at the endpoints have opposite algebraic signs:
+        $$f(a) \cdot f(b) < 0$$
+        then there exists <strong>at least one real root</strong> $\alpha \in (a, b)$ such that $f(\alpha) = 0$.
       </div>
+      <p>Every bracketing algorithm (Bisection, Regula-Falsi) requires an initial sign-changing bracket $[a, b]$ before beginning iterations.</p>
+    </div>
 
-      <p>
-        <strong>Step-by-Step Algorithm:</strong>
-      </p>
-      <ol class="step-list">
-        <li><strong>Step 1:</strong> Find two initial values $a$ and $b$ such that $f(a) \cdot f(b) < 0$ (opposite signs).</li>
-        <li><strong>Step 2:</strong> Compute the midpoint: $c = \frac{a + b}{2}$.</li>
-        <li><strong>Step 3:</strong> Evaluate $f(c)$:
-          <ul style="margin:4px 0 0 16px;">
-            <li>If $f(c) = 0$, then $c$ is the exact root.</li>
-            <li>If $f(a) \cdot f(c) < 0$, the root lies in $[a, c]$. Set $b = c$.</li>
-            <li>If $f(c) \cdot f(b) < 0$, the root lies in $[c, b]$. Set $a = c$.</li>
-          </ul>
-        </li>
-        <li><strong>Step 4:</strong> Repeat until the interval width $|b - a| < \epsilon$ (specified tolerance).</li>
-      </ol>
+    <!-- Section 2: The Bisection Method & Convergence Proof -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> The Bisection Method & Convergence Proof</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2018 (Write steps, prove guaranteed convergence, solve $x^3-x-11=0$)</span>
+      </div>
+      <p>The <strong>Bisection Method</strong> (or Interval Halving Method) repeatedly divides a bracketing interval $[a, b]$ in half and selects the sub-interval that maintains opposite signs.</p>
 
-      <!-- Solved University Numerical -->
       <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical (CSJMU Past Exam):</strong><br>
-        <em>Problem:</em> Find a real root of the equation $f(x) = x^3 - 4x - 9 = 0$ using the Bisection method correct to 2 decimal places.
+        <strong>Algorithm (Standard 7-Step University Exam Answer):</strong>
+        <ol class="step-list">
+          <li>Choose initial endpoints $a$ and $b$ such that $f(a) \cdot f(b) < 0$.</li>
+          <li>Calculate the interval midpoint: $c = \frac{a + b}{2}$.</li>
+          <li>Evaluate $f(c)$. If $f(c) = 0$, then $c$ is the exact root; stop.</li>
+          <li>If $f(a) \cdot f(c) < 0$, the root lies in $[a, c]$; set $b = c$.</li>
+          <li>If $f(c) \cdot f(b) < 0$, the root lies in $[c, b]$; set $a = c$.</li>
+          <li>Check stopping criteria: If $|b - a| < \epsilon$ or $|f(c)| < \delta$, stop.</li>
+          <li>Otherwise, repeat Steps 2–6 until required decimal accuracy is reached.</li>
+        </ol>
       </div>
 
-      <p><strong>Detailed Step-by-Step Working:</strong></p>
-      <p>
-        1. Find bracket: test integer values:<br>
-        $f(2) = 2^3 - 4(2) - 9 = 8 - 8 - 9 = -9 < 0$<br>
-        $f(3) = 3^3 - 4(3) - 9 = 27 - 12 - 9 = +6 > 0$<br>
-        Since $f(2) < 0$ and $f(3) > 0$, a root lies in the interval $[2, 3]$.
-      </p>
+      <div class="track-full">
+        <h4>Proof of Guaranteed Convergence (CSJMU 2018):</h4>
+        <p>Let $[a_n, b_n]$ denote the bracket at the $n$-th iteration. At each step, the interval width is halved:</p>
+        $$b_n - a_n = \frac{b - a}{2^n}$$
+        <p>As $n \to \infty$, since $\lim_{n \to \infty} \frac{b - a}{2^n} = 0$, the interval width shrinks to zero.</p>
+        <p>The lower bounds form a bounded, monotonically non-decreasing sequence: $a_1 \le a_2 \le a_3 \le \dots \le b_1$.<br>
+        The upper bounds form a bounded, monotonically non-increasing sequence: $b_1 \ge b_2 \ge b_3 \ge \dots \ge a_1$.<br>
+        By the <strong>Bolzano-Weierstrass Monotone Convergence Theorem</strong>, both sequences converge to a common limit $\alpha$:</p>
+        $$\lim_{n \to \infty} a_n = \lim_{n \to \infty} b_n = \alpha$$
+        <p>Since $f$ is continuous and $f(a_n) \cdot f(b_n) \le 0$ for all $n$, taking limits yields $f(\alpha) \cdot f(\alpha) \le 0 \implies [f(\alpha)]^2 \le 0$. Since a real square cannot be negative, $f(\alpha) = 0$. Hence, <strong>the Bisection Method is mathematically guaranteed to converge!</strong></p>
 
-      <div class="table-container">
-        <table class="data-table">
+        <h4>Error Bound and Iteration Count Formula:</h4>
+        <p>The maximum error after $n$ iterations is bounded by: $E_n = |c_n - \alpha| \le \frac{b - a}{2^{n+1}}$. To guarantee error strictly less than tolerance $\epsilon$:</p>
+        $$\frac{b - a}{2^{n+1}} < \epsilon \implies 2^{n+1} > \frac{b - a}{\epsilon} \implies n > \log_2\left(\frac{b - a}{\epsilon}\right) - 1 = \frac{\ln((b-a)/\epsilon)}{\ln 2} - 1$$
+      </div>
+
+      <h4>Step-by-Step Solved University Exam Numerical</h4>
+      <p><strong>Problem (CSJMU 2024–25):</strong> Find a real root of $f(x) = x^3 - x - 11 = 0$ using the Bisection method correct to 2 decimal places.</p>
+      <p>• Initial Testing: $f(2) = 2^3 - 2 - 11 = 8 - 13 = -5 < 0$.<br>
+      • $f(3) = 3^3 - 3 - 11 = 27 - 14 = +13 > 0$.<br>
+      Since $f(2) \cdot f(3) < 0$, a root lies in $[2, 3]$.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>Iter ($n$)</th>
-              <th>$a$ (Negative)</th>
-              <th>$b$ (Positive)</th>
-              <th>Midpoint $c = \frac{a+b}{2}$</th>
-              <th>$f(c) = c^3 - 4c - 9$</th>
+              <th>Iteration $n$</th>
+              <th>$a$</th>
+              <th>$b$</th>
+              <th>$c = \frac{a+b}{2}$</th>
+              <th>$f(c) = c^3 - c - 11$</th>
               <th>Sign of $f(c)$</th>
-              <th>Next Bracket</th>
+              <th>Next Interval</th>
             </tr>
           </thead>
           <tbody>
@@ -174,469 +159,411 @@
               <td>2.0000</td>
               <td>3.0000</td>
               <td>2.5000</td>
-              <td>$-3.3750$</td>
-              <td>Negative ($-$)</td>
-              <td>$[2.5, 3.0]$</td>
+              <td>+2.1250</td>
+              <td>Positive (+)</td>
+              <td>$[2.0, 2.5]$</td>
             </tr>
             <tr>
               <td>2</td>
+              <td>2.0000</td>
               <td>2.5000</td>
-              <td>3.0000</td>
-              <td>2.7500</td>
-              <td>$+0.7969$</td>
-              <td>Positive ($+$)</td>
-              <td>$[2.5, 2.75]$</td>
+              <td>2.2500</td>
+              <td>$-1.8594$</td>
+              <td>Negative (-)</td>
+              <td>$[2.25, 2.5]$</td>
             </tr>
             <tr>
               <td>3</td>
+              <td>2.2500</td>
               <td>2.5000</td>
-              <td>2.7500</td>
-              <td>2.6250</td>
-              <td>$-1.4121$</td>
-              <td>Negative ($-$)</td>
-              <td>$[2.625, 2.75]$</td>
+              <td>2.3750</td>
+              <td>+0.0215</td>
+              <td>Positive (+)</td>
+              <td>$[2.25, 2.375]$</td>
             </tr>
             <tr>
               <td>4</td>
-              <td>2.6250</td>
-              <td>2.7500</td>
-              <td>2.6875</td>
-              <td>$-0.3391$</td>
-              <td>Negative ($-$)</td>
-              <td>$[2.6875, 2.75]$</td>
+              <td>2.2500</td>
+              <td>2.3750</td>
+              <td>2.3125</td>
+              <td>$-0.9460$</td>
+              <td>Negative (-)</td>
+              <td>$[2.3125, 2.375]$</td>
             </tr>
             <tr>
               <td>5</td>
-              <td>2.6875</td>
-              <td>2.7500</td>
-              <td>2.7188</td>
-              <td>$+0.2209$</td>
-              <td>Positive ($+$)</td>
-              <td>$[2.6875, 2.7188]$</td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>2.6875</td>
-              <td>2.7188</td>
-              <td>2.7031</td>
-              <td>$-0.0611$</td>
-              <td>Negative ($-$)</td>
-              <td>$[2.7031, 2.7188]$</td>
+              <td>2.3125</td>
+              <td>2.3750</td>
+              <td>2.3438</td>
+              <td>$-0.4690$</td>
+              <td>Negative (-)</td>
+              <td>$[2.3438, 2.375]$</td>
             </tr>
           </tbody>
         </table>
       </div>
-
-      <p>
-        <strong>Conclusion:</strong> After 6 iterations, both boundaries round to $2.71$. Therefore, the approximate real root is **$x \approx 2.71$**.
-      </p>
-
-      <div class="track-full">
-        <span class="track-full-badge">📚 Full Understanding Track: Theoretical Properties</span>
-        <div class="callout callout-info">
-          <strong>Theoretical Analysis of Bisection Method:</strong>
-          <ul style="margin:4px 0 0 16px; line-height:1.6;">
-            <li><strong>Rate of Convergence:</strong> Linear ($p = 1$). Each step halves the interval, gaining approximately $\approx 0.301$ decimal digits of precision per iteration ($2^{-10} \approx 10^{-3}$, so 10 iterations yield ~3 decimal places).</li>
-            <li><strong>Formula for iterations needed:</strong> To achieve accuracy $\epsilon$, we solve $\frac{b-a}{2^n} < \epsilon \implies n > \frac{\ln(b-a) - \ln \epsilon}{\ln 2}$.</li>
-            <li><strong>Limitation:</strong> It is slow and cannot determine roots of even multiplicity where $f(x)$ touches the x-axis without changing sign (e.g., $f(x) = (x-2)^2$).</li>
-          </ul>
-        </div>
-      </div>
+      <p>Continuing iterations yields the root $\mathbf{\alpha \approx 2.374}$ correct to 3 decimal places.</p>
     </div>
 
-    <!-- Topic 3: Regula-Falsi (False Position) Method -->
+    <!-- Section 3: Regula-Falsi (False Position) Method -->
     <div class="study-card">
       <div class="card-heading">
         <span><span class="card-heading-icon">3.</span> Regula-Falsi (Method of False Position)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2023–24, 2021, 2018 (Derivation of chord formula and numerical comparison with Bisection)</span>
+        <span>2025–26, 2024–25, 2020 (Formula derivation, geometric chord meaning, solved numericals)</span>
+      </div>
+      <p>The <strong>Regula-Falsi Method</strong> improves on Bisection by taking into account the actual magnitudes of $f(a)$ and $f(b)$. Instead of choosing the midpoint, it connects $(a, f(a))$ and $(b, f(b))$ by a straight chord and takes the $x$-intercept of that chord as the next approximation.</p>
+
+      <div class="callout callout-tip">
+        <strong>Algebraic Derivation of the Regula-Falsi Formula:</strong><br>
+        The two-point equation of the straight secant line passing through $(a, f(a))$ and $(b, f(b))$ is:
+        $$\frac{y - f(a)}{x - a} = \frac{f(b) - f(a)}{b - a}$$
+        To find the $x$-intercept, set $y = 0$:
+        $$\frac{-f(a)}{x - a} = \frac{f(b) - f(a)}{b - a} \implies x - a = -\frac{f(a)(b - a)}{f(b) - f(a)}$$
+        $$x = a - \frac{f(a)(b - a)}{f(b) - f(a)} = \frac{a[f(b) - f(a)] - f(a)(b - a)}{f(b) - f(a)} = \mathbf{\frac{a f(b) - b f(a)}{f(b) - f(a)}}$$
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Regula-Falsi Formula (Chord / Secant Formula):</strong><br>
-        $$x = \frac{a \cdot f(b) - b \cdot f(a)}{f(b) - f(a)}$$
-      </div>
+      <h4>Step-by-Step Solved University Numerical</h4>
+      <p><strong>Problem:</strong> Find the positive root of $f(x) = x^2 - 5 = 0$ (i.e. $\sqrt{5}$) using Regula-Falsi on $[2, 3]$.</p>
+      <p>• $f(2) = 2^2 - 5 = -1 < 0$<br>
+      • $f(3) = 3^2 - 5 = +4 > 0$<br>
+      $f(2) \cdot f(3) < 0 \implies$ Bracket is $[2, 3]$ with $a = 2, f(a) = -1$ and $b = 3, f(b) = 4$.</p>
+      
+      <p><strong>Iteration 1:</strong></p>
+      $$x_1 = \frac{a f(b) - b f(a)}{f(b) - f(a)} = \frac{(2)(4) - (3)(-1)}{4 - (-1)} = \frac{8 + 3}{5} = \frac{11}{5} = \mathbf{2.2000}$$
+      $$f(2.2) = (2.2)^2 - 5 = 4.84 - 5 = -0.16 < 0$$
+      Since $f(2.2)$ is negative, replace $a$ with $2.2000$. New bracket is $[2.2000, 3.0000]$.
 
-      <p>
-        <strong>Geometric Principle:</strong> Instead of blindly halving the interval like Bisection, Regula-Falsi connects the points $(a, f(a))$ and $(b, f(b))$ with a straight line chord. The point where this chord intersects the x-axis ($y = 0$) serves as the next approximation.
-      </p>
-
-      <div class="track-full">
-        <span class="track-full-badge">📚 Full Understanding Track: Mathematical Derivation</span>
-        <div class="callout callout-info">
-          <strong>Derivation of the Regula-Falsi Formula:</strong><br>
-          The equation of the straight line joining $A(a, f(a))$ and $B(b, f(b))$ is given by the two-point slope form:
-          $$y - f(a) = \frac{f(b) - f(a)}{b - a} (x - a)$$
-          To find the x-intercept, set $y = 0$:
-          $$-f(a) = \frac{f(b) - f(a)}{b - a} (x - a)$$
-          $$(x - a) = -\frac{f(a)(b - a)}{f(b) - f(a)}$$
-          $$x = a - \frac{f(a)(b - a)}{f(b) - f(a)} = \frac{a[f(b) - f(a)] - f(a)[b - a]}{f(b) - f(a)}$$
-          $$x = \frac{a f(b) - a f(a) - b f(a) + a f(a)}{f(b) - f(a)} = \frac{\mathbf{a f(b) - b f(a)}}{\mathbf{f(b) - f(a)}} \quad \blacksquare$$
-        </div>
-      </div>
+      <p><strong>Iteration 2:</strong></p>
+      $$x_2 = \frac{(2.2)(4) - (3)(-0.16)}{4 - (-0.16)} = \frac{8.8 + 0.48}{4.16} = \frac{9.28}{4.16} \approx \mathbf{2.2308}$$
+      $$f(2.2308) = (2.2308)^2 - 5 = 4.9765 - 5 = -0.0235$$
+      Since $\sqrt{5} \approx 2.2360$, Regula-Falsi approaches the root much faster than Bisection in fewer steps!
     </div>
 
-    <!-- Topic 4: Newton-Raphson Method -->
+    <!-- Section 4: Newton-Raphson Method & Quadratic Convergence Proof -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Newton-Raphson Method & Quadratic Convergence</span>
+        <span><span class="card-heading-icon">4.</span> Newton-Raphson Method & Quadratic Convergence Proof ($p=2$)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2020, 2017, 2014 (Derivation, order of convergence proof, and failure conditions)</span>
+        <span>2025–26, 2024–25, 2023–24, 2022–23, 2020, 2018 (Most heavily tested question in the syllabus!)</span>
       </div>
+      <p>The <strong>Newton-Raphson Method</strong> is an open root-finding method that uses the tangent line to the function at the current point $x_n$ to estimate the next point $x_{n+1}$.</p>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Newton-Raphson Iteration Formula:</strong><br>
-        $$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
-        <em>Condition:</em> $f'(x_n) \ne 0$. Order of Convergence = <strong>2 (Quadratic)</strong>.
-      </div>
-
-      <p>
-        <strong>Geometric Principle:</strong> From an initial guess $x_0$, construct the tangent line to the curve $y = f(x)$ at $(x_0, f(x_0))$. The point where this tangent line intersects the x-axis gives the next approximation $x_1$.
-      </p>
-
-      <!-- Accurate Geometric Diagram -->
       <div class="diagram-box">
-        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
+        <svg viewBox="0 0 340 160" width="100%" height="auto" style="max-width:340px;">
           <!-- Axes -->
-          <line x1="20" y1="140" x2="300" y2="140" stroke="var(--text-muted)" stroke-width="1.5" />
-          <line x1="40" y1="20" x2="40" y2="160" stroke="var(--text-muted)" stroke-width="1.5" />
-          <text x="290" y="155" font-size="10" fill="var(--text-muted)">x</text>
-          <text x="25" y="30" font-size="10" fill="var(--text-muted)">y</text>
+          <line x1="20" y1="130" x2="320" y2="130" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="40" y1="145" x2="40" y2="15" stroke="var(--text-main)" stroke-width="1.5" />
+          <text x="310" y="145" font-size="9" fill="var(--text-main)">x</text>
+          <text x="25" y="25" font-size="9" fill="var(--text-main)">y</text>
 
           <!-- Curve y = f(x) -->
-          <path d="M 60,135 Q 150,110 260,25" fill="none" stroke="#10b981" stroke-width="2.5" />
-          <text x="230" y="20" font-size="10" font-weight="bold" fill="#10b981">y = f(x)</text>
+          <path d="M 60,135 Q 160,120 280,25" fill="none" stroke="#0d9488" stroke-width="2.5" />
+          <text x="285" y="35" font-size="9" font-weight="bold" fill="#0d9488">y = f(x)</text>
 
-          <!-- True Root alpha -->
-          <circle cx="108" cy="140" r="3.5" fill="#f59e0b" />
-          <text x="102" y="155" font-size="10" font-weight="bold" fill="#f59e0b">α (Root)</text>
+          <!-- True root alpha -->
+          <circle cx="170" cy="130" r="3.5" fill="#e11d48" />
+          <text x="165" y="145" font-size="9.5" font-weight="bold" fill="#e11d48">α (Root)</text>
 
           <!-- Point (x0, f(x0)) -->
-          <line x1="220" y1="140" x2="220" y2="45" stroke="var(--text-muted)" stroke-dasharray="3,3" />
-          <circle cx="220" cy="45" r="3.5" fill="#e11d48" />
-          <text x="225" y="48" font-size="9" fill="#e11d48">(x₀, f(x₀))</text>
-          <text x="215" y="155" font-size="9" fill="var(--text-main)">x₀</text>
+          <line x1="250" y1="130" x2="250" y2="45" stroke="var(--text-muted)" stroke-dasharray="3,3" />
+          <circle cx="250" cy="45" r="3.5" fill="#f59e0b" />
+          <text x="255" y="50" font-size="8.5" fill="#f59e0b">(x₀, f(x₀))</text>
+          <text x="245" y="145" font-size="9" fill="var(--text-main)">x₀</text>
 
-          <!-- Tangent line from (220, 45) intersecting x-axis at x1 (approx 150) -->
-          <line x1="240" y1="20" x2="140" y2="140" stroke="#f59e0b" stroke-width="1.8" />
-          <circle cx="140" cy="140" r="3.5" fill="#f59e0b" />
-          <text x="135" y="155" font-size="9" font-weight="bold" fill="#f59e0b">x₁</text>
+          <!-- Tangent line from (250, 45) intersecting x-axis at x1 (approx 195) -->
+          <line x1="270" y1="20" x2="195" y2="130" stroke="#f59e0b" stroke-width="1.8" />
+          <circle cx="195" cy="130" r="3.5" fill="#10b981" />
+          <text x="190" y="145" font-size="9" font-weight="bold" fill="#10b981">x₁</text>
         </svg>
-        <div class="diagram-caption">Newton-Raphson Geometric Tangent: The tangent at (x₀, f(x₀)) strikes the axis at x₁ closer to root α.</div>
+        <div class="diagram-caption">Geometric Interpretation: The Tangent at $(x_0, f(x_0))$ Intersects the X-axis at $x_1$</div>
       </div>
 
-      <!-- Solved Numerical -->
       <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical:</strong><br>
-        <em>Problem:</em> Compute $\sqrt{12}$ using the Newton-Raphson method correct to 4 decimal places.
-      </div>
-      <p>
-        Let $x = \sqrt{12} \implies x^2 = 12 \implies f(x) = x^2 - 12 = 0$.<br>
-        Derivative: $f'(x) = 2x$.<br>
-        Formula:
-        $$x_{n+1} = x_n - \frac{x_n^2 - 12}{2x_n} = \frac{2x_n^2 - x_n^2 + 12}{2x_n} = \frac{1}{2} \left( x_n + \frac{12}{x_n} \right)$$
-      </p>
-      <div class="step-list">
-        <div class="step-item">
-          <strong>Initial Guess:</strong> Since $3^2 = 9$ and $4^2 = 16$, choose $x_0 = 3.5$.
-        </div>
-        <div class="step-item">
-          <strong>Iteration 1:</strong><br>
-          $$x_1 = \frac{1}{2} \left( 3.5 + \frac{12}{3.5} \right) = \frac{1}{2} (3.5 + 3.42857) = \mathbf{3.46429}$$
-        </div>
-        <div class="step-item">
-          <strong>Iteration 2:</strong><br>
-          $$x_2 = \frac{1}{2} \left( 3.46429 + \frac{12}{3.46429} \right) = \frac{1}{2} (3.46429 + 3.46391) = \mathbf{3.46410}$$
-        </div>
-        <div class="step-item">
-          <strong>Iteration 3:</strong><br>
-          $$x_3 = \frac{1}{2} \left( 3.46410 + \frac{12}{3.46410} \right) = \mathbf{3.46410}$$
-          <em>Notice:</em> In just 2 iterations, the value is identical to 5 decimal places! $\sqrt{12} \approx \mathbf{3.4641}$.
-        </div>
+        <strong>Derivation via Taylor's Theorem:</strong><br>
+        Let $x_n$ be an approximation to the root $\alpha$. Let $h = x_{n+1} - x_n$ be the correction. Expanding $f(x_n + h)$ by Taylor series:
+        $$f(x_n + h) = f(x_n) + h f'(x_n) + \frac{h^2}{2} f''(x_n) + \dots = 0$$
+        Assuming $h$ is small, neglect second- and higher-order terms:
+        $$f(x_n) + h f'(x_n) \approx 0 \implies h = -\frac{f(x_n)}{f'(x_n)}$$
+        Since $x_{n+1} = x_n + h$, we obtain the celebrated **Newton-Raphson Iterative Formula**:
+        $$\mathbf{x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}}$$
       </div>
 
       <div class="track-full">
-        <span class="track-full-badge">📚 Full Understanding Track: Complete Proof of Quadratic Convergence</span>
-        <div class="callout callout-info">
-          <strong>Proof of Quadratic Convergence ($p = 2$):</strong><br>
-          Let $\alpha$ be the exact root so that $f(\alpha) = 0$.<br>
-          Let $x_n = \alpha + \epsilon_n$, where $\epsilon_n$ is the error in the $n$-th iteration.<br>
-          Then $x_{n+1} = \alpha + \epsilon_{n+1}$.
-          <p>The Newton-Raphson formula is:</p>
-          $$\alpha + \epsilon_{n+1} = \alpha + \epsilon_n - \frac{f(\alpha + \epsilon_n)}{f'(\alpha + \epsilon_n)}$$
-          $$\epsilon_{n+1} = \epsilon_n - \frac{f(\alpha + \epsilon_n)}{f'(\alpha + \epsilon_n)}$$
-          Expanding $f(\alpha + \epsilon_n)$ and $f'(\alpha + \epsilon_n)$ by Taylor's series around $\alpha$ (with $f(\alpha) = 0$):
-          $$f(\alpha + \epsilon_n) = \epsilon_n f'(\alpha) + \frac{\epsilon_n^2}{2} f''(\alpha) + O(\epsilon_n^3)$$
-          $$f'(\alpha + \epsilon_n) = f'(\alpha) + \epsilon_n f''(\alpha) + O(\epsilon_n^2)$$
-          Substituting:
-          $$\epsilon_{n+1} = \epsilon_n - \frac{\epsilon_n f'(\alpha) + \frac{\epsilon_n^2}{2} f''(\alpha)}{f'(\alpha) \left[ 1 + \epsilon_n \frac{f''(\alpha)}{f'(\alpha)} \right]}$$
-          Using binomial expansion $(1 + z)^{-1} \approx 1 - z$:
-          $$\epsilon_{n+1} \approx \epsilon_n - \left( \epsilon_n + \frac{\epsilon_n^2}{2} \frac{f''(\alpha)}{f'(\alpha)} \right) \left( 1 - \epsilon_n \frac{f''(\alpha)}{f'(\alpha)} \right)$$
-          $$\epsilon_{n+1} \approx \epsilon_n - \left( \epsilon_n - \epsilon_n^2 \frac{f''(\alpha)}{f'(\alpha)} + \frac{\epsilon_n^2}{2} \frac{f''(\alpha)}{f'(\alpha)} \right)$$
-          $$\epsilon_{n+1} \approx \frac{f''(\alpha)}{2 f'(\alpha)} \epsilon_n^2 = C \cdot \epsilon_n^2$$
-          Since $\epsilon_{n+1} \propto \epsilon_n^2$, the order of convergence is **2 (Quadratic)**! $\blacksquare$
-        </div>
+        <h4>Complete Proof of Quadratic Convergence ($p = 2$):</h4>
+        <p>Let $\alpha$ be the true root such that $f(\alpha) = 0$ and $f'(\alpha) \ne 0$. Let $e_n = x_n - \alpha$ be the error at step $n$, so $x_n = \alpha + e_n$ and $x_{n+1} = \alpha + e_{n+1}$. Substituting into the formula:</p>
+        $$\alpha + e_{n+1} = \alpha + e_n - \frac{f(\alpha + e_n)}{f'(\alpha + e_n)}$$
+        $$e_{n+1} = e_n - \frac{f(\alpha + e_n)}{f'(\alpha + e_n)}$$
+        <p>Expanding $f(\alpha + e_n)$ and $f'(\alpha + e_n)$ using Taylor series about $\alpha$ (remembering $f(\alpha) = 0$):</p>
+        $$f(\alpha + e_n) = e_n f'(\alpha) + \frac{e_n^2}{2} f''(\alpha) + O(e_n^3)$$
+        $$f'(\alpha + e_n) = f'(\alpha) + e_n f''(\alpha) + O(e_n^2) = f'(\alpha)\left[1 + e_n \frac{f''(\alpha)}{f'(\alpha)}\right]$$
+        <p>Dividing numerator by denominator using binomial expansion $(1 + z)^{-1} \approx 1 - z$:</p>
+        $$\frac{f(\alpha + e_n)}{f'(\alpha + e_n)} = \left[e_n + \frac{e_n^2}{2} \frac{f''(\alpha)}{f'(\alpha)}\right] \cdot \left[1 - e_n \frac{f''(\alpha)}{f'(\alpha)}\right] = e_n - \frac{e_n^2}{2}\frac{f''(\alpha)}{f'(\alpha)} + O(e_n^3)$$
+        <p>Now substitute back into the error equation:</p>
+        $$e_{n+1} = e_n - \left[e_n - \frac{e_n^2}{2}\frac{f''(\alpha)}{f'(\alpha)}\right] = \mathbf{\left[\frac{f''(\alpha)}{2 f'(\alpha)}\right] e_n^2}$$
+        <p>Hence, $e_{n+1} \propto e_n^2$. The order of convergence is strictly **$p = 2$ (Quadratic)**! The number of correct decimal places doubles at each subsequent iteration!</p>
 
-        <div class="callout callout-mistake">
-          <strong>⚠️ When Does Newton-Raphson Fail? (Critical Exam Theory Question):</strong>
-          <ol style="margin:4px 0 0 16px;">
-            <li><strong>Division by Zero:</strong> If $f'(x_n) = 0$ (horizontal tangent), $x_{n+1} \to \infty$.</li>
-            <li><strong>Oscillatory Cycles:</strong> If the tangent toggles back and forth between two points (e.g., $f(x) = x^3 - 5x = 0$ near $x_0 = 1$).</li>
-            <li><strong>Poor Starting Point:</strong> If $x_0$ is chosen too far from root $\alpha$, the method may diverge or find an unintended distant root.</li>
-          </ol>
-        </div>
+        <h4>The 3 Critical Failure Conditions of Newton-Raphson:</h4>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>Zero Derivative ($f'(x_n) = 0$):</strong> Tangent is horizontal and parallel to the $x$-axis; division by zero occurs and the method crashes.</li>
+          <li><strong>Inflection Point ($f''(x) = 0$ near root):</strong> The method can oscillate indefinitely in an infinite 2-cycle loop ($x_0 \to x_1 \to x_0 \to x_1$).</li>
+          <li><strong>Poor Initial Guess:</strong> If $x_0$ is chosen too far from $\alpha$, the tangent shoots off towards infinity, diverging away from the root.</li>
+        </ol>
       </div>
+
+      <h4>Step-by-Step Solved University Numerical</h4>
+      <p><strong>Problem:</strong> Find $\sqrt{12}$ correct to 4 decimal places using Newton-Raphson.</p>
+      <p>Let $x = \sqrt{12} \implies x^2 - 12 = 0$. Hence $f(x) = x^2 - 12$ and $f'(x) = 2x$.</p>
+      $$x_{n+1} = x_n - \frac{x_n^2 - 12}{2x_n} = \frac{2x_n^2 - x_n^2 + 12}{2x_n} = \mathbf{\frac{1}{2}\left(x_n + \frac{12}{x_n}\right)}$$
+      <p>Take initial guess $x_0 = 3.5$ (since $3^2 = 9$ and $4^2 = 16$):</p>
+      <p>• <strong>Iteration 1:</strong> $x_1 = \frac{1}{2}\left(3.5 + \frac{12}{3.5}\right) = \frac{1}{2}(3.5 + 3.42857) = \mathbf{3.46429}$</p>
+      <p>• <strong>Iteration 2:</strong> $x_2 = \frac{1}{2}\left(3.46429 + \frac{12}{3.46429}\right) = \frac{1}{2}(3.46429 + 3.46391) = \mathbf{3.46410}$</p>
+      <p>Notice that in just 2 iterations, we have achieved $\sqrt{12} \approx \mathbf{3.4641}$ correct to 5 significant digits!</p>
     </div>
 
-    <!-- Topic 5: Descartes' Rule of Signs -->
+    <!-- Section 5: Descartes' Rule of Signs -->
     <div class="study-card">
       <div class="card-heading">
         <span><span class="card-heading-icon">5.</span> Descartes' Rule of Signs</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2021 (Predicting maximum positive, negative, and imaginary roots)</span>
+        <span>2024–25, 2021, 2018 (State Descartes rule and find bounds on roots of polynomial)</span>
       </div>
+      <p><strong>Descartes' Rule of Signs</strong> provides an upper bound on the number of positive and negative real roots of a polynomial equation with real coefficients without needing to solve it:</p>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <p>
-        <strong>Theorem Statement:</strong>
-      </p>
-      <ul style="margin:4px 0 0 16px; line-height:1.6;">
-        <li><strong>Positive Real Roots:</strong> The number of positive real roots of a polynomial equation $P(x) = 0$ cannot exceed the number of sign variations between consecutive non-zero coefficients of $P(x)$, and differs from it by an even integer.</li>
-        <li><strong>Negative Real Roots:</strong> The number of negative real roots cannot exceed the number of sign variations in $P(-x)$, and differs from it by an even integer.</li>
-      </ul>
-
-      <!-- Worked Numerical Example -->
-      <div class="callout callout-tip">
-        <strong>📝 Worked Exam Example:</strong><br>
-        <em>Analyze roots of:</em> $P(x) = x^4 - 3x^3 - 5x^2 + 2x - 1 = 0$ (Degree $n = 4$).
-      </div>
-      <p>
-        <strong>1. Check Positive Roots ($P(x)$):</strong><br>
-        Coefficients: $+1, -3, -5, +2, -1$<br>
-        Signs: $(+) \to (-) \to (-) \to (+) \to (-)$<br>
-        Sign changes:
-        <ul style="margin:4px 0 0 20px;">
-          <li>Change 1: $+1$ to $-3$</li>
-          <li>Change 2: $-5$ to $+2$</li>
-          <li>Change 3: $+2$ to $-1$</li>
+      <div class="callout callout-info">
+        <strong>The Rule:</strong>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>Positive Real Roots:</strong> The number of positive real roots of $P(x) = 0$ is either equal to the number of sign variations in the coefficients of $P(x)$, or less than it by an even integer.</li>
+          <li><strong>Negative Real Roots:</strong> The number of negative real roots of $P(x) = 0$ is either equal to the number of sign variations in the coefficients of $P(-x)$, or less than it by an even integer.</li>
+          <li><strong>Complex Roots:</strong> If a polynomial of degree $n$ has $p$ positive roots and $q$ negative roots, the remaining roots $n - (p + q)$ are complex conjugate pairs!</li>
         </ul>
-        Total sign changes = $3$. Therefore, positive real roots are either **3 or 1**.
-      </p>
-      <p>
-        <strong>2. Check Negative Roots ($P(-x)$):</strong><br>
-        Substitute $-x$:<br>
-        $P(-x) = (-x)^4 - 3(-x)^3 - 5(-x)^2 + 2(-x) - 1 = x^4 + 3x^3 - 5x^2 - 2x - 1$<br>
-        Signs: $(+) \to (+) \to (-) \to (-) \to (-)$<br>
-        Sign change: only 1 change (from $+3$ to $-5$).<br>
-        Therefore, negative real roots = **exactly 1**.
-      </p>
-      <p>
-        <strong>3. Complex Roots Deduction:</strong><br>
-        Since total roots = $4$:
-        If positive = 3, negative = 1 $\implies$ complex = $4 - (3+1) = \mathbf{0}$.<br>
-        If positive = 1, negative = 1 $\implies$ complex = $4 - (1+1) = \mathbf{2}$.
-      </p>
+      </div>
+
+      <h4>Solved Example:</h4>
+      <p>Consider $P(x) = x^4 - 3x^3 + 7x^2 - 5x + 2 = 0$ (Degree $n = 4$):</p>
+      <p>1. Sign sequence of $P(x)$: $+1, -3, +7, -5, +2$.<br>
+      • $+ \to -$ (1), $- \to +$ (2), $+ \to -$ (3), $- \to +$ (4) $\implies \mathbf{4}$ sign changes.<br>
+      Therefore, there are either $4$, $2$, or $0$ positive real roots.</p>
+      <p>2. Substitute $-x$: $P(-x) = (-x)^4 - 3(-x)^3 + 7(-x)^2 - 5(-x) + 2 = x^4 + 3x^3 + 7x^2 + 5x + 2$.<br>
+      • All coefficients are positive: $+1, +3, +7, +5, +2 \implies \mathbf{0}$ sign changes.<br>
+      Therefore, there are <strong>zero negative real roots</strong>!</p>
     </div>
 
-    <!-- Topic 6: Summary Comparison Table -->
+    <!-- Section 6: Comprehensive Comparison Matrix -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">⚡</span> Quick Revision: Master Comparison of Root Methods</span>
+        <span><span class="card-heading-icon">6.</span> Comparative Analysis: Bisection vs. Regula-Falsi vs. Newton-Raphson</span>
       </div>
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>Method</th>
-              <th>Formula</th>
-              <th>Order of Convergence ($p$)</th>
-              <th>Evaluations / Step</th>
-              <th>Convergence Guaranteed?</th>
+              <th>Evaluation Factor</th>
+              <th>Bisection Method</th>
+              <th>Regula-Falsi Method</th>
+              <th>Newton-Raphson Method</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Bisection</strong></td>
-              <td>$c = \frac{a+b}{2}$</td>
-              <td>1 (Linear)</td>
-              <td>1 function evaluation</td>
-              <td>Always (slow)</td>
+              <td><strong>Type of Method</strong></td>
+              <td>Bracketing (Closed)</td>
+              <td>Bracketing (Closed)</td>
+              <td>Open (Single-point tangent)</td>
             </tr>
             <tr>
-              <td><strong>Regula-Falsi</strong></td>
-              <td>$x = \frac{a f(b) - b f(a)}{f(b) - f(a)}$</td>
-              <td>1 (Linear)</td>
-              <td>1 function evaluation</td>
-              <td>Always (faster than bisection)</td>
+              <td><strong>Order of Convergence ($p$)</strong></td>
+              <td><strong>$p = 1$ (Linear)</strong></td>
+              <td><strong>$p = 1$ (Linear / $1.618$)</strong></td>
+              <td><strong>$p = 2$ (Quadratic)</strong></td>
             </tr>
             <tr>
-              <td><strong>Newton-Raphson</strong></td>
-              <td>$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$</td>
-              <td><strong>2 (Quadratic)</strong></td>
-              <td>2 ($f(x)$ and $f'(x)$)</td>
-              <td>Fastest; requires good initial guess</td>
+              <td><strong>Convergence Guarantee</strong></td>
+              <td><strong>100% Guaranteed</strong> if $f(a)f(b) < 0$.</td>
+              <td><strong>Guaranteed</strong> if $f(a)f(b) < 0$.</td>
+              <td>Not guaranteed; can diverge if $f'(x) = 0$ or poor $x_0$.</td>
+            </tr>
+            <tr>
+              <td><strong>Rate of Convergence</strong></td>
+              <td>Very slow (gain 1 bit per step).</td>
+              <td>Faster than bisection, but can have slow one-sided stagnancy.</td>
+              <td><strong>Extremely rapid</strong>; error doubles in precision each step.</td>
+            </tr>
+            <tr>
+              <td><strong>Derivative Needed?</strong></td>
+              <td>No ($f$ only).</td>
+              <td>No ($f$ only).</td>
+              <td><strong>Yes ($f'(x)$ is mandatory)</strong>.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 7: Interactive MCQ Exam Drill (10 Questions) -->
+    <!-- Section 7: Exam Answer Blueprint -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Derive Newton-Raphson & Prove Convergence":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Geometric Diagram (2 Marks):</strong> Draw axes, curve $y = f(x)$, root $\alpha$, point $(x_0, f(x_0))$, and tangent line intersecting the $x$-axis at $x_1$.</li>
+          <li><strong>Taylor Series Derivation (3 Marks):</strong> Write $f(x_n + h) = f(x_n) + h f'(x_n) + \dots = 0$. Solve for $h = -f(x_n)/f'(x_n)$ to give $x_{n+1} = x_n - f(x_n)/f'(x_n)$.</li>
+          <li><strong>Quadratic Convergence Proof (3 Marks):</strong> Substitute $x_n = \alpha + e_n$, expand $f(\alpha + e_n)$ and $f'(\alpha + e_n)$, use binomial expansion to arrive at $e_{n+1} \approx \frac{f''(\alpha)}{2f'(\alpha)} e_n^2$. Clearly state $p = 2$.</li>
+          <li><strong>Failure Pitfalls (2 Marks):</strong> List $f'(x_n) = 0$ (division by zero), point of inflection, and poor initial guess.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Forgetting Derivative in Newton-Raphson:</strong> Newton-Raphson requires computing $f'(x)$. If the derivative is hard to compute or zero, the method cannot be used.<br>
+        • <strong>Using Radian Mode in Trigonometric Numericals:</strong> If solving $f(x) = \cos x - x = 0$, your scientific calculator MUST be set to <strong>RADIANS</strong>, not DEGREES! Entering degrees results in completely wrong answers!
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Drill -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">📝</span> Unit I Exam Mastery MCQ Quiz (10 Questions)</span>
+        <span><span class="card-heading-icon">8.</span> Unit I Examination Mastery MCQ Quiz</span>
       </div>
-      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
-        Answer all 10 questions to test your numerical calculation speed and conceptual depth. Instant feedback and complete mathematical explanations provided upon submission.
-      </p>
-
+      <p>Verify your conceptual understanding across Bisection, Regula-Falsi, Newton-Raphson, and Descartes' Rule with this 10-question quiz.</p>
       <div id="unit-mcq-container"></div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation -->
+  <!-- Sticky Bottom Navigation Bar -->
   <nav class="nav-bottom">
     <a href="index.html" class="nav-unit-btn">← Hub</a>
-    <a href="bca5004_unit2.html" class="nav-unit-btn primary">Next: Unit II →</a>
+    <a href="bca5004_unit2.html" class="nav-unit-btn primary">Next: Unit II (Interpolation) →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit1Questions = [
       {
-        question: "What is the order of convergence for the Newton-Raphson method?",
+        question: "What is the theoretical order of convergence (p) of the Newton-Raphson method for a simple root?",
         options: [
           "Linear (p = 1)",
-          "Superlinear (p = 1.618)",
           "Quadratic (p = 2)",
-          "Cubic (p = 3)"
+          "Cubic (p = 3)",
+          "Logarithmic (p = 0.5)"
         ],
-        answer: 2,
-        is_pyq: true,
-        explanation: "Newton-Raphson exhibits quadratic convergence (p = 2), meaning the number of correct decimal places approximately doubles with each iteration: $\\epsilon_{n+1} \\approx C \\epsilon_n^2$."
+        answer: 1,
+        explanation: "Newton-Raphson exhibits quadratic convergence (p = 2), meaning the error at step n+1 is proportional to the square of the error at step n (e_{n+1} ∝ e_n^2)."
       },
       {
-        question: "In the Bisection method, if the initial interval is $[a, b]$, what is the maximum truncation error after $n$ iterations?",
+        question: "Under which specific condition does the Newton-Raphson method fail completely due to mathematical breakdown?",
+        options: [
+          "When f(x) is an odd function",
+          "When f'(x_n) = 0 at the current iteration (tangent becomes horizontal)",
+          "When f(x) has integer roots",
+          "When the initial interval is too small"
+        ],
+        answer: 1,
+        explanation: "If f'(x_n) = 0, division by zero occurs in x_{n+1} = x_n - f(x_n)/f'(x_n), and the tangent never intersects the x-axis."
+      },
+      {
+        question: "If the starting bracketing interval is [a, b], what is the maximum error bound in the Bisection method after n iterations?",
         options: [
           "(b - a) / n",
-          "(b - a) / 2^n",
-          "(b - a) / (2^(n+1))",
-          "(b - a)^n"
+          "(b - a) / 2^(n+1)",
+          "(b - a) * 2^n",
+          "(b - a)^2 / 2"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Since the interval is halved in every iteration, the error bound after $n$ iterations is $\\epsilon_n \\le \\frac{b - a}{2^n}$."
+        explanation: "After n bisections, the midpoint approximation c_n has a maximum error strictly bounded by (b - a) / 2^(n+1)."
       },
       {
-        question: "Which condition causes the Newton-Raphson method to completely fail due to division by zero?",
+        question: "What is the geometric construction utilized in the Regula-Falsi (False Position) method to locate the next root approximation?",
         options: [
-          "f(x_n) = 0",
-          "f'(x_n) = 0",
-          "f''(x_n) = 0",
-          "x_n = 0"
+          "Drawing a horizontal chord parallel to the x-axis",
+          "Drawing a straight secant chord connecting (a, f(a)) and (b, f(b)) and finding its x-intercept",
+          "Constructing an orthogonal circle",
+          "Drawing a tangent line at the midpoint"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "The formula is $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$. If $f'(x_n) = 0$, the tangent line is horizontal and never intersects the x-axis, creating a division by zero."
+        explanation: "Regula-Falsi connects the bracketing endpoints by a straight chord and uses its x-intercept (where y = 0) as the next estimate."
       },
       {
-        question: "Which of the following is a Bracketing (closed) method that is mathematically guaranteed to converge if $f(x)$ is continuous?",
+        question: "According to Descartes' Rule of Signs, what is the maximum possible number of positive real roots for P(x) = x^4 - 3x^3 + 7x^2 - 5x + 2 = 0?",
         options: [
-          "Secant Method",
+          "1",
+          "2",
+          "4",
+          "0"
+        ],
+        answer: 2,
+        explanation: "The sign sequence is + - + - +, which contains 4 sign changes. Thus, the maximum number of positive real roots is 4 (or 2 or 0)."
+      },
+      {
+        question: "Which of the following methods is ALWAYS guaranteed to converge to a real root, provided the initial endpoints satisfy f(a) * f(b) < 0?",
+        options: [
           "Newton-Raphson Method",
-          "Regula-Falsi Method",
-          "Muller's Method"
+          "Bisection Method",
+          "Fixed-Point Iteration Method",
+          "Secant Method without bracketing"
+        ],
+        answer: 1,
+        explanation: "By the Bolzano-Weierstrass theorem, Bisection always halves the bracket around the root and is mathematically guaranteed to converge."
+      },
+      {
+        question: "To calculate the square root of a positive number N (x = √N) using Newton-Raphson, which recurrence formula is derived?",
+        options: [
+          "x_{n+1} = x_n^2 - N",
+          "x_{n+1} = (1/2) * (x_n + N / x_n)",
+          "x_{n+1} = (x_n + N) / 2",
+          "x_{n+1} = x_n - N / (2 * x_n)"
+        ],
+        answer: 1,
+        explanation: "Setting f(x) = x^2 - N = 0 gives f'(x) = 2x. Then x_{n+1} = x_n - (x_n^2 - N)/(2x_n) = (1/2)(x_n + N/x_n)."
+      },
+      {
+        question: "How many iterations of the Bisection method are required to locate a root in [2, 3] with an error less than 0.001?",
+        options: [
+          "5 iterations",
+          "7 iterations",
+          "10 iterations",
+          "20 iterations"
         ],
         answer: 2,
-        is_pyq: true,
-        explanation: "Regula-Falsi (False Position) is a bracketing method that maintains $f(a) \\cdot f(b) < 0$ at every step, guaranteeing convergence by Bolzano's Theorem."
+        explanation: "(b-a)/2^(n+1) < 0.001 => 1/2^(n+1) < 1/1000 => 2^(n+1) > 1000 => n+1 >= 10 => n >= 9 (or n=10 for full safety)."
       },
       {
-        question: "What is the formula used in the Regula-Falsi method to calculate the next approximation?",
+        question: "What is a major practical drawback of the Bisection method compared to Newton-Raphson?",
         options: [
-          "x = (a + b) / 2",
-          "x = [a*f(b) - b*f(a)] / [f(b) - f(a)]",
-          "x = x_n - f(x_n) / f'(x_n)",
-          "x = [a*f(a) - b*f(b)] / [f(a) - f(b)]"
+          "Bisection requires calculating higher-order derivatives",
+          "Bisection converges very slowly (linearly), gaining only about 1 bit of precision per iteration",
+          "Bisection can diverge to infinity",
+          "Bisection cannot find roots of polynomials"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Regula-Falsi finds the x-intercept of the chord connecting $(a, f(a))$ and $(b, f(b))$, which evaluates to $x = \\frac{a f(b) - b f(a)}{f(b) - f(a)}$."
+        explanation: "Bisection has linear convergence (p = 1) with an asymptotic error factor of 0.5, requiring many iterations compared to Newton-Raphson's quadratic speed."
       },
       {
-        question: "Using Descartes' Rule of Signs, what is the maximum number of positive real roots for $P(x) = x^3 - 3x^2 + 4x - 5 = 0$?",
+        question: "In Regula-Falsi, what is the 'stagnant endpoint' phenomenon?",
         options: [
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        answer: 2,
-        is_pyq: true,
-        explanation: "Signs are $(+) \\to (-) \\to (+) \\to (-)$. There are 3 sign changes: $+1 \\to -3$, $-3 \\to +4$, and $+4 \\to -5$. Hence the maximum number of positive roots is 3."
-      },
-      {
-        question: "To calculate $\\sqrt{N}$ using Newton-Raphson, what is the correct iterative formula derived from $f(x) = x^2 - N = 0$?",
-        options: [
-          "x_{n+1} = 0.5 * (x_n - N/x_n)",
-          "x_{n+1} = 0.5 * (x_n + N/x_n)",
-          "x_{n+1} = (x_n^2 + N) / x_n",
-          "x_{n+1} = x_n - (x_n^2 - N)"
+          "Both endpoints oscillate randomly",
+          "One endpoint remains fixed across many iterations while the other creeps slowly toward the root due to convex curvature",
+          "The calculator runs out of battery",
+          "The function becomes undefined at zero"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "$x_{n+1} = x_n - \\frac{x_n^2 - N}{2x_n} = \\frac{2x_n^2 - x_n^2 + N}{2x_n} = \\frac{1}{2}\\left(x_n + \\frac{N}{x_n}\\right)$."
-      },
-      {
-        question: "How many function evaluations per iteration are required by the Newton-Raphson method?",
-        options: [
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        answer: 1,
-        is_pyq: false,
-        explanation: "Newton-Raphson evaluates two functions per step: the function itself $f(x_n)$ and its first derivative $f'(x_n)$."
-      },
-      {
-        question: "If an initial interval is $[1, 2]$ with length 1, how many iterations of the Bisection method are required to achieve an error less than $10^{-3}$?",
-        options: [
-          "7",
-          "10",
-          "14",
-          "20"
-        ],
-        answer: 1,
-        is_pyq: true,
-        explanation: "Using $\\frac{b-a}{2^n} < 10^{-3} \\implies \\frac{1}{2^n} < \\frac{1}{1000} \\implies 2^n > 1000$. Since $2^9 = 512$ and $2^{10} = 1024$, at least $n = 10$ iterations are needed."
-      },
-      {
-        question: "Why does the Bisection method fail to find a root for $f(x) = (x - 3)^2 = 0$?",
-        options: [
-          "Because the root is a fraction",
-          "Because the function touches the x-axis without changing signs, so $f(a) \\cdot f(b) > 0$ for all surrounding brackets",
-          "Because the derivative is undefined",
-          "Because the bisection method only works on linear functions"
-        ],
-        answer: 1,
-        is_pyq: false,
-        explanation: "$(x-3)^2 \\ge 0$ for all real numbers $x$. Because the function never takes negative values, no two points $a, b$ can satisfy the sign-change condition $f(a) \\cdot f(b) < 0$."
+        explanation: "For functions with significant curvature (convex/concave), one endpoint retains its sign permanently, causing the other endpoint to advance very slowly."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit1Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>

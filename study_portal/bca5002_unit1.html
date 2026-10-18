@@ -3,30 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 1: Core Java & Multithreading | BCA-5002</title>
+  <title>Unit 1: Core Java & Multithreading | BCA-5002 Masterclass</title>
   <link rel="stylesheet" href="css/style.css">
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      svg: { fontCache: 'global' },
-      options: { renderActions: { addMenu: [] } }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
     };
   </script>
-  <script async src="js/tex-svg.js"></script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
   <!-- Sticky Mobile Top Bar -->
   <header class="top-header">
     <a href="index.html" class="brand">
-      <div class="brand-icon" style="background:#d97706;">JP</div>
+      <div class="brand-icon" style="background:#d97706;">JAVA</div>
       <div>
         <div class="brand-title">BCA-5002: Unit I</div>
-        <div class="brand-subtitle">Core Java, OOP & Threads</div>
+        <div class="brand-subtitle">Core Java, OOP, Packages, Exceptions & Threads</div>
       </div>
     </a>
     <div class="header-actions">
@@ -35,439 +30,980 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#d97706;">
       <div class="badge-row">
-        <span class="badge badge-amber">Subject: BCA-5002</span>
-        <span class="badge badge-emerald">⭐ Threads & Exceptions Heavy</span>
-        <span class="badge badge-coral">Day 1 Priority</span>
+        <span class="badge badge-amber">Subject: BCA-5002 (Java)</span>
+        <span class="badge badge-emerald">⭐ C vs Java, OOP Pillars & Threads PYQs</span>
+        <span class="badge badge-coral">Day 1 Focus (Distributed Plan)</span>
       </div>
-      <h1 class="unit-title">Unit I: Java Fundamentals, OOP & Multithreading</h1>
-      <p class="unit-desc">
-        JVM Architecture, OOP Pillars, Exception Handling (throw vs throws), Thread Lifecycle, Synchronization, and Runnable vs Thread Class.
-      </p>
+      <h1 class="unit-title">Unit I: Core Java Fundamentals & Multithreading</h1>
+      <p class="unit-desc">Comprehensive conceptual textbook guide covering Java origin, C vs. Java, JVM Architecture, Data Types & Control Structures, Bitwise Operators, Arrays & Vectors, OOP Pillars, Packages, Robust Exception Handling, and Multithreading.</p>
     </div>
 
-    <!-- Dual Study Mode Switcher -->
-    <div class="mode-switch-bar">
-      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
-      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    <!-- Learning Objectives -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Compare C and Java across 10 technical parameters and explain "Write Once, Run Anywhere" (WORA).</li>
+        <li>Diagram the JVM internal runtime architecture (ClassLoader, Memory Areas, Execution Engine, JIT).</li>
+        <li>Explain the exact syntax and purpose of each keyword in <code>public static void main(String[] args)</code>.</li>
+        <li>Master all 4 pillars of Object-Oriented Programming (Encapsulation, Inheritance, Polymorphism, Abstraction).</li>
+        <li>Differentiate Method Overloading from Method Overriding and Abstract Classes from Interfaces.</li>
+        <li>Build and import user-defined packages and apply the 4 levels of access protection.</li>
+        <li>Trace Java's Exception Hierarchy and differentiate <code>throw</code> vs. <code>throws</code> and <code>final</code> vs. <code>finally</code> vs. <code>finalize()</code>.</li>
+        <li>Implement Multithreading using both <code>extends Thread</code> and <code>implements Runnable</code> and manage Thread Lifecycles and Synchronization.</li>
+      </ol>
     </div>
 
-    <!-- Topic 1: JVM Architecture & Platform Independence -->
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: Why Was Java Created When C and C++ Already Existed?</strong><br>
+      In 1991, James Gosling and his team at Sun Microsystems were designing software for consumer electronics (like smart TVs and set-top boxes). In C and C++, every program had to be recompiled for every specific computer chip (Intel, Motorola, ARM). Worse, manual memory management and dangling pointers caused constant crashes and security leaks.<br>
+      Gosling solved this by introducing an intermediary layer: the **Java Virtual Machine (JVM)** and **Bytecode**. Instead of compiling directly to CPU machine code, Java compiles into standard bytecode (<code>.class</code>). As long as a device has a JVM built for its operating system, the exact same bytecode executes flawlessly without rewriting a single line of code!
+    </div>
+
+    <!-- Topic 1: Java Overview, History & C vs Java -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Platform Independence & JVM Architecture</span>
+        <span><span class="card-heading-icon">1.</span> Java Origin, Features & C vs. Java Comparison</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2021 (Why is Java platform independent? JDK vs JRE vs JVM)</span>
+        <span>2025–26, 2024–25, 2021 (Difference between C and Java / Why is Java better than C?)</span>
       </div>
+      <p>Java is an object-oriented, class-based, concurrent, secured, and general-purpose programming language developed by <strong>James Gosling</strong> at Sun Microsystems in 1991 (initially named <em>Oak</em>, renamed to <em>Java</em> in 1995, and acquired by Oracle Corporation in 2010).</p>
 
-      <div class="callout callout-objective">
-        <strong>🎯 Learning Objectives:</strong>
-        <ul style="margin:4px 0 0 16px;">
-          <li>Explain the <em>"Write Once, Run Anywhere" (WORA)</em> philosophy.</li>
-          <li>Distinguish between JDK, JRE, and JVM.</li>
-          <li>Identify the major components of JVM internal memory.</li>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Comparison Parameter</th>
+              <th>C Language (Procedural)</th>
+              <th>Java (Object-Oriented)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Programming Paradigm</strong></td>
+              <td>Procedural / Function-oriented.</td>
+              <td>Strictly Object-Oriented (everything except primitives lives inside a class).</td>
+            </tr>
+            <tr>
+              <td><strong>Platform Dependency</strong></td>
+              <td><strong>Platform Dependent:</strong> Compiled directly to native machine code (e.g. <code>.exe</code>) for a specific OS and CPU.</td>
+              <td><strong>Platform Independent (WORA):</strong> Compiled into Bytecode (<code>.class</code>) which runs on any OS having a JVM.</td>
+            </tr>
+            <tr>
+              <td><strong>Memory Management</strong></td>
+              <td>Manual via <code>malloc()</code>, <code>calloc()</code>, and <code>free()</code>. High risk of memory leaks and segmentation faults.</td>
+              <td>Automatic via the <strong>Garbage Collector (GC)</strong> running in the JVM to reclaim unreferenced heap memory.</td>
+            </tr>
+            <tr>
+              <td><strong>Pointers Support</strong></td>
+              <td>Exposes explicit direct memory pointers (<code>int *ptr</code>).</td>
+              <td><strong>No explicit pointers exposed</strong> to the programmer, preventing memory corruption and unauthorized hardware access.</td>
+            </tr>
+            <tr>
+              <td><strong>Multiple Inheritance</strong></td>
+              <td>Directly supported through classes.</td>
+              <td>Not supported through classes (avoids the "Diamond Problem"); achieved cleanly via <strong>Interfaces</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Operator Overloading</strong></td>
+              <td>Supported (in C++).</td>
+              <td>Not supported for user-defined classes (avoids syntactic ambiguity). Only <code>+</code> is implicitly overloaded for String concatenation.</td>
+            </tr>
+            <tr>
+              <td><strong>Standard Libraries</strong></td>
+              <td>Basic low-level header files (<code>stdio.h</code>, <code>stdlib.h</code>).</td>
+              <td>Massive built-in APIs: GUI (AWT/Swing), Networking (<code>java.net</code>), Collections (<code>java.util</code>), Database (<code>java.sql</code>).</td>
+            </tr>
+            <tr>
+              <td><strong>Multithreading</strong></td>
+              <td>No built-in language support; requires OS-specific libraries (pthreads, Windows threads).</td>
+              <td>Built-in first-class multithreading support via <code>Thread</code> class and <code>Runnable</code> interface.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: JDK vs JRE vs JVM & Internal JVM Architecture -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> JDK, JRE and Internal JVM Architecture</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022–23, 2019 (Explain JDK, JRE, JVM and JVM memory components)</span>
+      </div>
+      <p>The relationship between the three core Java platform components is hierarchical: <strong>JDK $\supset$ JRE $\supset$ JVM</strong>.</p>
+      
+      <div class="callout callout-tip">
+        <strong>The Big Three Definitions:</strong>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>JVM (Java Virtual Machine):</strong> The abstract virtual machine engine that loads, verifies, and executes compiled bytecode.</li>
+          <li><strong>JRE (Java Runtime Environment):</strong> The bundle containing the JVM plus the standard Java Class Libraries (e.g. <code>rt.jar</code>) necessary to <em>run</em> Java programs.</li>
+          <li><strong>JDK (Java Development Kit):</strong> The complete software package for developers containing the JRE plus development tools like the compiler (<code>javac</code>), archiver (<code>jar</code>), and debugger (<code>jdb</code>).</li>
         </ul>
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <p>
-        <strong>"Write Once, Run Anywhere" (WORA):</strong> When Java source code (<code>.java</code>) is compiled with <code>javac</code>, it is not converted directly into machine-dependent CPU machine code. Instead, it generates intermediate, architecture-neutral <strong>Bytecode</strong> (<code>.class</code>). This bytecode is interpreted and executed by the <strong>Java Virtual Machine (JVM)</strong> installed on any operating system (Windows, Linux, macOS).
-      </p>
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 240" width="100%" height="auto" style="max-width:340px;">
+          <!-- ClassLoader Subsystem -->
+          <rect x="20" y="10" width="300" height="35" rx="5" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="75" y="32" font-size="11" font-weight="bold" fill="#0d9488">1. ClassLoader Subsystem (Load, Link, Init)</text>
 
-      <div class="callout callout-tip">
-        <strong>The Essential Trio:</strong><br>
-        • <strong>JVM (Java Virtual Machine):</strong> The abstract computing machine that loads, verifies, and executes bytecode.<br>
-        • <strong>JRE (Java Runtime Environment):</strong> JVM + Core Java Class Libraries (contains everything needed to <em>run</em> Java programs).<br>
-        • <strong>JDK (Java Development Kit):</strong> JRE + Development Tools (contains <code>javac</code> compiler, debugger, <code>javadoc</code>).
+          <line x1="170" y1="45" x2="170" y2="65" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- JVM Memory Areas -->
+          <rect x="20" y="65" width="300" height="95" rx="5" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="90" y="83" font-size="11" font-weight="bold" fill="#f59e0b">2. JVM Runtime Data Areas</text>
+          
+          <rect x="30" y="92" width="75" height="30" rx="3" fill="var(--card-bg)" stroke="var(--border-color)" />
+          <text x="35" y="110" font-size="8.5" fill="var(--text-main)">Method Area</text>
+
+          <rect x="110" y="92" width="65" height="30" rx="3" fill="var(--card-bg)" stroke="var(--border-color)" />
+          <text x="120" y="110" font-size="8.5" fill="var(--text-main)">Heap</text>
+
+          <rect x="180" y="92" width="65" height="30" rx="3" fill="var(--card-bg)" stroke="var(--border-color)" />
+          <text x="185" y="110" font-size="8.5" fill="var(--text-main)">JVM Stack</text>
+
+          <rect x="250" y="92" width="60" height="30" rx="3" fill="var(--card-bg)" stroke="var(--border-color)" />
+          <text x="255" y="110" font-size="8" fill="var(--text-main)">PC Reg / Native</text>
+
+          <text x="35" y="145" font-size="8.5" fill="var(--text-muted)">Shared: Method Area & Heap | Per-Thread: Stack & PC Register</text>
+
+          <line x1="170" y1="160" x2="170" y2="180" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- Execution Engine -->
+          <rect x="20" y="180" width="300" height="45" rx="5" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="70" y="198" font-size="11" font-weight="bold" fill="#10b981">3. Execution Engine (Interpreter + JIT + GC)</text>
+          <text x="65" y="214" font-size="8.5" fill="var(--text-muted)">Just-In-Time Compiler converts hot loops to native CPU machine code</text>
+        </svg>
+        <div class="diagram-caption">JVM Internal Architecture: ClassLoader, Memory Areas & Execution Engine</div>
       </div>
 
       <div class="track-full">
-        <span class="track-full-badge">📚 Full Understanding Track: JVM Memory Structure</span>
-        <div class="callout callout-info">
-          <strong>JVM Runtime Data Areas:</strong>
-          <ul style="margin:4px 0 0 16px; line-height:1.6;">
-            <li><strong>Method Area:</strong> Stores class structures, static fields, method bytecodes, and runtime constant pools.</li>
-            <li><strong>Heap Area:</strong> The shared runtime data area where all Java objects and arrays are dynamically allocated with <code>new</code>. Managed by the Garbage Collector.</li>
-            <li><strong>JVM Stack:</strong> Stores frame stacks for method calls, local variables, and partial evaluation results.</li>
-            <li><strong>PC (Program Counter) Registers:</strong> Keeps track of the memory address of the current JVM instruction being executed.</li>
-            <li><strong>Execution Engine:</strong> Includes the <strong>JIT (Just-In-Time) Compiler</strong> (compiles frequently executed hot loops to native code for blazing speed) and Garbage Collector.</li>
-          </ul>
-        </div>
+        <h4>Detailed Explanation of JVM Memory Areas:</h4>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Method Area (Class Area):</strong> Shared by all threads. Stores class-level data: class names, immediate parent class name, methods, constructors, and static variables.</li>
+          <li><strong>Heap Area:</strong> Shared by all threads. Stores all runtime objects and their instance variables created using the <code>new</code> keyword. Garbage Collection operates here.</li>
+          <li><strong>JVM Stack:</strong> Created per thread. Contains a series of Stack Frames. Each frame stores method local variables, operand stacks, and partial results. Destroyed when the method returns.</li>
+          <li><strong>Program Counter (PC) Register:</strong> Created per thread. Holds the memory address of the current JVM bytecode instruction being executed.</li>
+          <li><strong>Native Method Stack:</strong> Holds native methods written in C/C++ invoked via the Java Native Interface (JNI).</li>
+        </ol>
       </div>
     </div>
 
-    <!-- Topic 2: OOP Pillars & Method Overloading vs Overriding -->
+    <!-- Topic 3: Anatomical Breakdown of main() -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> OOP Pillars: Overloading vs Overriding</span>
+        <span><span class="card-heading-icon">3.</span> Anatomical Breakdown of public static void main(String[] args)</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2019 (Polymorphism, Method Overloading vs Overriding)</span>
+        <span>2024–25, 2022–23 (Why each keyword is mandatory in Java main method?)</span>
+      </div>
+      <p>In Java, program execution begins unconditionally with this exact method signature:</p>
+      
+      <div class="code-box">
+        <pre><code>public static void main(String[] args) {
+    System.out.println("Hello, Kanpur!");
+}</code></pre>
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Keyword</th>
+              <th>Technical Meaning</th>
+              <th>Why It Is Mandatory</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>public</code></td>
+              <td>Access modifier: accessible anywhere.</td>
+              <td>The JVM resides outside the class package and must have permission to invoke the method from outside.</td>
+            </tr>
+            <tr>
+              <td><code>static</code></td>
+              <td>Class-level method: does not belong to an instance.</td>
+              <td>Allows the JVM to invoke the method directly using <code>ClassName.main()</code> without first instantiating an object of the class with <code>new</code>.</td>
+            </tr>
+            <tr>
+              <td><code>void</code></td>
+              <td>Return type: returns nothing.</td>
+              <td>Once <code>main()</code> finishes, the program terminates. The JVM expects no return value.</td>
+            </tr>
+            <tr>
+              <td><code>main</code></td>
+              <td>Identifier name.</td>
+              <td>The standardized entry point method name hardcoded into the JVM specification.</td>
+            </tr>
+            <tr>
+              <td><code>String[] args</code></td>
+              <td>Array of <code>java.lang.String</code> objects.</td>
+              <td>Accepts command-line arguments passed by the user in the terminal (e.g. <code>java Test Kan 100</code>).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 4: Data Types, Typecasting & Control Structures -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Data Types, Typecasting & Control Structures</span>
+      </div>
+      <p>Java is a strictly typed language with two categories of data types:</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Primitive Data Type</th>
+              <th>Size in Memory</th>
+              <th>Range / Default Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="4"><strong>Integral</strong></td>
+              <td><code>byte</code></td>
+              <td>1 Byte (8 bits)</td>
+              <td>$-128$ to $+127$ (Default: <code>0</code>)</td>
+            </tr>
+            <tr>
+              <td><code>short</code></td>
+              <td>2 Bytes (16 bits)</td>
+              <td>$-32,768$ to $+32,767$ (Default: <code>0</code>)</td>
+            </tr>
+            <tr>
+              <td><code>int</code></td>
+              <td>4 Bytes (32 bits)</td>
+              <td>$-2^{31}$ to $2^{31}-1$ (Default: <code>0</code>)</td>
+            </tr>
+            <tr>
+              <td><code>long</code></td>
+              <td>8 Bytes (64 bits)</td>
+              <td>$-2^{63}$ to $2^{63}-1$ (Default: <code>0L</code>)</td>
+            </tr>
+            <tr>
+              <td rowspan="2"><strong>Floating-Point</strong></td>
+              <td><code>float</code></td>
+              <td>4 Bytes (32 bits)</td>
+              <td>IEEE 754 standard (Default: <code>0.0f</code>)</td>
+            </tr>
+            <tr>
+              <td><code>double</code></td>
+              <td>8 Bytes (64 bits)</td>
+              <td>High-precision IEEE 754 (Default: <code>0.0d</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>Character</strong></td>
+              <td><code>char</code></td>
+              <td>2 Bytes (16 bits)</td>
+              <td>$0$ to $65,535$ (Unicode encoding! Default: <code>'\u0000'</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>Logical</strong></td>
+              <td><code>boolean</code></td>
+              <td>1 bit (JVM dependent)</td>
+              <td><code>true</code> or <code>false</code> only (Default: <code>false</code>)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="track-full">
+        <h4>Typecasting in Java: Widening vs. Narrowing</h4>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>Implicit Widening (Automatic):</strong> Converting a smaller primitive into a larger primitive. Safe with no loss of precision:
+            <br><code>byte $\to$ short $\to$ int $\to$ long $\to$ float $\to$ double</code>.
+            <br><em>Example:</em> <code>int a = 100; double d = a; // Automatic conversion</code>
+          </li>
+          <li><strong>Explicit Narrowing (Manual):</strong> Converting a larger type to a smaller type. Can lead to overflow and data loss:
+            <br><em>Example:</em> <code>double d = 145.89; int i = (int) d; // Result is 145 (fraction truncated)</code>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 5: Bitwise Operators -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Bitwise Operators</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2019 (Explain bitwise operators with examples)</span>
+      </div>
+      <p>Bitwise operators manipulate individual binary bits of integer data types (<code>byte, short, int, long</code>):</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Operator</th>
+              <th>Name</th>
+              <th>Mechanism</th>
+              <th>Example with $a=5\ (0101_2),\ b=7\ (0111_2)$</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>&amp;</code></td>
+              <td>Bitwise AND</td>
+              <td>1 if both corresponding bits are 1; else 0.</td>
+              <td>$5\ \&\ 7 = 0101_2 = 5$</td>
+            </tr>
+            <tr>
+              <td><code>|</code></td>
+              <td>Bitwise OR</td>
+              <td>1 if either of the bits is 1; else 0.</td>
+              <td>$5\ |\ 7 = 0111_2 = 7$</td>
+            </tr>
+            <tr>
+              <td><code>^</code></td>
+              <td>Bitwise XOR</td>
+              <td>1 if bits are different; 0 if same.</td>
+              <td>$5\ \text{^}\ 7 = 0010_2 = 2$</td>
+            </tr>
+            <tr>
+              <td><code>~</code></td>
+              <td>Bitwise NOT</td>
+              <td>Inverts all bits (unary complement).</td>
+              <td>$\sim 5 = -(5+1) = -6$</td>
+            </tr>
+            <tr>
+              <td><code>&lt;&lt;</code></td>
+              <td>Left Shift</td>
+              <td>Shifts bits left, filling 0 on right: $a \times 2^n$.</td>
+              <td>$5\ \text{&lt;&lt;}\ 1 = 01010_2 = 10$</td>
+            </tr>
+            <tr>
+              <td><code>&gt;&gt;</code></td>
+              <td>Signed Right Shift</td>
+              <td>Shifts bits right, preserving sign bit: $a / 2^n$.</td>
+              <td>$5\ \text{&gt;&gt;}\ 1 = 0010_2 = 2$</td>
+            </tr>
+            <tr>
+              <td><code>&gt;&gt;&gt;</code></td>
+              <td>Unsigned Right Shift</td>
+              <td>Shifts bits right, always filling 0 from the left.</td>
+              <td>$-5\ \text{&gt;&gt;&gt;}\ 1 = \text{Large positive integer}$</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 6: Arrays, Strings & Vector -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Arrays, Strings (Immutability) & Vector Class</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2022–23 (String case conversion program, String immutability, Vector vs Array)</span>
+      </div>
+      
+      <h4>1. Arrays in Java</h4>
+      <p>An array is an object containing a fixed number of elements of the same type. Array indices start at $0$. If an invalid index is accessed, JVM throws <code>ArrayIndexOutOfBoundsException</code>.</p>
+      <div class="code-box">
+        <pre><code>// Declaration and initialization
+int[] marks = new int[5]; // Allocated in heap memory with default values (0)
+int[] grades = {90, 85, 78, 92, 88};
+System.out.println("First element: " + grades[0] + " | Length: " + grades.length);</code></pre>
+      </div>
+
+      <h4>2. String Immutability & Methods</h4>
+      <p>In Java, <code>String</code> objects are <strong>immutable</strong> (their contents cannot be modified once created in the String Constant Pool inside heap memory). Any modification creates a brand new <code>String</code> object.</p>
+      
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Description</th>
+              <th>Example with <code>s = "Hello Java"</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>s.length()</code></td>
+              <td>Returns character count.</td>
+              <td><code>10</code></td>
+            </tr>
+            <tr>
+              <td><code>s.charAt(1)</code></td>
+              <td>Returns character at zero-based index.</td>
+              <td><code>'e'</code></td>
+            </tr>
+            <tr>
+              <td><code>s.toUpperCase()</code></td>
+              <td>Converts string to uppercase.</td>
+              <td><code>"HELLO JAVA"</code></td>
+            </tr>
+            <tr>
+              <td><code>s.toLowerCase()</code></td>
+              <td>Converts string to lowercase.</td>
+              <td><code>"hello java"</code></td>
+            </tr>
+            <tr>
+              <td><code>s.substring(0, 5)</code></td>
+              <td>Extracts substring from beginIndex to endIndex-1.</td>
+              <td><code>"Hello"</code></td>
+            </tr>
+            <tr>
+              <td><code>s.equals("...")</code></td>
+              <td>Compares content equality (unlike <code>==</code> which checks reference equality).</td>
+              <td><code>true</code> or <code>false</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>3. Vector Class (Dynamic Array)</h4>
+      <p><code>java.util.Vector</code> implements a growable, dynamic array of objects. Key characteristics:</p>
+      <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+        <li>Unlike standard arrays, a Vector can dynamically expand when elements exceed current capacity (default doubles in size).</li>
+        <li><strong>Thread-Safe (Synchronized):</strong> All methods in Vector are synchronized, making it safe for multithreaded applications (though slightly slower than <code>ArrayList</code>).</li>
+        <li>Methods: <code>add(e)</code>, <code>addElement(e)</code>, <code>get(i)</code>, <code>remove(i)</code>, <code>size()</code>, <code>capacity()</code>.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 7: The 4 Pillars of OOP in Java -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> The 4 Pillars of Object-Oriented Programming</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2022–23 (Encapsulation, Inheritance, Overloading vs Overriding, Interfaces)</span>
+      </div>
+
+      <h4>1. Encapsulation (Data Hiding)</h4>
+      <p>Encapsulation is the mechanism of wrapping data (variables) and code (methods) together into a single unit (class) while keeping fields <code>private</code> and providing controlled access via <code>public</code> getters and setters.</p>
+      <div class="code-box">
+        <pre><code>class Account {
+    private double balance; // Data hidden from external modification
+
+    public void deposit(double amount) {
+        if (amount > 0) this.balance += amount; // Business logic validation
+    }
+    public double getBalance() {
+        return this.balance;
+    }
+}</code></pre>
+      </div>
+
+      <h4>2. Inheritance (Code Reusability)</h4>
+      <p>Inheritance allows a subclass to inherit non-private fields and methods from a superclass using the <code>extends</code> keyword.</p>
+      <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+        <li><strong>Types supported via classes:</strong> Single, Multilevel, and Hierarchical.</li>
+        <li><strong>Why Multiple Inheritance is NOT supported via classes:</strong> Prevents the "Diamond Problem" where a child class inherits two different implementations of the same method from two parent classes. Java achieves multiple inheritance safely via <strong>Interfaces</strong>!</li>
+        <li><strong><code>super</code> keyword:</strong> Used to call superclass constructors (<code>super()</code>) or invoke overridden superclass methods (<code>super.method()</code>).</li>
+      </ul>
+
+      <h4>3. Polymorphism: Compile-Time vs. Runtime</h4>
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
               <th>Feature</th>
               <th>Method Overloading (Compile-Time)</th>
-              <th>Method Overriding (Runtime / Dynamic)</th>
+              <th>Method Overriding (Runtime)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Definition</strong></td>
-              <td>Multiple methods in the <strong>same class</strong> sharing the same name but with <strong>different parameter lists</strong></td>
-              <td>Subclass provides a specific implementation of a method already declared in its <strong>superclass</strong></td>
+              <td>Same method name, different parameter lists in the same class.</td>
+              <td>Subclass redefines a method inherited from superclass with identical signature.</td>
             </tr>
             <tr>
-              <td><strong>Method Signature</strong></td>
-              <td>Must differ in parameter count, types, or order</td>
-              <td>Must be <strong>strictly identical</strong> (same name, same parameters, compatible return type)</td>
+              <td><strong>Binding Time</strong></td>
+              <td>Early / Static binding at compile-time.</td>
+              <td>Late / Dynamic Method Dispatch at runtime based on actual object.</td>
             </tr>
             <tr>
-              <td><strong>Inheritance Needed?</strong></td>
-              <td>No; occurs within a single class</td>
-              <td><strong>Yes</strong>; requires parent-child relationship (<code>extends</code>)</td>
+              <td><strong>Parameters</strong></td>
+              <td>Must differ in number, type, or sequence of arguments.</td>
+              <td>Must be strictly identical in name, type, and order.</td>
             </tr>
             <tr>
-              <td><strong>Resolution Time</strong></td>
-              <td>Resolved at <strong>Compile Time</strong> (Static Binding)</td>
-              <td>Resolved at <strong>Runtime</strong> using the actual object type (Dynamic Method Dispatch)</td>
+              <td><strong>Return Type</strong></td>
+              <td>Can be different or same.</td>
+              <td>Must be identical (or covariant).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>4. Abstraction: Abstract Classes vs. Interfaces</h4>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Abstract Class</th>
+              <th>Interface</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Keyword</strong></td>
+              <td>Declared with <code>abstract class</code>; extended via <code>extends</code>.</td>
+              <td>Declared with <code>interface</code>; implemented via <code>implements</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Method Types</strong></td>
+              <td>Can contain both abstract methods AND fully implemented concrete methods.</td>
+              <td>Traditionally only <code>public abstract</code> methods (Java 8 added <code>default</code> and <code>static</code> methods).</td>
+            </tr>
+            <tr>
+              <td><strong>Variables</strong></td>
+              <td>Can have instance variables, static, final, or non-final fields.</td>
+              <td>Variables are strictly <code>public static final</code> (constants) only.</td>
+            </tr>
+            <tr>
+              <td><strong>Multiple Inheritance</strong></td>
+              <td>A class can extend only ONE abstract class.</td>
+              <td>A class can implement MULTIPLE interfaces simultaneously!</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 3: Robust Exception Handling -->
+    <!-- Topic 8: Packages & Access Modifiers -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Exception Handling & Throw vs Throws</span>
+        <span><span class="card-heading-icon">8.</span> Packages & The 4 Levels of Access Protection</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2020 (Checked vs Unchecked, throw vs throws difference)</span>
+        <span>2025–26, 2023–24, 2022–23 (What is a package? Write a user-defined package program)</span>
       </div>
+      <p>A <strong>Package</strong> is a namespace that groups related classes, interfaces, and subpackages. It prevents class name collisions, controls access, and facilitates search and maintenance. <code>java.lang</code> is imported automatically into every Java file.</p>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <p>
-        An <strong>Exception</strong> is an abnormal condition that arises in a code sequence at runtime, disrupting the normal flow of instructions. Java uses a structured 5-keyword paradigm: <code>try</code>, <code>catch</code>, <code>finally</code>, <code>throw</code>, and <code>throws</code>.
-      </p>
-
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>Basis</th>
-              <th><code>throw</code> Keyword</th>
-              <th><code>throws</code> Keyword</th>
+              <th>Access Modifier</th>
+              <th>Same Class</th>
+              <th>Same Package</th>
+              <th>Subclass in Different Package</th>
+              <th>Non-Subclass in Different Package</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Purpose</strong></td>
-              <td>Explicitly creates and throws a single exception instance</td>
-              <td>Declares that a method may cause specified exceptions</td>
+              <td><code>private</code></td>
+              <td>✅ Yes</td>
+              <td>❌ No</td>
+              <td>❌ No</td>
+              <td>❌ No</td>
             </tr>
             <tr>
-              <td><strong>Location</strong></td>
-              <td>Used <strong>inside</strong> a method body</td>
-              <td>Appended to the <strong>method signature</strong></td>
+              <td><em>default (no modifier)</em></td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>❌ No</td>
+              <td>❌ No</td>
             </tr>
             <tr>
-              <td><strong>Syntax</strong></td>
-              <td><code>throw new ArithmeticException("Divide by zero");</code></td>
-              <td><code>public void readFile() throws IOException { ... }</code></td>
+              <td><code>protected</code></td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes (via inheritance only)</td>
+              <td>❌ No</td>
             </tr>
             <tr>
-              <td><strong>Quantity</strong></td>
-              <td>Followed by a single exception object instance</td>
-              <td>Can be followed by multiple comma-separated exception classes</td>
+              <td><code>public</code></td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
+              <td>✅ Yes</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="callout callout-warning">
-        <strong>The <code>finally</code> Block Guarantee:</strong>
-        The <code>finally</code> block always executes regardless of whether an exception is thrown, caught, or unhandled (even if the <code>try</code> block contains a <code>return</code> statement!). It is exclusively reserved for cleanup operations like closing file streams and database connections.
-      </div>
-    </div>
+      <div class="track-full">
+        <h4>User-Defined Package Program (Standard University 10-Mark Question):</h4>
+        <div class="code-box">
+          <pre><code>// File 1: mypack/Calculator.java
+package mypack;
 
-    <!-- Topic 4: Multithreading & Thread Lifecycle -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Multithreading & Thread Lifecycle</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2019, 2016 (Thread lifecycle SVG, extends Thread vs implements Runnable)</span>
-      </div>
-
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <p>
-        A <strong>Thread</strong> is a lightweight sub-process—the smallest unit of processing. Multithreading allows concurrent execution of two or more parts of a program for maximum CPU utilization.
-      </p>
-
-      <div class="table-container">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th><code>extends Thread</code></th>
-              <th><code>implements Runnable</code> (Preferred)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Inheritance Flexibility</strong></td>
-              <td>Class cannot extend any other class (Java lacks multiple class inheritance)</td>
-              <td>Class is free to extend another base class while implementing Runnable</td>
-            </tr>
-            <tr>
-              <td><strong>OOP Design</strong></td>
-              <td>Tightly couples thread code with the thread execution mechanism</td>
-              <td>Separates the job (task) from the runner (Thread instance)</td>
-            </tr>
-            <tr>
-              <td><strong>Resource Sharing</strong></td>
-              <td>Each thread object is unique; difficult to share state</td>
-              <td>Multiple threads can share a single Runnable instance</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Thread Lifecycle State Diagram -->
-      <div class="diagram-box">
-        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
-          <!-- New -->
-          <rect x="15" y="20" width="70" height="30" rx="5" fill="rgba(148, 163, 184, 0.2)" stroke="var(--border-color)" />
-          <text x="35" y="38" font-size="9" font-weight="bold" fill="var(--text-main)">NEW</text>
-
-          <line x1="85" y1="35" x2="120" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
-          <text x="88" y="28" font-size="7.5" fill="var(--accent-emerald)">start()</text>
-
-          <!-- Runnable -->
-          <rect x="120" y="20" width="85" height="30" rx="5" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
-          <text x="135" y="38" font-size="9" font-weight="bold" fill="#10b981">RUNNABLE</text>
-
-          <line x1="205" y1="35" x2="240" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
-          <text x="206" y="28" font-size="7.5" fill="var(--accent-emerald)">yield()</text>
-
-          <!-- Running -->
-          <rect x="240" y="20" width="70" height="30" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
-          <text x="252" y="38" font-size="9" font-weight="bold" fill="#f59e0b">RUNNING</text>
-
-          <!-- Blocked / Waiting -->
-          <rect x="120" y="95" width="85" height="30" rx="5" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
-          <text x="132" y="113" font-size="8.5" font-weight="bold" fill="#e11d48">BLOCKED</text>
-
-          <!-- Arrows down to blocked and up to runnable -->
-          <line x1="265" y1="50" x2="205" y2="105" stroke="#e11d48" stroke-width="1.2" />
-          <text x="240" y="85" font-size="7.5" fill="#e11d48">sleep(), wait()</text>
-
-          <line x1="120" y1="110" x2="60" y2="110" stroke="#10b981" stroke-width="1.2" />
-          <line x1="60" y1="110" x2="135" y2="50" stroke="#10b981" stroke-width="1.2" />
-          <text x="50" y="95" font-size="7.5" fill="#10b981">notify(), resume()</text>
-
-          <!-- Dead / Terminated -->
-          <rect x="240" y="130" width="70" height="30" rx="5" fill="rgba(15, 23, 42, 0.3)" stroke="var(--border-color)" />
-          <text x="250" y="148" font-size="8.5" font-weight="bold" fill="var(--text-muted)">DEAD</text>
-          <line x1="275" y1="50" x2="275" y2="130" stroke="var(--text-muted)" stroke-width="1.2" />
-          <text x="280" y="95" font-size="7.5" fill="var(--text-muted)">run() ends</text>
-        </svg>
-        <div class="diagram-caption">Complete 5-Stage Java Thread Lifecycle Diagram</div>
-      </div>
-
-      <!-- Executable Thread Code -->
-      <div class="code-container">
-        <div class="code-header">
-          <span>Java Multithreading Example</span>
-          <button class="copy-btn" onclick="copyCode(this, 'code-thread')">Copy</button>
-        </div>
-        <pre><code id="code-thread">class MyRunnableTask implements Runnable {
-    public void run() {
-        for (int i = 1; i &lt;= 5; i++) {
-            System.out.println(Thread.currentThread().getName() + " count: " + i);
-            try {
-                Thread.sleep(500); // 500 ms pause
-            } catch (InterruptedException e) {
-                System.out.println("Thread interrupted: " + e.getMessage());
-            }
-        }
+public class Calculator {
+    public int multiply(int a, int b) {
+        return a * b;
     }
 }
 
-public class ThreadDemo {
+// File 2: TestPack.java (in parent folder)
+import mypack.Calculator;
+
+public class TestPack {
     public static void main(String[] args) {
-        MyRunnableTask task = new MyRunnableTask();
-        Thread t1 = new Thread(task, "Worker-1");
-        Thread t2 = new Thread(task, "Worker-2");
-        t1.start(); // Moves thread from NEW to RUNNABLE
-        t2.start();
+        Calculator calc = new Calculator();
+        System.out.println("Result: " + calc.multiply(6, 7)); // Outputs 42
     }
 }</code></pre>
+        </div>
       </div>
     </div>
 
-    <!-- Topic 5: Interactive MCQ Exam Drill (10 Questions) -->
+    <!-- Topic 9: Robust Exception Handling -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">📝</span> Unit I Exam Mastery MCQ Quiz (10 Questions)</span>
+        <span><span class="card-heading-icon">9.</span> Robust Exception Handling Architecture</span>
       </div>
-      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
-        Answer all 10 questions covering JVM bytecode, OOP principles, exception handling, and multithreading.
-      </p>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2021 (Checked vs Unchecked, throw vs throws, final vs finally vs finalize)</span>
+      </div>
+      <p>An <strong>Exception</strong> is an abnormal event that disrupts the normal flow of program instructions during runtime. Java's exception architecture derives from <code>java.lang.Throwable</code>:</p>
 
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 180" width="100%" height="auto" style="max-width:340px;">
+          <rect x="110" y="10" width="120" height="28" rx="4" fill="rgba(13, 148, 136, 0.25)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="135" y="28" font-size="11" font-weight="bold" fill="#0d9488">Throwable</text>
+
+          <line x1="170" y1="38" x2="80" y2="65" stroke="var(--text-main)" stroke-width="1.8" />
+          <line x1="170" y1="38" x2="260" y2="65" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- Error -->
+          <rect x="25" y="65" width="110" height="28" rx="4" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="50" y="83" font-size="10.5" font-weight="bold" fill="#e11d48">Error</text>
+
+          <!-- Exception -->
+          <rect x="205" y="65" width="110" height="28" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="225" y="83" font-size="10.5" font-weight="bold" fill="#10b981">Exception</text>
+
+          <!-- Checked vs RuntimeException -->
+          <line x1="260" y1="93" x2="190" y2="120" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="260" y1="93" x2="275" y2="120" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <rect x="130" y="120" width="120" height="45" rx="4" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="138" y="137" font-size="9.5" font-weight="bold" fill="#f59e0b">Checked Exceptions</text>
+          <text x="138" y="152" font-size="8" fill="var(--text-muted)">IOException, SQLException</text>
+
+          <rect x="255" y="120" width="80" height="45" rx="4" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
+          <text x="260" y="137" font-size="9" font-weight="bold" fill="#e11d48">Unchecked</text>
+          <text x="260" y="152" font-size="7.5" fill="var(--text-muted)">RuntimeException</text>
+        </svg>
+        <div class="diagram-caption">Java Exception Hierarchy: Checked vs Unchecked Exceptions</div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Comparison Factor</th>
+              <th>Checked Exceptions</th>
+              <th>Unchecked Exceptions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Verification</strong></td>
+              <td>Checked by the compiler at compile-time.</td>
+              <td>Not checked at compile-time; occurs at runtime.</td>
+            </tr>
+            <tr>
+              <td><strong>Mandatory Action</strong></td>
+              <td>Must be handled via <code>try-catch</code> or declared via <code>throws</code>; else code will not compile!</td>
+              <td>Optional; usually indicates programming bugs (e.g. dividing by zero).</td>
+            </tr>
+            <tr>
+              <td><strong>Class Parent</strong></td>
+              <td>Direct subclasses of <code>Exception</code> (e.g. <code>IOException</code>, <code>SQLException</code>).</td>
+              <td>Subclasses of <code>RuntimeException</code> (e.g. <code>NullPointerException</code>, <code>ArithmeticException</code>).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="track-full">
+        <h4>Crucial Keyword Distinctions:</h4>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong><code>throw</code> vs. <code>throws</code>:</strong> <code>throw</code> is used inside a method body to explicitly throw an exception object (<code>throw new Exception()</code>). <code>throws</code> is used in the method signature to declare exceptions to callers (<code>void read() throws IOException</code>).</li>
+          <li><strong><code>final</code> vs. <code>finally</code> vs. <code>finalize()</code>:</strong>
+            <br>• <code>final</code>: Modifier making variables constant, methods un-overridable, classes un-inheritable.
+            <br>• <code>finally</code>: Cleanup block after <code>try-catch</code> that runs unconditionally (even if an exception occurs or return is executed).
+            <br>• <code>finalize()</code>: Garbage collector cleanup method before object destruction (deprecated in modern Java).
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 10: Multithreaded Programming -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">10.</span> Multithreaded Programming & Thread Lifecycle</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2022–23 (Ways to create threads, Thread lifecycle states, Synchronization)</span>
+      </div>
+      <p>A <strong>Thread</strong> is the smallest independent unit of execution within a process. Multithreading allows concurrent execution of two or more parts of a program for maximum CPU utilization.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Approach</th>
+              <th>How to Implement</th>
+              <th>Pros and Cons</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Method 1: Extending <code>Thread</code></strong></td>
+              <td>Subclass <code>java.lang.Thread</code> and override its <code>run()</code> method.</td>
+              <td>Simple, but Java does not allow multiple inheritance—the class cannot extend any other superclass!</td>
+            </tr>
+            <tr>
+              <td><strong>Method 2: Implementing <code>Runnable</code> (Preferred)</strong></td>
+              <td>Implement <code>java.lang.Runnable</code>, pass its instance into a <code>Thread</code> object.</td>
+              <td><strong>Highly Recommended:</strong> Separates the runnable task from thread management and leaves the class free to extend another base class.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 160" width="100%" height="auto" style="max-width:340px;">
+          <!-- New -->
+          <circle cx="40" cy="70" r="24" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="28" y="74" font-size="10" font-weight="bold" fill="#0d9488">NEW</text>
+
+          <line x1="64" y1="70" x2="105" y2="70" stroke="var(--text-main)" stroke-width="1.8" />
+          <text x="68" y="62" font-size="7.5" fill="var(--text-muted)">start()</text>
+
+          <!-- Runnable -->
+          <circle cx="135" cy="70" r="28" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="110" y="74" font-size="9.5" font-weight="bold" fill="#f59e0b">RUNNABLE</text>
+
+          <line x1="163" y1="70" x2="205" y2="70" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- Running -->
+          <circle cx="230" cy="70" r="24" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="210" y="74" font-size="9" font-weight="bold" fill="#10b981">RUNNING</text>
+
+          <line x1="254" y1="70" x2="295" y2="70" stroke="var(--text-main)" stroke-width="1.8" />
+
+          <!-- Terminated -->
+          <circle cx="315" cy="70" r="20" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="303" y="74" font-size="8" font-weight="bold" fill="#e11d48">DEAD</text>
+
+          <!-- Blocked / Waiting below -->
+          <rect x="140" y="125" width="90" height="25" rx="4" fill="rgba(225, 29, 72, 0.15)" stroke="#e11d48" stroke-width="1.5" />
+          <text x="147" y="141" font-size="8.5" fill="#e11d48">WAITING/BLOCKED</text>
+
+          <path d="M 230,94 Q 230,125 185,125" fill="none" stroke="var(--text-muted)" stroke-width="1.2" stroke-dasharray="3,3" />
+          <path d="M 140,137 Q 95,137 120,95" fill="none" stroke="var(--text-muted)" stroke-width="1.2" stroke-dasharray="3,3" />
+        </svg>
+        <div class="diagram-caption">Complete Thread Lifecycle: New → Runnable → Running → Blocked/Waiting → Dead</div>
+      </div>
+
+      <div class="track-full">
+        <h4>Thread Synchronization:</h4>
+        <p>When multiple threads share the same mutable object, concurrent modifications cause <strong>race conditions</strong> and data corruption. Java provides the <code>synchronized</code> keyword to establish a mutual exclusion lock (monitor):</p>
+        <div class="code-box">
+          <pre><code>class BankAccount {
+    private int balance = 1000;
+
+    // Only ONE thread can execute this method at any instant
+    public synchronized void withdraw(int amount) {
+        if (balance >= amount) {
+            balance -= amount;
+        }
+    }
+}</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- Topic 11: Exam Answer Blueprint -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">11.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Thread Creation and Lifecycle":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Definition (1 Mark):</strong> Define a thread as a lightweight sub-process sharing the process address space.</li>
+          <li><strong>Two Creation Methods (3 Marks):</strong> Show short runnable code for both <code>extends Thread</code> and <code>implements Runnable</code>. Highlight why Runnable is superior.</li>
+          <li><strong>Lifecycle Diagram (3 Marks):</strong> Draw the 5-state lifecycle diagram (New, Runnable, Running, Blocked/Waiting, Terminated) with method labels (<code>start()</code>, <code>sleep()</code>, <code>wait()</code>, <code>notify()</code>).</li>
+          <li><strong>State Descriptions (2 Marks):</strong> Write 1 sentence explaining each lifecycle transition.</li>
+          <li><strong>Important Exam Note (1 Mark):</strong> Always emphasize calling <code>t.start()</code>, NOT <code>t.run()</code>, to spawn a true separate thread of execution!</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Calling <code>run()</code> directly:</strong> Calling <code>t.run()</code> does not spawn a new thread; it executes synchronously in the caller's thread! Always call <code>t.start()</code>.<br>
+        • <strong>Confusing Overloading and Overriding:</strong> Overloading is compile-time in the same class (different parameters); overriding is runtime in subclasses (identical parameters).
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Drill -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">12.</span> Unit I Examination Mastery MCQ Quiz</span>
+      </div>
+      <p>Verify your conceptual mastery across Core Java, OOP pillars, packages, exception handling, and threads with this 10-question quiz.</p>
       <div id="unit-mcq-container"></div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation -->
+  <!-- Sticky Bottom Navigation Bar -->
   <nav class="nav-bottom">
     <a href="index.html" class="nav-unit-btn">← Hub</a>
-    <a href="bca5002_unit2.html" class="nav-unit-btn primary">Next: Unit II →</a>
+    <a href="bca5002_unit2.html" class="nav-unit-btn primary">Next: Unit II (Applets & AWT) →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit1Questions = [
       {
-        question: "What enables Java's 'Write Once, Run Anywhere' (WORA) cross-platform capability?",
+        question: "Why does Java not support multiple inheritance through classes?",
         options: [
-          "Java programs are compiled directly into x86 assembly code",
-          "Java source is compiled into platform-neutral Bytecode (.class) executed by an OS-specific JVM",
-          "All operating systems have built-in C compilers",
-          "Java does not require compilation"
+          "Java compiler lacks sufficient memory",
+          "To avoid ambiguity and the 'Diamond Problem' where multiple superclasses contain conflicting method implementations",
+          "Pointers are required for multiple inheritance",
+          "C++ also banned multiple inheritance"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "The javac compiler produces architecture-independent Bytecode that any platform-specific JVM can load and interpret into native machine instructions."
+        explanation: "Java avoids the Diamond Problem by prohibiting multiple class inheritance, offering Interfaces instead for safe multiple interface implementation."
       },
       {
-        question: "What is the key difference between Method Overloading and Method Overriding?",
+        question: "Which component of the JVM is responsible for converting 'hot' bytecode sequences into native CPU machine code at runtime for high performance?",
         options: [
-          "Overloading is resolved at runtime; Overriding at compile time",
-          "Overloading occurs within the same class with different parameters; Overriding occurs across inheritance with identical signatures",
-          "Overriding only works for private methods",
-          "Overloading requires the 'extends' keyword"
+          "ClassLoader Subsystem",
+          "Just-In-Time (JIT) Compiler",
+          "Garbage Collector",
+          "Security Manager"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Method Overloading happens within a single class with varying argument lists (compile-time polymorphism). Method Overriding redefines an inherited parent method in a subclass with identical signature (runtime polymorphism)."
+        explanation: "The JIT Compiler within the Execution Engine monitors running code and compiles frequently executed bytecode loops into native machine code."
       },
       {
-        question: "What is the difference between the 'throw' and 'throws' keywords in Java?",
+        question: "Why must the main() method in Java be declared as 'static'?",
         options: [
-          "'throw' declares potential exceptions in a method signature; 'throws' explicitly throws an instance",
-          "'throw' explicitly throws an exception instance inside a block; 'throws' declares potential exceptions in the method signature",
-          "They are 100% interchangeable synonyms",
-          "'throws' is only used for checked exceptions"
+          "To prevent the method from modifying variables",
+          "So the JVM can invoke the method directly using ClassName.main() without creating an instance of the class first",
+          "Because static methods run faster",
+          "To enable garbage collection"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "`throw` is an imperative statement inside a method body creating an exception object. `throws` is part of a method declaration notifying callers of potential checked exceptions."
+        explanation: "Declaring main() as static allows the JVM to invoke the program entry point directly at class load time without needing to instantiate an object using 'new'."
       },
       {
-        question: "Under what condition will code inside a 'finally' block NOT execute?",
+        question: "What is the size and default value of the primitive 'char' data type in Java?",
         options: [
-          "When a return statement is encountered in the try block",
-          "When System.exit(0) is executed, terminating the JVM process",
-          "When an uncaught exception is thrown in the catch block",
-          "When a NullPointerException occurs"
+          "1 byte, default 0",
+          "2 bytes (16-bit Unicode), default '\\u0000'",
+          "4 bytes, default ' '",
+          "8 bytes, default null"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "The `finally` block always executes, even after `return` statements, unless the JVM is explicitly killed by `System.exit(0)` or a catastrophic hardware crash."
+        explanation: "Java characters use 2 bytes (16 bits) to support international Unicode characters, with default value '\\u0000'."
       },
       {
-        question: "Why is implementing the 'Runnable' interface preferred over extending the 'Thread' class?",
+        question: "Why are String objects considered 'immutable' in Java?",
         options: [
-          "Runnable runs twice as fast",
-          "Because Java does not support multiple class inheritance, implementing Runnable leaves the class free to extend another superclass",
-          "Thread class is deprecated",
-          "Runnable does not require a run() method"
+          "Strings cannot be printed on the screen",
+          "Once a String object is instantiated in memory, its character contents cannot be altered; any modification yields a new String object",
+          "Strings can only hold numbers",
+          "Strings are stored on hard disk instead of RAM"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Java permits single class inheritance only. Extending Thread permanently burns that single inheritance slot, while implementing Runnable allows extending another domain class."
+        explanation: "Strings are immutable for security, synchronization, and caching in the String Constant Pool. Any modification creates a distinct new String object."
       },
       {
-        question: "Which method must be called to transition a newly instantiated Java thread from the NEW state to the RUNNABLE state?",
+        question: "What is the primary difference between an Abstract Class and an Interface in Java?",
         options: [
-          "run()",
-          "start()",
-          "init()",
-          "execute()"
+          "An abstract class cannot have constructors, while an interface can",
+          "A class can implement multiple interfaces, but can extend only one abstract class",
+          "Interfaces can contain non-static instance variables",
+          "Abstract classes cannot contain concrete methods"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Calling `start()` allocates OS resources and invokes the thread's `run()` method asynchronously. Calling `run()` directly simply executes it on the caller's main thread!"
+        explanation: "Java supports single inheritance of classes (only one abstract class extended), but permits multiple interface implementation."
       },
       {
-        question: "Which of the following is an UNCHECKED (runtime) exception in Java?",
+        question: "Which package is automatically imported into every Java source file without requiring an explicit 'import' statement?",
         options: [
-          "IOException",
-          "SQLException",
-          "NullPointerException",
-          "ClassNotFoundException"
-        ],
-        answer: 2,
-        is_pyq: true,
-        explanation: "Subclasses of `RuntimeException` (like `NullPointerException`, `ArithmeticException`, `ArrayIndexOutOfBoundsException`) are unchecked; the compiler does not force try-catch handling."
-      },
-      {
-        question: "What does the 'synchronized' keyword guarantee when applied to a method?",
-        options: [
-          "It makes the method execute in parallel on 10 CPU cores",
-          "It acquires an intrinsic monitor lock on the object, ensuring only one thread can execute the method at any given moment",
-          "It prevents the method from throwing exceptions",
-          "It saves the object to disk"
+          "java.util",
+          "java.lang",
+          "java.io",
+          "java.net"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "The `synchronized` keyword enforces mutual exclusion: a thread must acquire the object's monitor lock before entering, preventing race conditions on shared data."
+        explanation: "java.lang contains fundamental language classes (Object, String, System, Math, Thread, Exception) and is imported implicitly by the compiler."
       },
       {
-        question: "What is the purpose of the wait(), notify(), and notifyAll() methods in Java multithreading?",
+        question: "What happens if a Checked Exception is neither handled by a try-catch block nor declared in the method signature using 'throws'?",
         options: [
-          "To pause and resume network sockets",
-          "To provide inter-thread communication and synchronization between threads sharing a lock",
-          "To restart the JVM",
-          "To stop memory leaks"
+          "The program runs normally",
+          "The Java compiler rejects the code with a compilation error",
+          "The JVM terminates at runtime with a blue screen",
+          "The exception is automatically ignored"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Defined in the root `Object` class, these methods allow threads to signal and wake up each other while coordinating access to shared critical resources."
+        explanation: "Checked exceptions are verified at compile-time; failing to catch or declare them results in an immediate compilation failure."
       },
       {
-        question: "In the JVM architecture, where are instantiated objects and instance variables dynamically stored?",
+        question: "What is the difference between invoking t.start() vs. t.run() on a Thread object 't'?",
         options: [
-          "JVM Stack",
-          "Heap Area",
-          "PC Register",
-          "Native Method Area"
+          "There is no difference; both are synonyms",
+          "t.start() allocates a new call stack and spawns a separate OS/JVM thread; t.run() merely executes synchronously in the current thread",
+          "t.run() terminates the thread immediately",
+          "t.start() only works on Windows"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "All Java objects and arrays created via the `new` keyword reside in the Heap Area, where they are automatically cleaned up by the Garbage Collector."
+        explanation: "Calling t.start() registers the thread with the scheduler and starts a new thread. Calling t.run() executes the method synchronously in the caller's thread."
+      },
+      {
+        question: "Which keyword is applied to a method or code block to prevent race conditions when multiple threads access shared mutable data?",
+        options: [
+          "volatile",
+          "synchronized",
+          "transient",
+          "native"
+        ],
+        answer: 1,
+        explanation: "The 'synchronized' keyword establishes an exclusive monitor lock, ensuring only one thread executes the critical section at any given time."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit1Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>
