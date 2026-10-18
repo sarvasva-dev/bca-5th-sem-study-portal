@@ -56,47 +56,73 @@
       <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
     </div>
 
-    <!-- Topic 1: Direct vs Iterative Methods -->
+    <!-- Topic 1: Systems of Linear Equations & Direct vs Iterative Methods -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Direct vs Iterative Methods</span>
+        <span><span class="card-heading-icon">1.</span> Systems of Linear Equations: Direct vs Iterative Methods</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2018 (Direct vs Iterative methods, Matrix notation & Ill-conditioned systems)</span>
       </div>
 
       <div class="callout callout-objective">
         <strong>🎯 Learning Objectives:</strong>
         <ul style="margin:4px 0 0 16px;">
-          <li>Distinguish between Direct Methods (exact in finite steps) and Iterative Methods (successive approximations).</li>
-          <li>Understand why partial pivoting is critical in computer implementations of Gaussian Elimination.</li>
+          <li>Formulate linear systems in matrix notation $AX = B$ and augmented matrix $[A | B]$.</li>
+          <li>Contrast Direct Methods (exact in finite operations) with Iterative Methods (successive approximations).</li>
+          <li>Define Ill-Conditioned Systems and understand how small perturbations destabilize solutions.</li>
         </ul>
+      </div>
+
+      <div class="callout callout-intuition">
+        <strong>💡 Conceptual Intuition: Why Do We Need Two Entirely Different Families of Methods?</strong><br>
+        • <strong>Direct Methods</strong> (like Gaussian Elimination) are like a cake recipe with a fixed number of steps: follow the steps exactly, and out comes the analytical solution. However, on large computer systems ($N > 1,000$), each arithmetic step rounds off decimals, and after a billion operations, accumulated round-off errors completely corrupt the final answer!<br>
+        • <strong>Iterative Methods</strong> (like Gauss-Seidel) are like tuning a radio: you start from an arbitrary guess $(0, 0, 0)$ and refine the numbers repeatedly until the static disappears. Because each iteration recalculates values from the original equations, <em>round-off errors do not accumulate</em>, making iterative methods the gold standard for massive, sparse matrices in engineering!
       </div>
 
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>Direct Methods (Gauss Elimination, Jordan)</th>
-              <th>Iterative Methods (Gauss-Seidel, Jacobi)</th>
+              <th>Evaluation Parameter</th>
+              <th>Direct Methods (Gauss Elimination, Gauss-Jordan, LU)</th>
+              <th>Iterative Methods (Gauss-Seidel, Gauss-Jacobi)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Mechanism</strong></td>
-              <td>Transforms system into upper triangular form via row operations in a fixed number of steps</td>
-              <td>Starts from initial guess vector and refines values in repeated cycles</td>
+              <td><strong>Mathematical Principle</strong></td>
+              <td>Transforms the augmented matrix into a simpler form (triangular or identity) in a <strong>fixed, finite number of steps</strong>.</td>
+              <td>Generates an infinite sequence of successively improving approximation vectors $\{X^{(k)}\}$ converging toward the true root.</td>
             </tr>
             <tr>
-              <td><strong>Round-off Errors</strong></td>
-              <td>Accumulate heavily; can destroy accuracy for large matrices</td>
-              <td>Self-correcting; round-off errors do not compound indefinitely</td>
+              <td><strong>Round-off Error Propagation</strong></td>
+              <td><strong>Accumulates monotonically</strong>; for large systems, small errors compound and can destroy numerical validity.</td>
+              <td><strong>Self-correcting</strong>; each iteration uses original equations, so round-off errors from previous steps are naturally suppressed.</td>
             </tr>
             <tr>
-              <td><strong>Best Suited For</strong></td>
-              <td>Dense, small-to-medium matrices ($N < 100$)</td>
-              <td>Large, sparse systems (e.g. electrical networks, structural analysis with thousands of variables)</td>
+              <td><strong>Stopping Condition</strong></td>
+              <td>Terminates automatically upon completing back substitution.</td>
+              <td>Terminates when maximum absolute difference between consecutive iterations falls below tolerance $\epsilon$: $\max_i |x_i^{(k+1)} - x_i^{(k)}| < \epsilon$.</td>
+            </tr>
+            <tr>
+              <td><strong>Computational Efficiency</strong></td>
+              <td>Best for dense, small-to-medium matrices ($N < 100$). Operations scale as $O(N^3)$.</td>
+              <td>Ideal for large, sparse matrices ($N > 10,000$) where most matrix coefficients are zero.</td>
+            </tr>
+            <tr>
+              <td><strong>Convergence Requirement</strong></td>
+              <td>Always yields a solution provided $\det(A) \ne 0$.</td>
+              <td>Requires coefficient matrix to satisfy <strong>Strict Diagonal Dominance</strong> to guarantee convergence.</td>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>⚠️ What is an Ill-Conditioned System? (Frequently asked 2-mark question):</strong><br>
+        A linear system $AX = B$ is called <strong>Ill-Conditioned</strong> if a tiny, negligible perturbation in the coefficients $A$ or constants $B$ produces an extraordinarily large, catastrophic shift in the solution vector $X$. Geometrically, this happens when the lines or planes represented by the equations are nearly parallel ($\det(A) \approx 0$).
       </div>
     </div>
 
@@ -112,22 +138,29 @@
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
       <p>
-        <strong>Two-Phase Procedure:</strong>
+        Gaussian Elimination operates in <strong>Two Distinct Phases</strong>:
       </p>
       <ol class="step-list">
-        <li><strong>Phase 1: Forward Elimination:</strong> Transform augmented matrix $[A | B]$ into an Upper Triangular Matrix where all entries below the main diagonal are zero.</li>
-        <li><strong>Phase 2: Back Substitution:</strong> Solve for the last variable $x_n$, then substitute backwards to obtain $x_{n-1}, \dots, x_1$.</li>
+        <li><strong>Phase 1: Forward Elimination:</strong> Successively eliminates unknowns from lower equations using elementary row operations, reducing the augmented matrix $[A | B]$ into an <strong>Upper Triangular Matrix</strong> where all entries below the main diagonal are zero ($a_{ij} = 0$ for $i > j$).</li>
+        <li><strong>Phase 2: Back Substitution:</strong> Computes the unknown variables in reverse order, starting from the bottom equation:
+          $$x_n = \frac{b_n'}{a_{nn}'}, \quad x_i = \frac{b_i' - \sum_{j=i+1}^n a_{ij}' x_j}{a_{ii}'} \quad \text{for } i = n-1, n-2, \dots, 1$$
+        </li>
       </ol>
 
       <div class="callout callout-warning">
-        <strong>⚠️ Why is Partial Pivoting Necessary?</strong><br>
-        If the diagonal pivot element $a_{ii} \approx 0$, dividing by it to create multipliers causes <strong>division by zero</strong> or severe floating-point round-off catastrophe. In <strong>Partial Pivoting</strong>, before eliminating column $i$, we search rows below row $i$ for the largest entry in absolute value $|a_{ki}|$ and swap row $i$ with row $k$.
+        <strong>⚠️ Why is Partial Pivoting Mathematically Essential?</strong><br>
+        During forward elimination in column $k$, the multiplier used to eliminate row $i$ is:
+        $$m_{ik} = \frac{a_{ik}}{a_{kk}}$$
+        Here, $a_{kk}$ is called the <strong>Pivot Element</strong>.<br>
+        • If $a_{kk} = 0$, division by zero occurs and the algorithm crashes immediately!<br>
+        • If $|a_{kk}| \approx 0$ (a tiny decimal like $0.0001$), dividing by it yields massive multipliers ($m_{ik} \approx 10,000$), amplifying small round-off errors and causing numerical instability.<br>
+        <strong>The Partial Pivoting Rule:</strong> At step $k$, search column $k$ from row $k$ down to row $n$ for the element with the largest absolute value: $\max_{k \le i \le n} |a_{ik}|$. Interchange row $k$ with that maximum row before eliminating!
       </div>
 
       <!-- Solved University Numerical -->
       <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical:</strong><br>
-        Solve the linear system by Gauss Elimination:
+        <strong>📝 Master Solved University Numerical (Gauss Elimination with Pivoting):</strong><br>
+        Solve the linear system by Gauss Elimination with Partial Pivoting:
         $$\begin{aligned}
         2x + y + z &= 10 \\
         3x + 2y + 3z &= 18 \\
@@ -138,76 +171,157 @@
       <p><strong>Step-by-Step Augmented Matrix Elimination:</strong></p>
       <div class="step-list">
         <div class="step-item">
-          <strong>Step 1: Write Augmented Matrix $[A | B]$:</strong><br>
+          <strong>Step 1: Augmented Matrix $[A | B]$ & Initial Pivoting:</strong><br>
+          In column 1, compare pivot candidates: $|2|, |3|, |1|$. The largest is $|3|$ in Row 2.<br>
+          Interchange $R_1 \leftrightarrow R_2$:
           $$\begin{bmatrix}
-          2 & 1 & 1 & | & 10 \\
           3 & 2 & 3 & | & 18 \\
+          2 & 1 & 1 & | & 10 \\
           1 & 4 & 9 & | & 16
           \end{bmatrix}$$
         </div>
         <div class="step-item">
           <strong>Step 2: Eliminate $x$ from Row 2 and Row 3:</strong><br>
-          Row operations: $R_2 \leftarrow R_2 - \frac{3}{2} R_1$ and $R_3 \leftarrow R_3 - \frac{1}{2} R_1$:<br>
-          $R_2$: $[3 - 3, 2 - 1.5, 3 - 1.5 | 18 - 15] \implies [0, 0.5, 1.5 | 3]$<br>
-          $R_3$: $[1 - 1, 4 - 0.5, 9 - 0.5 | 16 - 5] \implies [0, 3.5, 8.5 | 11]$<br>
+          Multipliers: $m_{21} = \frac{2}{3}, \quad m_{31} = \frac{1}{3}$<br>
+          • $R_2 \leftarrow R_2 - \frac{2}{3} R_1$:
+          $$[2 - 2, 1 - \frac{4}{3}, 1 - 2 \mid 10 - 12] \implies [0, -\frac{1}{3}, -1 \mid -2]$$
+          • $R_3 \leftarrow R_3 - \frac{1}{3} R_1$:
+          $$[1 - 1, 4 - \frac{2}{3}, 9 - 1 \mid 16 - 6] \implies [0, \frac{10}{3}, 8 \mid 10]$$
+          Matrix becomes:
           $$\begin{bmatrix}
-          2 & 1 & 1 & | & 10 \\
-          0 & 0.5 & 1.5 & | & 3 \\
-          0 & 3.5 & 8.5 & | & 11
+          3 & 2 & 3 & | & 18 \\
+          0 & -1/3 & -1 & | & -2 \\
+          0 & 10/3 & 8 & | & 10
           \end{bmatrix}$$
         </div>
         <div class="step-item">
-          <strong>Step 3: Eliminate $y$ from Row 3 (Using Partial Pivoting):</strong><br>
-          Notice that $|3.5| > |0.5|$. Swap $R_2$ and $R_3$ for numerical stability:
+          <strong>Step 3: Pivot Check for Column 2 & Eliminate $y$:</strong><br>
+          In column 2 below diagonal, compare $|-\frac{1}{3}| \approx 0.333$ with $|\frac{10}{3}| \approx 3.333$.<br>
+          $|\frac{10}{3}| > |-\frac{1}{3}|$, so interchange $R_2 \leftrightarrow R_3$:
           $$\begin{bmatrix}
-          2 & 1 & 1 & | & 10 \\
-          0 & 3.5 & 8.5 & | & 11 \\
-          0 & 0.5 & 1.5 & | & 3
+          3 & 2 & 3 & | & 18 \\
+          0 & 10/3 & 8 & | & 10 \\
+          0 & -1/3 & -1 & | & -2
           \end{bmatrix}$$
-          Now eliminate: $R_3 \leftarrow R_3 - \frac{0.5}{3.5} R_2 = R_3 - \frac{1}{7} R_2$:<br>
-          $8.5 \times \frac{1}{7} = \frac{17}{14} \approx 1.2143 \implies 1.5 - 1.2143 = 0.2857 = \frac{2}{7}$<br>
-          $11 \times \frac{1}{7} = \frac{11}{7} \implies 3 - \frac{11}{7} = \frac{10}{7} \approx 1.4286$<br>
+          Now eliminate $y$ from Row 3 using multiplier $m_{32} = \frac{-1/3}{10/3} = -\frac{1}{10}$:<br>
+          $R_3 \leftarrow R_3 - (-\frac{1}{10}) R_2 = R_3 + \frac{1}{10} R_2$:
+          $$[0, -\frac{1}{3} + \frac{1}{3}, -1 + \frac{8}{10} \mid -2 + \frac{10}{10}] \implies [0, 0, -0.2 \mid -1]$$
+          Upper Triangular Matrix $[U | B']$:
           $$\begin{bmatrix}
-          2 & 1 & 1 & | & 10 \\
-          0 & 3.5 & 8.5 & | & 11 \\
-          0 & 0 & 2/7 & | & 10/7
+          3 & 2 & 3 & | & 18 \\
+          0 & 10/3 & 8 & | & 10 \\
+          0 & 0 & -0.2 & | & -1
           \end{bmatrix}$$
         </div>
         <div class="step-item">
           <strong>Step 4: Back Substitution:</strong><br>
-          From Row 3: $\frac{2}{7} z = \frac{10}{7} \implies \mathbf{z = 5}$<br>
-          From Row 2: $3.5 y + 8.5(5) = 11 \implies 3.5 y + 42.5 = 11 \implies 3.5 y = -31.5 \implies \mathbf{y = -9}$<br>
-          From Row 1: $2x + (-9) + 5 = 10 \implies 2x - 4 = 10 \implies 2x = 14 \implies \mathbf{x = 7}$<br>
-          <em>Verification:</em> $2(7) + (-9) + 5 = 14 - 9 + 5 = 10$ ✓. Exact integers obtained!
+          • From Row 3: $-0.2 z = -1 \implies z = \frac{-1}{-0.2} = \mathbf{5}$<br>
+          • From Row 2: $\frac{10}{3} y + 8(5) = 10 \implies \frac{10}{3} y + 40 = 10 \implies \frac{10}{3} y = -30 \implies y = -30 \times \frac{3}{10} = \mathbf{-9}$<br>
+          • From Row 1: $3x + 2(-9) + 3(5) = 18 \implies 3x - 18 + 15 = 18 \implies 3x - 3 = 18 \implies 3x = 21 \implies \mathbf{x = 7}$<br>
+          <em>Verification in original Equation 1:</em> $2(7) + (-9) + 5 = 14 - 9 + 5 = 10$ ✓. Exact integers obtained!
         </div>
       </div>
     </div>
 
-    <!-- Topic 3: Gauss-Seidel Iteration Method -->
+    <!-- Topic 3: Gauss-Jordan Method & LU Decomposition -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Gauss-Seidel Iteration Method</span>
+        <span><span class="card-heading-icon">3.</span> Gauss-Jordan Method & LU Decomposition</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2020, 2017 (Strict diagonal dominance condition & iterative numerical)</span>
+        <span>2025–26, 2022, 2019 (Explain LU Decomposition / Crout's Method & Gauss-Jordan)</span>
+      </div>
+
+      <p>Beyond standard Gaussian Elimination, two other direct methods frequently appear in university examinations:</p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Core Mathematical Procedure</th>
+              <th>Key Distinction & Exam Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Gauss-Jordan Method</strong></td>
+              <td>Eliminates entries both <strong>below AND above</strong> the main diagonal, reducing the augmented matrix $[A | B]$ directly into reduced row echelon form $[I | X]$.</td>
+              <td><strong>Zero Back Substitution Required:</strong> The right-hand column directly reveals the solution vector $X$. However, it requires $\approx \frac{n^3}{2}$ operations ($50\%$ more than Gauss Elimination).</td>
+            </tr>
+            <tr>
+              <td><strong>LU Decomposition (Crout / Doolittle)</strong></td>
+              <td>Factors the coefficient matrix $A$ into the product of a Lower triangular matrix $L$ and an Upper triangular matrix $U$: $A = L \cdot U$.</td>
+              <td><strong>Solves $AX = B$ in Two Swift Steps:</strong><br>
+              1. Solve $LY = B$ using Forward Substitution.<br>
+              2. Solve $UX = Y$ using Back Substitution.<br>
+              <em>Massive advantage:</em> If matrix $A$ is fixed but vector $B$ changes frequently, $A$ is factored only once!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-formula">
+        <strong>LU Decomposition Matrix Structures (for $3 \times 3$ System):</strong>
+        $$L = \begin{bmatrix} l_{11} & 0 & 0 \\ l_{21} & l_{22} & 0 \\ l_{31} & l_{32} & l_{33} \end{bmatrix}, \quad U = \begin{bmatrix} u_{11} & u_{12} & u_{13} \\ 0 & u_{22} & u_{23} \\ 0 & 0 & u_{33} \end{bmatrix}$$
+        • <strong>Doolittle's Method:</strong> Diagonal elements of $L$ are set to 1 ($l_{11} = l_{22} = l_{33} = 1$).<br>
+        • <strong>Crout's Method:</strong> Diagonal elements of $U$ are set to 1 ($u_{11} = u_{22} = u_{33} = 1$).
+      </div>
+    </div>
+
+    <!-- Topic 4: Gauss-Seidel vs Gauss-Jacobi Iteration Method -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Gauss-Seidel vs Gauss-Jacobi Iteration Method</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2020, 2017 (Strict diagonal dominance condition & iterative numerical — 15 Marks!)</span>
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
       <div class="callout callout-formula">
         <strong>Strict Diagonal Dominance Condition (Criterion for Guaranteed Convergence):</strong><br>
-        A system of linear equations is strictly diagonally dominant if in every row, the absolute value of the diagonal coefficient is strictly greater than the sum of the absolute values of the other coefficients in that row:
+        A system of linear equations is strictly diagonally dominant if in every row $i$, the absolute value of the diagonal coefficient is strictly greater than the sum of the absolute values of all other coefficients in that row:
         $$|a_{ii}| > \sum_{j \ne i} |a_{ij}| \quad \text{for all } i = 1, 2, \dots, n$$
+        <strong>Row Rearrangement Protocol:</strong> If an exam problem is not diagonally dominant as written, you MUST interchange equations so that the largest coefficient in row 1 is on $x$, row 2 on $y$, and row 3 on $z$ before computing any iterations!
       </div>
 
-      <p>
-        <strong>Key Difference from Gauss-Jacobi:</strong> In the <strong>Gauss-Jacobi</strong> method, all updated values are held until the entire iteration finishes. In the <strong>Gauss-Seidel</strong> method, as soon as an updated variable (e.g. $x^{(k+1)}$) is calculated, it is <em>immediately used</em> to compute the remaining variables ($y^{(k+1)}, z^{(k+1)}$) in the same iteration! This makes Gauss-Seidel converge twice as fast!
-      </p>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Gauss-Jacobi Iteration</th>
+              <th>Gauss-Seidel Iteration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Use of Fresh Values</strong></td>
+              <td>All calculations at iteration $(k+1)$ strictly use values from the previous iteration $k$:<br>
+              $x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j \ne i} a_{ij} x_j^{(k)}\right)$</td>
+              <td>As soon as an updated variable $x_i^{(k+1)}$ is calculated, it is <strong>immediately used</strong> in the subsequent equations of the <em>same iteration</em>!</td>
+            </tr>
+            <tr>
+              <td><strong>Convergence Speed</strong></td>
+              <td>Slower convergence rate.</td>
+              <td><strong>Converges approximately twice as fast</strong> as the Jacobi method for diagonally dominant systems.</td>
+            </tr>
+            <tr>
+              <td><strong>Memory Requirements</strong></td>
+              <td>Requires two full vectors in memory ($X^{(k)}$ and $X^{(k+1)}$).</td>
+              <td>Requires only one vector in memory; newly calculated values overwrite old values in-place.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Solved University Numerical -->
       <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical:</strong><br>
-        Solve by Gauss-Seidel Method (perform 3 iterations):
+        <strong>📝 Solved University Numerical (2025–26 & 2023–24 Exam):</strong><br>
+        Solve the linear system by Gauss-Seidel Method (perform 3 iterations):
         $$\begin{aligned}
         27x + 6y - z &= 85 \\
         6x + 15y + 2z &= 72 \\
@@ -219,10 +333,10 @@
       <div class="step-list">
         <div class="step-item">
           <strong>1. Check Diagonal Dominance:</strong><br>
-          Row 1: $|27| = 27 > |6| + |-1| = 7$ (Dominant ✓)<br>
-          Row 2: $|15| = 15 > |6| + |2| = 8$ (Dominant ✓)<br>
-          Row 3: $|54| = 54 > |1| + |1| = 2$ (Dominant ✓)<br>
-          The system is strictly diagonally dominant; convergence is guaranteed.
+          • Row 1: $|27| = 27 > |6| + |-1| = 7$ (Dominant ✓)<br>
+          • Row 2: $|15| = 15 > |6| + |2| = 8$ (Dominant ✓)<br>
+          • Row 3: $|54| = 54 > |1| + |1| = 2$ (Dominant ✓)<br>
+          The system is strictly diagonally dominant; convergence to the unique solution is mathematically guaranteed.
         </div>
         <div class="step-item">
           <strong>2. Express Each Variable in Iterative Form:</strong><br>
@@ -265,9 +379,31 @@
             </table>
           </div>
           <p>
-            After 3 iterations, values stabilize at: <strong>$x \approx 2.43, y \approx 3.57, z \approx 1.93$</strong>.
+            After 3 iterations, values stabilize at: <strong>$x \approx 2.426, y \approx 3.573, z \approx 1.926$</strong>.
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- Topic 5: Exam Answer Blueprint & Pitfalls to Avoid -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Gauss Elimination with Pivoting":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Augmented Matrix Notation (2 Marks):</strong> Write the initial $[A | B]$ matrix clearly. State why partial pivoting is applied before doing row operations.</li>
+          <li><strong>Row Operations (4 Marks):</strong> Show each elementary row operation explicitly: $R_i \leftarrow R_i - m_{ik} R_k$. Don't skip intermediate matrix forms!</li>
+          <li><strong>Back Substitution (3 Marks):</strong> Write each substitution step backwards from $z$ to $y$ to $x$.</li>
+          <li><strong>Verification (1 Mark):</strong> Substitute the calculated $(x, y, z)$ into one of the original equations to prove correctness to the examiner.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Applying Gauss-Seidel without testing Diagonal Dominance:</strong> If you start calculating iterations on a system where $|a_{ii}| \le \sum |a_{ij}|$ without swapping rows, the numbers will oscillate to infinity ($\pm \infty$) and you get zero marks!<br>
+        • <strong>Using old values in Gauss-Seidel:</strong> Remember: the moment $x^{(k+1)}$ is computed, substitute THAT NEW VALUE into the equation for $y^{(k+1)}$. Do not use $x^{(k)}$! Using old values is the Jacobi method, not Gauss-Seidel!
       </div>
     </div>
 

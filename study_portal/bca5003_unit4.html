@@ -59,107 +59,266 @@
     <!-- Topic 1: Network Connecting Devices -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Network Connecting Devices & Domains</span>
+        <span><span class="card-heading-icon">1.</span> Network Connecting Devices & Hardware Layers</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2020, 2017 (Hub vs Switch, Collision vs Broadcast domain differences)</span>
+        <span>2024–25, 2022, 2020, 2017 (Explain Hub, Switch, Bridge, Router & Gateway — 10-Mark Core Theory)</span>
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
+      <div class="callout callout-objective">
+        <strong>🎯 Learning Objectives:</strong>
+        <ul style="margin:4px 0 0 16px;">
+          <li>Identify the OSI operating layer and forwarding logic for all major network devices.</li>
+          <li>Contrast collision domains (Layer 1/2) with broadcast domains (Layer 2/3).</li>
+          <li>Understand transparent bridging algorithms (learning, filtering, forwarding, aging).</li>
+        </ul>
+      </div>
+
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
               <th>Device</th>
               <th>OSI Layer</th>
-              <th>Collision Domain Behavior</th>
-              <th>Broadcast Domain Behavior</th>
+              <th>Primary Forwarding Logic</th>
+              <th>Key Operational Characteristic</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Repeater / Hub</strong></td>
-              <td>Layer 1 (Physical)</td>
-              <td>Single shared collision domain (all ports collide)</td>
-              <td>Single broadcast domain (blindly repeats to all)</td>
+              <td><strong>NIC (Network Interface Card)</strong></td>
+              <td>Layer 1 & 2</td>
+              <td>Hardware MAC address (48-bit hex)</td>
+              <td>Gives host physical connection to medium; contains burned-in MAC address (e.g. <code>00:1A:2B:3C:4D:5E</code>).</td>
             </tr>
             <tr>
-              <td><strong>Bridge / Switch</strong></td>
+              <td><strong>Repeater</strong></td>
+              <td>Layer 1 (Physical)</td>
+              <td>Electrical signal regeneration</td>
+              <td>Regenerates and amplifies weak electrical/optical signals to overcome cable attenuation; does NOT inspect bits.</td>
+            </tr>
+            <tr>
+              <td><strong>Hub</strong></td>
+              <td>Layer 1 (Physical)</td>
+              <td>Blind electrical broadcasting to all ports</td>
+              <td><strong>Multiport repeater</strong>; any bit received on one port is blindly repeated to all other ports. Half-duplex only.</td>
+            </tr>
+            <tr>
+              <td><strong>Bridge</strong></td>
               <td>Layer 2 (Data Link)</td>
-              <td><strong>Breaks collision domains</strong>: Every port is a separate, private collision domain</td>
-              <td>Single broadcast domain: Floods broadcasts (FF:FF:FF:FF:FF:FF) across all ports</td>
+              <td>Destination MAC address table</td>
+              <td>Connects two LAN segments; filters and forwards frames using a dynamically learned MAC table to isolate traffic.</td>
+            </tr>
+            <tr>
+              <td><strong>Switch</strong></td>
+              <td>Layer 2 (Data Link)</td>
+              <td>Hardware-based MAC table (CAM table)</td>
+              <td><strong>Multiport bridge</strong>; creates dedicated, micro-segmented full-duplex links per port. Eliminates collisions!</td>
             </tr>
             <tr>
               <td><strong>Router</strong></td>
               <td>Layer 3 (Network)</td>
-              <td>Separate collision domain per port</td>
-              <td><strong>Breaks broadcast domains</strong>: Does NOT forward broadcast packets across subnets</td>
+              <td>Destination IP address routing table</td>
+              <td>Connects different logical subnets and autonomous systems; finds optimal paths using routing protocols (RIP, OSPF, BGP).</td>
             </tr>
             <tr>
               <td><strong>Gateway</strong></td>
-              <td>All Layers (1 to 7)</td>
-              <td>Translates incompatible protocol suites (e.g. SNA to TCP/IP)</td>
-              <td>Translates network architectures</td>
+              <td>Layers 4 to 7</td>
+              <td>Application payload & protocol translation</td>
+              <td>Translates between fundamentally incompatible architectures (e.g. IBM SNA to TCP/IP, or email to SMS).</td>
+            </tr>
+            <tr>
+              <td><strong>Firewall</strong></td>
+              <td>Layers 3, 4 & 7</td>
+              <td>Security rules (IP, Port, Protocol, State)</td>
+              <td>Inspects incoming and outgoing traffic to permit or block packets based on organizational security policies.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: Collision Domains vs Broadcast Domains -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Collision Domains vs Broadcast Domains</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2021, 2018 (Differentiate Collision Domain and Broadcast Domain — High Yield!)</span>
+      </div>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 190" width="100%" height="auto" style="max-width:340px;">
+          <!-- Router in Middle -->
+          <rect x="130" y="20" width="80" height="35" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.8" />
+          <text x="145" y="42" font-size="11" font-weight="bold" fill="#e11d48">ROUTER</text>
+          <text x="132" y="65" font-size="7.5" fill="var(--text-muted)">Breaks Broadcast Domains</text>
+
+          <!-- Line to Subnet 1 (Left) -->
+          <line x1="130" y1="38" x2="65" y2="90" stroke="var(--text-main)" stroke-width="1.5" />
+          <!-- Line to Subnet 2 (Right) -->
+          <line x1="210" y1="38" x2="275" y2="90" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Left Switch (Subnet 1) -->
+          <rect x="25" y="90" width="80" height="30" rx="5" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="45" y="109" font-size="10" font-weight="bold" fill="#10b981">SWITCH 1</text>
+
+          <!-- Right Hub (Subnet 2) -->
+          <rect x="235" y="90" width="80" height="30" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="260" y="109" font-size="10" font-weight="bold" fill="#f59e0b">HUB 2</text>
+
+          <!-- Ports under Switch -->
+          <line x1="40" y1="120" x2="30" y2="150" stroke="#10b981" stroke-width="1.2" />
+          <line x1="65" y1="120" x2="65" y2="150" stroke="#10b981" stroke-width="1.2" />
+          <line x1="90" y1="120" x2="100" y2="150" stroke="#10b981" stroke-width="1.2" />
+          <text x="15" y="165" font-size="8" fill="var(--text-main)">PC1 (CD 1)</text>
+          <text x="55" y="165" font-size="8" fill="var(--text-main)">PC2 (CD 2)</text>
+          <text x="95" y="165" font-size="8" fill="var(--text-main)">PC3 (CD 3)</text>
+
+          <!-- Ports under Hub -->
+          <line x1="250" y1="120" x2="240" y2="150" stroke="#f59e0b" stroke-width="1.2" />
+          <line x1="275" y1="120" x2="275" y2="150" stroke="#f59e0b" stroke-width="1.2" />
+          <line x1="300" y1="120" x2="310" y2="150" stroke="#f59e0b" stroke-width="1.2" />
+          <text x="235" y="165" font-size="8" fill="var(--text-main)">PC4</text>
+          <text x="270" y="165" font-size="8" fill="var(--text-main)">PC5</text>
+          <text x="300" y="165" font-size="8" fill="var(--text-main)">PC6</text>
+          <text x="235" y="180" font-size="7.5" fill="#f59e0b">[Single Shared CD]</text>
+        </svg>
+        <div class="diagram-caption">Collision Domains (CD) vs Broadcast Domains Across Network Hardware</div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Collision Domain</th>
+              <th>Broadcast Domain</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Definition</strong></td>
+              <td>A network segment where simultaneous transmissions cause data signals to collide and corrupt.</td>
+              <td>A network segment where a broadcast packet sent by one device is received by all other devices on the segment.</td>
+            </tr>
+            <tr>
+              <td><strong>Operating Layer</strong></td>
+              <td>Layer 1 (Physical) & Layer 2 (Data Link).</td>
+              <td>Layer 2 (Data Link) & Layer 3 (Network).</td>
+            </tr>
+            <tr>
+              <td><strong>Behavior on a Hub</strong></td>
+              <td><strong>1 Single Shared Collision Domain</strong> across all connected ports.</td>
+              <td>1 Single Shared Broadcast Domain across all ports.</td>
+            </tr>
+            <tr>
+              <td><strong>Behavior on a Switch</strong></td>
+              <td><strong>$N$ Separate Collision Domains</strong> ($1$ dedicated collision domain per port).</td>
+              <td><strong>1 Single Broadcast Domain</strong>; switches flood broadcast frames (MAC <code>FF:FF:FF:FF:FF:FF</code>) out all ports!</td>
+            </tr>
+            <tr>
+              <td><strong>Device that Breaks It</strong></td>
+              <td><strong>Bridges and Switches</strong> break and isolate collision domains.</td>
+              <td><strong>Routers</strong> break and isolate broadcast domains (preventing broadcast storms).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 3: Data Link Framing: Character vs Bit Stuffing -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Data Link Layer Framing: Character Count, Byte & Bit Stuffing</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2021, 2018 (Explain Bit Stuffing algorithm and solve numerical problem — 10-Mark Question!)</span>
+      </div>
+
+      <p>
+        The Physical layer transmits an unstructured raw stream of bits. The <strong>Data Link Layer</strong> must break this stream into discrete units called <strong>Frames</strong> so the receiver knows where each packet begins and ends.
+      </p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Framing Method</th>
+              <th>How It Operates</th>
+              <th>Fatal Weakness / Limitation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Character Count</strong></td>
+              <td>First field in frame header is an integer specifying the total number of characters in the frame.</td>
+              <td><strong>Catastrophic Desynchronization:</strong> If a single transmission bit error corrupts the count field, the receiver cannot find the boundary of any subsequent frame!</td>
+            </tr>
+            <tr>
+              <td><strong>2. Byte Stuffing</strong></td>
+              <td>Frames are framed by special flag bytes (e.g. <code>DLE STX</code> and <code>DLE ETX</code>). An escape byte (<code>DLE</code>) is inserted before any data byte that happens to match a flag byte.</td>
+              <td>Tied strictly to 8-bit character encodings (ASCII); not bit-oriented.</td>
+            </tr>
+            <tr>
+              <td><strong>3. Bit Stuffing (HDLC)</strong></td>
+              <td>Each frame starts and ends with the 8-bit flag <code>01111110</code>. Whenever the sender's hardware detects <strong>five consecutive 1s</strong> in user payload, it automatically injects a <strong>0</strong>.</td>
+              <td><strong>Universal & Bit-Oriented:</strong> Works with any arbitrary sequence of bits regardless of character encoding.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="callout callout-info">
-        <strong>Domain Definitions:</strong>
-        <ul style="margin:4px 0 0 16px; line-height:1.6;">
-          <li><strong>Collision Domain:</strong> A network segment where packet collisions can occur when two devices transmit simultaneously. Switches eliminate collisions by giving every port its own dedicated micro-segment!</li>
-          <li><strong>Broadcast Domain:</strong> The set of all network devices that receive an Ethernet broadcast frame. Only <strong>Routers</strong> contain and isolate broadcast domains.</li>
+      <div class="callout callout-formula">
+        <strong>The Golden Rules of Bit Stuffing (HDLC / SDLC Protocols):</strong><br>
+        • <strong>Transmitter Rule:</strong> Begin with flag <code>01111110</code>. Scan the payload data stream. Whenever you see <strong>five consecutive 1s ($11111$)</strong>, immediately insert a <strong>0</strong> after the fifth 1. End with flag <code>01111110</code>.<br>
+        • <strong>Receiver Rule:</strong> When five consecutive 1s are encountered:
+        <ul style="margin:4px 0 0 16px;">
+          <li>If the 6th bit is <strong>0</strong> $\implies$ It is a stuffed bit! Discard the 0 and keep reading payload data.</li>
+          <li>If the 6th bit is <strong>1</strong> and 7th bit is <strong>0</strong> ($01111110$) $\implies$ End of Frame flag detected!</li>
+          <li>If the 6th bit is <strong>1</strong> and 7th bit is <strong>1</strong> ($01111111$) $\implies$ Transmission error / abort flag!</li>
         </ul>
       </div>
-    </div>
 
-    <!-- Topic 2: Framing & Bit Stuffing -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Data Link Framing & Bit Stuffing</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2023–24, 2021, 2018 (Bit stuffing algorithm & worked problem)</span>
-      </div>
-
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <p>
-        <strong>Framing</strong> breaks the raw physical layer bitstream into discrete logical units called <em>Frames</em> so the receiver can detect the start and end of every message.
-      </p>
-
-      <div class="callout callout-formula">
-        <strong>The Bit Stuffing Rule (HDLC Protocol):</strong><br>
-        Frames begin and end with a special flag pattern: <strong>$01111110$</strong> (six consecutive 1s).<br>
-        To prevent the user's data from accidentally containing this flag sequence, the sender's hardware monitors the bitstream:
-        <em>"Whenever the transmitter encounters <strong>five consecutive 1s ($11111$)</strong> in the payload data, it automatically injects an extra <strong>0</strong> after the fifth 1."</em><br>
-        The receiver detects five consecutive 1s followed by a 0, and automatically removes (de-stuffs) that zero!
-      </div>
-
-      <!-- Solved Bit Stuffing Example -->
+      <!-- Solved Problem 1 -->
       <div class="callout callout-tip">
-        <strong>📝 Worked Exam Numerical:</strong><br>
-        Original Data: <code>011011111110111110010</code><br>
-        1. Find 5 consecutive 1s: <code>011011111<strong>[0]</strong>11011111<strong>[0]</strong>0010</code><br>
-        2. Framed Output with Flags:<br>
-        <code>[01111110] 01101111101101111100010 [01111110]</code>
+        <strong>📝 Master Solved Numerical 1 (2023–24 Exam):</strong><br>
+        Bit-stuff the following binary payload bitstream: <code>011011111110111110010</code><br>
+        <strong>Step 1:</strong> Scan bitstream for groups of five consecutive 1s:<br>
+        <code>0 1 1 0 1 1 1 1 1 [stuff 0] 1 1 0 1 1 1 1 1 [stuff 0] 0 0 1 0</code><br>
+        <strong>Step 2:</strong> Stuffed payload: <code>011011111<strong>0</strong>11011111<strong>0</strong>0010</code><br>
+        <strong>Step 3:</strong> Final Transmitted Frame (enclosed between flags):<br>
+        <code><strong>01111110</strong> 01101111101101111100010 <strong>01111110</strong></code>
+      </div>
+
+      <!-- Solved Problem 2 -->
+      <div class="callout callout-tip">
+        <strong>📝 Master Solved Numerical 2 (2021 Exam):</strong><br>
+        Receiver receives the stuffed frame: <code>01111110 1111100111110101111100 01111110</code>. Recover the original user data.<br>
+        <strong>Step 1:</strong> Strip the starting and ending flags <code>01111110</code>.<br>
+        <strong>Step 2:</strong> Scan for five consecutive 1s followed by 0, and remove the zero:<br>
+        • <code>11111<strong>[0]</strong>0</code> $\to$ remove 0 $\implies 111110$<br>
+        • <code>11111<strong>[0]</strong>1</code> $\to$ remove 0 $\implies 111111$<br>
+        • <code>011111<strong>[0]</strong>0</code> $\to$ remove 0 $\implies 0111110$<br>
+        <strong>Recovered Original Data:</strong> <code>111110 111111 0111110</code>
       </div>
     </div>
 
-    <!-- Topic 3: IPv4 Classful Addressing & Subnetting -->
+    <!-- Topic 4: IPv4 Classful Addressing & Subnetting -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> IPv4 Classful Addressing & Subnetting Math</span>
+        <span><span class="card-heading-icon">4.</span> IPv4 Classful Addressing & Subnetting Calculations</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2021, 2019 (Address classes, default subnet masks, and subnet calculations)</span>
+        <span>2024–25, 2021, 2019 (Address classes, default subnet masks, and subnet calculations — 15 Marks!)</span>
       </div>
 
       <p>
-        An IPv4 address is a 32-bit identifier written in dotted-decimal notation ($4 \times 8$-bit octets from $0$ to $255$).
+        An IPv4 address consists of <strong>32 bits</strong> grouped into four 8-bit octets, represented in dotted-decimal format (e.g. <code>192.168.1.1</code>).
       </p>
 
       <div class="table-container">
@@ -219,42 +378,129 @@
         </table>
       </div>
 
-      <!-- Solved Subnetting Problem -->
-      <div class="callout callout-tip">
-        <strong>📝 Master Solved University Subnetting Numerical:</strong><br>
-        An organization is assigned the Class C network block <strong>$192.168.10.0/26$</strong>. Determine:
-        <ul style="margin:4px 0 0 16px;">
-          <li>Subnet Mask</li>
-          <li>Number of Subnets created</li>
-          <li>Number of Usable Hosts per subnet</li>
-          <li>First Subnet's Usable Host Range and Broadcast Address</li>
+      <div class="callout callout-objective">
+        <strong>Special & Private IP Addresses (Must Know for 2-Mark Questions):</strong>
+        <ul style="margin:4px 0 0 16px; line-height:1.6;">
+          <li><strong>Loopback Address (127.0.0.1 / 127.0.0.0/8):</strong> Used for testing the internal software network stack on the local host without sending packets to any network card.</li>
+          <li><strong>Private RFC 1918 Ranges:</strong>
+            <ul>
+              <li>Class A Private: <code>10.0.0.0</code> to <code>10.255.255.255</code> (1 single /8 network)</li>
+              <li>Class B Private: <code>172.16.0.0</code> to <code>172.31.255.255</code> (16 contiguous /16 networks)</li>
+              <li>Class C Private: <code>192.168.0.0</code> to <code>192.168.255.255</code> (256 contiguous /24 networks)</li>
+            </ul>
+          </li>
         </ul>
+      </div>
+
+      <!-- Solved Class C Subnetting Problem -->
+      <div class="callout callout-tip">
+        <strong>📝 Master Solved University Subnetting Numerical 1 (Class C):</strong><br>
+        An organization is assigned the network block <strong>$192.168.10.0/26$</strong>. Determine:
+        <ol style="margin:4px 0 0 16px;">
+          <li>Subnet Mask in dotted decimal format</li>
+          <li>Total number of subnets created</li>
+          <li>Number of usable hosts per subnet</li>
+          <li>The complete subnet breakdown (Network ID, Host Range, Broadcast Address)</li>
+        </ol>
       </div>
 
       <div class="step-list">
         <div class="step-item">
           <strong>1. Subnet Mask (/26 prefix):</strong><br>
           $26$ consecutive binary 1s: $11111111.11111111.11111111.11000000_2$<br>
-          Last octet: $128 + 64 = 192 \implies \mathbf{255.255.255.192}$.
+          Fourth octet: $128 + 64 = 192 \implies \mathbf{255.255.255.192}$.
         </div>
         <div class="step-item">
           <strong>2. Number of Subnets:</strong><br>
-          Default Class C uses 24 network bits. Here 2 additional bits are borrowed for subnetting ($26 - 24 = 2$ bits):<br>
+          Default Class C uses 24 network bits. Here 2 additional bits are borrowed ($26 - 24 = 2$ bits):<br>
           $$\text{Number of Subnets} = 2^2 = \mathbf{4 \text{ Subnets}}$$
         </div>
         <div class="step-item">
           <strong>3. Number of Usable Hosts per Subnet:</strong><br>
           Remaining host bits = $32 - 26 = 6$ bits.<br>
-          Subtract 2 addresses (Network ID and Broadcast ID):<br>
+          Subtract 2 addresses (Network ID and Directed Broadcast ID):<br>
           $$\text{Usable Hosts} = 2^6 - 2 = 64 - 2 = \mathbf{62 \text{ Hosts / Subnet}}$$
         </div>
         <div class="step-item">
-          <strong>4. First Subnet Range ($192.168.10.0/26$):</strong><br>
-          • Network ID: $192.168.10.0$<br>
-          • First Usable Host: $192.168.10.1$<br>
-          • Last Usable Host: $192.168.10.62$<br>
-          • Directed Broadcast Address: $192.168.10.63$
+          <strong>4. Complete Subnet Range Breakdown Table (Block Size = $256 - 192 = 64$):</strong><br>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Subnet #</th>
+                  <th>Network ID</th>
+                  <th>First Usable Host</th>
+                  <th>Last Usable Host</th>
+                  <th>Broadcast Address</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Subnet 0</td>
+                  <td><code>192.168.10.0</code></td>
+                  <td><code>192.168.10.1</code></td>
+                  <td><code>192.168.10.62</code></td>
+                  <td><code>192.168.10.63</code></td>
+                </tr>
+                <tr>
+                  <td>Subnet 1</td>
+                  <td><code>192.168.10.64</code></td>
+                  <td><code>192.168.10.65</code></td>
+                  <td><code>192.168.10.126</code></td>
+                  <td><code>192.168.10.127</code></td>
+                </tr>
+                <tr>
+                  <td>Subnet 2</td>
+                  <td><code>192.168.10.128</code></td>
+                  <td><code>192.168.10.129</code></td>
+                  <td><code>192.168.10.190</code></td>
+                  <td><code>192.168.10.191</code></td>
+                </tr>
+                <tr>
+                  <td>Subnet 3</td>
+                  <td><code>192.168.10.192</code></td>
+                  <td><code>192.168.10.193</code></td>
+                  <td><code>192.168.10.254</code></td>
+                  <td><code>192.168.10.255</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+      </div>
+
+      <!-- Solved Class B Subnetting Problem -->
+      <div class="callout callout-tip" style="margin-top:14px;">
+        <strong>📝 Master Solved University Subnetting Numerical 2 (Class B):</strong><br>
+        A university campus is assigned <strong>$172.16.0.0/19$</strong>. Calculate:
+        <ul style="margin:4px 0 0 16px;">
+          <li>Subnet Mask: $/19$ prefix $\implies 11111111.11111111.11100000.00000000_2 = \mathbf{255.255.224.0}$.</li>
+          <li>Subnet Bits borrowed from Class B default (/16): $19 - 16 = 3$ bits $\implies 2^3 = \mathbf{8 \text{ Subnets}}$.</li>
+          <li>Usable hosts per subnet: $32 - 19 = 13$ host bits $\implies 2^{13} - 2 = 8192 - 2 = \mathbf{8,190 \text{ Usable Hosts}}$.</li>
+          <li>Block size in 3rd octet = $256 - 224 = 32$. First subnet: <code>172.16.0.0</code> to <code>172.16.31.255</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 5: Exam Blueprint & Mistakes -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Network Connecting Devices":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>OSI Layer Mapping (2 Marks):</strong> State the exact OSI layer for each device (Repeater/Hub: Layer 1, Bridge/Switch: Layer 2, Router: Layer 3, Gateway: Layer 4-7).</li>
+          <li><strong>Domain Analysis (3 Marks):</strong> Clearly explain how Hubs share collision domains, Switches break collision domains, and Routers break broadcast domains.</li>
+          <li><strong>Working Mechanism (3 Marks):</strong> Mention that Switches forward frames using MAC addresses, while Routers forward packets using IP routing tables.</li>
+          <li><strong>Summary Table (2 Marks):</strong> Draw a clean comparison table summarizing all 5 devices.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Mistakes:</strong><br>
+        • <strong>Forgetting to subtract 2 for usable hosts:</strong> Total hosts is $2^h$, but usable hosts is ALWAYS $2^h - 2$ because the all-zeros host address is the Network ID and the all-ones host address is the Directed Broadcast Address!<br>
+        • <strong>Confusing Collision Domains and Broadcast Domains on a Switch:</strong> A switch creates separate collision domains for every port, but all ports still belong to a SINGLE broadcast domain!
       </div>
     </div>
 

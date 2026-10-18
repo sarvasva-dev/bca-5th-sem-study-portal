@@ -59,11 +59,11 @@
     <!-- Topic 1: Servlet Architecture & CGI vs Servlets -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Servlet Concept: CGI vs Servlets</span>
+        <span><span class="card-heading-icon">1.</span> Servlet Architecture: CGI vs Java Servlets</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2018 (Why are Servlets superior to CGI scripts?)</span>
+        <span>2024–25, 2022, 2018 (Why are Servlets superior to CGI scripts? 10-Mark Core Theory)</span>
       </div>
 
       <div class="callout callout-objective">
@@ -71,7 +71,14 @@
         <ul style="margin:4px 0 0 16px;">
           <li>Explain why Servlets replaced traditional CGI (Common Gateway Interface).</li>
           <li>Understand the role of the Web Container (e.g. Apache Tomcat).</li>
+          <li>Master the process vs. thread execution model in high-concurrency web servers.</li>
         </ul>
+      </div>
+
+      <div class="callout callout-intuition">
+        <strong>💡 Conceptual Intuition: Why Was Early Web Programming So Slow?</strong><br>
+        In the 1990s, when a user submitted a form on a website, the server ran a <strong>CGI script</strong> (written in Perl or C). For <em>every single user click</em>, the operating system had to fork a brand new, heavy OS process! If 1,000 students checked their BCA exam results simultaneously, the server spawned 1,000 OS processes, ran out of memory, and crashed!<br>
+        <strong>Java Servlets</strong> solved this overnight: the web server runs <strong>one persistent JVM process</strong>, and each incoming HTTP request is assigned a lightweight <strong>Java thread</strong> from a pre-allocated thread pool. 1,000 requests = 1,000 threads, which requires only a few megabytes of RAM!
       </div>
 
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
@@ -79,36 +86,133 @@
         <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
-              <th>CGI (Common Gateway Interface - Perl/C)</th>
+              <th>Evaluation Parameter</th>
+              <th>CGI (Common Gateway Interface)</th>
               <th>Java Servlets</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>Execution Model</strong></td>
-              <td>Spawns a brand new, heavyweight <strong>operating system process</strong> for every client HTTP request</td>
-              <td>Spawns a lightweight <strong>Java thread</strong> within the same shared JVM process</td>
+              <td>Spawns a brand new, heavyweight <strong>operating system process</strong> for every client HTTP request.</td>
+              <td>Spawns a lightweight <strong>Java thread</strong> within the same shared JVM process.</td>
             </tr>
             <tr>
               <td><strong>Memory Overhead</strong></td>
-              <td>Massive; 1,000 requests = 1,000 OS processes (server crashes under load)</td>
-              <td>Minimal; 1,000 requests = 1,000 lightweight threads sharing single servlet instance</td>
+              <td>Massive; 1,000 requests = 1,000 OS processes (server crashes under moderate traffic).</td>
+              <td>Minimal; 1,000 requests = 1,000 lightweight threads sharing a single servlet instance.</td>
+            </tr>
+            <tr>
+              <td><strong>Performance & Speed</strong></td>
+              <td>Very slow; process creation, initialization, and termination adds high latency.</td>
+              <td>Extremely fast; threads are drawn instantly from a pre-warmed thread pool.</td>
             </tr>
             <tr>
               <td><strong>Platform Portability</strong></td>
-              <td>Platform dependent; compiled binaries must be rewritten for each OS</td>
-              <td>100% platform independent; "Write Once, Run Anywhere" on any Tomcat/Jetty server</td>
+              <td>Platform dependent; compiled binaries (C/C++) must be recompiled for each target OS.</td>
+              <td>100% platform independent; "Write Once, Run Anywhere" on any compliant servlet container (Apache Tomcat, Jetty, WildFly).</td>
+            </tr>
+            <tr>
+              <td><strong>Security & Robustness</strong></td>
+              <td>CGI scripts run directly against the OS shell, presenting severe security vulnerabilities.</td>
+              <td>Executes within the secure, sandboxed JVM with automatic Garbage Collection and type safety.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 2: Servlet Lifecycle & doGet vs doPost -->
+    <!-- Topic 2: The Servlet Interface Hierarchy & GenericServlet vs HttpServlet -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Servlet Lifecycle & doGet() vs doPost()</span>
+        <span><span class="card-heading-icon">2.</span> The Servlet Hierarchy: GenericServlet vs HttpServlet</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2019 (Explain the Servlet interface methods and compare GenericServlet with HttpServlet)</span>
+      </div>
+
+      <p>Every Java servlet fundamentally implements the <code>javax.servlet.Servlet</code> interface, which forms the root of the servlet API hierarchy:</p>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 340 180" width="100%" height="auto" style="max-width:340px;">
+          <!-- Level 1: Servlet Interface -->
+          <rect x="70" y="15" width="200" height="35" rx="5" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.8" />
+          <text x="95" y="32" font-size="10" font-weight="bold" fill="#0d9488">&lt;&lt;interface&gt;&gt; Servlet</text>
+          <text x="80" y="44" font-size="8" fill="var(--text-muted)">init(), service(), destroy(), getServletConfig()</text>
+
+          <line x1="170" y1="50" x2="170" y2="75" stroke="var(--text-main)" stroke-width="1.5" stroke-dasharray="3,3" />
+
+          <!-- Level 2: GenericServlet -->
+          <rect x="70" y="75" width="200" height="35" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.8" />
+          <text x="85" y="92" font-size="10" font-weight="bold" fill="#f59e0b">public abstract GenericServlet</text>
+          <text x="95" y="104" font-size="8" fill="var(--text-muted)">Protocol-independent base class</text>
+
+          <line x1="170" y1="110" x2="170" y2="135" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Level 3: HttpServlet -->
+          <rect x="70" y="135" width="200" height="35" rx="5" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.8" />
+          <text x="90" y="152" font-size="10" font-weight="bold" fill="#10b981">public abstract HttpServlet</text>
+          <text x="80" y="164" font-size="8" fill="var(--text-muted)">HTTP-specific: doGet(), doPost(), doPut()...</text>
+        </svg>
+        <div class="diagram-caption">The Java Servlet API Inheritance Hierarchy</div>
+      </div>
+
+      <div class="callout callout-objective">
+        <strong>The 5 Methods of the <code>javax.servlet.Servlet</code> Interface:</strong>
+        <ol class="step-list">
+          <li><code>public void init(ServletConfig config) throws ServletException</code>: Lifecycle method invoked once during servlet initialization.</li>
+          <li><code>public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException</code>: Lifecycle method called for every client request.</li>
+          <li><code>public void destroy()</code>: Lifecycle method called once when the servlet is unloaded or container shuts down.</li>
+          <li><code>public ServletConfig getServletConfig()</code>: Returns initialization parameters and configuration details for this servlet.</li>
+          <li><code>public String getServletInfo()</code>: Returns a string containing information about the servlet (author, version, copyright).</li>
+        </ol>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Comparison Parameter</th>
+              <th><code>GenericServlet</code></th>
+              <th><code>HttpServlet</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Package</strong></td>
+              <td><code>javax.servlet.GenericServlet</code></td>
+              <td><code>javax.servlet.http.HttpServlet</code></td>
+            </tr>
+            <tr>
+              <td><strong>Protocol Dependency</strong></td>
+              <td><strong>Protocol-independent</strong>; can handle any network protocol (HTTP, FTP, SMTP).</td>
+              <td><strong>HTTP-specific</strong>; explicitly designed for the World Wide Web.</td>
+            </tr>
+            <tr>
+              <td><strong>Abstract Methods</strong></td>
+              <td>Only <code>service()</code> is abstract; subclasses must implement it.</td>
+              <td>No abstract methods; provides default HTTP-405 implementations for <code>doGet()</code>, <code>doPost()</code>, etc.</td>
+            </tr>
+            <tr>
+              <td><strong>Request/Response Types</strong></td>
+              <td>Accepts generic <code>ServletRequest</code> and <code>ServletResponse</code>.</td>
+              <td>Accepts HTTP-specific <code>HttpServletRequest</code> and <code>HttpServletResponse</code> (supporting headers, cookies, sessions).</td>
+            </tr>
+            <tr>
+              <td><strong>Usage Frequency</strong></td>
+              <td>Rarely used in practice.</td>
+              <td><strong>Used in >99%</strong> of real-world web applications.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 3: Servlet Lifecycle & doGet vs doPost -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Servlet Lifecycle & doGet() vs doPost()</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
@@ -144,11 +248,18 @@
         <div class="diagram-caption">The Three-Phase Java Servlet Lifecycle Flow</div>
       </div>
 
+      <p><strong>The Three Lifecycle Stages in Detail:</strong></p>
+      <ol class="step-list">
+        <li><strong>Stage 1: Initialization — <code>init(ServletConfig config)</code>:</strong> When the container receives the first request for the servlet (or on server startup if <code>&lt;load-on-startup&gt;</code> is configured), the container loads the <code>.class</code> file, creates a single object instance using the default constructor, and calls <code>init()</code>. This method executes <strong>strictly once</strong>. It is used to allocate expensive resources (database connection pools, configuration files).</li>
+        <li><strong>Stage 2: Request Handling — <code>service(ServletRequest, ServletResponse)</code>:</strong> For every incoming client request, the web container spawns or allocates a worker thread from its thread pool and calls <code>service()</code>. In an <code>HttpServlet</code>, the <code>service()</code> method inspects the HTTP request method (GET, POST, PUT, DELETE) and dispatches execution to the corresponding handler method (<code>doGet()</code>, <code>doPost()</code>, etc.). This executes <strong>many times concurrently</strong>.</li>
+        <li><strong>Stage 3: Destruction — <code>destroy()</code>:</strong> When the web server is stopped, the application is undeployed, or the container reclaims memory, the container calls <code>destroy()</code> <strong>strictly once</strong>. It gives the servlet an opportunity to flush log buffers, close database connections, and release threads before the object is garbage-collected.</li>
+      </ol>
+
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
-              <th>Feature</th>
+              <th>Evaluation Parameter</th>
               <th><code>doGet()</code></th>
               <th><code>doPost()</code></th>
             </tr>
@@ -156,33 +267,166 @@
           <tbody>
             <tr>
               <td><strong>Data Transmission</strong></td>
-              <td>Appended directly to the URL string: <code>search?query=java</code></td>
-              <td>Sent inside the HTTP Request Payload Body (hidden from browser URL bar)</td>
+              <td>Appended directly to the URL string: <code>search?query=java&page=2</code></td>
+              <td>Encapsulated inside the HTTP Request Payload Body (completely hidden from browser URL bar).</td>
             </tr>
             <tr>
               <td><strong>Data Capacity</strong></td>
-              <td>Limited by browser URL length constraints (typically ~2,048 characters)</td>
-              <td><strong>Unlimited</strong>; suitable for file uploads and large payloads</td>
+              <td>Severely limited by browser URL length limits (typically ~2,048 characters).</td>
+              <td><strong>Practically unlimited</strong>; ideal for large form submissions and multi-megabyte file uploads.</td>
             </tr>
             <tr>
               <td><strong>Security & Privacy</strong></td>
-              <td>Insecure; sensitive parameters (passwords) appear in URL history & server logs</td>
-              <td>Secure; parameters never exposed in browser address bar</td>
+              <td>Insecure; sensitive parameters (passwords, credit card numbers) appear in URL history, browser cache & web server access logs.</td>
+              <td>Secure; parameters never exposed in browser address bar.</td>
             </tr>
             <tr>
-              <td><strong>Idempotency</strong></td>
-              <td>Idempotent; safe to bookmark and cache in browser history</td>
-              <td>Non-idempotent; re-submitting triggers "Confirm form resubmission" warning</td>
+              <td><strong>Idempotency & Caching</strong></td>
+              <td><strong>Idempotent</strong>; repeated execution produces same state; safe to bookmark and cache in browser history.</td>
+              <td><strong>Non-idempotent</strong>; re-submitting triggers "Confirm form resubmission" warning (can cause duplicate payments).</td>
+            </tr>
+            <tr>
+              <td><strong>HTML Form Default</strong></td>
+              <td>Default method when <code>method</code> attribute is omitted: <code>&lt;form method="GET"&gt;</code></td>
+              <td>Requires explicit attribute: <code>&lt;form method="POST"&gt;</code></td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Topic 3: The 4 Session Tracking Techniques -->
+    <!-- Topic 4: ServletConfig vs ServletContext -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> The 4 Session Tracking Techniques</span>
+        <span><span class="card-heading-icon">4.</span> ServletConfig vs ServletContext</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022, 2021 (Distinguish between ServletConfig and ServletContext with code examples)</span>
+      </div>
+
+      <p>Both objects are used to pass configuration parameters to servlets without hardcoding values in Java code, but their scopes are fundamentally different:</p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th><code>ServletConfig</code></th>
+              <th><code>ServletContext</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Scope of Existence</strong></td>
+              <td><strong>One per Servlet</strong> instance. Private to the specific servlet it configures.</td>
+              <td><strong>One per Web Application</strong>. Global object shared by all servlets and JSPs in the application.</td>
+            </tr>
+            <tr>
+              <td><strong>Configuration in web.xml</strong></td>
+              <td>Configured inside <code>&lt;servlet&gt;</code> using <code>&lt;init-param&gt;</code> tags.</td>
+              <td>Configured directly inside <code>&lt;web-app&gt;</code> using <code>&lt;context-param&gt;</code> tags.</td>
+            </tr>
+            <tr>
+              <td><strong>Retrieval Method</strong></td>
+              <td><code>getServletConfig().getInitParameter("name")</code></td>
+              <td><code>getServletContext().getInitParameter("name")</code></td>
+            </tr>
+            <tr>
+              <td><strong>Typical Use Case</strong></td>
+              <td>Specific servlet settings: admin email address, local file upload directory path.</td>
+              <td>Global settings: enterprise database connection URL, global site theme name.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span>web.xml Configuration Snippet</span>
+          <button class="copy-btn" onclick="copyCode(this, 'code-webxml')">Copy</button>
+        </div>
+        <pre><code id="code-webxml">&lt;web-app&gt;
+    &lt;!-- Global Application Parameter (ServletContext) --&gt;
+    &lt;context-param&gt;
+        &lt;param-name&gt;dbURL&lt;/param-name&gt;
+        &lt;param-value&gt;jdbc:mysql://localhost:3306/bca_db&lt;/param-value&gt;
+    &lt;/context-param&gt;
+
+    &lt;!-- Servlet Definition & Private Parameter (ServletConfig) --&gt;
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;LoginServlet&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.exam.LoginServlet&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;maxAttempts&lt;/param-name&gt;
+            &lt;param-value&gt;3&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/servlet&gt;
+&lt;/web-app&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- Topic 5: RequestDispatcher vs sendRedirect -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Page Redirection: RequestDispatcher vs sendRedirect()</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2020 (Compare forward() with sendRedirect() — 10-Mark High Frequency Question!)</span>
+      </div>
+
+      <p>When a servlet completes its processing, it often needs to transfer control to another servlet, JSP, or external URL:</p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th><code>RequestDispatcher.forward()</code></th>
+              <th><code>HttpServletResponse.sendRedirect()</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mechanism & Location</strong></td>
+              <td><strong>Server-side transfer</strong>; the container internally passes control to the target resource without browser involvement.</td>
+              <td><strong>Client-side redirection</strong>; server sends an HTTP 302 response header instructing the browser to issue a brand new GET request.</td>
+            </tr>
+            <tr>
+              <td><strong>Browser Address Bar</strong></td>
+              <td><strong>Does NOT change</strong>; the browser URL remains the original servlet URL.</td>
+              <td><strong>Changes visibly</strong> to the new target URL address.</td>
+            </tr>
+            <tr>
+              <td><strong>Request Scope Data</strong></td>
+              <td><strong>Preserved</strong>; the target resource receives the original <code>request</code> and <code>response</code> objects (including request attributes).</td>
+              <td><strong>Destroyed</strong>; because a new HTTP request is generated, all previous request attributes are completely lost!</td>
+            </tr>
+            <tr>
+              <td><strong>Target Destination</strong></td>
+              <td>Only works for resources located within the <strong>same web application</strong>.</td>
+              <td>Can redirect to <strong>any valid URL</strong> on the entire internet (e.g. <code>https://google.com</code>).</td>
+            </tr>
+            <tr>
+              <td><strong>Speed & Efficiency</strong></td>
+              <td>Faster; only one round-trip between client and server.</td>
+              <td>Slower; requires two complete network round-trips (original request $\to$ 302 response $\to$ new request $\to$ response).</td>
+            </tr>
+            <tr>
+              <td><strong>Java Syntax</strong></td>
+              <td><code>RequestDispatcher rd = req.getRequestDispatcher("welcome.jsp");<br>rd.forward(req, res);</code></td>
+              <td><code>res.sendRedirect("welcome.jsp");</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 6: The 4 Session Tracking Techniques -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> The 4 Session Tracking Techniques</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
@@ -192,7 +436,7 @@
       <span class="track-pass-badge">⚡ Essential Pass Content</span>
       <p>
         <strong>Why is Session Tracking Necessary?</strong><br>
-        HTTP is a fundamentally <strong>Stateless Protocol</strong>. Every request sent by a browser is treated as a completely independent, brand-new transaction. A web server does not inherently remember who you are when you move from page to page (e.g. remembering items in an e-commerce shopping cart). <em>Session tracking bridges this gap.</em>
+        HTTP is a fundamentally <strong>Stateless Protocol</strong>. Every request sent by a browser is treated as a completely independent, brand-new transaction. A web server does not inherently remember who you are when you move from page to page (e.g. remembering items in an e-commerce shopping cart). <em>Session tracking bridges this gap by persisting client identity across multiple HTTP requests.</em>
       </p>
 
       <div class="table-container">
@@ -209,26 +453,26 @@
             <tr>
               <td><strong>1. Cookies</strong></td>
               <td>Client Browser</td>
-              <td>Small text key-value pairs set by server via <code>Set-Cookie</code> response header and echoed back by browser in subsequent requests</td>
-              <td>Fails completely if user disables cookies in browser settings; security risk if sensitive data is stored</td>
+              <td>Small text key-value pairs set by server via <code>Set-Cookie</code> response header and echoed back by browser in subsequent requests.</td>
+              <td>Fails completely if user disables cookies in browser settings; security risk if sensitive data is stored.</td>
             </tr>
             <tr>
               <td><strong>2. Hidden Form Fields</strong></td>
               <td>HTML Page Source</td>
-              <td>Hidden input tags: <code>&lt;input type="hidden" name="user_id" value="101"&gt;</code> carried between forms</td>
-              <td>Only works for consecutive form submissions; viewing page source exposes values; cannot track regular hyperlinks</td>
+              <td>Hidden input tags: <code>&lt;input type="hidden" name="user_id" value="101"&gt;</code> carried between consecutive forms.</td>
+              <td>Only works for consecutive form submissions; viewing page source exposes values; cannot track regular hyperlinks.</td>
             </tr>
             <tr>
               <td><strong>3. URL Rewriting</strong></td>
               <td>Hyperlink URLs</td>
               <td>Session identifier is dynamically appended to every hyperlink URL: <code>page.jsp;jsessionid=A49DF82...</code></td>
-              <td>All hyperlinks on every page must be dynamically encoded; session ID visible in address bar</td>
+              <td>All hyperlinks on every page must be dynamically encoded; session ID visible in address bar.</td>
             </tr>
             <tr>
               <td><strong>4. HttpSession API</strong></td>
               <td><strong>Server Memory</strong></td>
-              <td>Server creates a unique session object in server RAM and sends back a unique <code>JSESSIONID</code> cookie to tie the browser to its server state</td>
-              <td><strong>Industry Standard</strong>; consumes server memory for high concurrent traffic; scales with distributed caching</td>
+              <td>Server creates a unique session object in server RAM and sends back a unique <code>JSESSIONID</code> cookie to tie the browser to its server state.</td>
+              <td><strong>Industry Standard</strong>; consumes server memory for high concurrent traffic; scales with distributed caching.</td>
             </tr>
           </tbody>
         </table>
@@ -237,7 +481,7 @@
       <!-- Executable Servlet Example -->
       <div class="code-container">
         <div class="code-header">
-          <span>Complete Java Servlet Example with HttpSession</span>
+          <span>Complete Java Servlet Example with HttpSession & Cookies</span>
           <button class="copy-btn" onclick="copyCode(this, 'code-servlet')">Copy</button>
         </div>
         <pre><code id="code-servlet">import java.io.*;
@@ -252,15 +496,112 @@ public class UserSessionServlet extends HttpServlet {
 
         String username = req.getParameter("user");
 
-        // Obtain or create server-side HTTP session
+        // 1. Obtain or create server-side HTTP session
         HttpSession session = req.getSession();
-        session.setAttribute("currentUser", username); // Store object in session
+        session.setAttribute("currentUser", username); // Bind object to session
+        session.setMaxInactiveInterval(30 * 60);       // Session timeout: 30 minutes
+
+        // 2. Alternatively, create and attach a persistent Cookie
+        Cookie userCookie = new Cookie("userToken", username);
+        userCookie.setMaxAge(24 * 60 * 60);            // 24 hours persistence
+        res.addCookie(userCookie);
 
         out.println("&lt;h2&gt;Welcome, " + username + "!&lt;/h2&gt;");
-        out.println("&lt;p&gt;Session ID: " + session.getId() + "&lt;/p&gt;");
-        out.println("&lt;a href='index.html'&gt;Proceed to Portal Dashboard&lt;/a&gt;");
+        out.println("&lt;p&gt;Active Session ID: &lt;code&gt;" + session.getId() + "&lt;/code&gt;&lt;/p&gt;");
+        out.println("&lt;p&gt;Creation Time: " + new java.util.Date(session.getCreationTime()) + "&lt;/p&gt;");
+        out.println("&lt;a href='#dashboard'&gt;Go to Secure Dashboard&lt;/a&gt;");
     }
 }</code></pre>
+      </div>
+    </div>
+
+    <!-- Topic 7: Solved 2021 PYQ Program: Square of an Input Number -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> Solved 2021 University PYQ Program: Square of an Input Number</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2021 (Write a complete HTML form and Java Servlet to calculate and display the square of an input number)</span>
+      </div>
+
+      <p>This is a standard 10-mark practical examination question requiring both the client HTML form and the backend Java Servlet:</p>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span>Client-Side: square.html</span>
+          <button class="copy-btn" onclick="copyCode(this, 'code-square-html')">Copy</button>
+        </div>
+        <pre><code id="code-square-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Square Calculator&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;Calculate Square of a Number&lt;/h2&gt;
+    &lt;form action="SquareServlet" method="POST"&gt;
+        Enter a Number: &lt;input type="number" name="num" required /&gt;
+        &lt;input type="submit" value="Compute Square" /&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+      </div>
+
+      <div class="code-container" style="margin-top:14px;">
+        <div class="code-header">
+          <span>Server-Side: SquareServlet.java</span>
+          <button class="copy-btn" onclick="copyCode(this, 'code-square-servlet')">Copy</button>
+        </div>
+        <pre><code id="code-square-servlet">import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class SquareServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) 
+            throws ServletException, IOException {
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+
+        try {
+            // Read input parameter from HTTP request
+            String numStr = req.getParameter("num");
+            double n = Double.parseDouble(numStr);
+            double square = n * n;
+
+            // Generate dynamic HTML response
+            out.println("&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Result&lt;/title&gt;&lt;/head&gt;&lt;body&gt;");
+            out.println("&lt;h2&gt;Calculation Result&lt;/h2&gt;");
+            out.println("&lt;p&gt;Original Number: &lt;b&gt;" + n + "&lt;/b&gt;&lt;/p&gt;");
+            out.println("&lt;p&gt;Square: &lt;b&gt;" + square + "&lt;/b&gt;&lt;/p&gt;");
+            out.println("&lt;a href='#square'&gt;Calculate Another&lt;/a&gt;");
+            out.println("&lt;/body&gt;&lt;/html&gt;");
+        } catch (NumberFormatException e) {
+            out.println("&lt;h3 style='color:red;'&gt;Error: Please enter a valid numerical value!&lt;/h3&gt;");
+        }
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Topic 8: Exam Blueprint & Mistakes -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">8.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Servlet Lifecycle & Session Tracking":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Lifecycle Diagram (3 Marks):</strong> Draw the three boxes: `init(ServletConfig)` $\to$ `service(request, response)` $\to$ `destroy()`. Clearly mark `init()` and `destroy()` as called once, and `service()` as called per request with thread allocation.</li>
+          <li><strong>Stateless Nature of HTTP (2 Marks):</strong> Explicitly explain that HTTP is stateless before introducing session tracking.</li>
+          <li><strong>4 Session Techniques (4 Marks):</strong> Create a 4-row comparative table with Cookies, Hidden Form Fields, URL Rewriting, and `HttpSession`. Mention that URL Rewriting works when cookies are disabled.</li>
+          <li><strong>Code Snippet (1 Mark):</strong> Write 4 lines of `HttpSession` code (`req.getSession()`, `session.setAttribute()`, `session.getAttribute()`).</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Confusing forward() and sendRedirect():</strong> Writing that `sendRedirect()` preserves request attributes loses 3 marks. `sendRedirect()` causes a new browser request; request attributes are destroyed!<br>
+        • <strong>Claiming init() is called per request:</strong> `init()` is strictly called ONCE when the servlet instance is initialized, not per request!
       </div>
     </div>
 
