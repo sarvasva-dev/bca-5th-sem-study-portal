@@ -253,34 +253,37 @@
       </div>
       <p>The <strong>Newton-Raphson Method</strong> is an open root-finding method that uses the tangent line to the function at the current point $x_n$ to estimate the next point $x_{n+1}$.</p>
 
-      <div class="diagram-box">
-        <svg viewBox="0 0 340 160" width="100%" height="auto" style="max-width:340px;">
-          <!-- Axes -->
-          <line x1="20" y1="130" x2="320" y2="130" stroke="var(--text-main)" stroke-width="1.5" />
-          <line x1="40" y1="145" x2="40" y2="15" stroke="var(--text-main)" stroke-width="1.5" />
-          <text x="310" y="145" font-size="9" fill="var(--text-main)">x</text>
-          <text x="25" y="25" font-size="9" fill="var(--text-main)">y</text>
+      <!-- Animated Video Concept Theater -->
+      <div class="concept-theater">
+        <div class="theater-header">
+          <div class="theater-title">
+            <span>🎬</span>
+            <span>Animated Video Explainer: Newton-Raphson Geometric Descent</span>
+          </div>
+          <span class="theater-badge">60 FPS Interactive</span>
+        </div>
 
-          <!-- Curve y = f(x) -->
-          <path d="M 60,135 Q 160,120 280,25" fill="none" stroke="#0d9488" stroke-width="2.5" />
-          <text x="285" y="35" font-size="9" font-weight="bold" fill="#0d9488">y = f(x)</text>
+        <div class="theater-screen-wrapper">
+          <canvas id="nr-theater-canvas" class="theater-canvas"></canvas>
+        </div>
 
-          <!-- True root alpha -->
-          <circle cx="170" cy="130" r="3.5" fill="#e11d48" />
-          <text x="165" y="145" font-size="9.5" font-weight="bold" fill="#e11d48">α (Root)</text>
+        <div class="theater-controls-bar">
+          <div class="theater-btn-group">
+            <button id="nr-btn-play" class="theater-btn btn-primary-play" onclick="window.nrTheater && window.nrTheater.togglePlay()">▶️ Play Video</button>
+            <button class="theater-btn" onclick="window.nrTheater && window.nrTheater.prevStep()" title="Previous Step">⏮️</button>
+            <button class="theater-btn" onclick="window.nrTheater && window.nrTheater.nextStep()" title="Next Step">⏭️</button>
+            <button class="theater-btn" onclick="window.nrTheater && window.nrTheater.replay()" title="Replay Animation">🔄 Replay</button>
+          </div>
+          <div class="theater-btn-group">
+            <span id="nr-step-ind" class="theater-step-indicator">Step 1 of 4: Setup</span>
+            <button id="nr-btn-speed" class="theater-btn" onclick="window.nrTheater && window.nrTheater.toggleSpeed()">⚡ 1x</button>
+          </div>
+        </div>
 
-          <!-- Point (x0, f(x0)) -->
-          <line x1="250" y1="130" x2="250" y2="45" stroke="var(--text-muted)" stroke-dasharray="3,3" />
-          <circle cx="250" cy="45" r="3.5" fill="#f59e0b" />
-          <text x="255" y="50" font-size="8.5" fill="#f59e0b">(x₀, f(x₀))</text>
-          <text x="245" y="145" font-size="9" fill="var(--text-main)">x₀</text>
-
-          <!-- Tangent line from (250, 45) intersecting x-axis at x1 (approx 195) -->
-          <line x1="270" y1="20" x2="195" y2="130" stroke="#f59e0b" stroke-width="1.8" />
-          <circle cx="195" cy="130" r="3.5" fill="#10b981" />
-          <text x="190" y="145" font-size="9" font-weight="bold" fill="#10b981">x₁</text>
-        </svg>
-        <div class="diagram-caption">Geometric Interpretation: The Tangent at $(x_0, f(x_0))$ Intersects the X-axis at $x_1$</div>
+        <div class="theater-subtitle-box">
+          <div id="nr-sub-en" class="theater-subtitle-en"><strong>Objective:</strong> Finding positive root $\alpha = \sqrt{5} \approx 2.2361$ on $f(x) = x^2 - 5$.</div>
+          <div id="nr-sub-hi" class="theater-subtitle-hi"><strong>Hindi Samjhaun:</strong> Curve par tangent line tezi se root ki taraf descent karti hai.</div>
+        </div>
       </div>
 
       <div class="callout callout-tip">
