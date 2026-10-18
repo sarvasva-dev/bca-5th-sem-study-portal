@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 2: Interpolation & Extrapolation | BCA-5004 Numerical Methods</title>
+  <title>Unit 2: Interpolation & Extrapolation | BCA-5004 Masterclass</title>
   <link rel="stylesheet" href="css/style.css">
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      svg: { fontCache: 'global' },
-      options: { renderActions: { addMenu: [] } }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
     };
   </script>
-  <script async src="js/tex-svg.js"></script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -26,7 +21,7 @@
       <div class="brand-icon" style="background:#0d9488;">NM</div>
       <div>
         <div class="brand-title">BCA-5004: Unit II</div>
-        <div class="brand-subtitle">Interpolation & Extrapolation</div>
+        <div class="brand-subtitle">Interpolation & Finite Differences</div>
       </div>
     </a>
     <div class="header-actions">
@@ -35,416 +30,431 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#0d9488;">
       <div class="badge-row">
-        <span class="badge badge-emerald">Subject: BCA-5004</span>
-        <span class="badge badge-amber">⭐ Repeated 10-Mark Questions</span>
-        <span class="badge badge-coral">Day 2 Priority</span>
+        <span class="badge badge-amber">Subject: BCA-5004 (NM)</span>
+        <span class="badge badge-emerald">⭐ Operator Algebra & Lagrange PYQs</span>
+        <span class="badge badge-coral">Day 2 Focus (Distributed Plan)</span>
       </div>
-      <h1 class="unit-title">Unit II: Interpolation & Extrapolation</h1>
-      <p class="unit-desc">
-        Finite Difference Operators ($\Delta, \nabla, E$), Difference Tables, Newton's Forward/Backward Formulas, and Lagrange's Interpolation for Unequal Intervals.
-      </p>
+      <h1 class="unit-title">Unit II: Interpolation, Finite Differences & Extrapolation</h1>
+      <p class="unit-desc">Comprehensive conceptual textbook guide covering Finite Difference Operators ($\Delta, \nabla, E, D$), the Fundamental Theorem of Finite Differences, Newton's Forward & Backward Interpolation, Central Differences, and Lagrange's Interpolation for Unequal Intervals.</p>
     </div>
 
-    <!-- Dual Study Mode Switcher -->
-    <div class="mode-switch-bar">
-      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
-      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    <!-- Learning Objectives -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Define Interpolation vs. Extrapolation and construct Forward, Backward, and Divided Difference Tables.</li>
+        <li>Master Finite Difference Operator Algebra and prove relationships: $E = 1 + \Delta$, $\Delta = E\nabla$, and $E = e^{hD}$.</li>
+        <li>State and prove the Fundamental Theorem of Finite Differences ($n$-th difference of a degree $n$ polynomial is constant).</li>
+        <li>Derive Newton-Gregory Forward ($p = \frac{x - x_0}{h}$) and Backward ($p = \frac{x - x_n}{h}$) formulas and apply them to exam data.</li>
+        <li>Derive Lagrange's Interpolation Formula for unequal intervals and evaluate its computational tradeoffs.</li>
+        <li>Construct Newton's Divided Difference Table and derive the interpolating polynomial.</li>
+      </ol>
     </div>
 
-    <!-- Topic 1: Concept & Finite Difference Operators -->
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: What is Interpolation and Why Do We Need It?</strong><br>
+      Suppose a weather station records temperatures every 4 hours: $12:00\text{ AM} \to 18^\circ\text{C}$, $4:00\text{ AM} \to 15^\circ\text{C}$, $8:00\text{ AM} \to 22^\circ\text{C}$, $12:00\text{ PM} \to 30^\circ\text{C}$.<br>
+      If an engineer asks: <em>"What was the exact temperature at 6:30 AM?"</em>, we have no physical reading! **Interpolation** is the mathematical art of finding a smooth polynomial $P(x)$ that passes exactly through all known data points, allowing us to estimate any in-between value with rigorous precision!
+    </div>
+
+    <!-- Section 1: Finite Difference Operators & Operator Algebra -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Concepts & Finite Difference Operators</span>
-      </div>
-
-      <div class="callout callout-objective">
-        <strong>🎯 Learning Objectives:</strong>
-        <ul style="margin:4px 0 0 16px;">
-          <li>Define Interpolation (estimating inside table range) and Extrapolation (estimating outside table range).</li>
-          <li>Master the three primary operators: Forward ($\Delta$), Backward ($\nabla$), and Shift ($E$).</li>
-          <li>Prove fundamental operator relations ($E = 1 + \Delta$, $\nabla = 1 - E^{-1}$, $E = e^{hD}$).</li>
-        </ul>
-      </div>
-
-      <div class="callout callout-intuition">
-        <strong>💡 Everyday Intuition:</strong>
-        Suppose a census records a city population in 2000 (10 Lakh), 2010 (15 Lakh), and 2020 (22 Lakh). Estimating the population in <strong>2008</strong> (inside the recorded range) is <strong>Interpolation</strong>. Estimating the population in <strong>2028</strong> (beyond the recorded range) is <strong>Extrapolation</strong>.
-      </div>
-
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Key Operator Definitions & Equalities:</strong>
-        <ul style="margin:4px 0 0 16px; line-height:1.7;">
-          <li><strong>Forward Difference Operator ($\Delta$):</strong> $\Delta f(x) = f(x + h) - f(x)$</li>
-          <li><strong>Backward Difference Operator ($\nabla$):</strong> $\nabla f(x) = f(x) - f(x - h)$</li>
-          <li><strong>Shift Operator ($E$):</strong> $E f(x) = f(x + h)$, and $E^n f(x) = f(x + nh)$</li>
-          <li><strong>Crucial Operator Relations:</strong>
-            $$\Delta = E - 1 \iff E = 1 + \Delta$$
-            $$\nabla = 1 - E^{-1} \iff E^{-1} = 1 - \nabla$$
-            $$\Delta = E \nabla = \nabla E$$
-          </li>
-        </ul>
-      </div>
-
-      <div class="track-full">
-        <span class="track-full-badge">📚 Full Understanding Track: Derivation & Fundamental Theorem</span>
-        <div class="callout callout-info">
-          <strong>Fundamental Theorem of Finite Differences:</strong><br>
-          If $P_n(x) = a_n x^n + a_{n-1} x^{n-1} + \dots + a_0$ is a polynomial of degree $n$ with step size $h$, then:
-          $$\Delta^n [P_n(x)] = a_n \cdot n! \cdot h^n \quad (\text{Constant})$$
-          $$\Delta^{n+1} [P_n(x)] = 0$$
-          <em>Exam significance:</em> If the $n$-th forward differences in a table are approximately constant, the underlying data represents a polynomial of degree $n$!
-        </div>
-
-        <div class="callout callout-info">
-          <strong>Proof of Relationship $E = e^{hD}$ (Connecting Calculus & Finite Differences):</strong><br>
-          By Taylor series expansion:
-          $$f(x + h) = f(x) + h f'(x) + \frac{h^2}{2!} f''(x) + \frac{h^3}{3!} f'''(x) + \dots$$
-          Writing in differential operator notation $D = \frac{d}{dx}$:
-          $$E f(x) = \left[ 1 + hD + \frac{(hD)^2}{2!} + \frac{(hD)^3}{3!} + \dots \right] f(x) = e^{hD} f(x)$$
-          Therefore, $E = e^{hD} \implies 1 + \Delta = e^{hD} \implies \mathbf{D = \frac{1}{h} \ln(1 + \Delta)}$. $\blacksquare$
-        </div>
-      </div>
-    </div>
-
-    <!-- Topic 2: Newton's Forward Interpolation -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Newton's Forward Interpolation Formula</span>
+        <span><span class="card-heading-icon">1.</span> Finite Difference Operators & Algebraic Relations</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2022, 2019, 2017 (Formula derivation and 10-mark table calculation)</span>
+        <span>2024–25, 2023–24, 2022–23, 2020 (Prove $E = 1 + \Delta$, $\Delta = E\nabla$, $E = e^{hD}$)</span>
       </div>
+      <p>Given a discrete set of equidistant values $x_0, x_1 = x_0 + h, \dots, x_n = x_0 + nh$ with step size $h$, finite difference calculus operates on the following symbolic operators:</p>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Newton's Forward Interpolation Formula:</strong><br>
-        $$y(x) = y_0 + u \Delta y_0 + \frac{u(u-1)}{2!} \Delta^2 y_0 + \frac{u(u-1)(u-2)}{3!} \Delta^3 y_0 + \dots$$
-        where $$u = \frac{x - x_0}{h}$$
-        <em>When to use:</em> Used exclusively when the required value of $x$ lies near the <strong>beginning (top)</strong> of an equally spaced table.
-      </div>
-
-      <!-- Solved University Numerical -->
-      <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical:</strong><br>
-        <em>Problem:</em> Given the following data table, calculate the value of $y$ at $x = 12$ using Newton's Forward Interpolation Formula:
-      </div>
-
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>$x$</th>
-              <th>$y$</th>
-              <th>$\Delta y$</th>
-              <th>$\Delta^2 y$</th>
-              <th>$\Delta^3 y$</th>
+              <th>Operator</th>
+              <th>Symbol</th>
+              <th>Mathematical Definition</th>
+              <th>Interpretation</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>10</strong> ($x_0$)</td>
-              <td><strong>35.3</strong> ($y_0$)</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><strong>Forward Difference</strong></td>
+              <td>$\Delta$</td>
+              <td>$\Delta f(x) = f(x + h) - f(x)$</td>
+              <td>Subtracts current value from next forward value.</td>
             </tr>
             <tr>
-              <td></td>
-              <td></td>
-              <td>$32.4 - 35.3 = \mathbf{-2.9}$ ($\Delta y_0$)</td>
-              <td></td>
-              <td></td>
+              <td><strong>Backward Difference</strong></td>
+              <td>$\nabla$</td>
+              <td>$\nabla f(x) = f(x) - f(x - h)$</td>
+              <td>Subtracts previous value from current value.</td>
             </tr>
             <tr>
-              <td><strong>20</strong></td>
-              <td><strong>32.4</strong></td>
-              <td></td>
-              <td>$-3.2 - (-2.9) = \mathbf{-0.3}$ ($\Delta^2 y_0$)</td>
-              <td></td>
+              <td><strong>Shift (Displacement)</strong></td>
+              <td>$E$</td>
+              <td>$E f(x) = f(x + h)$, $E^n f(x) = f(x + nh)$</td>
+              <td>Advances the argument by $n$ steps of $h$.</td>
             </tr>
             <tr>
-              <td></td>
-              <td></td>
-              <td>$29.2 - 32.4 = \mathbf{-3.2}$</td>
-              <td></td>
-              <td>$-0.9 - (-0.3) = \mathbf{-0.6}$ ($\Delta^3 y_0$)</td>
+              <td><strong>Central Difference</strong></td>
+              <td>$\delta$</td>
+              <td>$\delta f(x) = f\left(x + \frac{h}{2}\right) - f\left(x - \frac{h}{2}\right)$</td>
+              <td>Symmetric difference about the midpoint.</td>
             </tr>
             <tr>
-              <td><strong>30</strong></td>
-              <td><strong>29.2</strong></td>
-              <td></td>
-              <td>$-4.1 - (-3.2) = \mathbf{-0.9}$</td>
-              <td></td>
+              <td><strong>Averaging</strong></td>
+              <td>$\mu$</td>
+              <td>$\mu f(x) = \frac{1}{2}\left[f\left(x + \frac{h}{2}\right) + f\left(x - \frac{h}{2}\right)\right]$</td>
+              <td>Calculates average of forward and backward half-steps.</td>
             </tr>
             <tr>
-              <td></td>
-              <td></td>
-              <td>$25.1 - 29.2 = \mathbf{-4.1}$</td>
-              <td></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td><strong>40</strong></td>
-              <td><strong>25.1</strong></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><strong>Differential Operator</strong></td>
+              <td>$D$</td>
+              <td>$D f(x) = \frac{d}{dx}f(x) = f'(x)$</td>
+              <td>Continuous differential derivative.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <p><strong>Step-by-Step Calculation:</strong></p>
-      <div class="step-list">
-        <div class="step-item">
-          <strong>Identify Parameters:</strong><br>
-          Base value $x_0 = 10$, step size $h = 20 - 10 = 10$. Target $x = 12$.<br>
-          $$u = \frac{x - x_0}{h} = \frac{12 - 10}{10} = \frac{2}{10} = \mathbf{0.2}$$
-        </div>
-        <div class="step-item">
-          <strong>Identify Forward Diagonal Values:</strong><br>
-          $y_0 = 35.3$, $\Delta y_0 = -2.9$, $\Delta^2 y_0 = -0.3$, $\Delta^3 y_0 = -0.6$.
-        </div>
-        <div class="step-item">
-          <strong>Substitute into Formula:</strong><br>
-          $$y(12) = 35.3 + (0.2)(-2.9) + \frac{(0.2)(0.2 - 1)}{2} (-0.3) + \frac{(0.2)(0.2 - 1)(0.2 - 2)}{6} (-0.6)$$
-          $$y(12) = 35.3 - 0.58 + \frac{(0.2)(-0.8)}{2} (-0.3) + \frac{(0.2)(-0.8)(-1.8)}{6} (-0.6)$$
-          $$y(12) = 35.3 - 0.58 + (-0.08)(-0.3) + (0.048)(-0.6)$$
-          $$y(12) = 35.3 - 0.58 + 0.024 - 0.0288 = \mathbf{34.7152}$$
-        </div>
-      </div>
-      <p><strong>Final Answer:</strong> $y(12) \approx \mathbf{34.72}$.</p>
-    </div>
+      <div class="track-full">
+        <h4>Core Operator Proofs (Standard University Exam Questions):</h4>
+        
+        <p><strong>Proof 1: Prove that $E = 1 + \Delta$</strong></p>
+        $$\Delta f(x) = f(x + h) - f(x) = E f(x) - f(x) = (E - 1) f(x)$$
+        $$\implies \Delta = E - 1 \implies \mathbf{E = 1 + \Delta}$$
 
-    <!-- Topic 3: Newton's Backward Interpolation -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Newton's Backward Interpolation Formula</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2023–24, 2020, 2018 (When to use, formula differences, and solved problem)</span>
-      </div>
+        <p><strong>Proof 2: Prove that $\nabla = 1 - E^{-1} = \frac{\Delta}{E}$</strong></p>
+        $$\nabla f(x) = f(x) - f(x - h) = f(x) - E^{-1} f(x) = (1 - E^{-1}) f(x) \implies \nabla = 1 - E^{-1}$$
+        $$\nabla = 1 - \frac{1}{E} = \frac{E - 1}{E} = \mathbf{\frac{\Delta}{E}} \implies \mathbf{\Delta = E \nabla = \nabla E}$$
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Newton's Backward Interpolation Formula:</strong><br>
-        $$y(x) = y_n + u \nabla y_n + \frac{u(u+1)}{2!} \nabla^2 y_n + \frac{u(u+1)(u+2)}{3!} \nabla^3 y_n + \dots$$
-        where $$u = \frac{x - x_n}{h}$$
-        <em>When to use:</em> Used when the desired $x$ lies near the <strong>end (bottom)</strong> of an equally spaced table. Notice the alternating sign difference: forward uses $(u-1)(u-2)$ while backward uses $(u+1)(u+2)$!
+        <p><strong>Proof 3: Prove that $E = e^{hD}$ (Relation between Shift and Derivative)</strong></p>
+        <p>Expanding $f(x + h)$ using Taylor series about $x$:</p>
+        $$E f(x) = f(x + h) = f(x) + h f'(x) + \frac{h^2}{2!} f''(x) + \frac{h^3}{3!} f'''(x) + \dots$$
+        $$E f(x) = f(x) + h D f(x) + \frac{h^2 D^2}{2!} f(x) + \frac{h^3 D^3}{3!} f(x) + \dots = \left[1 + hD + \frac{(hD)^2}{2!} + \frac{(hD)^3}{3!} + \dots\right] f(x)$$
+        <p>By the exponential series expansion $e^z = 1 + z + \frac{z^2}{2!} + \dots$, we obtain:</p>
+        $$\mathbf{E = e^{hD}} \implies hD = \ln(E) = \ln(1 + \Delta) = \mathbf{\Delta - \frac{\Delta^2}{2} + \frac{\Delta^3}{3} - \frac{\Delta^4}{4} + \dots}$$
       </div>
     </div>
 
-    <!-- Topic 4: Lagrange's Interpolation Formula for Unequal Intervals -->
+    <!-- Section 2: Fundamental Theorem of Finite Differences -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Lagrange's Interpolation (Unequal Intervals)</span>
+        <span><span class="card-heading-icon">2.</span> The Fundamental Theorem of Finite Differences</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2025–26, 2024–25, 2021, 2016 (Frequently asked for 10 marks when interval spacing h is NOT constant)</span>
+        <span>2024–25, 2021 (State and prove fundamental theorem of finite differences)</span>
+      </div>
+      <div class="callout callout-info">
+        <strong>Theorem Statement:</strong><br>
+        If $f(x)$ is a polynomial of degree $n$ in $x$ with equal spacing $h$, then the $n$-th forward difference $\Delta^n f(x)$ is a <strong>constant</strong>, and all higher differences are strictly zero:
+        $$\mathbf{\Delta^n [a_n x^n + a_{n-1} x^{n-1} + \dots + a_0] = a_n \cdot n! \cdot h^n = \text{Constant}}$$
+        $$\mathbf{\Delta^{n+1} f(x) = 0, \quad \Delta^{n+2} f(x) = 0, \quad \dots}$$
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>Lagrange's Interpolation Formula:</strong><br>
+      <h4>Step-by-Step Proof:</h4>
+      <p>Let $f(x) = x^n$. Then the first forward difference is:</p>
+      $$\Delta(x^n) = (x + h)^n - x^n = \left[x^n + n h x^{n-1} + \frac{n(n-1)}{2} h^2 x^{n-2} + \dots + h^n\right] - x^n$$
+      $$\Delta(x^n) = n h x^{n-1} + \text{terms of degree } \le n - 2$$
+      <p>Notice that taking the first difference $\Delta$ reduces the degree of the polynomial by exactly 1 and multiplies the leading coefficient by $n \cdot h$!</p>
+      <p>Repeating this operation $n$ times systematically drops the degree by 1 at each step:</p>
+      $$\Delta^2(x^n) = n(n - 1) h^2 x^{n-2} + \dots$$
+      $$\Delta^n(x^n) = n(n - 1)(n - 2)\dots (1) h^n x^0 = \mathbf{n! \, h^n = \text{Constant}}$$
+      <p>Since the derivative of a constant is zero, any subsequent difference vanishes identically: $\mathbf{\Delta^{n+1} f(x) = 0}$.</p>
+    </div>
+
+    <!-- Section 3: Newton's Forward & Backward Interpolation -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Newton-Gregory Forward & Backward Interpolation</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2022–23, 2020 (Formula derivation and solved numerical problems)</span>
+      </div>
+
+      <h4>1. Newton's Forward Interpolation Formula (Near Table Beginning)</h4>
+      <p>Let $y = f(x)$ be given at equidistant arguments $x_0, x_1, \dots, x_n$ with step $h$. To evaluate $f(x)$ for an argument $x = x_0 + ph$ (where $p = \frac{x - x_0}{h}$):</p>
+      $$f(x_0 + ph) = E^p f_0 = (1 + \Delta)^p f_0$$
+      <p>Expanding $(1 + \Delta)^p$ via Newton's Binomial Theorem:</p>
+      $$\mathbf{y(x) = y_0 + p \Delta y_0 + \frac{p(p-1)}{2!} \Delta^2 y_0 + \frac{p(p-1)(p-2)}{3!} \Delta^3 y_0 + \dots}$$
+
+      <h4>2. Newton's Backward Interpolation Formula (Near Table End)</h4>
+      <p>When the target argument $x$ lies near the end of the table, use $x = x_n + ph$ (where $p = \frac{x - x_n}{h}$):</p>
+      $$f(x_n + ph) = E^p f_n = (1 - \nabla)^{-p} f_n$$
+      $$\mathbf{y(x) = y_n + p \nabla y_n + \frac{p(p+1)}{2!} \nabla^2 y_n + \frac{p(p+1)(p+2)}{3!} \nabla^3 y_n + \dots}$$
+
+      <h4>Step-by-Step Solved University Numerical Problem</h4>
+      <p><strong>Problem (CSJMU 2023–24):</strong> From the following table of values, estimate $f(1.5)$ using Newton's Forward formula:</p>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr><th>$x$</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$y = f(x)$</td><td>10</td><td>26</td><td>58</td><td>112</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Step 1: Construct the Forward Difference Table:</strong></p>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr><th>$x$</th><th>$y$</th><th>$\Delta y$</th><th>$\Delta^2 y$</th><th>$\Delta^3 y$</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$x_0 = 1$</td><td>$\mathbf{10} = y_0$</td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td>$\mathbf{16} = \Delta y_0$</td><td></td><td></td></tr>
+            <tr><td>$2$</td><td>$26$</td><td></td><td>$\mathbf{16} = \Delta^2 y_0$</td><td></td></tr>
+            <tr><td></td><td></td><td>$32$</td><td></td><td>$\mathbf{6} = \Delta^3 y_0$</td></tr>
+            <tr><td>$3$</td><td>$58$</td><td></td><td>$22$</td><td></td></tr>
+            <tr><td></td><td></td><td>$54$</td><td></td><td></td></tr>
+            <tr><td>$4$</td><td>$112$</td><td></td><td></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Step 2: Calculate $p$:</strong> Here $x = 1.5$, $x_0 = 1$, and $h = 2 - 1 = 1$:</p>
+      $$p = \frac{x - x_0}{h} = \frac{1.5 - 1}{1} = \mathbf{0.5}$$
+
+      <p><strong>Step 3: Substitute into Newton's Forward Formula:</strong></p>
+      $$y(1.5) = y_0 + p \Delta y_0 + \frac{p(p-1)}{2} \Delta^2 y_0 + \frac{p(p-1)(p-2)}{6} \Delta^3 y_0$$
+      $$y(1.5) = 10 + (0.5)(16) + \frac{(0.5)(0.5 - 1)}{2} (16) + \frac{(0.5)(0.5 - 1)(0.5 - 2)}{6} (6)$$
+      $$y(1.5) = 10 + 8.0 + \frac{(0.5)(-0.5)}{2}(16) + \frac{(0.5)(-0.5)(-1.5)}{6}(6)$$
+      $$y(1.5) = 10 + 8.0 - 2.0 + 0.375 = \mathbf{16.375}$$
+    </div>
+
+    <!-- Section 4: Lagrange's Interpolation for Unequal Intervals -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Lagrange's Interpolation for Unequal Intervals</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2021, 2019 (Derive Lagrange formula and solve unequal intervals numerical)</span>
+      </div>
+      <p>When the independent data points $x_0, x_1, \dots, x_n$ are <strong>unequally spaced</strong> (e.g. $x = 0, 1, 4, 7$), Newton's forward/backward formulas fail completely. In such cases, we apply <strong>Lagrange's Interpolation Formula</strong>.</p>
+
+      <div class="callout callout-info">
+        <strong>Lagrange's General Formula:</strong><br>
         For $n+1$ distinct points $(x_0, y_0), (x_1, y_1), \dots, (x_n, y_n)$:
-        $$y(x) = \frac{(x-x_1)(x-x_2)\dots(x-x_n)}{(x_0-x_1)(x_0-x_2)\dots(x_0-x_n)} y_0 + \frac{(x-x_0)(x-x_2)\dots(x-x_n)}{(x_1-x_0)(x_1-x_2)\dots(x_1-x_n)} y_1 + \dots$$
-        <em>Key Advantage:</em> Can be used for **both equal and unequal** intervals! It does not require calculating a difference table.
+        $$\mathbf{y(x) = \sum_{i=0}^n y_i \cdot L_i(x)}$$
+        where the $i$-th Lagrange basis polynomial $L_i(x)$ is given by:
+        $$\mathbf{L_i(x) = \prod_{j \ne i} \frac{x - x_j}{x_i - x_j} = \frac{(x - x_0)\dots(x - x_{i-1})(x - x_{i+1})\dots(x - x_n)}{(x_i - x_0)\dots(x_i - x_{i-1})(x_i - x_{i+1})\dots(x_i - x_n)}}$$
       </div>
 
-      <!-- Solved Lagrange Numerical -->
-      <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical (Unequal Intervals):</strong><br>
-        <em>Problem:</em> Given the uneven points $(5, 150), (7, 392), (11, 1452), (13, 2366)$, find $y(9)$.
-      </div>
-      <p>
-        Here: $x_0 = 5, y_0 = 150$; $x_1 = 7, y_1 = 392$; $x_2 = 11, y_2 = 1452$; $x_3 = 13, y_3 = 2366$.<br>
-        Step differences: $7-5 = 2$, $11-7 = 4$, $13-11 = 2$ (Unequal, so Newton's formulas cannot be used!).<br>
-        Target: $x = 9$.
-      </p>
+      <h4>Step-by-Step Solved University Numerical</h4>
+      <p><strong>Problem (CSJMU 2024–25):</strong> Given the unequal data points $(x_0=0, y_0=-12)$, $(x_1=1, y_1=0)$, $(x_2=3, y_2=6)$, $(x_3=4, y_3=12)$. Find $y(2)$.</p>
 
-      <div class="step-list">
-        <div class="step-item">
-          <strong>Term 1 ($y_0$ term):</strong><br>
-          $$L_0 = \frac{(9-7)(9-11)(9-13)}{(5-7)(5-11)(5-13)} \times 150 = \frac{(2)(-2)(-4)}{(-2)(-6)(-8)} \times 150 = \frac{16}{-96} \times 150 = -\frac{1}{6} \times 150 = \mathbf{-25}$$
-        </div>
-        <div class="step-item">
-          <strong>Term 2 ($y_1$ term):</strong><br>
-          $$L_1 = \frac{(9-5)(9-11)(9-13)}{(7-5)(7-11)(7-13)} \times 392 = \frac{(4)(-2)(-4)}{(2)(-4)(-6)} \times 392 = \frac{32}{48} \times 392 = \frac{2}{3} \times 392 \approx \mathbf{261.33}$$
-        </div>
-        <div class="step-item">
-          <strong>Term 3 ($y_2$ term):</strong><br>
-          $$L_2 = \frac{(9-5)(9-7)(9-13)}{(11-5)(11-7)(11-13)} \times 1452 = \frac{(4)(2)(-4)}{(6)(4)(-2)} \times 1452 = \frac{-32}{-48} \times 1452 = \frac{2}{3} \times 1452 = \mathbf{968}$$
-        </div>
-        <div class="step-item">
-          <strong>Term 4 ($y_3$ term):</strong><br>
-          $$L_3 = \frac{(9-5)(9-7)(9-11)}{(13-5)(13-7)(13-11)} \times 2366 = \frac{(4)(2)(-2)}{(8)(6)(2)} \times 2366 = \frac{-16}{96} \times 2366 = -\frac{1}{6} \times 2366 \approx \mathbf{-394.33}$$
-        </div>
-      </div>
-      <p>
-        <strong>Summing all terms:</strong><br>
-        $$y(9) = -25 + 261.33 + 968 - 394.33 = \mathbf{810}$$
-        *(Verified: The underlying function is $y = 2x^3 - 100 \implies y(9) = 2(729) - 100 = 1458 - 100$ or exact polynomial fit $y(9) = 810$).*
-      </p>
+      <p>Target $x = 2$. Applying Lagrange's 4-point formula:</p>
+      $$y(2) = \frac{(2-1)(2-3)(2-4)}{(0-1)(0-3)(0-4)} (-12) + \frac{(2-0)(2-3)(2-4)}{(1-0)(1-3)(1-4)} (0) + \frac{(2-0)(2-1)(2-4)}{(3-0)(3-1)(3-4)} (6) + \frac{(2-0)(2-1)(2-3)}{(4-0)(4-1)(4-3)} (12)$$
+
+      <p>Evaluating each term:</p>
+      <p>• Term 1: $\frac{(1)(-1)(-2)}{(-1)(-3)(-4)} (-12) = \frac{2}{-12} (-12) = \mathbf{2}$</p>
+      <p>• Term 2: Evaluates to $\mathbf{0}$ (since $y_1 = 0$)</p>
+      <p>• Term 3: $\frac{(2)(1)(-2)}{(3)(2)(-1)} (6) = \frac{-4}{-6} (6) = \mathbf{4}$</p>
+      <p>• Term 4: $\frac{(2)(1)(-1)}{(4)(3)(1)} (12) = \frac{-2}{12} (12) = \mathbf{-2}$</p>
+      $$\mathbf{y(2) = 2 + 0 + 4 - 2 = 4}$$
     </div>
 
-    <!-- Topic 5: Interactive MCQ Exam Drill (10 Questions) -->
+    <!-- Section 5: Newton's Divided Differences -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">📝</span> Unit II Exam Mastery MCQ Quiz (10 Questions)</span>
+        <span><span class="card-heading-icon">5.</span> Newton's Divided Difference Interpolation</span>
       </div>
-      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
-        Answer all 10 questions to solidify your knowledge of operators, difference tables, and interpolation formulas.
-      </p>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2023–24, 2020 (Construct divided difference table and find polynomial)</span>
+      </div>
+      <p>An alternative to Lagrange for unequal intervals is <strong>Newton's Divided Difference Formula</strong>, which allows adding new data points incrementally without recalculating the entire polynomial from scratch.</p>
 
+      <div class="callout callout-tip">
+        <strong>Definitions:</strong>
+        <p>• First Divided Difference: $f[x_0, x_1] = \frac{f(x_1) - f(x_0)}{x_1 - x_0}$</p>
+        <p>• Second Divided Difference: $f[x_0, x_1, x_2] = \frac{f[x_1, x_2] - f[x_0, x_1]}{x_2 - x_0}$</p>
+        <p><strong>Newton's Divided Difference Polynomial Formula:</strong></p>
+        $$\mathbf{f(x) = f(x_0) + (x - x_0)f[x_0, x_1] + (x - x_0)(x - x_1)f[x_0, x_1, x_2] + \dots}$$
+      </div>
+    </div>
+
+    <!-- Section 6: Exam Answer Blueprint -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
+      </div>
+      <div class="callout callout-tip">
+        <strong>How to Score Full 10 Marks on "Lagrange's vs. Newton's Formulas":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Distinction between Equal vs. Unequal Spacing (2 Marks):</strong> Newton's forward/backward requires strictly constant step $h$. Lagrange works on any arbitrary unequal spacing.</li>
+          <li><strong>Formulas (3 Marks):</strong> Write both Newton-Gregory Forward formula and Lagrange basis polynomial formula $L_i(x) = \prod_{j \ne i} \frac{x - x_j}{x_i - x_j}$.</li>
+          <li><strong>Pros and Cons of Lagrange (3 Marks):</strong> Pro: no difference table needed, works on unequal points; Con: highly computationally expensive—if one new point is added, every single term must be recalculated from scratch!</li>
+          <li><strong>Numerical Solution (2 Marks):</strong> Neatly show the arithmetic substitutions.</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Confusing Forward and Backward $p$:</strong> In Forward, $p = \frac{x - x_0}{h}$ and signs in formula alternate ($p(p-1)$). In Backward, $p = \frac{x - x_n}{h}$ and signs are all positive ($p(p+1)$)!<br>
+        • <strong>Sign Errors in Lagrange Denominator:</strong> In the $i$-th term denominator, $(x_i - x_j)$ is subtracted. Forgetting negative signs is the #1 reason students lose 8 marks on Lagrange numericals!
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Drill -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> Unit II Examination Mastery MCQ Quiz</span>
+      </div>
+      <p>Verify your conceptual mastery across finite difference operators, difference tables, Newton forward/backward, and Lagrange interpolation with this 10-question quiz.</p>
       <div id="unit-mcq-container"></div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation -->
+  <!-- Sticky Bottom Navigation Bar -->
   <nav class="nav-bottom">
     <a href="bca5004_unit1.html" class="nav-unit-btn">← Unit I: Roots</a>
     <a href="index.html" class="nav-unit-btn">Hub</a>
-    <a href="bca5004_unit3.html" class="nav-unit-btn primary">Next: Unit III →</a>
+    <a href="bca5004_unit3.html" class="nav-unit-btn primary">Next: Unit III (Integration) →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit2Questions = [
       {
-        question: "What is the fundamental relationship connecting the Shift operator (E) and Forward difference operator (Δ)?",
+        question: "What is the relationship connecting the Forward Difference Operator (Δ) and the Shift Operator (E)?",
         options: [
           "E = 1 - Δ",
           "E = 1 + Δ",
-          "Δ = 1 + E",
-          "E = Δ / 2"
+          "E = Δ / 2",
+          "E * Δ = 1"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "By definition, $\\Delta f(x) = f(x+h) - f(x) = E f(x) - f(x) = (E - 1)f(x) \\implies E = 1 + \\Delta$."
+        explanation: "Δ f(x) = f(x+h) - f(x) = (E - 1) f(x) => E = 1 + Δ."
       },
       {
-        question: "If P_n(x) is a polynomial of degree n, what is the value of Δ^(n+1) [P_n(x)]?",
+        question: "According to the Fundamental Theorem of Finite Differences, what is the value of the 4th forward difference Δ⁴(x³ + 2x² - 5x + 1)?",
         options: [
-          "n! * h^n",
-          "(n+1)! * h^(n+1)",
+          "6",
+          "24",
           "0",
-          "Constant non-zero"
+          "1"
         ],
         answer: 2,
-        is_pyq: true,
-        explanation: "By the Fundamental Theorem of Finite Differences, the $n$-th difference of a degree $n$ polynomial is constant ($a_n n! h^n$), and all higher differences ($n+1$ and beyond) are identically 0."
+        explanation: "For a polynomial of degree n=3, the 3rd difference is constant, and all higher differences (n+1 = 4th and above) are strictly zero."
       },
       {
-        question: "When should Newton's Backward Interpolation formula be preferred over Newton's Forward formula?",
+        question: "Which interpolation formula is most suitable for evaluating f(x) when the target value of x lies near the END of an equidistant table?",
         options: [
-          "When the data intervals are unequal",
-          "When the value to interpolate lies near the beginning of the table",
-          "When the value to interpolate lies near the end of the table",
-          "When the data contains imaginary numbers"
+          "Newton's Gregory Forward Formula",
+          "Newton's Gregory Backward Formula",
+          "Taylor's Series",
+          "Bisection Formula"
         ],
-        answer: 2,
-        is_pyq: true,
-        explanation: "Newton's backward formula utilizes differences near $y_n$ and is specifically designed for evaluating points near the end (bottom) of an equally spaced table."
+        answer: 1,
+        explanation: "Newton's Backward formula uses backward differences ∇ originating from the table end x_n, making it most accurate near the bottom of the table."
       },
       {
-        question: "Which interpolation method can be directly applied to data points with UNEQUAL interval spacing without modification?",
+        question: "Under which condition MUST Lagrange's interpolation formula be used instead of Newton's forward/backward formulas?",
         options: [
-          "Newton's Forward Interpolation",
-          "Newton's Backward Interpolation",
-          "Lagrange's Interpolation Formula",
-          "Gauss Forward Formula"
+          "When the function has imaginary roots",
+          "When the independent data arguments (x0, x1, x2...) are unequally spaced",
+          "When the data table has more than 10 rows",
+          "When all y values are negative"
         ],
-        answer: 2,
-        is_pyq: true,
-        explanation: "Lagrange's interpolation formula does not require equal spacing $h$ and works seamlessly on arbitrary, unequally spaced data points."
+        answer: 1,
+        explanation: "Newton's forward and backward formulas assume a constant step size h. Lagrange's formula is designed to work for arbitrary unequally spaced intervals."
       },
       {
-        question: "What is the relation between the Shift operator E and the differential operator D = d/dx?",
+        question: "What is the mathematical relationship between the Shift Operator E and the continuous Differential Operator D?",
         options: [
-          "E = hD",
+          "E = h * D",
           "E = e^(hD)",
-          "D = e^(hE)",
+          "E = ln(hD)",
           "E = 1 / (hD)"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Expanding $f(x+h)$ using Taylor series yields $E f(x) = [1 + hD + (hD)^2/2! + \\dots] f(x) = e^{hD} f(x) \\implies E = e^{hD}$."
+        explanation: "From Taylor series expansion, E f(x) = f(x+h) = f(x) + hDf(x) + (hD)²/2! f(x) + ... = e^(hD) f(x) => E = e^(hD)."
       },
       {
-        question: "In Newton's Forward Interpolation, what does the parameter u represent?",
+        question: "In Newton's forward interpolation formula, how is the dimensionless parameter 'p' calculated?",
         options: [
-          "(x - x_n) / h",
-          "(x - x_0) / h",
-          "(x_0 - x) / h",
-          "(x - x_0) * h"
+          "p = (x - x_n) / h",
+          "p = (x - x_0) / h",
+          "p = (x_0 + x_n) / 2",
+          "p = x * h"
         ],
         answer: 1,
-        is_pyq: false,
-        explanation: "In the forward formula, $u$ is the normalized distance from the starting point $x_0$: $u = \\frac{x - x_0}{h}$."
+        explanation: "For forward interpolation originating at x_0, p = (x - x_0) / h. For backward interpolation from x_n, p = (x - x_n) / h."
       },
       {
-        question: "What is the value of $\\nabla f(x)$?",
+        question: "What is a major practical disadvantage of Lagrange's interpolation formula compared to Newton's divided differences?",
         options: [
-          "f(x+h) - f(x)",
-          "f(x) - f(x-h)",
-          "f(x+h) - f(x-h)",
-          "f(x) + f(x-h)"
+          "Lagrange cannot interpolate polynomials",
+          "If an additional data point is introduced, all Lagrange basis terms must be completely recalculated from scratch",
+          "Lagrange only works for 2 data points",
+          "Lagrange requires complex numbers"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "The backward difference operator $\\nabla$ subtracts the preceding value from the current value: $\\nabla f(x) = f(x) - f(x-h)$."
+        explanation: "Lagrange's formula lacks incremental construction; adding an extra point changes every numerator and denominator, requiring full recomputation."
       },
       {
-        question: "If $y_0 = 3, y_1 = 12, y_2 = 27, y_3 = 48$, what is the second forward difference $\\Delta^2 y_0$ with $h=1$?",
+        question: "What is the first divided difference f[x0, x1] of a function f(x)?",
         options: [
-          "9",
-          "6",
-          "3",
-          "15"
+          "(f(x1) + f(x0)) / 2",
+          "(f(x1) - f(x0)) / (x1 - x0)",
+          "(x1 - x0) / (f(x1) - f(x0))",
+          "f(x1) * f(x0)"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "First differences: $\\Delta y_0 = 12-3 = 9$, $\\Delta y_1 = 27-12 = 15$, $\\Delta y_2 = 48-27 = 21$. Second differences: $\\Delta^2 y_0 = 15-9 = 6$."
+        explanation: "By definition, the first divided difference is the slope of the secant line: f[x0, x1] = (f(x1) - f(x0)) / (x1 - x0)."
       },
       {
-        question: "Why is extrapolation generally riskier and less reliable than interpolation?",
+        question: "What is the relationship connecting the Forward Difference (Δ), Backward Difference (∇), and Shift Operator (E)?",
         options: [
-          "Because calculators cannot compute negative signs",
-          "Because polynomials fitted to historical data may deviate drastically outside the observed domain",
-          "Because formulas do not accept numbers outside tables",
-          "Because differences become imaginary"
+          "Δ = E * ∇ = ∇ * E",
+          "Δ + ∇ = E",
+          "Δ * ∇ = E²",
+          "Δ = ∇ - E"
         ],
-        answer: 1,
-        is_pyq: false,
-        explanation: "Interpolating polynomials are only constrained to fit data inside the given domain $[x_0, x_n]$. Outside this interval, polynomial curves can diverge rapidly, introducing massive extrapolation errors."
+        answer: 0,
+        explanation: "Since E = 1 + Δ and E⁻¹ = 1 - ∇, we have ∇ = 1 - E⁻¹ = (E-1)/E = Δ/E => Δ = E∇ = ∇E."
       },
       {
-        question: "What is the value of $(1 + \\Delta)(1 - \\nabla)$?",
+        question: "For a dataset with 4 distinct points (x0, y0), (x1, y1), (x2, y2), (x3, y3), what is the degree of the unique Lagrange interpolating polynomial?",
         options: [
-          "0",
           "1",
-          "E",
-          "Δ∇"
+          "2",
+          "At most 3",
+          "4"
         ],
-        answer: 1,
-        is_pyq: true,
-        explanation: "Since $1 + \\Delta = E$ and $1 - \\nabla = E^{-1}$, their product is $E \\cdot E^{-1} = 1$."
+        answer: 2,
+        explanation: "Through N=4 distinct points, there exists a unique polynomial of degree at most N-1 = 4-1 = 3."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit2Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>

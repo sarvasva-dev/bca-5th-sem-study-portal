@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Unit 2: Transmission Media & Physical Layer | BCA-5003</title>
+  <title>Unit 2: Physical Layer & Media | BCA-5003 Masterclass</title>
   <link rel="stylesheet" href="css/style.css">
   <script>
     window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      svg: { fontCache: 'global' },
-      options: { renderActions: { addMenu: [] } }
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+      svg: { fontCache: 'global' }
     };
   </script>
-  <script async src="js/tex-svg.js"></script>
+  <script id="MathJax-script" async src="js/tex-svg.js"></script>
 </head>
 <body>
 
@@ -35,334 +30,477 @@
     </div>
   </header>
 
+  <!-- Dual-Track Mode Switcher -->
+  <div class="mode-switch-bar">
+    <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">
+      📚 Full Understanding Track
+    </button>
+    <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">
+      ⚡ Essential Pass Track
+    </button>
+  </div>
+
   <main class="container">
 
     <!-- Unit Banner -->
     <div class="unit-banner" style="border-left-color:#0f766e;">
       <div class="badge-row">
-        <span class="badge badge-emerald">Subject: BCA-5003</span>
-        <span class="badge badge-amber">⭐ Optical Fiber & Shannon Theorem</span>
-        <span class="badge badge-coral">Day 2 Priority</span>
+        <span class="badge badge-amber">Subject: BCA-5003 (Networks)</span>
+        <span class="badge badge-emerald">⭐ Optical Fiber TIR & Shannon Capacity PYQs</span>
+        <span class="badge badge-coral">Day 2 Focus (Distributed Plan)</span>
       </div>
       <h1 class="unit-title">Unit II: Transmission Media & Physical Layer</h1>
-      <p class="unit-desc">
-        Guided Media (Twisted Pair, Coaxial, Optical Fiber TIR), Unguided Media, Impairments, Nyquist Rate, and Shannon Channel Capacity.
-      </p>
+      <p class="unit-desc">Comprehensive conceptual textbook guide covering Guided Media (Twisted Pair, Coaxial, Optical Fiber with Total Internal Reflection), Unguided Wireless Media (Radio, Microwave, Infrared, Satellites), and Theoretical Channel Limits (Nyquist vs. Shannon).</p>
     </div>
 
-    <!-- Dual Study Mode Switcher -->
-    <div class="mode-switch-bar">
-      <button class="mode-btn" id="btn-mode-pass" onclick="setStudyMode('pass')">⚡ Essential Pass Track</button>
-      <button class="mode-btn active" id="btn-mode-full" onclick="setStudyMode('full')">📚 Full Understanding Track</button>
+    <!-- Learning Objectives -->
+    <div class="callout callout-objective">
+      <strong>🎯 Unit Learning Objectives:</strong>
+      <ol style="margin:6px 0 0 18px; line-height:1.6;">
+        <li>Compare the 3 Guided Transmission Media (Twisted Pair, Coaxial, Optical Fiber) across physical construction, bandwidth, attenuation, and connectors.</li>
+        <li>Explain why copper wires are twisted and contrast UTP with STP.</li>
+        <li>Derive the physics of Optical Fiber transmission: Total Internal Reflection (TIR), Critical Angle, Acceptance Cone, and Numerical Aperture ($NA$).</li>
+        <li>Distinguish Single-Mode Fiber (SMF) from Multi-Mode Fiber (MMF).</li>
+        <li>Analyze Unguided Wireless Media: Radio Waves, Line-of-sight Microwaves, Infrared, and Satellite orbits (GEO, MEO, LEO).</li>
+        <li>Compute maximum channel capacities using Nyquist's noiseless formula ($C = 2B \log_2 M$) and Shannon's noisy formula ($C = B \log_2(1 + SNR)$).</li>
+      </ol>
+    </div>
+
+    <div class="callout callout-intuition">
+      <strong>💡 Conceptual Intuition: How Does Light Stay Inside a Thin Glass Fiber Without Leaking Out?</strong><br>
+      Imagine a glass swimming pool at night with underwater lights: If light hits the water surface straight up, it exits into the air. But if light hits the surface at a very shallow angle, it doesn't escape—the water surface acts like a perfect shiny mirror and reflects the light right back down into the pool!<br>
+      This phenomenon is **Total Internal Reflection (TIR)**. In an **Optical Fiber**, we encase an inner glass core (higher refractive index $n_1$) inside an outer glass cladding (lower refractive index $n_2$). Any light entering within the acceptance cone bounces back and forth indefinitely, traveling tens of kilometers at 200,000 km/s with almost zero signal loss!
     </div>
 
     <!-- Topic 1: Guided Transmission Media -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">1.</span> Guided Media: Twisted Pair, Coaxial & Optical Fiber</span>
+        <span><span class="card-heading-icon">1.</span> Guided Transmission Media: Twisted Pair, Coaxial & Fiber</span>
       </div>
-
-      <div class="callout callout-objective">
-        <strong>🎯 Learning Objectives:</strong>
-        <ul style="margin:4px 0 0 16px;">
-          <li>Compare UTP, STP, Coaxial cable, and Optical Fiber across bandwidth, attenuation, and cost.</li>
-          <li>Understand why twisting wires cancels out electromagnetic interference (crosstalk).</li>
-          <li>Explain Total Internal Reflection (TIR) in Optical Fiber: $n_1 > n_2$ and $\theta > \theta_c$.</li>
-        </ul>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2022–23, 2021 (Compare guided media, why wires are twisted, UTP vs STP)</span>
       </div>
+      <p><strong>Guided Media</strong> (or bounded / wired media) provide a physical conduit made of copper or glass that directs the electromagnetic signal along a specific physical path.</p>
 
-      <div class="table-container">
-        <table class="data-table">
+      <div class="table-responsive">
+        <table class="study-table">
           <thead>
             <tr>
-              <th>Medium</th>
-              <th>Physical Construction</th>
-              <th>Bandwidth & Attenuation</th>
-              <th>Susceptibility to EMI Noise</th>
+              <th>Feature</th>
+              <th>Twisted Pair Cable</th>
+              <th>Coaxial Cable</th>
+              <th>Fiber-Optic Cable</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Twisted Pair (UTP / STP)</strong></td>
-              <td>Two insulated copper wires twisted spirally to cancel crosstalk; RJ-45 connector</td>
-              <td>Moderate (10 Mbps to 10 Gbps; up to 100 meters per run)</td>
-              <td>Moderate; STP includes braided foil shield against external EMI</td>
+              <td><strong>Transmission Signal</strong></td>
+              <td>Electrical voltage pulses</td>
+              <td>Electrical voltage pulses</td>
+              <td><strong>Light photons</strong> (optical pulses)</td>
             </tr>
             <tr>
-              <td><strong>Coaxial Cable</strong></td>
-              <td>Central solid copper conductor surrounded by dielectric insulation, metallic braid shield, and plastic jacket</td>
-              <td>High (up to 500 MHz; used in cable TV and early Ethernet 10Base2/10Base5)</td>
-              <td>Low; metal shielding blocks most industrial interference</td>
+              <td><strong>Transmission Medium</strong></td>
+              <td>Insulated copper conductors</td>
+              <td>Central copper wire + outer braided mesh</td>
+              <td>Ultra-pure silica glass or plastic core</td>
             </tr>
             <tr>
-              <td><strong>Optical Fiber</strong></td>
-              <td>Glass/plastic Core ($n_1$) surrounded by reflective Cladding ($n_2$) with protective coating</td>
-              <td><strong>Extremely High (Terabits/sec)</strong>; negligible attenuation over 50–100 km</td>
-              <td><strong>Zero</strong> (Immune to electromagnetic interference, lightning, and radio noise)</td>
+              <td><strong>Bandwidth Capacity</strong></td>
+              <td>Moderate (10 Mbps to 10 Gbps)</td>
+              <td>High (10 Mbps to 100 Mbps)</td>
+              <td><strong>Massive / Virtually Unlimited</strong> (Terabits/sec)</td>
+            </tr>
+            <tr>
+              <td><strong>Electromagnetic Interference (EMI)</strong></td>
+              <td>Susceptible to noise and crosstalk</td>
+              <td>Better shielded by outer copper mesh</td>
+              <td><strong>100% Immune to EMI, RFI & lightning!</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Maximum Segment Length</strong></td>
+              <td>100 meters (before needing repeater)</td>
+              <td>185m (Thinnet) to 500m (Thicknet)</td>
+              <td><strong>Tens of kilometers (2km to 100km)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Standard Connectors</strong></td>
+              <td>RJ-45 (8-pin modular connector)</td>
+              <td>BNC (Bayonet Neill-Concelman)</td>
+              <td>SC, ST, LC connectors</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Optical Fiber Vector SVG -->
+      <div class="callout callout-tip">
+        <strong>Why are Copper Wires Twisted in Pairs?</strong><br>
+        When parallel copper wires run side-by-side, external electromagnetic radiation (noise from motors, fluorescent lights) and adjacent wire signals (**crosstalk**) induce unequal interference in the two wires. By **twisting the wires together**, both wires are equally exposed to the external noise. When the receiver computes the difference between the two wires (Differential Signaling), the identical noise in both wires perfectly cancels out ($V_{signal} = (V_A + V_{noise}) - (V_B + V_{noise}) = V_A - V_B$), preserving data integrity!
+      </div>
+    </div>
+
+    <!-- Topic 2: Optical Fiber & Total Internal Reflection -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Optical Fiber & Physics of Total Internal Reflection (TIR)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2020 (TIR principles, Numerical Aperture, Single-Mode vs Multi-Mode)</span>
+      </div>
+      <p>Optical fibers operate on the principle of <strong>Total Internal Reflection (TIR)</strong>. Light travels through an inner glass **Core** surrounded by a concentric glass **Cladding**.</p>
+
       <div class="diagram-box">
-        <svg viewBox="0 0 320 160" width="100%" height="auto" style="max-width:320px;">
-          <!-- Cladding Upper -->
-          <rect x="20" y="25" width="280" height="25" fill="rgba(148, 163, 184, 0.2)" stroke="var(--border-color)" />
-          <text x="30" y="42" font-size="9" fill="var(--text-muted)">Cladding (Lower Index n₂)</text>
+        <svg viewBox="0 0 340 180" width="100%" height="auto" style="max-width:340px;">
+          <!-- Fiber Outline: Cladding -->
+          <rect x="50" y="20" width="280" height="30" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1.2" />
+          <text x="140" y="38" font-size="9" font-weight="bold" fill="#f59e0b">Cladding (Index n₂)</text>
 
-          <!-- Core Middle -->
-          <rect x="20" y="50" width="280" height="60" fill="rgba(16, 185, 129, 0.15)" stroke="var(--accent-emerald)" stroke-width="1.5" />
-          <text x="30" y="85" font-size="10" font-weight="bold" fill="var(--accent-emerald)">Core (Higher Refractive Index n₁ > n₂)</text>
+          <!-- Core -->
+          <rect x="50" y="50" width="280" height="60" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
+          <text x="130" y="85" font-size="11" font-weight="bold" fill="#0d9488">Glass Core (Index n₁ > n₂)</text>
 
-          <!-- Cladding Lower -->
-          <rect x="20" y="110" width="280" height="25" fill="rgba(148, 163, 184, 0.2)" stroke="var(--border-color)" />
-          <text x="30" y="127" font-size="9" fill="var(--text-muted)">Cladding (Lower Index n₂)</text>
+          <!-- Bottom Cladding -->
+          <rect x="50" y="110" width="280" height="30" fill="rgba(245, 158, 11, 0.15)" stroke="#f59e0b" stroke-width="1.2" />
+          <text x="140" y="128" font-size="9" font-weight="bold" fill="#f59e0b">Cladding (Index n₂)</text>
 
-          <!-- Light Ray Path through TIR -->
-          <path d="M 0,95 L 45,60 L 115,100 L 185,60 L 255,100 L 320,60" fill="none" stroke="#f59e0b" stroke-width="2.5" />
-          <circle cx="45" cy="60" r="3" fill="#e11d48" />
-          <circle cx="115" cy="100" r="3" fill="#e11d48" />
-          <circle cx="185" cy="60" r="3" fill="#e11d48" />
-          <text x="125" y="75" font-size="8.5" font-weight="bold" fill="#f59e0b">Total Internal Reflection (θ > θ_c)</text>
+          <!-- Light Ray bouncing via TIR -->
+          <path d="M 10,95 L 60,80 L 120,50 L 190,110 L 260,50 L 320,105" fill="none" stroke="#e11d48" stroke-width="2.5" />
+          <circle cx="120" cy="50" r="3" fill="#e11d48" />
+          <circle cx="190" cy="110" r="3" fill="#e11d48" />
+          <circle cx="260" cy="50" r="3" fill="#e11d48" />
+
+          <!-- Normal line at bounce point -->
+          <line x1="120" y1="35" x2="120" y2="70" stroke="var(--text-muted)" stroke-dasharray="2,2" />
+          <text x="125" y="42" font-size="7.5" fill="var(--text-muted)">θ > θc</text>
+
+          <!-- Acceptance Cone on left -->
+          <path d="M 50,50 L 10,80 L 50,110 Z" fill="rgba(225, 29, 72, 0.1)" stroke="#e11d48" stroke-width="1" stroke-dasharray="2,2" />
+          <text x="5" y="70" font-size="8" fill="#e11d48">Acceptance Cone</text>
         </svg>
-        <div class="diagram-caption">Total Internal Reflection in Optical Fiber: Light bounces losslessly along the core.</div>
+        <div class="diagram-caption">Light Propagation in Optical Fiber via Total Internal Reflection</div>
       </div>
 
       <div class="callout callout-tip">
-        <strong>Conditions for Total Internal Reflection (TIR):</strong>
+        <strong>The Two Mandatory Conditions for Total Internal Reflection:</strong>
         <ol class="step-list">
-          <li>The light ray must travel from an optically denser medium to an optically rarer medium: Core index $n_1 >$ Cladding index $n_2$.</li>
-          <li>The angle of incidence at the core-cladding boundary must exceed the <strong>Critical Angle</strong> $\theta_c$, given by:
-            $$\sin \theta_c = \frac{n_2}{n_1} \implies \theta_c = \arcsin\left(\frac{n_2}{n_1}\right)$$
+          <li><strong>Denser to Rarer Medium:</strong> Light must attempt to pass from an optically denser medium into an optically rarer medium. That is, the refractive index of the core ($n_1$) must be strictly greater than that of the cladding ($n_2$):
+            $$n_1 > n_2$$
+          </li>
+          <li><strong>Angle of Incidence Exceeds Critical Angle:</strong> The angle of incidence $\theta$ at the core-cladding boundary must be greater than the **Critical Angle** $\theta_c$:
+            $$\theta > \theta_c \quad \text{where} \quad \theta_c = \arcsin\left(\frac{n_2}{n_1}\right)$$
           </li>
         </ol>
       </div>
+
+      <div class="track-full">
+        <h4>Acceptance Angle and Numerical Aperture ($NA$):</h4>
+        <p>Light rays can only undergo TIR if they enter the fiber face within a conical angle called the **Acceptance Cone**. The sine of the maximum half-angle of this cone is called the **Numerical Aperture ($NA$)**, which measures the light-gathering capability of the fiber:</p>
+        $$NA = \sin(\theta_{max}) = \sqrt{n_1^2 - n_2^2}$$
+        $$\text{Acceptance Angle } \alpha = \arcsin(NA) = \arcsin\left(\sqrt{n_1^2 - n_2^2}\right)$$
+
+        <h4>Single-Mode vs. Multi-Mode Optical Fiber:</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr>
+                <th>Factor</th>
+                <th>Single-Mode Fiber (SMF)</th>
+                <th>Multi-Mode Fiber (MMF)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Core Diameter</strong></td>
+                <td>Extremely narrow: <strong>8 to 10 $\mu m$</strong> (approaching light wavelength).</td>
+                <td>Much wider: <strong>50 to 62.5 $\mu m$</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong>Light Propagation</strong></td>
+                <td>Only ONE single light ray path (zero modal dispersion).</td>
+                <td>Multiple rays travel at different reflection angles simultaneously.</td>
+              </tr>
+              <tr>
+                <td><strong>Light Source</strong></td>
+                <td>Expensive, highly focused <strong>Semiconductor Laser Diode</strong>.</td>
+                <td>Inexpensive <strong>Light Emitting Diode (LED)</strong>.</td>
+              </tr>
+              <tr>
+                <td><strong>Modal Dispersion</strong></td>
+                <td>Zero modal dispersion; signal retains pristine shape over vast spans.</td>
+                <td>High modal dispersion (different rays arrive at slightly different times, smearing the pulse).</td>
+              </tr>
+              <tr>
+                <td><strong>Typical Distance</strong></td>
+                <td>Long-haul telecommunications (<strong>10 km to 100+ km</strong>).</td>
+                <td>Short distances: LAN backbones, campus buildings (<strong>up to 2 km</strong>).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
-    <!-- Topic 2: Channel Capacity: Nyquist & Shannon -->
+    <!-- Topic 3: Unguided Media (Wireless) & Satellites -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">2.</span> Channel Capacity: Nyquist vs Shannon Capacity</span>
+        <span><span class="card-heading-icon">3.</span> Unguided Wireless Media & Satellite Orbits</span>
       </div>
       <div class="pyq-alert">
         <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2024–25, 2021, 2018 (Theorems, differences, and numerical calculations)</span>
+        <span>2023–24, 2021, 2019 (Radio vs Microwave vs Infrared, Satellite communication orbits)</span>
+      </div>
+      <p><strong>Unguided Media</strong> (wireless communication) transmit electromagnetic waves through the air, vacuum, or water without using a physical conductor.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Wireless Wave</th>
+              <th>Frequency Range</th>
+              <th>Propagation Characteristics</th>
+              <th>Applications</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Radio Waves</strong></td>
+              <td>$3\text{ kHz}$ to $1\text{ GHz}$</td>
+              <td><strong>Omnidirectional</strong> (sends in all directions); easily penetrates physical walls; travels long distances.</td>
+              <td>FM/AM Radio, television broadcasting, cellular networks.</td>
+            </tr>
+            <tr>
+              <td><strong>Microwaves</strong></td>
+              <td>$1\text{ GHz}$ to $300\text{ GHz}$</td>
+              <td><strong>Unidirectional (Line-of-Sight)</strong>; requires narrowly focused parabolic dish antennas; cannot penetrate buildings; rain attenuation.</td>
+              <td>Point-to-point microwave towers, satellite communications, Wi-Fi, radar.</td>
+            </tr>
+            <tr>
+              <td><strong>Infrared</strong></td>
+              <td>$300\text{ GHz}$ to $400\text{ THz}$</td>
+              <td>Very short range; strictly line-of-sight; <strong>cannot penetrate solid walls</strong> (provides inherent privacy).</td>
+              <td>TV remote controls, wireless computer mice, medical sensors.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <span class="track-pass-badge">⚡ Essential Pass Content</span>
-      <div class="callout callout-formula">
-        <strong>1. Nyquist Bit Rate (For Ideal Noiseless Channel):</strong><br>
-        $$C = 2B \log_2(M) \quad \text{bps}$$
-        where $B$ is bandwidth in Hertz, and $M$ is the number of discrete signal levels.
+      <div class="track-full">
+        <h4>Satellite Communication Orbits:</h4>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>GEO (Geostationary Earth Orbit):</strong> Located at exactly <strong>$35,786\text{ km}$</strong> directly above the equator. The satellite orbits at the exact same rotational speed as the Earth (orbital period = 24 hours), appearing completely stationary in the sky. Three GEO satellites spaced $120^\circ$ apart cover the entire globe! Used for satellite TV, weather monitoring. Round-trip propagation latency is $\sim 500\text{ ms}$.</li>
+          <li><strong>MEO (Medium Earth Orbit):</strong> Located at $5,000$ to $20,000\text{ km}$ (e.g. GPS constellation at $20,200\text{ km}$, 12-hour orbital period).</li>
+          <li><strong>LEO (Low Earth Orbit):</strong> Located at $500$ to $1,500\text{ km}$ (e.g. Starlink, Iridium). Low latency ($\sim 20\text{ ms}$), but satellites orbit rapidly ($\sim 90\text{ minutes}$), requiring constellations of thousands of satellites.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 4: Theoretical Data Rate Limits (Nyquist vs Shannon) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Theoretical Channel Capacity: Nyquist vs. Shannon</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2022–23, 2021 (Calculate channel capacity using Nyquist and Shannon formulas)</span>
+      </div>
+      <p>Data transmission speed is constrained by physics and noise. Two foundational theorems govern theoretical channel maximums:</p>
+
+      <div class="callout callout-info">
+        <strong>1. Nyquist Bit Rate Formula (For Noiseless Channel):</strong><br>
+        Formulated by Harry Nyquist (1928), gives the maximum theoretical bit rate of a noiseless channel of bandwidth $B$ with $M$ discrete signal levels:
+        $$\mathbf{C_{Nyquist} = 2B \log_2 M} \quad \text{(bits per second)}$$
       </div>
 
-      <div class="callout callout-formula">
-        <strong>2. Shannon Capacity Theorem (For Real Noisy Channel):</strong><br>
-        $$C = B \log_2(1 + \text{SNR}) \quad \text{bps}$$
-        where $B$ is bandwidth in Hertz, and $\text{SNR}$ is the Signal-to-Noise Ratio (linear, not in dB!).<br>
-        <em>Note on Decibels:</em> $\text{SNR}_{\text{dB}} = 10 \log_{10}(\text{SNR}) \implies \text{SNR} = 10^{(\text{SNR}_{\text{dB}} / 10)}$.
+      <div class="callout callout-info" style="margin-top:10px;">
+        <strong>2. Shannon Capacity Formula (For Real Noisy Channel):</strong><br>
+        Formulated by Claude Shannon (1948), gives the absolute theoretical upper bound on capacity in the presence of thermal white noise:
+        $$\mathbf{C_{Shannon} = B \log_2(1 + SNR)} \quad \text{(bits per second)}$$
+        where $B$ is bandwidth in Hertz, and $SNR$ is the linear Signal-to-Noise Ratio:
+        $$SNR_{dB} = 10 \log_{10}(SNR) \implies SNR = 10^{(SNR_{dB} / 10)}$$
       </div>
 
-      <!-- Solved University Problem -->
+      <h4>Step-by-Step Solved University Numerical Problem</h4>
+      <p><strong>Problem (CSJMU 2023–24):</strong> A standard telephone channel has a bandwidth of $B = 3000\text{ Hz}$ and a Signal-to-Noise ratio of $SNR_{dB} = 30\text{ dB}$. Calculate:</p>
+      <ol style="margin:4px 0 0 18px; line-height:1.7;">
+        <li>The maximum Shannon channel capacity.</li>
+        <li>How many discrete signal levels ($M$) are required to achieve this bit rate according to Nyquist's formula?</li>
+      </ol>
+
+      <p><strong>Step 1: Convert $SNR_{dB}$ to linear $SNR$:</strong></p>
+      $$30 = 10 \log_{10}(SNR) \implies \log_{10}(SNR) = 3 \implies SNR = 10^3 = \mathbf{1000}$$
+
+      <p><strong>Step 2: Calculate Shannon Capacity:</strong></p>
+      $$C = B \log_2(1 + SNR) = 3000 \cdot \log_2(1 + 1000) = 3000 \cdot \log_2(1001)$$
+      <p>Since $2^9 = 512$ and $2^{10} = 1024$, $\log_2(1001) \approx 9.967$:</p>
+      $$C = 3000 \times 9.967 = \mathbf{29,901 \text{ bps}} \approx \mathbf{30 \text{ kbps}}$$
+
+      <p><strong>Step 3: Equate to Nyquist's formula to find signal levels $M$:</strong></p>
+      $$C = 2B \log_2 M \implies 29901 = 2 \times 3000 \times \log_2 M = 6000 \log_2 M$$
+      $$\log_2 M = \frac{29901}{6000} \approx 4.98 \approx 5 \implies M = 2^5 = \mathbf{32 \text{ discrete signal levels}}$$
+    </div>
+
+    <!-- Topic 5: Exam Answer Blueprint -->
+    <div class="study-card track-full">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
+      </div>
       <div class="callout callout-tip">
-        <strong>📝 Solved University Numerical:</strong><br>
-        A telephone line has a bandwidth of $4 \text{ kHz}$ and a signal-to-noise ratio ($\text{SNR}_{\text{dB}}$) of $30 \text{ dB}$. Calculate the maximum theoretical channel capacity.
-      </div>
-
-      <div class="step-list">
-        <div class="step-item">
-          <strong>Step 1: Convert SNR from dB to Linear Ratio:</strong><br>
-          $$30 = 10 \log_{10}(\text{SNR}) \implies \log_{10}(\text{SNR}) = 3 \implies \text{SNR} = 10^3 = \mathbf{1000}$$
-        </div>
-        <div class="step-item">
-          <strong>Step 2: Apply Shannon's Formula:</strong><br>
-          Bandwidth $B = 4 \text{ kHz} = 4000 \text{ Hz}$.<br>
-          $$C = B \log_2(1 + \text{SNR}) = 4000 \log_2(1 + 1000) = 4000 \log_2(1001)$$
-        </div>
-        <div class="step-item">
-          <strong>Step 3: Convert Base-2 Log to Base-10:</strong><br>
-          $$\log_2(1001) = \frac{\log_{10}(1001)}{\log_{10}(2)} \approx \frac{3.00043}{0.30103} \approx \mathbf{9.967}$$
-          $$C = 4000 \times 9.967 = \mathbf{39,869 \text{ bps}} \approx \mathbf{39.87 \text{ kbps}}$$
-        </div>
-      </div>
-    </div>
-
-    <!-- Topic 3: Transmission Impairments -->
-    <div class="study-card">
-      <div class="card-heading">
-        <span><span class="card-heading-icon">3.</span> Transmission Impairments in Physical Channels</span>
-      </div>
-      <div class="pyq-alert">
-        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
-        <span>2023–24, 2019 (Explain Attenuation, Distortion, and Noise)</span>
-      </div>
-
-      <div class="callout callout-warning">
-        <strong>The 3 Causes of Signal Degradation:</strong>
-        <ol class="step-list">
-          <li><strong>Attenuation:</strong> Loss of energy as a signal travels over distance through a medium. Compensated using amplifiers (analog) or repeaters (digital).</li>
-          <li><strong>Distortion:</strong> The signal changes shape because composite signals contain multiple harmonic frequencies, and each frequency component travels at a slightly different speed (propagation delay).</li>
-          <li><strong>Noise:</strong> Unwanted external energy added to the signal:
-            <ul style="margin:4px 0 0 16px;">
-              <li><em>Thermal Noise:</em> Random movement of electrons in wires (cannot be eliminated).</li>
-              <li><em>Crosstalk:</em> Interference caused by magnetic fields of adjacent parallel wire pairs.</li>
-              <li><em>Impulse Noise:</em> Sudden high-energy spikes caused by lightning, power surges, or industrial machinery.</li>
-            </ul>
-          </li>
+        <strong>How to Score Full 10 Marks on "Optical Fiber Transmission & TIR":</strong>
+        <ol style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><strong>Definition (1 Mark):</strong> State that optical fiber uses silica glass to transmit data as modulated light pulses.</li>
+          <li><strong>Structural Diagram (3 Marks):</strong> Draw a neat cross-section showing Core ($n_1$), Cladding ($n_2$), and Buffer Coating. Draw light bouncing inside core.</li>
+          <li><strong>Two Mandatory TIR Conditions (2 Marks):</strong> State $n_1 > n_2$ and angle of incidence $\theta > \theta_c$.</li>
+          <li><strong>Mathematical Formulas (2 Marks):</strong> Write the critical angle formula $\theta_c = \arcsin(n_2/n_1)$ and Numerical Aperture $NA = \sqrt{n_1^2 - n_2^2}$.</li>
+          <li><strong>Single-Mode vs Multi-Mode (2 Marks):</strong> Tabulate core diameter ($8\mu m$ vs $50\mu m$), light source (Laser vs LED), and distance capacity.</li>
         </ol>
       </div>
+
+      <div class="callout callout-mistake">
+        <strong>⚠️ Common Exam Pitfalls:</strong><br>
+        • <strong>Confusing dB with Linear SNR:</strong> Never plug $SNR_{dB}$ directly into the Shannon formula! $30\text{ dB}$ must be converted to $SNR = 10^{30/10} = 1000$ before calculating $\log_2(1+SNR)$.<br>
+        • <strong>Inverting Refractive Indices:</strong> The core index $n_1$ MUST be greater than cladding index $n_2$. If you write $n_2 > n_1$, TIR is physically impossible and evaluators award 0 marks!
+      </div>
     </div>
 
-    <!-- Topic 4: Interactive MCQ Exam Drill (10 Questions) -->
+    <!-- Interactive MCQ Drill -->
     <div class="study-card">
       <div class="card-heading">
-        <span><span class="card-heading-icon">📝</span> Unit II Exam Mastery MCQ Quiz (10 Questions)</span>
+        <span><span class="card-heading-icon">6.</span> Unit II Examination Mastery MCQ Quiz</span>
       </div>
-      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:14px;">
-        Answer all 10 questions covering transmission media, optical fiber TIR, and Shannon capacity calculations.
-      </p>
-
+      <p>Verify your conceptual mastery across transmission media, optical fiber TIR, wireless propagation, and Shannon/Nyquist limits with this 10-question quiz.</p>
       <div id="unit-mcq-container"></div>
     </div>
 
   </main>
 
-  <!-- Sticky Bottom Navigation -->
+  <!-- Sticky Bottom Navigation Bar -->
   <nav class="nav-bottom">
-    <a href="bca5003_unit1.html" class="nav-unit-btn">← Unit I: Models</a>
+    <a href="bca5003_unit1.html" class="nav-unit-btn">← Unit I: Basics</a>
     <a href="index.html" class="nav-unit-btn">Hub</a>
-    <a href="bca5003_unit3.html" class="nav-unit-btn primary">Next: Unit III →</a>
+    <a href="bca5003_unit3.html" class="nav-unit-btn primary">Next: Unit III (Switching) →</a>
   </nav>
 
   <script src="js/common.js"></script>
   <script>
     const unit2Questions = [
       {
-        question: "What physical condition must be met for Total Internal Reflection to occur in an optical fiber cable?",
+        question: "What are the two mandatory physical conditions for Total Internal Reflection (TIR) to occur in an optical fiber?",
         options: [
-          "Core index must be less than cladding index (n1 < n2)",
-          "Core index must be greater than cladding index (n1 > n2) and incidence angle > critical angle",
-          "Incidence angle must be 0 degrees",
-          "Light must be polarized"
+          "Light must travel from air to glass, and the laser must be red",
+          "The core refractive index must be greater than cladding (n1 > n2), and angle of incidence must exceed the critical angle (θ > θc)",
+          "The cable must be immersed in water",
+          "Voltage must exceed 220V"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Total Internal Reflection requires light to travel from a denser medium to a rarer medium (core n1 > cladding n2) at an angle of incidence greater than the critical angle theta_c."
+        explanation: "TIR strictly requires light traveling from denser to rarer medium (n1 > n2) with incident angle exceeding the critical angle θc = arcsin(n2/n1)."
       },
       {
-        question: "According to Shannon's Channel Capacity Theorem, what is the theoretical bit rate limit of a noisy channel?",
+        question: "Why are the insulated copper wires in twisted pair cables twisted around each other?",
         options: [
-          "C = 2B log2(M)",
-          "C = B log2(1 + SNR)",
-          "C = B * SNR",
-          "C = 2B * log10(SNR)"
-        ],
-        answer: 1,
-        is_pyq: true,
-        explanation: "Shannon's theorem defines the maximum capacity of a channel with thermal noise as $C = B \\log_2(1 + \\text{SNR})$ bps."
-      },
-      {
-        question: "Why are the insulated copper wires in a UTP cable twisted spirally around each other?",
-        options: [
-          "To make the cable flexible",
-          "To cancel out electromagnetic interference and crosstalk from adjacent pairs",
+          "To make the cable flexible enough to tie knots",
+          "To equalize external electromagnetic noise and cancel out crosstalk interference between adjacent pairs",
           "To increase electrical resistance",
-          "To prevent the cable from stretching"
+          "To allow multiple colors to show"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Twisting ensures both wires are equally exposed to external electromagnetic noise, so the differential receiver cancels the noise out."
+        explanation: "Twisting ensures both wires experience identical external electromagnetic interference, which cancels out when differential voltage is measured."
       },
       {
-        question: "If a noiseless channel has a bandwidth of 3 kHz and carries a digital signal with 4 discrete levels, what is the Nyquist maximum bit rate?",
+        question: "What is the primary difference between Single-Mode Fiber (SMF) and Multi-Mode Fiber (MMF)?",
         options: [
-          "6 kbps",
-          "12 kbps",
-          "24 kbps",
-          "48 kbps"
+          "SMF uses copper, while MMF uses aluminum",
+          "SMF has an extremely narrow core (8-10 µm) supporting only one light path with zero modal dispersion, while MMF has a wider core (50-62.5 µm)",
+          "MMF can only transmit radio signals",
+          "SMF can only travel 10 meters"
         ],
         answer: 1,
-        is_pyq: true,
-        explanation: "Using Nyquist formula: $C = 2B \\log_2(M) = 2(3000) \\log_2(4) = 6000 \\times 2 = 12,000$ bps = 12 kbps."
+        explanation: "Single-mode fiber's tiny core allows only one axial light ray, eliminating modal dispersion and enabling transmission over tens of kilometers."
       },
       {
-        question: "Which transmission medium is completely immune to electromagnetic interference (EMI) and radio frequency interference?",
+        question: "According to Nyquist's formula, what is the maximum bit rate of a noiseless channel with bandwidth B = 4000 Hz using M = 4 signal levels?",
         options: [
-          "Coaxial cable",
+          "8,000 bps",
+          "16,000 bps",
+          "32,000 bps",
+          "64,000 bps"
+        ],
+        answer: 1,
+        explanation: "C = 2B log2(M) = 2 * 4000 * log2(4) = 8000 * 2 = 16,000 bps (16 kbps)."
+      },
+      {
+        question: "In Shannon's capacity formula C = B log2(1 + SNR), if the signal-to-noise ratio is zero (SNR = 0, no signal), what is the capacity?",
+        options: [
+          "Infinity",
+          "B",
+          "0 bps (log2(1) = 0)",
+          "1 bps"
+        ],
+        answer: 2,
+        explanation: "When SNR = 0, C = B * log2(1 + 0) = B * log2(1) = 0 bps; no information can be communicated without signal power."
+      },
+      {
+        question: "Which connector type is standardly used to terminate Cat-5e and Cat-6 Twisted Pair Ethernet cables?",
+        options: [
+          "BNC Connector",
+          "RJ-45 (Registered Jack 45)",
+          "SC Connector",
+          "VGA Connector"
+        ],
+        answer: 1,
+        explanation: "RJ-45 is the standard 8-pin modular connector for twisted pair Ethernet network cables."
+      },
+      {
+        question: "Why cannot Infrared wireless transmission be used for communication between separate rooms in an office?",
+        options: [
+          "Infrared requires satellite antennas",
+          "Infrared waves have high frequency and cannot penetrate solid walls or opaque barriers",
+          "Infrared is poisonous to humans",
+          "Infrared is too fast for computers to process"
+        ],
+        answer: 1,
+        explanation: "Infrared signals cannot pass through solid walls, limiting their use to indoor line-of-sight environments (like TV remotes)."
+      },
+      {
+        question: "What is the orbital altitude of a Geostationary Earth Orbit (GEO) communications satellite above the equator?",
+        options: [
+          "500 km",
+          "2,000 km",
+          "35,786 km",
+          "100,000 km"
+        ],
+        answer: 2,
+        explanation: "GEO satellites orbit at exactly 35,786 km above Earth's equator with an orbital period of exactly 24 hours, remaining stationary relative to the ground."
+      },
+      {
+        question: "What does the 'Numerical Aperture' (NA) of an optical fiber physically represent?",
+        options: [
+          "The weight of the fiber per meter",
+          "The light-gathering capability and size of the acceptance cone (NA = √(n1² - n2²))",
+          "The speed of electricity in the cable",
+          "The maximum temperature the fiber can withstand"
+        ],
+        answer: 1,
+        explanation: "Numerical Aperture measures the fiber's ability to capture light rays entering at various angles, defined as NA = sin(θ_max) = √(n1² - n2²)."
+      },
+      {
+        question: "Which of the following guided media has the highest immunity to electromagnetic interference and radio frequency noise?",
+        options: [
           "Unshielded Twisted Pair (UTP)",
           "Shielded Twisted Pair (STP)",
+          "Coaxial Cable",
           "Optical Fiber"
         ],
         answer: 3,
-        is_pyq: true,
-        explanation: "Optical fiber carries light photons through dielectric glass rather than electrical currents, making it completely immune to all electromagnetic interference and lightning surges."
-      },
-      {
-        question: "What type of transmission impairment is characterized by loss of signal energy as distance increases?",
-        options: [
-          "Attenuation",
-          "Distortion",
-          "Jitter",
-          "Crosstalk"
-        ],
-        answer: 0,
-        is_pyq: true,
-        explanation: "Attenuation is the reduction in signal amplitude/strength over distance as electrical or optical energy is absorbed by the medium."
-      },
-      {
-        question: "If an SNR is specified as 20 dB, what is its linear value in Shannon's formula?",
-        options: [
-          "20",
-          "100",
-          "200",
-          "1000"
-        ],
-        answer: 1,
-        is_pyq: false,
-        explanation: "$\\text{SNR}_{\\text{dB}} = 10 \\log_{10}(\\text{SNR}) \\implies 20 = 10 \\log_{10}(\\text{SNR}) \\implies \\log_{10}(\\text{SNR}) = 2 \\implies \\text{SNR} = 10^2 = 100$."
-      },
-      {
-        question: "Which frequency range is predominantly used for line-of-sight terrestrial and satellite communications?",
-        options: [
-          "Audio waves",
-          "Microwaves (1 GHz - 300 GHz)",
-          "Infrared waves",
-          "Low-frequency radio"
-        ],
-        answer: 1,
-        is_pyq: true,
-        explanation: "Microwaves travel in narrow, highly directional straight lines, making them the standard choice for satellite links and line-of-sight microwave towers."
-      },
-      {
-        question: "What connector is universally used to terminate 8-conductor Twisted Pair cables in Ethernet LANs?",
-        options: [
-          "BNC Connector",
-          "RJ-11 Connector",
-          "RJ-45 Connector",
-          "SC Connector"
-        ],
-        answer: 2,
-        is_pyq: false,
-        explanation: "The RJ-45 (Registered Jack 45) is the standard 8-pin modular connector for twisted pair Ethernet."
-      },
-      {
-        question: "What is Single-Mode Fiber primarily used for compared to Multi-Mode Fiber?",
-        options: [
-          "Short distances within a single room",
-          "Ultra-long-distance backbone links because it eliminates modal dispersion",
-          "Analog audio transmission only",
-          "Toy flashlights"
-        ],
-        answer: 1,
-        is_pyq: true,
-        explanation: "Single-mode fiber has an extremely narrow core (~9 microns) allowing only a single mode of light to propagate, eliminating modal dispersion and enabling transmission over tens of kilometers without repeaters."
+        explanation: "Optical fiber transmits dielectric light pulses through glass, making it 100% immune to electromagnetic, radio frequency, and high-voltage interference."
       }
     ];
 
     let mcqQuiz;
     document.addEventListener('DOMContentLoaded', () => {
       mcqQuiz = new MCQEngine('unit-mcq-container', unit2Questions);
+      if (typeof typesetMath === 'function') typesetMath();
     });
   </script>
 </body>
