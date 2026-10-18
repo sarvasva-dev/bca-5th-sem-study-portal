@@ -519,6 +519,86 @@ public class BannerApplet extends Applet {
   &lt;/body&gt;
 &lt;/html&gt;</code></pre>
         </div>
+
+        <h4>High-Yield Assignment Code (Shailendra Sir's Questions 28 & 30):</h4>
+        <p><strong>Problem:</strong> Draw a Hut/House and Triangles using <code>Graphics</code> class methods (<code>drawLine</code>, <code>drawRect</code>, <code>drawPolygon</code>):</p>
+        <div class="code-box">
+          <pre><code>import java.applet.Applet;
+import java.awt.*;
+
+public class HutApplet extends Applet {
+    public void paint(Graphics g) {
+        // 1. Draw Roof (Triangle via drawPolygon)
+        int[] xRoof = {150, 80, 220};
+        int[] yRoof = {50, 110, 110};
+        g.setColor(Color.RED);
+        g.fillPolygon(xRoof, yRoof, 3);
+
+        // 2. Draw House Walls (Rectangle)
+        g.setColor(Color.ORANGE);
+        g.fillRect(90, 110, 120, 100);
+
+        // 3. Draw Door & Window
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(135, 150, 30, 60); // Door
+        g.setColor(Color.CYAN);
+        g.fillRect(105, 125, 25, 25); // Left window
+        g.fillRect(170, 125, 25, 25); // Right window
+
+        // 4. Draw Right-Angled Triangle via drawLine
+        g.setColor(Color.BLUE);
+        g.drawLine(250, 110, 250, 210); // Vertical
+        g.drawLine(250, 210, 310, 210); // Base
+        g.drawLine(250, 110, 310, 210); // Hypotenuse
+    }
+}</code></pre>
+        </div>
+
+        <h4>Default Layout Managers of Java Containers (Shailendra Sir Q31):</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr><th>Container Class</th><th>Default Layout Manager</th><th>Arrangement Mechanism</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>java.applet.Applet</code></td><td><code>FlowLayout</code></td><td>Centers components sequentially left-to-right; wraps to next row.</td></tr>
+              <tr><td><code>java.awt.Panel</code></td><td><code>FlowLayout</code></td><td>Sequential left-to-right flow layout with 5px default gaps.</td></tr>
+              <tr><td><code>java.awt.Frame</code></td><td><code>BorderLayout</code></td><td>5 Geographic zones (<code>NORTH</code>, <code>SOUTH</code>, <code>EAST</code>, <code>WEST</code>, <code>CENTER</code>).</td></tr>
+              <tr><td><code>java.awt.Dialog</code></td><td><code>BorderLayout</code></td><td>Standard 5-zone border layout.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>AWT vs. Swing (Shailendra Sir Q34 — 6 Key Differences):</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr><th>Comparison Factor</th><th>Abstract Window Toolkit (AWT)</th><th>Java Swing</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Component Weight</strong></td><td><strong>Heavyweight:</strong> backed by underlying native OS peers.</td><td><strong>Lightweight:</strong> written 100% in pure Java (no OS peers).</td></tr>
+              <tr><td><strong>Package Name</strong></td><td><code>java.awt.*</code></td><td><code>javax.swing.*</code></td></tr>
+              <tr><td><strong>Component Prefix</strong></td><td>No prefix: <code>Button</code>, <code>Label</code>, <code>TextField</code>.</td><td>Prefixed with 'J': <code>JButton</code>, <code>JLabel</code>, <code>JTextField</code>.</td></tr>
+              <tr><td><strong>Look and Feel</strong></td><td>Native OS dependent (looks like Windows on Windows, Mac on Mac).</td><td><strong>Pluggable Look and Feel:</strong> looks identical across all operating systems.</td></tr>
+              <tr><td><strong>Architecture</strong></td><td>Simple component hierarchy.</td><td>Follows strict <strong>Model-View-Controller (MVC)</strong> architecture.</td></tr>
+              <tr><td><strong>Advanced Controls</strong></td><td>Only basic controls; lacks tables, trees, or tabs.</td><td>Rich controls: <code>JTable</code>, <code>JTree</code>, <code>JTabbedPane</code>, <code>JSlider</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4>Apache Tomcat vs. Apache HTTP Server (Shailendra Sir Q36):</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr><th>Feature</th><th>Apache HTTP Server</th><th>Apache Tomcat</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Role</strong></td><td>Traditional Web Server (serving static HTML, images, CSS, PHP).</td><td><strong>Web Container / Servlet & JSP Container</strong>.</td></tr>
+              <tr><td><strong>Execution Engine</strong></td><td>Written in C; executes native HTTP web requests on port 80.</td><td>Written in Java; executes Java Servlets and compiles JSPs on port 8080.</td></tr>
+              <tr><td><strong>Dynamic Java Support</strong></td><td>Cannot execute Java servlets directly (needs proxy modules).</td><td>Native JVM environment specifically built to execute Java web apps.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

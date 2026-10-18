@@ -339,6 +339,49 @@
       <p><strong>Step 3: Equate to Nyquist's formula to find signal levels $M$:</strong></p>
       $$C = 2B \log_2 M \implies 29901 = 2 \times 3000 \times \log_2 M = 6000 \log_2 M$$
       $$\log_2 M = \frac{29901}{6000} \approx 4.98 \approx 5 \implies M = 2^5 = \mathbf{32 \text{ discrete signal levels}}$$
+
+      <h4>High-Yield Class Numericals (Archita Mam's Revision Sheet):</h4>
+      <div class="callout callout-tip">
+        <strong>Problem 1 (Extremely Noisy Channel, SNR = 0 dB):</strong><br>
+        <em>"Consider an extremely noisy channel having bandwidth 3400 Hz in which the value of SNR is almost 0 dB. Calculate capacity for this channel."</em><br>
+        • Convert $0\text{ dB}$ to linear ratio: $SNR_{dB} = 10 \log_{10}(SNR) = 0 \implies \log_{10}(SNR) = 0 \implies SNR = 10^0 = \mathbf{1}$.<br>
+        • Apply Shannon's formula:
+        $$C = B \log_2(1 + SNR) = 3400 \cdot \log_2(1 + 1) = 3400 \cdot \log_2(2) = 3400 \times 1 = \mathbf{3400 \text{ bps}}$$
+        <br>
+        <strong>Problem 2 (Bandwidth 3100 Hz, SNR = 10 dB):</strong><br>
+        <em>"Find the maximum bit rate for a channel having bandwidth 3100 Hz and S/N ratio of 10 dB."</em><br>
+        • Linear SNR: $10 = 10 \log_{10}(SNR) \implies SNR = 10^1 = \mathbf{10}$.<br>
+        • Capacity:
+        $$C = 3100 \cdot \log_2(1 + 10) = 3100 \cdot \log_2(11) = 3100 \times 3.4594 = \mathbf{10,724 \text{ bps}} \approx \mathbf{10.72 \text{ kbps}}$$
+      </div>
+
+      <h4>Bit Rate vs. Baud Rate & Signal Properties</h4>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr><th>Metric</th><th>Definition</th><th>Unit</th><th>Mathematical Relationship</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Bit Rate</strong></td><td>Number of binary bits (0s and 1s) transmitted per second.</td><td>Bits per second (bps)</td><td rowspan="2">$$\mathbf{\text{Bit Rate} = \text{Baud Rate} \times \log_2(L)}$$<br>where $L$ is number of signal levels.</td></tr>
+            <tr><td><strong>Baud Rate</strong></td><td>Number of signal units (symbol state changes) per second.</td><td>Baud (symbols/sec)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>Serial Transmission vs. Parallel Transmission</h4>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr><th>Feature</th><th>Serial Transmission</th><th>Parallel Transmission</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Data Lines</strong></td><td>1 single physical wire; bits sent sequentially one after another.</td><td>$N$ parallel wires (e.g. 8 wires); $N$ bits sent simultaneously.</td></tr>
+            <tr><td><strong>Distance</strong></td><td>Ideal for <strong>long distances</strong> (telephone lines, Ethernet, USB).</td><td>Strictly for <strong>short distances</strong> (internal CPU buses, legacy printer ports).</td></tr>
+            <tr><td><strong>Cost & Skew</strong></td><td>Low cable cost; <strong>zero clock skew</strong>.</td><td>High cabling cost; susceptible to <strong>signal skew</strong> (bits arrive at slightly different times).</td></tr>
+            <tr><td><strong>Modes</strong></td><td><strong>Synchronous</strong> (common clock line) vs <strong>Asynchronous</strong> (Start bit '0' and Stop bit '1').</td><td>Controlled by parallel strobe/handshake line.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Topic 5: Exam Answer Blueprint -->
