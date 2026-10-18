@@ -297,6 +297,98 @@ frame.addWindowListener(new WindowAdapter() {
     }
 });</code></pre>
         </div>
+
+        <h4>Master Exam Code: Complete Runnable AWT GUI Application</h4>
+        <p><strong>Problem (CSJMU 2024–25 & Lab Q14):</strong> Write a complete Java AWT program to create a User Registration Form with Labels, TextFields, Radio Buttons (CheckboxGroup), Dropdown Choice, and a Submit Button that handles the click event:</p>
+        <div class="code-box">
+          <pre><code>import java.awt.*;
+import java.awt.event.*;
+
+public class StudentForm extends Frame implements ActionListener {
+    Label lblTitle, lblName, lblGender, lblCity, lblResult;
+    TextField tfName;
+    CheckboxGroup cbg;
+    Checkbox rbMale, rbFemale;
+    Choice chCity;
+    Button btnSubmit;
+
+    public StudentForm() {
+        // 1. Frame setup
+        setTitle("Student Registration Portal");
+        setSize(380, 360);
+        setLayout(new FlowLayout(FlowLayout.CENTER, 15, 12));
+
+        // 2. Instantiate controls
+        lblTitle = new Label("--- Student Registration Form ---");
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 14));
+
+        lblName = new Label("Full Name:");
+        tfName = new TextField(22);
+
+        lblGender = new Label("Gender:");
+        cbg = new CheckboxGroup();
+        rbMale = new Checkbox("Male", cbg, true);
+        rbFemale = new Checkbox("Female", cbg, false);
+
+        lblCity = new Label("Select City:");
+        chCity = new Choice();
+        chCity.add("Kanpur");
+        chCity.add("Lucknow");
+        chCity.add("Delhi");
+        chCity.add("Varanasi");
+
+        btnSubmit = new Button("Submit Application");
+        lblResult = new Label("Status: Awaiting input...");
+
+        // 3. Register Action Listener
+        btnSubmit.addActionListener(this);
+
+        // 4. Add controls to Frame
+        add(lblTitle);
+        add(lblName); add(tfName);
+        add(lblGender); add(rbMale); add(rbFemale);
+        add(lblCity); add(chCity);
+        add(btnSubmit);
+        add(lblResult);
+
+        // 5. Close window via WindowAdapter
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+
+        setVisible(true);
+    }
+
+    // Event Handler Method
+    public void actionPerformed(ActionEvent e) {
+        String name = tfName.getText();
+        String gender = cbg.getSelectedCheckbox().getLabel();
+        String city = chCity.getSelectedItem();
+        lblResult.setText("Registered: " + name + " (" + gender + ", " + city + ")");
+    }
+
+    public static void main(String[] args) {
+        new StudentForm();
+    }
+}</code></pre>
+        </div>
+
+        <h4>Menus in AWT: MenuBar, Menu & MenuItem</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr><th>Menu Component</th><th>Class</th><th>Hierarchy & Usage</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>MenuBar</strong></td><td><code>java.awt.MenuBar</code></td><td>Attached to Frame via <code>frame.setMenuBar(mb);</code>. The horizontal bar.</td></tr>
+              <tr><td><strong>Menu</strong></td><td><code>java.awt.Menu</code></td><td>Pull-down menu container added to MenuBar (e.g. "File", "Edit").</td></tr>
+              <tr><td><strong>MenuItem</strong></td><td><code>java.awt.MenuItem</code></td><td>Individual clickable action command added to Menu (e.g. "Open", "Save").</td></tr>
+              <tr><td><strong>CheckboxMenuItem</strong></td><td><code>java.awt.CheckboxMenuItem</code></td><td>Menu item with a toggle checkmark.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

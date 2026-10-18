@@ -329,6 +329,27 @@
           The RK4 result matches the exact analytical answer to <strong>5 full decimal places</strong>!
         </div>
       </div>
+
+      <h4>Runge-Kutta 2nd Order Method (RK-2)</h4>
+      <div class="callout callout-info">
+        <strong>Formulas:</strong><br>
+        $$k_1 = h \cdot f(x_0, y_0)$$
+        $$k_2 = h \cdot f(x_0 + h, y_0 + k_1)$$
+        $$y(x_0 + h) = y_0 + \frac{1}{2}(k_1 + k_2)$$
+        <em>Note:</em> The Runge-Kutta 2nd order method is mathematically equivalent to Heun's (Modified Euler) method and has a global truncation error of $O(h^2)$.
+      </div>
+
+      <h4>Multi-Step Predictor-Corrector Methods: Milne's & Adams-Bashforth</h4>
+      <p>While single-step methods like RK4 compute $y_{n+1}$ purely from $(x_n, y_n)$, <strong>Multi-step Methods</strong> achieve high efficiency by using past historical points $(x_{n-3}, x_{n-2}, x_{n-1}, x_n)$ to extrapolate forward.</p>
+
+      <div class="callout callout-tip">
+        <strong>Milne-Simpson Predictor-Corrector Method:</strong><br>
+        • <strong>Milne's Predictor Formula (Open Quadrature):</strong>
+        $$\mathbf{y_{n+1}^{(P)} = y_{n-3} + \frac{4h}{3}\left[2y_{n-2}' - y_{n-1}' + 2y_n'\right]}$$
+        • <strong>Milne's Corrector Formula (Simpson's 1/3 Quadrature):</strong>
+        $$\mathbf{y_{n+1}^{(C)} = y_{n-1} + \frac{h}{3}\left[y_{n-1}' + 4y_n' + y_{n+1}'^{(P)}\right]}$$
+        • Truncation errors: $E_P = \frac{14}{45} h^5 y^{(5)}(\xi), \quad E_C = -\frac{1}{90} h^5 y^{(5)}(\xi)$.
+      </div>
     </div>
 
     <!-- Topic 6: Comprehensive Comparison Matrix of ODE Solvers -->

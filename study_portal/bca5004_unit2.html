@@ -198,12 +198,18 @@
       $$\mathbf{y(x) = y_0 + p \Delta y_0 + \frac{p(p-1)}{2!} \Delta^2 y_0 + \frac{p(p-1)(p-2)}{3!} \Delta^3 y_0 + \dots}$$
 
       <h4>2. Newton's Backward Interpolation Formula (Near Table End)</h4>
-      <p>When the target argument $x$ lies near the end of the table, use $x = x_n + ph$ (where $p = \frac{x - x_n}{h}$):</p>
+      <p>When the target argument $x$ lies near the end of the table, using forward differences requires values outside the table. Instead, we expand using backward differences with origin at $x_n$, where $x = x_n + ph \implies p = \frac{x - x_n}{h}$ (note: $p$ is typically negative or between $-1$ and $0$):</p>
       $$f(x_n + ph) = E^p f_n = (1 - \nabla)^{-p} f_n$$
       $$\mathbf{y(x) = y_n + p \nabla y_n + \frac{p(p+1)}{2!} \nabla^2 y_n + \frac{p(p+1)(p+2)}{3!} \nabla^3 y_n + \dots}$$
 
-      <h4>Step-by-Step Solved University Numerical Problem</h4>
-      <p><strong>Problem (CSJMU 2023–24):</strong> From the following table of values, estimate $f(1.5)$ using Newton's Forward formula:</p>
+      <div class="callout callout-tip">
+        <strong>Forward vs. Backward Rule Comparison:</strong><br>
+        • <strong>Forward ($p = \frac{x - x_0}{h}$):</strong> Factors have <em>subtraction</em>: $p, \frac{p(p-1)}{2!}, \frac{p(p-1)(p-2)}{3!}$. Uses the top diagonal row of the difference table ($\Delta y_0, \Delta^2 y_0, \dots$).<br>
+        • <strong>Backward ($p = \frac{x - x_n}{h}$):</strong> Factors have <em>addition</em>: $p, \frac{p(p+1)}{2!}, \frac{p(p+1)(p+2)}{3!}$. Uses the bottom diagonal row of the difference table ($\nabla y_n, \nabla^2 y_n, \dots$).
+      </div>
+
+      <h4>Step-by-Step Solved Problem 1: Newton Forward (CSJMU 2023–24)</h4>
+      <p><strong>Problem:</strong> From the following table of values, estimate $f(1.5)$ using Newton's Forward formula:</p>
       <div class="table-responsive">
         <table class="study-table">
           <thead>
@@ -241,6 +247,34 @@
       $$y(1.5) = 10 + (0.5)(16) + \frac{(0.5)(0.5 - 1)}{2} (16) + \frac{(0.5)(0.5 - 1)(0.5 - 2)}{6} (6)$$
       $$y(1.5) = 10 + 8.0 + \frac{(0.5)(-0.5)}{2}(16) + \frac{(0.5)(-0.5)(-1.5)}{6}(6)$$
       $$y(1.5) = 10 + 8.0 - 2.0 + 0.375 = \mathbf{16.375}$$
+
+      <h4>Step-by-Step Solved Problem 2: Newton Backward (CSJMU 2024–25)</h4>
+      <p><strong>Problem:</strong> Using the same table above, estimate $f(3.8)$ using Newton's Backward formula.</p>
+      <p>• Since $x = 3.8$ is near the end of the table ($x_n = 4$), we use Newton's Backward formula.<br>
+      • $x_n = 4$, $y_n = 112$, $h = 1$. The bottom-row differences are:<br>
+      $\nabla y_n = 54, \quad \nabla^2 y_n = 22, \quad \nabla^3 y_n = 6$.<br>
+      • $p = \frac{x - x_n}{h} = \frac{3.8 - 4}{1} = \mathbf{-0.2}$.</p>
+      <p>Substitute into Newton's Backward formula:</p>
+      $$y(3.8) = y_n + p \nabla y_n + \frac{p(p+1)}{2!} \nabla^2 y_n + \frac{p(p+1)(p+2)}{3!} \nabla^3 y_n$$
+      $$y(3.8) = 112 + (-0.2)(54) + \frac{(-0.2)(-0.2 + 1)}{2} (22) + \frac{(-0.2)(-0.2 + 1)(-0.2 + 2)}{6} (6)$$
+      $$y(3.8) = 112 - 10.8 + \frac{(-0.2)(0.8)}{2}(22) + \frac{(-0.2)(0.8)(1.8)}{6}(6)$$
+      $$y(3.8) = 112 - 10.8 - 1.76 - 0.288 = \mathbf{99.152}$$
+
+      <h4>High-Yield Technique: Missing Term Determination (CSJMU 2022–23)</h4>
+      <div class="callout callout-info">
+        <strong>The Missing Term Principle:</strong><br>
+        If $n$ values of $y$ are given in a table corresponding to equally spaced arguments, the data can be represented by a polynomial of degree at most $n - 1$. By the Fundamental Theorem of Finite Differences, the $n$-th forward difference must be identically zero:
+        $$\mathbf{\Delta^n y_0 = (E - 1)^n y_0 = 0}$$
+        Expanding $(E - 1)^n$ via Binomial Theorem gives a linear algebraic equation in terms of the given and unknown values!
+      </div>
+      <p><strong>Exam Problem:</strong> Find the missing term in the table: $x = [0, 1, 2, 3, 4]$, $y = [1, 3, 9, ?, 81]$.</p>
+      <p>Here 4 values are known ($y_0=1, y_1=3, y_2=9, y_4=81$). The missing value is $y_3$.<br>
+      Since 4 values are known, degree of polynomial is 3, so $\Delta^4 y_0 = 0 \implies (E - 1)^4 y_0 = 0$.<br>
+      $$(E^4 - 4E^3 + 6E^2 - 4E + 1) y_0 = 0$$
+      $$y_4 - 4y_3 + 6y_2 - 4y_1 + y_0 = 0$$
+      Substitute known values:
+      $$81 - 4y_3 + 6(9) - 4(3) + 1 = 0 \implies 81 - 4y_3 + 54 - 12 + 1 = 0$$
+      $$124 - 4y_3 = 0 \implies 4y_3 = 124 \implies \mathbf{y_3 = 31}$$
     </div>
 
     <!-- Section 4: Lagrange's Interpolation for Unequal Intervals -->
@@ -274,6 +308,15 @@
       <p>• Term 3: $\frac{(2)(1)(-2)}{(3)(2)(-1)} (6) = \frac{-4}{-6} (6) = \mathbf{4}$</p>
       <p>• Term 4: $\frac{(2)(1)(-1)}{(4)(3)(1)} (12) = \frac{-2}{12} (12) = \mathbf{-2}$</p>
       $$\mathbf{y(2) = 2 + 0 + 4 - 2 = 4}$$
+
+      <h4>Lagrange's Inverse Interpolation Formula (CSJMU 2021)</h4>
+      <p>When $y$ is known and we must determine the unknown $x$ such that $f(x) = y$, ordinary polynomial root finding can be tedious. Instead, we interchange the roles of $x$ and $y$, expressing $x$ as a polynomial in $y$:</p>
+      $$\mathbf{x(y) = \sum_{i=0}^n x_i \prod_{j \ne i} \frac{y - y_j}{y_i - y_j}}$$
+      <div class="callout callout-tip">
+        <strong>Solved Numerical:</strong> Given $(x_0=10, y_0=0.1736)$, $(x_1=12, y_1=0.2079)$, $(x_2=14, y_2=0.2419)$. Find $x$ for $y = 0.2000$.<br>
+        $$x(0.2) = 10 \frac{(0.2-0.2079)(0.2-0.2419)}{(0.1736-0.2079)(0.1736-0.2419)} + 12 \frac{(0.2-0.1736)(0.2-0.2419)}{(0.2079-0.1736)(0.2079-0.2419)} + 14 \frac{(0.2-0.1736)(0.2-0.2079)}{(0.2419-0.1736)(0.2419-0.2079)}$$
+        Evaluating the terms yields $\mathbf{x \approx 11.54^\circ}$.
+      </div>
     </div>
 
     <!-- Section 5: Newton's Divided Differences -->
@@ -291,9 +334,130 @@
         <strong>Definitions:</strong>
         <p>• First Divided Difference: $f[x_0, x_1] = \frac{f(x_1) - f(x_0)}{x_1 - x_0}$</p>
         <p>• Second Divided Difference: $f[x_0, x_1, x_2] = \frac{f[x_1, x_2] - f[x_0, x_1]}{x_2 - x_0}$</p>
+        <p>• $n$-th Divided Difference: $f[x_0, x_1, \dots, x_n] = \frac{f[x_1, \dots, x_n] - f[x_0, \dots, x_{n-1}]}{x_n - x_0}$</p>
         <p><strong>Newton's Divided Difference Polynomial Formula:</strong></p>
-        $$\mathbf{f(x) = f(x_0) + (x - x_0)f[x_0, x_1] + (x - x_0)(x - x_1)f[x_0, x_1, x_2] + \dots}$$
+        $$\mathbf{f(x) = f(x_0) + (x - x_0)f[x_0, x_1] + (x - x_0)(x - x_1)f[x_0, x_1, x_2] + (x - x_0)(x - x_1)(x - x_2)f[x_0, x_1, x_2, x_3] + \dots}$$
       </div>
+
+      <h4>Step-by-Step Solved Problem: Divided Difference Table</h4>
+      <p><strong>Problem:</strong> Given the data points $(1, 2), (2, 5), (4, 17), (7, 50)$, construct the divided difference table and estimate $f(5)$.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>$x$</th>
+              <th>$f(x)$</th>
+              <th>First Divided Diff</th>
+              <th>Second Divided Diff</th>
+              <th>Third Divided Diff</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>$1$</td>
+              <td>$\mathbf{2}$</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>$\mathbf{3} = \frac{5 - 2}{2 - 1}$</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>$2$</td>
+              <td>$5$</td>
+              <td></td>
+              <td>$\mathbf{1} = \frac{6 - 3}{4 - 1}$</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>$6 = \frac{17 - 5}{4 - 2}$</td>
+              <td></td>
+              <td>$\mathbf{0} = \frac{1 - 1}{7 - 1}$</td>
+            </tr>
+            <tr>
+              <td>$4$</td>
+              <td>$17$</td>
+              <td></td>
+              <td>$1 = \frac{11 - 6}{7 - 2}$</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>$11 = \frac{50 - 17}{7 - 4}$</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>$7$</td>
+              <td>$50$</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Using the top diagonal entries ($f[x_0]=2, f[x_0,x_1]=3, f[x_0,x_1,x_2]=1, f[x_0,x_1,x_2,x_3]=0$):</p>
+      $$f(x) = 2 + (x - 1)(3) + (x - 1)(x - 2)(1) + 0$$
+      $$f(x) = 2 + 3x - 3 + x^2 - 3x + 2 = \mathbf{x^2 + 1}$$
+      <p>Substituting $x = 5$ gives: $\mathbf{f(5) = 5^2 + 1 = 26}$. Notice how Newton's divided difference naturally recovers the exact polynomial!</p>
+    </div>
+
+    <!-- Section 6: Central Difference Interpolation -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Central Difference Interpolation (Stirling & Bessel)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022 (When to use central differences; write Stirling's and Bessel's formulas)</span>
+      </div>
+      <p>When the target interpolation point $x$ lies near the <strong>middle</strong> of an equally spaced table, both Newton's Forward and Newton's Backward formulas give poor results because they pull data points predominantly from one side. <strong>Central Difference Formulas</strong> maintain optimal numerical stability by choosing an origin $x_0$ near the center and expanding symmetrically.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Applicable $p = \frac{x - x_0}{h}$ Range</th>
+              <th>Mathematical Formula</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Gauss Forward</strong></td>
+              <td>$0 \le p \le 0.5$</td>
+              <td>$y_p = y_0 + p \Delta y_0 + \frac{p(p-1)}{2!} \Delta^2 y_{-1} + \frac{(p+1)p(p-1)}{3!} \Delta^3 y_{-1} + \dots$</td>
+            </tr>
+            <tr>
+              <td><strong>Gauss Backward</strong></td>
+              <td>$-0.5 \le p \le 0$</td>
+              <td>$y_p = y_0 + p \Delta y_{-1} + \frac{(p+1)p}{2!} \Delta^2 y_{-1} + \frac{(p+1)p(p-1)}{3!} \Delta^3 y_{-2} + \dots$</td>
+            </tr>
+            <tr>
+              <td><strong>Stirling's Formula</strong></td>
+              <td>$-0.25 \le p \le 0.25$ (Mean of Gauss Fwd & Bkwd)</td>
+              <td>$\mathbf{y_p = y_0 + p \left(\frac{\Delta y_0 + \Delta y_{-1}}{2}\right) + \frac{p^2}{2!} \Delta^2 y_{-1} + \frac{p(p^2 - 1)}{3!} \left(\frac{\Delta^3 y_{-1} + \Delta^3 y_{-2}}{2}\right) + \frac{p^2(p^2 - 1)}{4!} \Delta^4 y_{-2} + \dots}$</td>
+            </tr>
+            <tr>
+              <td><strong>Bessel's Formula</strong></td>
+              <td>$0.25 \le p \le 0.75$</td>
+              <td>$\mathbf{y_p = \frac{y_0 + y_1}{2} + \left(p - \frac{1}{2}\right)\Delta y_0 + \frac{p(p-1)}{2!} \left(\frac{\Delta^2 y_{-1} + \Delta^2 y_0}{2}\right) + \frac{(p-\frac{1}{2})p(p-1)}{3!} \Delta^3 y_{-1} + \dots}$</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="track-full"><em>Rule of Thumb for Exams:</em> If $x$ is near the beginning $\to$ Newton Forward. Near the end $\to$ Newton Backward. Near the center with $|p| < 0.25 \to$ Stirling. Near the center with $0.25 < p < 0.75 \to$ Bessel.</p>
     </div>
 
     <!-- Section 6: Exam Answer Blueprint -->

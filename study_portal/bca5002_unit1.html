@@ -842,6 +842,64 @@ public class TestPack {
     }
 }</code></pre>
         </div>
+
+        <h4>Inter-Thread Communication: wait(), notify() & The Producer-Consumer Problem</h4>
+        <p>To avoid wasteful CPU polling ("busy-waiting"), threads communicate using three final methods of <code>java.lang.Object</code> (must strictly be called inside a <code>synchronized</code> context):</p>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.7;">
+          <li><code>wait()</code>: Causes current thread to release the lock and sleep until another thread calls <code>notify()</code>.</li>
+          <li><code>notify()</code>: Wakes up a single waiting thread on this object's monitor.</li>
+          <li><code>notifyAll()</code>: Wakes up all threads waiting on this object's monitor.</li>
+        </ul>
+
+        <div class="code-box">
+          <pre><code>// Complete Working Producer-Consumer Queue in Java:
+class SharedQueue {
+    int item;
+    boolean valueSet = false;
+
+    synchronized void produce(int item) {
+        while (valueSet) {
+            try { wait(); } catch (InterruptedException e) {}
+        }
+        this.item = item;
+        valueSet = true;
+        System.out.println("Produced: " + item);
+        notify(); // Notify consumer
+    }
+
+    synchronized int consume() {
+        while (!valueSet) {
+            try { wait(); } catch (InterruptedException e) {}
+        }
+        valueSet = false;
+        System.out.println("Consumed: " + item);
+        notify(); // Notify producer
+        return item;
+    }
+}</code></pre>
+        </div>
+
+        <h4>Thread Deadlock & Coffman Conditions:</h4>
+        <div class="callout callout-warning">
+          <strong>What is a Deadlock?</strong><br>
+          A deadlock is a situation where two or more threads are permanently blocked, each holding a lock that the other needs and waiting for the other to release it!<br>
+          <strong>The 4 Coffman Conditions:</strong> 1. Mutual Exclusion, 2. Hold and Wait, 3. No Preemption, 4. Circular Wait.<br>
+          <em>Prevention:</em> Always acquire locks in a globally consistent order across all threads.
+        </div>
+
+        <h4>The Java Collections Framework Quick Reference:</h4>
+        <div class="table-responsive">
+          <table class="study-table">
+            <thead>
+              <tr><th>Interface</th><th>Key Implementations</th><th>Duplicates Allowed?</th><th>Ordering</th><th>Key Feature</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>List</code></td><td><code>ArrayList</code>, <code>LinkedList</code>, <code>Vector</code></td><td>Yes</td><td>Insertion order preserved</td><td>Indexed element access via <code>get(index)</code>.</td></tr>
+              <tr><td><code>Set</code></td><td><code>HashSet</code>, <code>LinkedHashSet</code>, <code>TreeSet</code></td><td><strong>No (Unique)</strong></td><td><code>HashSet</code>: none; <code>TreeSet</code>: sorted</td><td>Mathematical set; fast lookup.</td></tr>
+              <tr><td><code>Map</code></td><td><code>HashMap</code>, <code>TreeMap</code>, <code>Hashtable</code></td><td>Unique keys; duplicate values</td><td><code>HashMap</code>: none; <code>TreeMap</code>: key sorted</td><td>Key-Value pair mapping. <code>HashMap</code> allows one null key.</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 

@@ -94,6 +94,42 @@
         $$\mathbf{\left(\frac{dy}{dx}\right)_{x = x_0} = \frac{1}{h}\left[\Delta y_0 - \frac{1}{2}\Delta^2 y_0 + \frac{1}{3}\Delta^3 y_0 - \frac{1}{4}\Delta^4 y_0 + \dots\right]}$$
         Differentiating a second time yields the second derivative:
         $$\mathbf{\left(\frac{d^2y}{dx^2}\right)_{x = x_0} = \frac{1}{h^2}\left[\Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 - \frac{5}{6}\Delta^5 y_0 + \dots\right]}$$
+
+        <p><strong>Derivatives Near the End of Table (Using Newton's Backward Formula):</strong></p>
+        $$\mathbf{\left(\frac{dy}{dx}\right)_{x = x_n} = \frac{1}{h}\left[\nabla y_n + \frac{1}{2}\nabla^2 y_n + \frac{1}{3}\nabla^3 y_n + \frac{1}{4}\nabla^4 y_n + \dots\right]}$$
+        $$\mathbf{\left(\frac{d^2y}{dx^2}\right)_{x = x_n} = \frac{1}{h^2}\left[\nabla^2 y_n + \nabla^3 y_n + \frac{11}{12}\nabla^4 y_n + \dots\right]}$$
+      </div>
+
+      <h4>Step-by-Step Solved Numerical: Derivative from Tabulated Data</h4>
+      <p><strong>Problem (CSJMU 2024–25):</strong> From the table below, find $\left(\frac{dy}{dx}\right)$ and $\left(\frac{d^2y}{dx^2}\right)$ at $x = 1.2$ ($h = 0.2$):</p>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr><th>$x$</th><th>1.0</th><th>1.2</th><th>1.4</th><th>1.6</th><th>1.8</th><th>2.0</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$y$</td><td>2.718</td><td>3.320</td><td>4.055</td><td>4.953</td><td>6.050</td><td>7.389</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Constructing the forward differences taking $x_0 = 1.2$ as origin:<br>
+      $\Delta y_0 = 4.055 - 3.320 = 0.735$<br>
+      $\Delta^2 y_0 = (4.953 - 4.055) - 0.735 = 0.898 - 0.735 = 0.163$<br>
+      $\Delta^3 y_0 = (6.050 - 4.953) - 0.898 - 0.163 = 1.097 - 0.898 - 0.163 = 0.036$.</p>
+      <p>Substitute into the first derivative formula ($h = 0.2$):</p>
+      $$\left(\frac{dy}{dx}\right)_{x = 1.2} = \frac{1}{0.2}\left[0.735 - \frac{1}{2}(0.163) + \frac{1}{3}(0.036)\right] = 5 \times [0.735 - 0.0815 + 0.0120] = 5 \times 0.6655 = \mathbf{3.3275}$$
+      <p>Substitute into the second derivative formula:</p>
+      $$\left(\frac{d^2y}{dx^2}\right)_{x = 1.2} = \frac{1}{(0.2)^2}\left[0.163 - 0.036\right] = \frac{1}{0.04}[0.127] = \mathbf{3.175}$$
+      <p><em>Analytical check:</em> Since $y = e^x$, at $x = 1.2$, $y' = y'' = e^{1.2} \approx 3.3201$. The numerical approximation is remarkably accurate!</p>
+
+      <h4>Maxima and Minima of a Tabulated Function</h4>
+      <div class="callout callout-info">
+        <strong>Procedure to Find Local Extremum:</strong><br>
+        1. Write Newton's Forward formula in terms of $p$: $y(p) = y_0 + p \Delta y_0 + \frac{p(p-1)}{2} \Delta^2 y_0 + \dots$<br>
+        2. Differentiate with respect to $p$ and set $\frac{dy}{dx} = 0 \implies \Delta y_0 + \frac{2p - 1}{2}\Delta^2 y_0 + \frac{3p^2 - 6p + 2}{6}\Delta^3 y_0 = 0$.<br>
+        3. Solve this polynomial equation for $p$.<br>
+        4. The location of the extremum is $x = x_0 + ph$, and the extreme value is found by substituting $p$ into $y(p)$!<br>
+        5. Check the second derivative: if $\frac{d^2y}{dx^2} < 0 \implies$ Maximum; if $> 0 \implies$ Minimum.
       </div>
     </div>
 
@@ -163,6 +199,25 @@
         <br>• Geometric shape: Fits third-degree cubic polynomials through sets of 4 points.
         <br>• Truncation Error: $E_{S3/8} = -\frac{(b-a)h^4}{80} f^{(4)}(\xi)$.
       </div>
+
+      <h4>4. Weddle's Rule (Put $n = 6$) — Extremely High CSJMU PYQ Frequency</h4>
+      <p>Putting $n = 6$ in the General Quadrature formula and neglecting 7th and higher differences ($\Delta^7 y_0 \approx 0$):</p>
+      <div class="callout callout-tip">
+        $$\mathbf{\int_{x_0}^{x_0+6h} f(x)\,dx = \frac{3h}{10}\left[y_0 + 5y_1 + y_2 + 6y_3 + y_4 + 5y_5 + y_6\right]}$$
+        <strong>Mnemonic for Weddle's Coefficients:</strong> `1 - 5 - 1 - 6 - 1 - 5 - 1`.
+        <br>• <strong>Constraint:</strong> Number of subintervals $n$ must be a **multiple of 6** ($n = 6, 12, 18, \dots$).
+        <br>• Truncation Error: $E_W = -\frac{(b-a)h^6}{140} f^{(6)}(\xi)$. Degree of precision = 5! Offers extraordinary accuracy for 6 intervals.
+      </div>
+
+      <h4>5. Boole's Rule (Put $n = 4$) & Romberg's Integration</h4>
+      <div class="callout callout-info">
+        <strong>Boole's Rule ($n = 4$):</strong><br>
+        $$\mathbf{\int_{x_0}^{x_0+4h} f(x)\,dx = \frac{2h}{45}\left[7y_0 + 32y_1 + 12y_2 + 32y_3 + 7y_4\right]}$$
+        Coefficients pattern: `7 - 32 - 12 - 32 - 7`. Constraint: $n$ must be a multiple of 4.<br><br>
+        <strong>Romberg's Integration (Richardson Extrapolation):</strong><br>
+        If $I_1$ is the Trapezoidal estimate with step $h$, and $I_2$ is with step $h/2$, the higher-order Romberg estimate is:
+        $$\mathbf{I = I_2 + \frac{I_2 - I_1}{3} = \frac{4I_2 - I_1}{3}}$$
+      </div>
     </div>
 
     <!-- Section 4: Master Solved Numerical -->
@@ -178,6 +233,7 @@
       <br>(i) Trapezoidal Rule
       <br>(ii) Simpson's 1/3rd Rule
       <br>(iii) Simpson's 3/8th Rule
+      <br>(iv) Weddle's Rule
       <br>Compare your answers with the exact analytical value.</p>
 
       <p><strong>Step 1: Compute Step Size $h$ and Table of Ordinates:</strong></p>
@@ -221,9 +277,14 @@
       $$I_{S3/8} = \frac{3(1)}{8}\left[(1.0000 + 0.0270) + 3(0.5000 + 0.2000 + 0.0588 + 0.0385) + 2(0.1000)\right]$$
       $$I_{S3/8} = \frac{3}{8}\left[1.0270 + 3(0.7973) + 0.2000\right] = \frac{3}{8}[1.0270 + 2.3919 + 0.2000] = \frac{3(3.6189)}{8} = \mathbf{1.3571}$$
 
+      <h4>Part (iv): By Weddle's Rule ($n = 6$)</h4>
+      $$I_{Weddle} = \frac{3h}{10}\left[y_0 + 5y_1 + y_2 + 6y_3 + y_4 + 5y_5 + y_6\right]$$
+      $$I_{Weddle} = \frac{3(1)}{10}\left[1.0000 + 5(0.5000) + 0.2000 + 6(0.1000) + 0.0588 + 5(0.0385) + 0.0270\right]$$
+      $$I_{Weddle} = \frac{3}{10}\left[1.0000 + 2.5000 + 0.2000 + 0.6000 + 0.0588 + 0.1925 + 0.0270\right] = \frac{3}{10}[4.5783] = \mathbf{1.3735}$$
+
       <h4>Exact Analytical Comparison:</h4>
       $$\int_0^6 \frac{dx}{1 + x^2} = [\arctan(x)]_0^6 = \arctan(6) - \arctan(0) \approx \mathbf{1.4056}$$
-      <p>Simpson's rules provide remarkable precision with only 6 discrete slices!</p>
+      <p>Weddle's rule and Simpson's rules give exceptional accuracy without needing continuous calculus!</p>
     </div>
 
     <!-- Section 5: Exam Answer Blueprint -->

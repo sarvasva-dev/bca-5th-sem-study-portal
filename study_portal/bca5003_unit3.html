@@ -338,10 +338,213 @@
       </div>
     </div>
 
-    <!-- Topic 4: Exam Answer Blueprint -->
+    <!-- Topic 4: Data Link Layer Framing Techniques -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Data Link Layer Framing: Byte Stuffing & Bit Stuffing</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022–23, 2020 (Explain framing methods: character stuffing and bit stuffing with examples)</span>
+      </div>
+      <p>The Data Link Layer divides the continuous raw bit stream from the Physical Layer into discrete logical units called <strong>Frames</strong>. Framing allows the receiver to detect where a frame starts and ends.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Framing Method</th>
+              <th>Mechanism</th>
+              <th>Vulnerability / Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Character Count</strong></td>
+              <td>Uses a header integer field to indicate total characters in the frame.</td>
+              <td><strong>Fatal flaw:</strong> If transmission error flips the count integer, frame synchronization is permanently lost! Rarely used today.</td>
+            </tr>
+            <tr>
+              <td><strong>Byte (Character) Stuffing</strong></td>
+              <td>Frame begins and ends with delimiter flag bytes (e.g. <code>DLE STX</code> and <code>DLE ETX</code>). If the user payload itself contains <code>DLE</code>, the sender inserts an extra escape <code>DLE</code> before it.</td>
+              <td>Receiver removes the escape <code>DLE</code> automatically. Works on 8-bit character-oriented protocols (e.g. BISYNC).</td>
+            </tr>
+            <tr>
+              <td><strong>Bit Stuffing</strong></td>
+              <td>Frame begins and ends with a unique 8-bit flag: <strong><code>01111110</code></strong> (six consecutive 1s). Whenever the sender detects <strong>five consecutive 1s</strong> in the user payload, it automatically injects a dummy <strong><code>0</code></strong> bit!</td>
+              <td>The receiver monitors the incoming bit stream: when it sees five 1s followed by a 0, it removes (destuffs) the 0. If it sees five 1s followed by a 1 and 0, it knows it is the end-of-frame flag!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Solved Exam Problem: Bit Stuffing (CSJMU 2024–25):</strong><br>
+        • <strong>Original Data Bit Stream:</strong> <code>01101111111011111010</code><br>
+        • <strong>Bit-Stuffed Stream:</strong> After every five consecutive 1s, insert a <code>0</code>:<br>
+        <code>011011111<b>0</b>11011111<b>0</b>010</code><br>
+        • Receiver automatically destuffs the bold <code>0</code> bits to recover the original stream!
+      </div>
+    </div>
+
+    <!-- Topic 5: Error Detection & Correction: CRC & Hamming Code -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Error Detection & Correction: CRC & Hamming Code</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2021, 2018 (Extremely High Frequency 10–15 Mark Numericals!)</span>
+      </div>
+
+      <h4>1. Cyclic Redundancy Check (CRC) Polynomial Division</h4>
+      <p>CRC is a powerful polynomial code used in Ethernet, Wi-Fi, and hard drives. It treats bit strings as polynomials with coefficients in GF(2) (binary arithmetic using XOR without carry).</p>
+
+      <div class="callout callout-info">
+        <strong>The CRC Algorithm Steps:</strong><br>
+        1. Let $M$ be the $k$-bit data string, and $G(x)$ be an $(r+1)$-bit generator polynomial divisor.<br>
+        2. Append $r$ zero bits to the data string ($M \cdot 2^r$).<br>
+        3. Divide $(M \cdot 2^r)$ by $G$ using modulo-2 division (bitwise XOR; like bits yield 0, unlike bits yield 1).<br>
+        4. The $r$-bit remainder $R$ is appended to $M$ to form the transmitted codeword $T = M \cdot 2^r \oplus R$.<br>
+        5. The receiver divides the received codeword by $G$: If the remainder is strictly zero, no error is detected!
+      </div>
+
+      <h4>Master Solved Numerical: CRC Generation & Checking</h4>
+      <p><strong>Problem:</strong> Given Data bit stream $M = 100100$ and Generator polynomial $G(x) = x^3 + x^2 + 1$ (bit string $1101$). Find the transmitted CRC codeword.</p>
+      <p>• Degree of $G(x) = 3 \implies$ Append $r = 3$ zeros to $M$: Appended string = <code>100100000</code>.<br>
+      • Generator $G = 1101$ (4 bits).</p>
+      <div class="code-box">
+        <pre><code>        111101   (Quotient)
+1101 | 100100000
+       1101
+       -----
+        1000
+        1101
+        -----
+         1010
+         1101
+         -----
+          1110
+          1101
+          -----
+           0110
+           0000
+           -----
+            1100
+            1101
+            -----
+             001  <-- Remainder R = 001 (3 bits)</code></pre>
+      </div>
+      <p>Transmitted Codeword $T = \text{Data} + R = \mathbf{100100001}$.<br>
+      <em>Receiver Check:</em> Dividing $100100001$ by $1101$ yields remainder $000 \implies$ Valid frame accepted!</p>
+
+      <h4>2. Hamming Code Single-Bit Error Correction</h4>
+      <div class="callout callout-tip">
+        <strong>Algorithm (Richard Hamming):</strong><br>
+        • If data has $m$ bits and $p$ parity bits are added, the total bits $n = m + p$ must satisfy:
+        $$\mathbf{2^p \ge m + p + 1}$$
+        • Parity bits occupy bit positions that are powers of 2 ($1, 2, 4, 8, \dots$, i.e. $P_1, P_2, P_4, P_8$).<br>
+        • Data bits occupy remaining positions ($3, 5, 6, 7, \dots$).<br>
+        • Each parity bit checks specific bit positions whose binary representation has a 1 in that bit's power-of-2 position:<br>
+        $P_1$ checks positions $1, 3, 5, 7, 9, 11\dots$ (binary $xx1$)<br>
+        $P_2$ checks positions $2, 3, 6, 7, 10, 11\dots$ (binary $x1x$)<br>
+        $P_4$ checks positions $4, 5, 6, 7, 12, 13\dots$ (binary $1xx$)
+      </div>
+
+      <h4>Solved Exam Problem: 7-Bit Hamming Code</h4>
+      <p><strong>Problem:</strong> Encode 4-bit data $D = 1011$ using even parity Hamming code, and demonstrate error correction if bit 5 flips during transit.</p>
+      <p>• Data bits $m = 4 \implies 2^p \ge 4 + p + 1 \implies p = 3$ ($2^3 = 8 \ge 8$ ✓). Total codeword length $= 7$ bits.<br>
+      • Bit positions: $1(P_1), 2(P_2), 3(D_3), 4(P_4), 5(D_5), 6(D_6), 7(D_7)$.<br>
+      • Place data $D = 1011$: $D_7=1, D_6=0, D_5=1, D_3=1$.<br>
+      • Calculate Parity Bits (Even Parity):<br>
+      $P_1 \oplus D_3 \oplus D_5 \oplus D_7 = 0 \implies P_1 \oplus 1 \oplus 1 \oplus 1 = 0 \implies P_1 = \mathbf{1}$<br>
+      $P_2 \oplus D_3 \oplus D_6 \oplus D_7 = 0 \implies P_2 \oplus 1 \oplus 0 \oplus 1 = 0 \implies P_2 = \mathbf{0}$<br>
+      $P_4 \oplus D_5 \oplus D_6 \oplus D_7 = 0 \implies P_4 \oplus 1 \oplus 0 \oplus 1 = 0 \implies P_4 = \mathbf{0}$<br>
+      • Codeword: $P_1 P_2 D_3 P_4 D_5 D_6 D_7 = \mathbf{1010101}$.</p>
+      <p><strong>Error Detection at Receiver:</strong> Suppose bit 5 flips from $1 \to 0$, received word is $1010\mathbf{0}01$.<br>
+      Check parity equations:<br>
+      $C_1 = b_1 \oplus b_3 \oplus b_5 \oplus b_7 = 1 \oplus 1 \oplus 0 \oplus 1 = 1$<br>
+      $C_2 = b_2 \oplus b_3 \oplus b_6 \oplus b_7 = 0 \oplus 1 \oplus 0 \oplus 1 = 0$<br>
+      $C_4 = b_4 \oplus b_5 \oplus b_6 \oplus b_7 = 0 \oplus 0 \oplus 0 \oplus 1 = 1$<br>
+      Syndrome word $= C_4 C_2 C_1 = \mathbf{101_2 = 5_{10}}$! The syndrome points directly to Bit 5! Inverting bit 5 instantly corrects the error!</p>
+    </div>
+
+    <!-- Topic 6: Multiplexing Techniques -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Multiplexing: FDM, TDM & WDM</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021 (Compare FDM vs TDM, Synchronous vs Statistical TDM)</span>
+      </div>
+      <p><strong>Multiplexing</strong> is the technique of combining multiple low-speed signals into a single composite high-capacity physical transmission channel to optimize link utilization.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Multiplexing Type</th>
+              <th>Operational Domain</th>
+              <th>Working Principle</th>
+              <th>Primary Application</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Frequency Division Multiplexing (FDM)</strong></td>
+              <td>Analog</td>
+              <td>Total link bandwidth is divided into discrete frequency bands separated by **guard bands** to prevent inter-channel interference.</td>
+              <td>AM/FM radio, cable television (CATV), cellular 1G.</td>
+            </tr>
+            <tr>
+              <td><strong>Time Division Multiplexing (TDM)</strong></td>
+              <td>Digital</td>
+              <td>Total transmission time is divided into recurring time slots. Each user gets the entire bandwidth for a dedicated micro-interval.</td>
+              <td>T1/E1 telephony lines, digital trunking.</td>
+            </tr>
+            <tr>
+              <td><strong>Wavelength Division Multiplexing (WDM)</strong></td>
+              <td>Optical</td>
+              <td>Multiple optical light signals of different wavelengths (colors) are combined over a single optical fiber using prisms or diffraction gratings.</td>
+              <td>High-capacity undersea fiber optic cables.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Synchronous TDM vs. Statistical (Asynchronous) TDM:</strong><br>
+        • <strong>Synchronous TDM:</strong> Each source is pre-allocated a fixed time slot in every frame, even if it has no data to transmit. If a user is idle, their slot is transmitted empty, leading to wasted bandwidth.<br>
+        • <strong>Statistical TDM:</strong> Time slots are dynamically allocated on demand only to active stations with data to send. High channel efficiency, but each slot must carry an address header identifying the source.
+      </div>
+    </div>
+
+    <!-- Topic 7: HDLC Frame Structure & Modes -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> High-Level Data Link Control (HDLC) Protocol</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2023–24, 2020 (HDLC frame format, I-frame, S-frame, U-frame)</span>
+      </div>
+      <p><strong>HDLC</strong> is a bit-oriented synchronous Data Link Layer protocol developed by ISO. Every HDLC frame has the standard structure:</p>
+      <div class="code-box">
+        <pre><code>| Flag (8 bits) | Address (8) | Control (8/16) | Payload (Variable) | FCS (16/32) | Flag (8) |
+|   01111110    |  Station ID |   Frame Type   |     User Data      |   CRC-16    | 01111110 |</code></pre>
+      </div>
+      <ul style="margin:8px 0; padding-left:18px; line-height:1.7;">
+        <li><strong>Information Frames (I-Frames):</strong> Carry user data from the network layer. Include Send sequence number $N(S)$ and Receive sequence number $N(R)$ for piggybacked ACKs.</li>
+        <li><strong>Supervisory Frames (S-Frames):</strong> Carry flow and error control commands without data payload: Receive Ready (RR), Receive Not Ready (RNR), Reject (REJ), and Selective Reject (SREJ).</li>
+        <li><strong>Unnumbered Frames (U-Frames):</strong> Carry link management and connection setup/disconnect commands (e.g. SABM, DISC, UA).</li>
+      </ul>
+    </div>
+
+    <!-- Topic 8: Exam Answer Blueprint -->
     <div class="study-card track-full">
       <div class="card-heading">
-        <span><span class="card-heading-icon">4.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
+        <span><span class="card-heading-icon">8.</span> Exam Answer Blueprint: 10-Mark Model Structure</span>
       </div>
       <div class="callout callout-tip">
         <strong>How to Score Full 10 Marks on "Go-Back-N vs. Selective Repeat ARQ":</strong>

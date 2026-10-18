@@ -289,6 +289,49 @@
         </svg>
         <div class="diagram-caption">The TCP 4-Way Handshake Connection Termination Flow</div>
       </div>
+
+      <h4>TCP Flow Control vs. Congestion Control</h4>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>TCP Flow Control</th>
+              <th>TCP Congestion Control</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Focus</strong></td>
+              <td>Prevents a fast sender from overwhelming a <strong>slow receiver</strong>.</td>
+              <td>Prevents all senders from overwhelming the <strong>intermediate network links & routers</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Governing Window</strong></td>
+              <td><strong>Advertised Window ($rwnd$)</strong> advertised by the receiver in the TCP header.</td>
+              <td><strong>Congestion Window ($cwnd$)</strong> maintained dynamically by the sender based on perceived network state.</td>
+            </tr>
+            <tr>
+              <td><strong>Transmission Limit</strong></td>
+              <td colspan="2">Sender can transmit at most: $\mathbf{W = \min(rwnd, cwnd)}$</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>The 4 TCP Congestion Control Algorithms (AIMD Sawtooth Cycle):</h4>
+      <div class="callout callout-tip">
+        <ol class="step-list">
+          <li><strong>Slow Start:</strong> The sender starts with $cwnd = 1 \text{ MSS}$ (Maximum Segment Size). For every incoming ACK, $cwnd$ increases by 1 MSS. Thus, $cwnd$ <strong>doubles every Round-Trip Time (RTT)</strong> ($1 \to 2 \to 4 \to 8 \dots$, exponential growth) until reaching the threshold $ssthresh$.</li>
+          <li><strong>Congestion Avoidance:</strong> When $cwnd \ge ssthresh$, growth switches from exponential to <strong>Additive Increase</strong>: $cwnd$ increases by strictly <strong>$+1 \text{ MSS}$ per RTT</strong> (linear ramp).</li>
+          <li><strong>Fast Retransmit:</strong> If the sender receives <strong>3 duplicate ACKs</strong> for the same segment, it assumes that specific packet was lost in transit and retransmits it immediately, without waiting for the slow retransmission timer to expire!</li>
+          <li><strong>Fast Recovery:</strong> Instead of dropping all the way back to $cwnd = 1$, the sender performs <strong>Multiplicative Decrease</strong>:
+            $$ssthresh = \frac{cwnd}{2}, \quad cwnd = ssthresh + 3 \text{ MSS}$$
+            The sender continues in congestion avoidance, preserving high throughput and creating the famous <strong>TCP Sawtooth Curve</strong>!
+          </li>
+        </ol>
+        <em>Note on Timeout:</em> If a hard timer expiration occurs (no ACKs at all), TCP sets $ssthresh = cwnd / 2$ and drops $cwnd = 1 \text{ MSS}$, restarting slow start.
+      </div>
     </div>
 
     <!-- Topic 4: Application Layer Protocols: DNS, Email & Web -->

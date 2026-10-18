@@ -482,10 +482,175 @@
       </div>
     </div>
 
-    <!-- Topic 5: Exam Blueprint & Mistakes -->
+    <!-- Topic 5: Routing Algorithms: Distance Vector vs Link State -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Routing Algorithms: Distance Vector vs. Link State Routing</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2022–23, 2021 (Compare Distance Vector & Link State, Bellman-Ford, Count-to-Infinity)</span>
+      </div>
+      <p>Routing is the process by which routers dynamically discover paths across interconnected networks and construct optimal forwarding tables.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Distance Vector Routing (Bellman-Ford)</th>
+              <th>Link State Routing (Dijkstra's SPF)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Information Exchanged</strong></td>
+              <td>Sends its <strong>entire routing table</strong> (vector of distances to all known destinations).</td>
+              <td>Sends only the <strong>status of its directly connected links</strong> (Link State Packet / LSP).</td>
+            </tr>
+            <tr>
+              <td><strong>Recipient of Updates</strong></td>
+              <td>Sends updates strictly to <strong>immediate directly connected neighbors</strong> only.</td>
+              <td><strong>Floods</strong> Link State Packets to <strong>every router in the entire network</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>Network Knowledge</strong></td>
+              <td>"Routing by rumor": Each node trusts its neighbors' reports without global topology knowledge.</td>
+              <td>Every router builds a complete, identical mathematical map of the entire network topology graph.</td>
+            </tr>
+            <tr>
+              <td><strong>Shortest Path Calculation</strong></td>
+              <td>Bellman-Ford equation: $D_x(y) = \min_v \{c(x,v) + D_v(y)\}$.</td>
+              <td>Dijkstra's Shortest Path First (SPF) algorithm executed locally.</td>
+            </tr>
+            <tr>
+              <td><strong>Convergence Speed</strong></td>
+              <td>Slow convergence; vulnerable to routing loops and <strong>Count-to-Infinity</strong>.</td>
+              <td><strong>Fast convergence</strong>; zero routing loops.</td>
+            </tr>
+            <tr>
+              <td><strong>Standard Protocols</strong></td>
+              <td>Routing Information Protocol (RIP, max 15 hops), IGRP.</td>
+              <td>Open Shortest Path First (OSPF), IS-IS.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>The Count-to-Infinity Problem & Solutions:</strong><br>
+        When a link breaks in Distance Vector routing, two adjacent routers can update each other iteratively, incrementing hop count indefinitely ($2 \to 3 \to 4 \dots \to \infty$) until reaching infinity ($16$ in RIP).<br>
+        • <strong>Split Horizon:</strong> A router never advertises a route back out the same interface through which it learned it.<br>
+        • <strong>Poison Reverse:</strong> When advertising a route back to the neighbor it was learned from, mark its metric as $\infty$ (poisoned) to prevent loops!
+      </div>
+    </div>
+
+    <!-- Topic 6: Congestion Control: Leaky Bucket vs Token Bucket -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Congestion Control: Leaky Bucket vs. Token Bucket Algorithms</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2023–24, 2020 (Traffic shaping: Leaky Bucket vs Token Bucket with diagrams)</span>
+      </div>
+      <p>Congestion occurs when the number of packets entering a network exceeds the handling capacity of intermediate links and buffers. <strong>Traffic Shaping</strong> regulates packet transmission rates to prevent router buffer overflow.</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Evaluation Parameter</th>
+              <th>Leaky Bucket Algorithm</th>
+              <th>Token Bucket Algorithm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Output Transmission Rate</strong></td>
+              <td>Strictly <strong>constant, smooth rate</strong> regardless of how bursty the incoming traffic is.</td>
+              <td>Allows <strong>controlled bursts of high-speed traffic</strong> as long as tokens are available in the bucket.</td>
+            </tr>
+            <tr>
+              <td><strong>Handling Bursty Traffic</strong></td>
+              <td>Bursts are smoothed out; if the bucket fills, incoming excess packets are <strong>discarded immediately</strong>.</td>
+              <td>Bursts are transmitted instantly up to token capacity without packet loss.</td>
+            </tr>
+            <tr>
+              <td><strong>Token Accumulation</strong></td>
+              <td>No token concept; operates like a physical bucket with a constant hole at the bottom.</td>
+              <td>Tokens are deposited into the bucket at a constant rate $r$ up to capacity $C$. Each packet consumes 1 token.</td>
+            </tr>
+            <tr>
+              <td><strong>Primary Application</strong></td>
+              <td>ATM networks, traffic policing.</td>
+              <td>Modern IP QoS, DiffServ, video streaming over Internet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Mathematical Maximum Burst Duration in Token Bucket:</strong><br>
+        Let token generation rate be $r$ bytes/sec, bucket capacity be $C$ bytes, and maximum physical burst transmission rate be $M$ bytes/sec (where $M > r$). The maximum burst duration $S$ is:
+        $$\mathbf{S = \frac{C}{M - r}} \quad \text{seconds}$$
+      </div>
+    </div>
+
+    <!-- Topic 7: IPv4 Header Format & IPv6 Transition -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">7.</span> IPv4 Header Format & IPv6 Transition Mechanisms</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2022–23, 2019 (Draw and explain IPv4 header fields, compare IPv4 vs IPv6)</span>
+      </div>
+
+      <h4>IPv4 20-Byte Base Header Format:</h4>
+      <div class="code-box">
+        <pre><code> 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|Version|  IHL  |Type of Service|          Total Length         |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|         Identification        |Flags|     Fragment Offset     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Time to Live |    Protocol   |        Header Checksum        |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                       Source IP Address                       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                    Destination IP Address                     |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+</code></pre>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr><th>Header Field</th><th>Size</th><th>Technical Function</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Version</strong></td><td>4 bits</td><td>Identifies IP version (<code>0100</code> for IPv4, <code>0110</code> for IPv6).</td></tr>
+            <tr><td><strong>IHL (Header Length)</strong></td><td>4 bits</td><td>Header length in 32-bit (4-byte) words. Minimum value is 5 ($5 \times 4 = 20$ bytes).</td></tr>
+            <tr><td><strong>Total Length</strong></td><td>16 bits</td><td>Total size of packet (header + payload) in bytes. Maximum is $2^{16}-1 = 65,535$ bytes.</td></tr>
+            <tr><td><strong>TTL (Time to Live)</strong></td><td>8 bits</td><td>Hop counter decremented by 1 at every router. When TTL reaches 0, router drops packet and sends ICMP Time Exceeded (prevents infinite packet loops!).</td></tr>
+            <tr><td><strong>Protocol</strong></td><td>8 bits</td><td>Identifies higher transport protocol: <code>6</code> for TCP, <code>17</code> for UDP, <code>1</code> for ICMP.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>IPv4 to IPv6 Transition Strategies (CSJMU 2022–23):</strong><br>
+        1. <strong>Dual Stack:</strong> Routers and hosts run both IPv4 and IPv6 protocol stacks concurrently.<br>
+        2. <strong>Tunneling:</strong> IPv6 packets are encapsulated inside IPv4 packets to traverse legacy IPv4 networks (e.g. 6to4).<br>
+        3. <strong>Network Address Translation - Protocol Translation (NAT-PT):</strong> Translates IPv6 packet headers directly into IPv4 headers.
+      </div>
+    </div>
+
+    <!-- Topic 8: Exam Blueprint & Mistakes -->
     <div class="study-card track-full">
       <div class="card-heading">
-        <span><span class="card-heading-icon">5.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
+        <span><span class="card-heading-icon">8.</span> Exam Answer Blueprint & Pitfalls to Avoid</span>
       </div>
       <div class="callout callout-tip">
         <strong>How to Score Full 10 Marks on "Network Connecting Devices":</strong>
