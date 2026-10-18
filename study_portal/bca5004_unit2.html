@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 2: Interpolation & Extrapolation | BCA-5004</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#0d9488;">NM</div>
+      <div>
+        <div class="brand-title">BCA-5004: Unit II</div>
+        <div class="brand-subtitle">Interpolation & Extrapolation</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#0d9488;">
+      <div class="badge-row">
+        <span class="badge badge-emerald">Subject: BCA-5004</span>
+        <span class="badge badge-amber">⭐ Repeated 10-Mark Questions</span>
+        <span class="badge badge-coral">Day 1 Priority</span>
+      </div>
+      <h1 class="unit-title">Unit II: Interpolation & Extrapolation</h1>
+      <p class="unit-desc">Finite Differences (Δ, ∇, E), Operator Relations, Newton's Forward & Backward Interpolation, Divided Differences, and Lagrange's Formula.</p>
+    </div>
+
+    <!-- Quick Formula Card -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">⚡</span> Essential Operator & Interpolation Formulae</span>
+      </div>
+      <div class="callout callout-formula">
+        <strong>1. Key Operator Relationships:</strong><br>
+        • $\Delta = E - 1 \iff E = 1 + \Delta$<br>
+        • $\nabla = 1 - E^{-1} \iff E^{-1} = 1 - \nabla$<br>
+        • $\Delta = E\nabla = \nabla E$<br>
+        • $E = e^{hD} \implies D = \frac{1}{h} \ln(1 + \Delta) = -\frac{1}{h} \ln(1 - \nabla)$
+      </div>
+      <div class="callout callout-formula">
+        <strong>2. Newton's Forward Interpolation ($u = \frac{x - x_0}{h}$):</strong><br>
+        $$y = y_0 + u \Delta y_0 + \frac{u(u-1)}{2!} \Delta^2 y_0 + \frac{u(u-1)(u-2)}{3!} \Delta^3 y_0 + \dots$$
+        <em>(Used when $x$ is near the beginning of table)</em>
+      </div>
+      <div class="callout callout-formula">
+        <strong>3. Newton's Backward Interpolation ($u = \frac{x - x_n}{h}$):</strong><br>
+        $$y = y_n + u \nabla y_n + \frac{u(u+1)}{2!} \nabla^2 y_n + \frac{u(u+1)(u+2)}{3!} \nabla^3 y_n + \dots$$
+        <em>(Used when $x$ is near the end of table)</em>
+      </div>
+      <div class="callout callout-formula">
+        <strong>4. Lagrange's Interpolation Formula (Unequal Intervals):</strong><br>
+        $$y(x) = \frac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)} y_0 + \frac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)} y_1 + \frac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)} y_2$$
+      </div>
+    </div>
+
+    <!-- Topic 1: Finite Difference Operators & Proofs -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> Finite Differences & Operator Proofs</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24 (Prove $E = 1 + \Delta$, $E = e^{hD}$, and $\Delta = E\nabla$)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Operator</th>
+              <th>Symbol</th>
+              <th>Mathematical Definition</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Forward Difference</strong></td>
+              <td>$\Delta$</td>
+              <td>$\Delta f(x) = f(x+h) - f(x)$</td>
+            </tr>
+            <tr>
+              <td><strong>Backward Difference</strong></td>
+              <td>$\nabla$</td>
+              <td>$\nabla f(x) = f(x) - f(x-h)$</td>
+            </tr>
+            <tr>
+              <td><strong>Shift Operator</strong></td>
+              <td>$E$</td>
+              <td>$E f(x) = f(x+h)$</td>
+            </tr>
+            <tr>
+              <td><strong>Differential Operator</strong></td>
+              <td>$D$</td>
+              <td>$D f(x) = \frac{d}{dx} f(x)$</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="topic-drawer" open>
+        <summary class="topic-summary">📐 Standard Proof: Prove that $E = e^{hD}$</summary>
+        <div class="topic-content">
+          <p>By definition of Shift Operator:</p>
+          <p style="font-family:monospace;">E f(x) = f(x + h)</p>
+          <p>Expanding $f(x + h)$ by <strong>Taylor Series</strong> about $x$:</p>
+          <p style="font-family:monospace; background:var(--surface-alt); padding:8px; border-radius:4px;">
+            f(x + h) = f(x) + h f'(x) + \frac{h^2}{2!} f''(x) + \frac{h^3}{3!} f'''(x) + \dots
+          </p>
+          <p>Since $f'(x) = D f(x)$, $f''(x) = D^2 f(x)$, etc.:</p>
+          <p style="font-family:monospace;">
+            f(x + h) = \left[ 1 + hD + \frac{(hD)^2}{2!} + \frac{(hD)^3}{3!} + \dots \right] f(x)
+          </p>
+          <p>The expression in brackets is the expansion of exponential $e^{hD}$:</p>
+          <div class="callout callout-formula">
+            $$E f(x) = e^{hD} f(x) \implies E = e^{hD}$$
+          </div>
+          <p>Taking natural logarithm on both sides:</p>
+          <p>$\ln E = hD \implies D = \frac{1}{h} \ln E$. Since $E = 1 + \Delta$:</p>
+          <div class="callout callout-formula">
+            $$D = \frac{1}{h} \ln(1 + \Delta) = \frac{1}{h} \left[ \Delta - \frac{\Delta^2}{2} + \frac{\Delta^3}{3} - \frac{\Delta^4}{4} + \dots \right]$$
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Topic 2: Newton's Forward & Backward Difference Solved Numericals -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Solved PYQ: Newton's Backward Interpolation</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQ 2025–26:</span>
+        <span>Estimate population in 2017 from the given census data.</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Year ($x$)</th>
+              <th>Population ($y$ in '000)</th>
+              <th>$\nabla y$</th>
+              <th>$\nabla^2 y$</th>
+              <th>$\nabla^3 y$</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2010</td>
+              <td>45</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>2012</td>
+              <td>55</td>
+              <td>$55 - 45 = \mathbf{10}$</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>2014</td>
+              <td>68</td>
+              <td>$68 - 55 = \mathbf{13}$</td>
+              <td>$13 - 10 = \mathbf{3}$</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>2016</td>
+              <td>83</td>
+              <td>$83 - 68 = \mathbf{15}$</td>
+              <td>$15 - 13 = \mathbf{2}$</td>
+              <td>$2 - 3 = \mathbf{-1}$</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Step-by-Step Calculation:</strong><br>
+        Since $x = 2017$ is near the end, use <strong>Newton's Backward Formula</strong> with $x_n = 2016$, $y_n = 83$, and step size $h = 2$:<br>
+        $$u = \frac{x - x_n}{h} = \frac{2017 - 2016}{2} = 0.5$$
+        $$y(2017) = y_n + u \nabla y_n + \frac{u(u+1)}{2!} \nabla^2 y_n + \frac{u(u+1)(u+2)}{3!} \nabla^3 y_n$$
+        $$y(2017) = 83 + (0.5)(15) + \frac{0.5 \times 1.5}{2} (2) + \frac{0.5 \times 1.5 \times 2.5}{6} (-1)$$
+        $$y(2017) = 83 + 7.5 + 0.75 - 0.3125 = \mathbf{90.9375} \text{ thousand}$$
+        <p><strong>Result:</strong> Population in 2017 is approximately <strong>90,938</strong>.</p>
+      </div>
+    </div>
+
+    <!-- Topic 3: Lagrange Interpolation for Unequal Intervals -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Lagrange's Interpolation Formula</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2021 (Unequally spaced intervals)</span>
+      </div>
+      <p><strong>When to use:</strong> When the given independent variable $x$ values are <strong>NOT equally spaced</strong> (i.e. $x_1 - x_0 \ne x_2 - x_1$), Newton's forward/backward formulas cannot be used. Lagrange's formula is the premier method.</p>
+
+      <details class="topic-drawer" open>
+        <summary class="topic-summary">📝 Solved Example: Find $y(9)$ using Lagrange's Formula</summary>
+        <div class="topic-content">
+          <p>Given data: $(5, 12)$, $(6, 13)$, $(11, 14)$</p>
+          <p>Here $x_0 = 5, y_0 = 12$; $x_1 = 6, y_1 = 13$; $x_2 = 11, y_2 = 14$. Notice intervals are $1$ and $5$ (unequal!).</p>
+          <p>We need $y$ at $x = 9$:</p>
+          <p style="font-family:monospace; background:var(--surface-alt); padding:8px; border-radius:4px;">
+            y(9) = \frac{(9-6)(9-11)}{(5-6)(5-11)} (12) + \frac{(9-5)(9-11)}{(6-5)(6-11)} (13) + \frac{(9-5)(9-6)}{(11-5)(11-6)} (14)
+          </p>
+          <p>Term 1: $\frac{3 \times (-2)}{(-1) \times (-6)} (12) = \frac{-6}{6} \times 12 = -12$</p>
+          <p>Term 2: $\frac{4 \times (-2)}{1 \times (-5)} (13) = \frac{-8}{-5} \times 13 = 1.6 \times 13 = 20.8$</p>
+          <p>Term 3: $\frac{4 \times 3}{6 \times 5} (14) = \frac{12}{30} \times 14 = 0.4 \times 14 = 5.6$</p>
+          <div class="callout callout-formula">
+            $$y(9) = -12 + 20.8 + 5.6 = \mathbf{14.4}$$
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Topic 4: Newton's Divided Differences -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Newton's Divided Difference Formula</span>
+      </div>
+      <p><strong>First Divided Difference:</strong> $f[x_0, x_1] = \frac{f(x_1) - f(x_0)}{x_1 - x_0}$</p>
+      <p><strong>Second Divided Difference:</strong> $f[x_0, x_1, x_2] = \frac{f[x_1, x_2] - f[x_0, x_1]}{x_2 - x_0}$</p>
+      <div class="callout callout-formula">
+        $$P(x) = f[x_0] + (x - x_0)f[x_0, x_1] + (x - x_0)(x - x_1)f[x_0, x_1, x_2] + \dots$$
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Test Container -->
+    <div id="unit-mcq-container" class="mcq-container"></div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="bca5004_unit1.html" class="nav-unit-btn">← Unit I</a>
+    <a href="bca5004_unit3.html" class="nav-unit-btn primary">Next: Unit III →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit2Questions = [
+      {
+        question: "Which formula is strictly required when the data points are NOT spaced at equal intervals?",
+        options: [
+          "Newton's Forward Interpolation Formula",
+          "Newton's Backward Interpolation Formula",
+          "Lagrange's Interpolation Formula",
+          "Trapezoidal Rule"
+        ],
+        answer: 2,
+        explanation: "Newton's forward and backward formulas assume equal spacing h. When intervals are unequal, Lagrange's interpolation formula or Newton's Divided Difference formula must be used."
+      },
+      {
+        question: "What is the exact algebraic relationship between the Shift Operator E and the Forward Difference Operator Δ?",
+        options: [
+          "E = 1 - Δ",
+          "E = 1 + Δ",
+          "Δ = 1 + E",
+          "E = Δ / 2"
+        ],
+        answer: 1,
+        explanation: "By definition, Δf(x) = f(x+h) - f(x) = Ef(x) - f(x) = (E - 1)f(x). Hence Δ = E - 1, which means E = 1 + Δ."
+      },
+      {
+        question: "What is the relation connecting the Shift Operator E and Differential Operator D?",
+        options: [
+          "E = e^(hD)",
+          "E = ln(hD)",
+          "E = h / D",
+          "D = E^h"
+        ],
+        answer: 0,
+        explanation: "By Taylor series expansion, f(x+h) = f(x) + hDf(x) + (hD)^2/2! f(x) + ... = e^(hD) f(x). Thus E = e^(hD)."
+      },
+      {
+        question: "When estimating a function value near the end of a given table with equal spacing, which formula is best?",
+        options: [
+          "Newton's Forward Difference Formula",
+          "Newton's Backward Difference Formula",
+          "Bisection Method",
+          "Euler's Formula"
+        ],
+        answer: 1,
+        explanation: "Newton's Backward difference formula uses differences calculated from the bottom/end of the table (y_n, ∇y_n, ∇^2y_n), minimizing truncation error for values near the end."
+      },
+      {
+        question: "If a function has constant second forward differences (Δ^2 y = constant), what type of polynomial is it?",
+        options: [
+          "Linear (Degree 1)",
+          "Quadratic (Degree 2)",
+          "Cubic (Degree 3)",
+          "Exponential"
+        ],
+        answer: 1,
+        explanation: "The nth difference of a polynomial of degree n is a constant, and all higher differences are zero. Therefore, constant second difference means the polynomial is quadratic (degree 2)."
+      },
+      {
+        question: "What is the value of the first divided difference f[x0, x1]?",
+        options: [
+          "(f(x1) + f(x0)) / 2",
+          "(f(x1) - f(x0)) / (x1 - x0)",
+          "(x1 - x0) / (f(x1) - f(x0))",
+          "f(x1) * f(x0)"
+        ],
+        answer: 1,
+        explanation: "By definition, the first divided difference f[x0, x1] is the slope of the secant line: (f(x1) - f(x0)) / (x1 - x0)."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit2Questions);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Large PDF scans & archives (prevent GitHub 100MB file limit errors)
+All_In_One_Master_Guides/
+BCA_V_Sem_Hard_Copies/
+Hard_Copy_Notes/
+backups/
+
+# System and temporary files
+/tmp/
+*.tmp
+*.log
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

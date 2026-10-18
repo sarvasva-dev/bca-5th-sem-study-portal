@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/", "destination": "/study_portal/index.html" },
+    { "source": "/(.*)", "destination": "/study_portal/$1" }
+  ]
+}

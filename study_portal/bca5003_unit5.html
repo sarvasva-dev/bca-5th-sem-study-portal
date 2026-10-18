@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 5: Transport, Upper Layers & Security | BCA-5003</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#059669;">CN</div>
+      <div>
+        <div class="brand-title">BCA-5003: Unit V</div>
+        <div class="brand-subtitle">Transport, Application & Cryptography</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#059669;">
+      <div class="badge-row">
+        <span class="badge badge-emerald">Subject: BCA-5003</span>
+        <span class="badge badge-amber">⭐ TCP 3-Way Handshake & Protocols</span>
+        <span class="badge badge-coral">Day 2 Priority</span>
+      </div>
+      <h1 class="unit-title">Unit V: Transport Layer, Application Protocols & Security</h1>
+      <p class="unit-desc">TCP vs UDP, 3-Way Handshake, DNS, HTTP, Email Architecture (SMTP, POP3, MIME), and Cryptography Basics.</p>
+    </div>
+
+    <!-- Quick Formula & Ports Card -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">⚡</span> Essential Port Numbers Cheat Sheet</span>
+      </div>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>Port</th>
+              <th>Transport Protocol</th>
+              <th>Application Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>HTTP</strong></td>
+              <td>80</td>
+              <td>TCP</td>
+              <td>Unencrypted web browsing</td>
+            </tr>
+            <tr>
+              <td><strong>HTTPS</strong></td>
+              <td>443</td>
+              <td>TCP (with TLS/SSL)</td>
+              <td>Secure encrypted web browsing</td>
+            </tr>
+            <tr>
+              <td><strong>DNS</strong></td>
+              <td>53</td>
+              <td>UDP (Queries) / TCP (Zone transfers)</td>
+              <td>Resolves domain names to IP addresses</td>
+            </tr>
+            <tr>
+              <td><strong>SMTP</strong></td>
+              <td>25 / 587</td>
+              <td>TCP</td>
+              <td>Sends / pushes outbound email</td>
+            </tr>
+            <tr>
+              <td><strong>POP3 / IMAP</strong></td>
+              <td>110 / 143</td>
+              <td>TCP</td>
+              <td>Retrieves / synchronizes user emails</td>
+            </tr>
+            <tr>
+              <td><strong>FTP</strong></td>
+              <td>20 (Data) / 21 (Control)</td>
+              <td>TCP</td>
+              <td>File transfer between client and server</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 1: TCP vs UDP Complete Comparison -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> TCP vs UDP Detailed Comparison</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2018 (Top repeated 10-mark question!)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>TCP (Transmission Control Protocol)</th>
+              <th>UDP (User Datagram Protocol)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Connection Type</strong></td>
+              <td><strong>Connection-Oriented</strong> (3-Way Handshake)</td>
+              <td><strong>Connectionless</strong> (Fire-and-forget)</td>
+            </tr>
+            <tr>
+              <td><strong>Reliability</strong></td>
+              <td><strong>100% Reliable</strong> (ACKs, Retransmissions, In-order sequencing)</td>
+              <td><strong>Unreliable</strong> (Best-effort delivery; packets can drop or arrive out-of-order)</td>
+            </tr>
+            <tr>
+              <td><strong>Header Overhead</strong></td>
+              <td><strong>20 to 60 Bytes</strong></td>
+              <td><strong>Fixed 8 Bytes</strong> (Extremely lightweight)</td>
+            </tr>
+            <tr>
+              <td><strong>Flow & Congestion Control</strong></td>
+              <td>Yes (Sliding window & Slow Start / AIMD)</td>
+              <td>None</td>
+            </tr>
+            <tr>
+              <td><strong>Speed</strong></td>
+              <td>Slower due to handshake and ACKs</td>
+              <td><strong>Ultra-Fast</strong> (Minimal transmission latency)</td>
+            </tr>
+            <tr>
+              <td><strong>Use Cases</strong></td>
+              <td>Web (HTTP/S), Email (SMTP), File Transfer (FTP)</td>
+              <td>Live Voice/Video streaming (VoIP, Zoom), Online Gaming, DNS queries</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: TCP 3-Way Handshake Diagram -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> TCP 3-Way Handshake (Connection Setup)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2022–23, 2019 (Draw sequence diagram with SEQ & ACK)</span>
+      </div>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 180" width="100%" height="auto" style="max-width:320px;">
+          <!-- Client & Server Bars -->
+          <line x1="60" y1="20" x2="60" y2="160" stroke="#0d9488" stroke-width="2.5" />
+          <line x1="260" y1="20" x2="260" y2="160" stroke="#f59e0b" stroke-width="2.5" />
+          <text x="35" y="15" font-size="11" font-weight="bold" fill="#0d9488">Client (Active)</text>
+          <text x="235" y="15" font-size="11" font-weight="bold" fill="#f59e0b">Server (Passive)</text>
+
+          <!-- Step 1: SYN -->
+          <line x1="60" y1="45" x2="255" y2="75" stroke="#fb7185" stroke-width="2" marker-end="url(#arrow)" />
+          <text x="100" y="52" font-size="10" font-weight="bold" fill="#fb7185">1. SYN (seq = x)</text>
+
+          <!-- Step 2: SYN + ACK -->
+          <line x1="260" y1="85" x2="65" y2="115" stroke="#10b981" stroke-width="2" />
+          <text x="90" y="94" font-size="10" font-weight="bold" fill="#10b981">2. SYN + ACK (seq = y, ack = x+1)</text>
+
+          <!-- Step 3: ACK -->
+          <line x1="60" y1="125" x2="255" y2="155" stroke="#0d9488" stroke-width="2" />
+          <text x="100" y="134" font-size="10" font-weight="bold" fill="#0d9488">3. ACK (ack = y+1)</text>
+
+          <!-- State Labels -->
+          <text x="10" y="130" font-size="9" fill="var(--text-muted)">ESTABLISHED</text>
+          <text x="215" y="168" font-size="9" fill="var(--text-muted)">ESTABLISHED</text>
+        </svg>
+        <div class="diagram-caption">TCP Connection Establishment: SYN → SYN-ACK → ACK</div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>The 3 Steps Explained:</strong>
+        <ol class="step-list">
+          <li><strong>SYN:</strong> Client chooses initial sequence number $x$ and sends a segment with <code>SYN = 1</code> to request a connection.</li>
+          <li><strong>SYN + ACK:</strong> Server acknowledges client's request with <code>ACK = x + 1</code>, chooses its own sequence number $y$, and sends <code>SYN = 1</code>.</li>
+          <li><strong>ACK:</strong> Client confirms server's sequence number by sending <code>ACK = y + 1</code>. Connection is now <strong>ESTABLISHED</strong> and two-way data transfer begins!</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 3: Email Architecture: SMTP, POP3, IMAP & MIME -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Email System Architecture</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2022–23, 2019 (SMTP vs POP3 vs MIME)</span>
+      </div>
+
+      <ul class="key-points">
+        <li><strong>SMTP (Simple Mail Transfer Protocol - Port 25):</strong> A <em>push protocol</em> used by the sender's client to transmit email to its mail server, and between mail servers. Transmits text in 7-bit ASCII only.</li>
+        <li><strong>MIME (Multipurpose Internet Mail Extensions):</strong> An extension to SMTP that converts non-ASCII data (images, PDFs, audio, video, attachments) into 7-bit ASCII format for transmission across legacy SMTP servers.</li>
+        <li><strong>POP3 (Post Office Protocol v3 - Port 110):</strong> A <em>pull protocol</em> that downloads emails from the mail server to the local client and usually deletes them from the server (offline model).</li>
+        <li><strong>IMAP (Internet Message Access Protocol - Port 143):</strong> A more powerful pull protocol that synchronizes emails in real-time across multiple devices (phone, laptop) while keeping them stored on the mail server.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 4: Cryptography & Security Fundamentals -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Cryptography: Symmetric vs Asymmetric</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2022–23 (Secret Key vs Public Key Encryption)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Symmetric (Secret Key)</th>
+              <th>Asymmetric (Public Key)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Keys Used</strong></td>
+              <td><strong>Single Shared Secret Key</strong> for both encryption and decryption</td>
+              <td><strong>Key Pair:</strong> Public Key (encrypts) + Private Key (decrypts)</td>
+            </tr>
+            <tr>
+              <td><strong>Encryption Speed</strong></td>
+              <td><strong>Very Fast</strong> (Suitable for bulk data)</td>
+              <td>Much Slower (Complex modular arithmetic)</td>
+            </tr>
+            <tr>
+              <td><strong>Key Distribution</strong></td>
+              <td>Difficult (Must share secret securely)</td>
+              <td>Easy (Public key can be shared openly)</td>
+            </tr>
+            <tr>
+              <td><strong>Algorithms</strong></td>
+              <td>AES, DES, 3DES, Blowfish</td>
+              <td>RSA, Diffie-Hellman, ECC</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Test Container -->
+    <div id="unit-mcq-container" class="mcq-container"></div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="bca5003_unit4.html" class="nav-unit-btn">← Unit IV</a>
+    <a href="index.html" class="nav-unit-btn primary">Complete CN! → Hub</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit5Questions = [
+      {
+        question: "How many packets are exchanged between client and server to establish a TCP connection?",
+        options: [
+          "1 packet",
+          "2 packets",
+          "3 packets (Three-way handshake)",
+          "4 packets"
+        ],
+        answer: 2,
+        explanation: "TCP establishes a reliable connection using a 3-way handshake: SYN from client, SYN-ACK from server, and ACK from client."
+      },
+      {
+        question: "Which email protocol is strictly a 'push' protocol used to transmit emails between mail servers?",
+        options: [
+          "POP3",
+          "IMAP",
+          "SMTP",
+          "HTTP"
+        ],
+        answer: 2,
+        explanation: "SMTP (Simple Mail Transfer Protocol, Port 25) is a push protocol that moves emails from the sender client to the mail server and between mail servers."
+      },
+      {
+        question: "What is the primary role of MIME in email systems?",
+        options: [
+          "To encrypt passwords",
+          "To allow transmission of non-ASCII attachments (images, PDFs, audio) over standard ASCII SMTP",
+          "To route emails between routers",
+          "To assign IP addresses to servers"
+        ],
+        answer: 1,
+        explanation: "MIME (Multipurpose Internet Mail Extensions) encodes non-ASCII multimedia files and attachments into 7-bit ASCII characters so legacy SMTP systems can transfer them."
+      },
+      {
+        question: "In Asymmetric (Public Key) Cryptography, which key is used to decrypt a message encrypted with the receiver's public key?",
+        options: [
+          "Sender's Public Key",
+          "Sender's Private Key",
+          "Receiver's Private Key",
+          "A shared symmetric key"
+        ],
+        answer: 2,
+        explanation: "In public-key cryptography, a message encrypted with the recipient's public key can only be decrypted by the recipient's corresponding private key."
+      },
+      {
+        question: "What is the size of the fixed UDP header in bytes?",
+        options: [
+          "4 Bytes",
+          "8 Bytes",
+          "20 Bytes",
+          "64 Bytes"
+        ],
+        answer: 1,
+        explanation: "A UDP header is very compact, consisting of only 8 bytes total: Source Port (2B), Destination Port (2B), Length (2B), and Checksum (2B)."
+      },
+      {
+        question: "Which protocol resolves human-readable domain names (e.g. www.google.com) into numerical IP addresses?",
+        options: [
+          "DHCP",
+          "ARP",
+          "DNS",
+          "FTP"
+        ],
+        answer: 2,
+        explanation: "DNS (Domain Name System, operating over Port 53) translates alphanumeric domain names into IP addresses for network routing."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit5Questions);
+    });
+  </script>
+</body>
+</html>

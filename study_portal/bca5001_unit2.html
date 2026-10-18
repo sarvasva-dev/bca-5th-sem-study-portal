@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 2: EIS, AI & Data Warehousing | BCA-5001</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#b45309;">KM</div>
+      <div>
+        <div class="brand-title">BCA-5001: Unit II</div>
+        <div class="brand-subtitle">EIS, AI, OLAP & Data Warehousing</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#b45309;">
+      <div class="badge-row">
+        <span class="badge badge-amber">Subject: BCA-5001</span>
+        <span class="badge badge-emerald">⭐ Top-Down vs Bottom-Up & OLTP vs OLAP PYQs</span>
+        <span class="badge badge-coral">Day 4 Core</span>
+      </div>
+      <h1 class="unit-title">Unit II: Executive Information Systems, AI & Data Warehousing</h1>
+      <p class="unit-desc">Executive Information Systems (EIS/ESS), Business Expert Systems & AI, OLTP vs OLAP, 3-Tier Data Warehouse Architecture, Data Marts, and Design Approaches.</p>
+    </div>
+
+    <!-- Topic 1: Executive Information System (EIS / ESS) -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> Executive Information Systems (EIS / ESS)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2020, 2016 (Features, functionalities, difference from DSS, and system integration)</span>
+      </div>
+      <p>An <strong>Executive Information System (EIS)</strong>, also termed an <strong>Executive Support System (ESS)</strong>, is a specialized computer-based system tailored specifically for senior executive decision-making. Unlike operational systems dealing with detailed transactions, an EIS delivers a bird's-eye view of organizational health through high-level summaries, Key Performance Indicators (KPIs), trends, and exception alerts.</p>
+
+      <div class="callout callout-tip">
+        <strong>Key Architectural Characteristics of EIS:</strong>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>Intuitive Graphical Interface:</strong> Touch/dashboard-friendly with minimal keyboard entry; uses graphs, traffic-light alerts, and heatmaps.</li>
+          <li><strong>Drill-Down Capability:</strong> Executives can click on an aggregated figure (e.g., quarterly sales dip in Northern Zone) to drill down through regional branches to individual product invoices.</li>
+          <li><strong>Internal + External Integration:</strong> Combines internal ERP/financial data with external competitive intelligence, stock indices, inflation rates, and regulatory news.</li>
+          <li><strong>Exception Reporting & Trend Analysis:</strong> Automatically flags anomalies where actual metrics deviate beyond predefined thresholds (e.g., production delay &gt; 15%).</li>
+        </ul>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>Operational Level</th>
+              <th>Primary Role & Contribution to EIS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TPS</strong> (Transaction Processing)</td>
+              <td>Operational (Daily)</td>
+              <td>Supplies raw transactional data: sales entries, payroll, receipts, and order logs.</td>
+            </tr>
+            <tr>
+              <td><strong>MIS</strong> (Management Info)</td>
+              <td>Middle Management</td>
+              <td>Aggregates routine operational logs into structured periodic performance reports.</td>
+            </tr>
+            <tr>
+              <td><strong>DSS</strong> (Decision Support)</td>
+              <td>Tactical / Analytical</td>
+              <td>Supplies what-if models, statistical forecasting algorithms, and risk simulations.</td>
+            </tr>
+            <tr>
+              <td><strong>EIS / ESS</strong></td>
+              <td>Top Strategic Executives</td>
+              <td>Integrates all lower layers + external trends into holistic KPI dashboards for enterprise policy.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: Business Expert Systems & Artificial Intelligence -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Business Expert Systems (BES) & AI in KM</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24 (Meaning, components of an expert system, benefits, and KM goals)</span>
+      </div>
+      <p><strong>Artificial Intelligence (AI)</strong> in Knowledge Management focuses on emulating human reasoning to capture tacit knowledge, discover hidden patterns, and automate decision paths. A <strong>Business Expert System (BES)</strong> is an AI application that solves complex, domain-specific problems by applying human expert heuristic rules.</p>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 170" width="100%" height="auto" style="max-width:320px;">
+          <!-- User -->
+          <rect x="10" y="65" width="60" height="35" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
+          <text x="22" y="86" font-size="10" font-weight="bold" fill="#10b981">User</text>
+
+          <line x1="70" y1="82" x2="95" y2="82" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- User Interface -->
+          <rect x="95" y="65" width="80" height="35" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="102" y="86" font-size="9" font-weight="bold" fill="#f59e0b">User Interface</text>
+
+          <line x1="175" y1="82" x2="200" y2="82" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Inference Engine -->
+          <rect x="200" y="65" width="105" height="35" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
+          <text x="210" y="86" font-size="9" font-weight="bold" fill="#0d9488">Inference Engine</text>
+
+          <!-- Arrows to top (Knowledge Base) and bottom (Explanation Facility) -->
+          <line x1="252" y1="65" x2="252" y2="35" stroke="var(--text-main)" stroke-width="1.5" />
+          <rect x="195" y="10" width="115" height="25" rx="5" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
+          <text x="203" y="26" font-size="9" font-weight="bold" fill="#e11d48">Knowledge Base</text>
+
+          <line x1="252" y1="100" x2="252" y2="130" stroke="var(--text-main)" stroke-width="1.5" />
+          <rect x="195" y="130" width="115" height="25" rx="5" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="200" y="146" font-size="8.5" font-weight="bold" fill="#f59e0b">Explanation Facility</text>
+
+          <!-- Knowledge Acquisition Module -->
+          <rect x="50" y="130" width="125" height="25" rx="5" fill="rgba(16, 185, 129, 0.15)" stroke="#10b981" stroke-width="1" stroke-dasharray="3,2" />
+          <text x="56" y="146" font-size="8" fill="#10b981">Knowledge Acquisition</text>
+        </svg>
+        <div class="diagram-caption">Architecture of a Business Expert System</div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>The 5 Core Components of an Expert System:</strong>
+        <ol class="step-list">
+          <li><strong>Knowledge Base:</strong> Stores factual domain rules and heuristic rules expressed as <code>IF-THEN</code> clauses.</li>
+          <li><strong>Inference Engine:</strong> The brain of the system; uses Forward Chaining (data-driven) or Backward Chaining (goal-driven) to derive answers.</li>
+          <li><strong>User Interface:</strong> Dialog system translating non-expert queries into formal rule queries and returning advice.</li>
+          <li><strong>Explanation Facility (Justifier):</strong> Traces the exact fired rule chain to explain <em>"Why"</em> a question is asked and <em>"How"</em> the conclusion was reached.</li>
+          <li><strong>Knowledge Acquisition Subsystem:</strong> Module assisting knowledge engineers in encoding expert heuristics into rules.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 3: OLTP vs OLAP -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> OLTP vs OLAP (High-Yield Comparison)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2016 (Frequently asked for 5–10 marks)</span>
+      </div>
+      <p>Modern data architectures split transactional duties from analytical duties to safeguard performance and system stability:</p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>OLTP (Online Transaction Processing)</th>
+              <th>OLAP (Online Analytical Processing)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Primary Purpose</strong></td>
+              <td>Daily business operations & fast transaction execution</td>
+              <td>Multi-dimensional data analysis & decision support</td>
+            </tr>
+            <tr>
+              <td><strong>Nature of Data</strong></td>
+              <td>Current, highly detailed, real-time snapshot</td>
+              <td>Historical, summarized, aggregated across years</td>
+            </tr>
+            <tr>
+              <td><strong>Database Design</strong></td>
+              <td>Normalized (3NF/BCNF) to eliminate redundancy</td>
+              <td>Denormalized (Star or Snowflake Schema) for fast reads</td>
+            </tr>
+            <tr>
+              <td><strong>Operations</strong></td>
+              <td>Frequent <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td>
+              <td>Mostly heavy <code>SELECT</code>, aggregation, and reads</td>
+            </tr>
+            <tr>
+              <td><strong>Query Complexity</strong></td>
+              <td>Simple, standardized queries touching single rows</td>
+              <td>Complex analytical queries spanning millions of rows</td>
+            </tr>
+            <tr>
+              <td><strong>Users</strong></td>
+              <td>Clerks, bank tellers, front-desk operators</td>
+              <td>Business analysts, data scientists, senior executives</td>
+            </tr>
+            <tr>
+              <td><strong>Real Example</strong></td>
+              <td>Withdrawing money from an ATM; booking a train ticket</td>
+              <td>Annual sales comparison of mobile phones across 5 states</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 4: Data Warehousing & 3-Tier Architecture -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Data Warehouse & 3-Tier Architecture</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2023–24, 2020, 2019 (Characteristics, ETL process, and 3-tier architecture diagram)</span>
+      </div>
+      <p>According to <strong>William H. Inmon</strong> (the father of data warehousing):<br>
+      <em>"A Data Warehouse is a <strong>Subject-Oriented</strong>, <strong>Integrated</strong>, <strong>Time-Variant</strong>, and <strong>Non-Volatile</strong> collection of data in support of management's decision-making process."</em></p>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 220" width="100%" height="auto" style="max-width:320px;">
+          <!-- Top Tier -->
+          <rect x="20" y="15" width="280" height="40" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
+          <text x="30" y="32" font-size="10" font-weight="bold" fill="#10b981">TOP TIER: Front-End Client Tools</text>
+          <text x="30" y="47" font-size="8.5" fill="var(--text-muted)">Analysis Tools • Query & Reporting • Data Mining • Dashboards</text>
+
+          <line x1="160" y1="55" x2="160" y2="80" stroke="var(--text-main)" stroke-width="1.5" marker-end="url(#arrow)" />
+
+          <!-- Middle Tier -->
+          <rect x="20" y="80" width="280" height="40" rx="6" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="30" y="97" font-size="10" font-weight="bold" fill="#f59e0b">MIDDLE TIER: OLAP Server</text>
+          <text x="30" y="112" font-size="8.5" fill="var(--text-muted)">Multidimensional Analysis • ROLAP / MOLAP / HOLAP Engine</text>
+
+          <line x1="160" y1="120" x2="160" y2="145" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Bottom Tier -->
+          <rect x="20" y="145" width="280" height="40" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
+          <text x="30" y="162" font-size="10" font-weight="bold" fill="#0d9488">BOTTOM TIER: Data Warehouse Database Server</text>
+          <text x="30" y="177" font-size="8.5" fill="var(--text-muted)">Central RDBMS / Repositories • Metadata Repository • Data Marts</text>
+
+          <!-- ETL Pipeline from source -->
+          <line x1="160" y1="185" x2="160" y2="205" stroke="var(--text-main)" stroke-dasharray="3,3" />
+          <text x="80" y="200" font-size="8.5" fill="var(--text-main)">▲ ETL (Extract • Transform • Load) from OLTP & Flat Files</text>
+        </svg>
+        <div class="diagram-caption">Classic 3-Tier Data Warehouse Architecture</div>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>The 4 Inmon Characteristics Decoded:</strong>
+        <ul style="margin:6px 0; padding-left:18px; line-height:1.6;">
+          <li><strong>Subject-Oriented:</strong> Modeled around high-level entities (e.g. Sales, Customer, Product) rather than individual transaction processes.</li>
+          <li><strong>Integrated:</strong> Data from diverse, inconsistent operational legacy databases is standardized (e.g. mapping <code>'M'/'F'</code>, <code>1/0</code>, and <code>'Male'/'Female'</code> to a uniform standard).</li>
+          <li><strong>Time-Variant:</strong> Every record carries a timestamp or date key to allow multi-year historical trend tracking (5–10 years).</li>
+          <li><strong>Non-Volatile:</strong> Data is read-only after loading; records are never updated in place, only appended or queried.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 5: Data Marts & Warehouse Design Approaches -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Data Marts, Schemas & Top-Down vs Bottom-Up Design</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2018, 2015, 2014 (Data Mart vs Warehouse & Design Approaches)</span>
+      </div>
+
+      <p>A <strong>Data Mart</strong> is a specialized, smaller subset of a data warehouse focused strictly on a single functional department (e.g., Marketing Data Mart, Payroll Data Mart).</p>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Top-Down Approach (Inmon)</th>
+              <th>Bottom-Up Approach (Kimball)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Starting Point</strong></td>
+              <td>Builds centralized Enterprise Data Warehouse (EDW) first</td>
+              <td>Builds individual departmental Data Marts first</td>
+            </tr>
+            <tr>
+              <td><strong>Integration Method</strong></td>
+              <td>Built directly into central design</td>
+              <td>Integrates marts later using <em>Conformed Dimensions</em></td>
+            </tr>
+            <tr>
+              <td><strong>Initial Time & Cost</strong></td>
+              <td>High initial cost; takes 1–3 years to deliver initial value</td>
+              <td>Lower initial cost; delivers initial reports in weeks/months</td>
+            </tr>
+            <tr>
+              <td><strong>Scalability & Consistency</strong></td>
+              <td>Highest enterprise-wide consistency; highly robust</td>
+              <td>Fast initial ROI; high risk of data inconsistency if unmanaged</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3D Interactive CSS Cube -->
+      <div class="cube-showcase">
+        <div class="scene">
+          <div class="cube" id="olap-cube">
+            <div class="cube__face cube__face--front">Sales ( Kanpur )</div>
+            <div class="cube__face cube__face--back">Sales ( Lucknow )</div>
+            <div class="cube__face cube__face--right">Q1 ( Time )</div>
+            <div class="cube__face cube__face--left">Q4 ( Time )</div>
+            <div class="cube__face cube__face--top">Laptops ( Product )</div>
+            <div class="cube__face cube__face--bottom">Mobiles ( Product )</div>
+          </div>
+        </div>
+        <div class="cube-controls">
+          <button class="cube-btn" onclick="rotateCube('front')">Front</button>
+          <button class="cube-btn" onclick="rotateCube('right')">Right (Time)</button>
+          <button class="cube-btn" onclick="rotateCube('top')">Top (Product)</button>
+          <button class="cube-btn" onclick="rotateCube('reset')">Reset</button>
+        </div>
+        <div class="diagram-caption" style="text-align:center;">Interactive 3D OLAP Cube (Product × Time × Location)</div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Star Schema vs Snowflake Schema:</strong>
+        <p><strong>Star Schema:</strong> Contains a central <em>Fact Table</em> surrounded by completely denormalized <em>Dimension Tables</em>. Requires fewer SQL joins, leading to blazing-fast OLAP queries.</p>
+        <p><strong>Snowflake Schema:</strong> An extension where dimension tables are normalized into sub-tables (e.g. <code>City → State → Country</code>). Saves storage space and minimizes redundancy, but requires multi-table joins which can slow down large analytical queries.</p>
+      </div>
+    </div>
+
+    <!-- Topic 6: Interactive MCQ Exam Drill -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Unit II Exam Mastery MCQ Quiz</span>
+      </div>
+      <p>Test your conceptual understanding of EIS, AI, OLAP, and Data Warehousing before proceeding to Unit III.</p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5001_unit1.html" class="nav-unit-btn">← Unit I: BI</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
+    <a href="bca5001_unit3.html" class="nav-unit-btn primary">Next: Unit III →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    function rotateCube(face) {
+      const cube = document.getElementById('olap-cube');
+      if (!cube) return;
+      if (face === 'front') cube.style.transform = 'rotateX(-15deg) rotateY(15deg)';
+      else if (face === 'right') cube.style.transform = 'rotateX(-15deg) rotateY(-75deg)';
+      else if (face === 'top') cube.style.transform = 'rotateX(-95deg) rotateY(15deg)';
+      else if (face === 'reset') cube.style.transform = 'rotateX(-20deg) rotateY(-30deg)';
+    }
+
+    const unit2Questions = [
+      {
+        question: "What is the primary role of an Executive Information System (EIS)?",
+        options: [
+          "To log daily bank cash deposit slips row by row",
+          "To provide senior executives with high-level summaries, KPI scorecards, and drill-down analytical capability",
+          "To compile C and Java programs",
+          "To monitor network routers at the packet level"
+        ],
+        answer: 1,
+        explanation: "EIS is designed specifically for top executives who need graphical KPI summaries, strategic trend analysis, and the ability to drill down into operational details."
+      },
+      {
+        question: "Which of the following describes the 'Non-Volatile' property of a Data Warehouse?",
+        options: [
+          "Data evaporates when the power is turned off",
+          "Data in the warehouse is read-only after loading; it is not modified or deleted in regular operations",
+          "Only numerical integers can be saved",
+          "Data must be updated every second"
+        ],
+        answer: 1,
+        explanation: "Non-volatile means that operational modifications (updates and deletes) do not take place in the warehouse; data is loaded and retained for historical querying."
+      },
+      {
+        question: "In the 3-Tier Data Warehouse Architecture, what resides in the Middle Tier?",
+        options: [
+          "The relational database server storing raw tables",
+          "The OLAP Server (providing multidimensional query processing like ROLAP/MOLAP)",
+          "The end-user web browser",
+          "The physical hard drive cabling"
+        ],
+        answer: 1,
+        explanation: "The Middle Tier consists of an OLAP server (such as ROLAP or MOLAP) that sits between the physical warehouse database (bottom tier) and client tools (top tier)."
+      },
+      {
+        question: "In Kimball's Bottom-Up approach to Data Warehouse design, how are separate departmental Data Marts integrated?",
+        options: [
+          "By completely rewriting all database tables into a single flat file",
+          "By using shared 'Conformed Dimensions' across different business marts",
+          "By deleting historical records over 1 year old",
+          "They cannot be integrated under any circumstances"
+        ],
+        answer: 1,
+        explanation: "Kimball's bottom-up method builds departmental data marts first, ensuring integration across marts by utilizing standardized, shared 'Conformed Dimensions' (e.g. common Date or Customer dimensions)."
+      },
+      {
+        question: "What is the key difference between a Star Schema and a Snowflake Schema?",
+        options: [
+          "Star Schema uses NoSQL, whereas Snowflake Schema uses Oracle",
+          "In a Star Schema, dimension tables are denormalized; in a Snowflake Schema, dimension tables are normalized into sub-tables",
+          "Star Schema does not have a Fact table",
+          "Snowflake Schema is only used for real-time transaction processing"
+        ],
+        answer: 1,
+        explanation: "In a Star Schema, dimension tables are deliberately denormalized for query speed. A Snowflake Schema normalizes dimension tables into secondary tables, reducing data redundancy at the cost of extra table joins."
+      },
+      {
+        question: "Which component of an Expert System provides the logical chain explaining 'how' a conclusion was reached to the user?",
+        options: [
+          "Knowledge Acquisition Subsystem",
+          "Explanation Facility (Justifier)",
+          "Inference Engine",
+          "Database Trigger"
+        ],
+        answer: 1,
+        explanation: "The Explanation Facility (or Justifier) traces the rules executed during inference to clearly explain to the user why a question was asked and how the final recommendation was determined."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit2Questions);
+    });
+  </script>
+</body>
+</html>

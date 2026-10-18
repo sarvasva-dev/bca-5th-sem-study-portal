@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 3: Multi-Dimensional Analysis & Data Mining | BCA-5001</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#b45309;">KM</div>
+      <div>
+        <div class="brand-title">BCA-5001: Unit III</div>
+        <div class="brand-subtitle">Multi-Dimensional Analysis & Data Mining</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#b45309;">
+      <div class="badge-row">
+        <span class="badge badge-amber">Subject: BCA-5001</span>
+        <span class="badge badge-emerald">⭐ KDD Process, K-Means & Classification PYQs</span>
+        <span class="badge badge-coral">Day 4 Core</span>
+      </div>
+      <h1 class="unit-title">Unit III: Multi-Dimensional Analysis & Data Mining</h1>
+      <p class="unit-desc">Data Mining & KDD Process, OLAP Operations, Classification vs Clustering, K-Means Solved Numerical, and Advanced Databases.</p>
+    </div>
+
+    <!-- Topic 1: Multi-Dimensional Analysis & OLAP Operations -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> Multi-Dimensional Analysis & OLAP Operations</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2020, 2019 (Significance in BI & Data Cube Operations)</span>
+      </div>
+      <p>Traditional relational databases view data in two-dimensional flat tables (rows and columns). In contrast, <strong>Multi-Dimensional Analysis</strong> structures metrics across multidimensional data cubes along dimensions such as <em>Time, Product, Region, and Customer Segment</em>.</p>
+
+      <div class="callout callout-tip">
+        <strong>The 5 Core OLAP Operations:</strong>
+        <ol class="step-list">
+          <li><strong>Roll-Up (Aggregation):</strong> Climbs up the concept hierarchy by summarizing data (e.g., from <code>Day → Month → Quarter → Year</code> or <code>City → State → Country</code>).</li>
+          <li><strong>Drill-Down (De-aggregation):</strong> Steps down from summary data to reveal granular details (e.g., from <code>Yearly Sales → Monthly Sales → Daily Transactions</code>).</li>
+          <li><strong>Slice:</strong> Performs a selection on one dimension to produce a sub-cube or 2D slice (e.g., Sales where <code>Time = '2025'</code>).</li>
+          <li><strong>Dice:</strong> Selects a sub-cube by specifying criteria across two or more dimensions (e.g., <code>Product = {Laptops, Tablets}</code> AND <code>Region = {Kanpur, Lucknow}</code>).</li>
+          <li><strong>Pivot (Rotate):</strong> Rotates the data axes in space to provide an alternative visual orientation of the data (swapping rows and columns).</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 2: KDD Process & Data Mining -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> KDD Process & Data Mining Pipeline</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2026, 2019, 2018, 2016 (Detailed KDD steps, architecture, and role of data mining)</span>
+      </div>
+      <p><strong>Knowledge Discovery in Databases (KDD)</strong> is the comprehensive end-to-end process of identifying valid, novel, potentially useful, and ultimately understandable patterns from massive data repositories. <strong>Data Mining</strong> is the essential algorithmic phase within this broader pipeline.</p>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 220" width="100%" height="auto" style="max-width:320px;">
+          <!-- 1. Raw Data -->
+          <rect x="15" y="10" width="85" height="26" rx="4" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.2" />
+          <text x="22" y="27" font-size="8.5" font-weight="bold" fill="#e11d48">1. Raw Data</text>
+
+          <line x1="100" y1="23" x2="120" y2="23" stroke="var(--text-main)" stroke-width="1.2" />
+
+          <!-- 2. Cleaning & Integration -->
+          <rect x="120" y="10" width="185" height="26" rx="4" fill="rgba(245, 158, 11, 0.2)" stroke="#f59e0b" stroke-width="1.2" />
+          <text x="130" y="27" font-size="8.5" font-weight="bold" fill="#f59e0b">2. Cleaning & Integration</text>
+
+          <line x1="212" y1="36" x2="212" y2="55" stroke="var(--text-main)" stroke-width="1.2" />
+
+          <!-- 3. Target Data -->
+          <rect x="120" y="55" width="185" height="26" rx="4" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.2" />
+          <text x="140" y="72" font-size="8.5" font-weight="bold" fill="#0d9488">3. Selection (Target Data)</text>
+
+          <line x1="212" y1="81" x2="212" y2="100" stroke="var(--text-main)" stroke-width="1.2" />
+
+          <!-- 4. Transformed Data -->
+          <rect x="120" y="100" width="185" height="26" rx="4" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.2" />
+          <text x="130" y="117" font-size="8.5" font-weight="bold" fill="#10b981">4. Data Transformation</text>
+
+          <line x1="212" y1="126" x2="212" y2="145" stroke="var(--text-main)" stroke-width="1.2" />
+
+          <!-- 5. Data Mining -->
+          <rect x="100" y="145" width="205" height="30" rx="5" fill="rgba(180, 83, 9, 0.25)" stroke="#b45309" stroke-width="2" />
+          <text x="110" y="164" font-size="9" font-weight="bold" fill="#f59e0b">★ 5. DATA MINING (Algorithms)</text>
+
+          <line x1="202" y1="175" x2="202" y2="190" stroke="var(--text-main)" stroke-width="1.2" />
+
+          <!-- 6 & 7. Evaluation & Knowledge -->
+          <rect x="50" y="190" width="255" height="26" rx="4" fill="rgba(16, 185, 129, 0.25)" stroke="#10b981" stroke-width="1.5" />
+          <text x="65" y="207" font-size="8.5" font-weight="bold" fill="#10b981">6. Pattern Evaluation & 7. Knowledge Presentation</text>
+        </svg>
+        <div class="diagram-caption">The 7 Iterative Steps of the KDD Process</div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>The 7 KDD Phases Explained:</strong>
+        <ol class="step-list">
+          <li><strong>Data Cleaning:</strong> Removes noise, outliers, and handles missing data.</li>
+          <li><strong>Data Integration:</strong> Merges multiple heterogeneous sources (RDBMS, flat files, XML) into a unified dataset.</li>
+          <li><strong>Data Selection:</strong> Retrieves only task-relevant attributes and records needed for the analytical goal.</li>
+          <li><strong>Data Transformation:</strong> Converts data into formats suitable for mining (normalization, aggregation, binning).</li>
+          <li><strong>Data Mining:</strong> Applies intelligent algorithms (Classification, Clustering, Association) to extract patterns.</li>
+          <li><strong>Pattern Evaluation:</strong> Filters extracted patterns using mathematical interestingness measures (e.g., support & confidence).</li>
+          <li><strong>Knowledge Presentation:</strong> Uses visual dashboards, decision trees, or rules to present discoveries to decision-makers.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 3: Classification vs Clustering -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Classification vs Clustering & Association Rules</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2020, 2016 (Supervised vs Unsupervised Comparison)</span>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Classification</th>
+              <th>Clustering</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Learning Type</strong></td>
+              <td><strong>Supervised Learning</strong></td>
+              <td><strong>Unsupervised Learning</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Class Labels</strong></td>
+              <td>Predefined known labels (e.g., Safe vs Risky Loan)</td>
+              <td>No predefined classes; discovered organically from data similarities</td>
+            </tr>
+            <tr>
+              <td><strong>Training Data</strong></td>
+              <td>Requires a labeled training set to build the model</td>
+              <td>Operates directly on unlabeled raw data records</td>
+            </tr>
+            <tr>
+              <td><strong>Core Objective</strong></td>
+              <td>Assign new unseen inputs to one of the predefined categories</td>
+              <td>Partition data into clusters having high intra-cluster similarity and low inter-cluster similarity</td>
+            </tr>
+            <tr>
+              <td><strong>Common Algorithms</strong></td>
+              <td>Decision Trees (ID3, C4.5), Naive Bayes, KNN, SVM</td>
+              <td>K-Means, Hierarchical Clustering, DBSCAN</td>
+            </tr>
+            <tr>
+              <td><strong>Real Application</strong></td>
+              <td>Classifying email as Spam or Ham; Medical disease diagnosis</td>
+              <td>Customer market segmentation; Document categorization</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Association Rule Mining (Market Basket Analysis):</strong>
+        <p>Discovers interesting correlations and co-occurrence patterns between items in transaction databases.<br>
+        Rule format: <code>IF {Itemset A} THEN {Itemset B}</code> (e.g. <code>{Diaper} → {Beer}</code>).</p>
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li><strong>Support:</strong> Proportion of transactions containing both A and B: <code>Support = count(A ∪ B) / N</code>.</li>
+          <li><strong>Confidence:</strong> Probability that B is purchased given that A is purchased: <code>Confidence = count(A ∪ B) / count(A)</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 4: K-Means Clustering Algorithm & Solved Step-by-Step Numerical -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> K-Means Clustering: Solved University Numerical</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2023–24, 2019 (Complete K-Means Algorithm & Step-by-Step Numerical Question)</span>
+      </div>
+
+      <div class="callout callout-warning">
+        <strong>Problem Statement (From CSJMU Examination Paper):</strong>
+        <p>Given the 1D dataset: <code>D = {2, 4, 10, 12, 3, 20, 11, 25}</code>.<br>
+        Apply the <strong>K-Means Clustering Algorithm</strong> for <strong>K = 2</strong> clusters. Assume the initial cluster centroids are chosen as: <strong>M₁ = 4</strong> and <strong>M₂ = 11</strong>.</p>
+      </div>
+
+      <p><strong>Step-by-Step Solution:</strong></p>
+
+      <div class="step-list">
+        <div class="step-item">
+          <strong>Iteration 1: Distance Calculation & Initial Assignment</strong>
+          <p>Distance formula: \( d(x, M) = |x - M| \). Assign each point to the nearer centroid:</p>
+          <ul style="margin:4px 0; padding-left:18px; line-height:1.5;">
+            <li>Point 2: \( |2 - 4| = 2 \) vs \( |2 - 11| = 9 \implies \) <strong>Cluster 1</strong></li>
+            <li>Point 4: \( |4 - 4| = 0 \) vs \( |4 - 11| = 7 \implies \) <strong>Cluster 1</strong></li>
+            <li>Point 10: \( |10 - 4| = 6 \) vs \( |10 - 11| = 1 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 12: \( |12 - 4| = 8 \) vs \( |12 - 11| = 1 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 3: \( |3 - 4| = 1 \) vs \( |3 - 11| = 8 \implies \) <strong>Cluster 1</strong></li>
+            <li>Point 20: \( |20 - 4| = 16 \) vs \( |20 - 11| = 9 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 11: \( |11 - 4| = 7 \) vs \( |11 - 11| = 0 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 25: \( |25 - 4| = 21 \) vs \( |25 - 11| = 14 \implies \) <strong>Cluster 2</strong></li>
+          </ul>
+          <p><strong>Cluster 1:</strong> \( \{2, 3, 4\} \)<br>
+          <strong>Cluster 2:</strong> \( \{10, 11, 12, 20, 25\} \)</p>
+          <p><strong>Recalculate Centroids:</strong><br>
+          \( M_1' = \frac{2 + 3 + 4}{3} = \frac{9}{3} = \mathbf{3.0} \)<br>
+          \( M_2' = \frac{10 + 11 + 12 + 20 + 25}{5} = \frac{78}{5} = \mathbf{15.6} \)</p>
+        </div>
+
+        <div class="step-item">
+          <strong>Iteration 2: Reassignment with New Centroids (M₁ = 3.0, M₂ = 15.6)</strong>
+          <ul style="margin:4px 0; padding-left:18px; line-height:1.5;">
+            <li>Point 2, 3, 4 remain closest to \( M_1 = 3.0 \implies \) <strong>Cluster 1</strong></li>
+            <li>Point 10: \( |10 - 3.0| = 7.0 \) vs \( |10 - 15.6| = 5.6 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 11: \( |11 - 3.0| = 8.0 \) vs \( |11 - 15.6| = 4.6 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 12: \( |12 - 3.0| = 9.0 \) vs \( |12 - 15.6| = 3.6 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 20: \( |20 - 3.0| = 17.0 \) vs \( |20 - 15.6| = 4.4 \implies \) <strong>Cluster 2</strong></li>
+            <li>Point 25: \( |25 - 3.0| = 22.0 \) vs \( |25 - 15.6| = 9.4 \implies \) <strong>Cluster 2</strong></li>
+          </ul>
+          <p><em>Notice:</em> Under these centroids, Point 10 is closer to 15.6 than 3.0. If we test point 10 against centroid updates, no points switch clusters between Iteration 1 and 2!</p>
+          <p><strong>Convergence:</strong> Because point assignments remain unchanged, the centroids have stabilized. Algorithm terminates.</p>
+          <p><strong>Final Verified Clusters:</strong><br>
+          <strong>Cluster 1:</strong> \( \{2, 3, 4\} \) with Centroid = <strong>3.0</strong><br>
+          <strong>Cluster 2:</strong> \( \{10, 11, 12, 20, 25\} \) with Centroid = <strong>15.6</strong></p>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <strong>Key Limitations of K-Means for University Exams:</strong>
+        <ul style="margin:4px 0; padding-left:18px;">
+          <li>User must specify the value of \( K \) in advance.</li>
+          <li>Sensitive to initial random centroid placement (may converge to local minima).</li>
+          <li>Extreme outliers heavily distort the calculated mean centroids.</li>
+          <li>Fails to separate non-spherical or arbitrarily shaped clusters.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Topic 5: Advanced Databases & Knowledge Base Systems -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">5.</span> Advanced Databases vs Knowledge Bases</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2018, 2017 (Centralized vs End-User Databases & Knowledge Base Architecture)</span>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Dimension</th>
+              <th>Standard Database (DBMS)</th>
+              <th>Knowledge Base (KBMS)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Stored Content</strong></td>
+              <td>Explicit raw facts, numeric tables, and records</td>
+              <td>Facts + Production Rules (<code>IF-THEN</code>) + Domain Heuristics + Ontologies</td>
+            </tr>
+            <tr>
+              <td><strong>Query Capability</strong></td>
+              <td>Retrieves only what is explicitly stored via standard SQL queries</td>
+              <td>Infers new implicit facts via an Inference Engine using deduction and logic</td>
+            </tr>
+            <tr>
+              <td><strong>Primary Purpose</strong></td>
+              <td>High-throughput transaction logging and data storage</td>
+              <td>Expert decision-making, diagnosis, advice, and problem solving</td>
+            </tr>
+            <tr>
+              <td><strong>Completeness</strong></td>
+              <td>Closed-world assumption (if not in table, it is false)</td>
+              <td>Open-world reasoning; can handle uncertainty and fuzzy truth values</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 6: Interactive MCQ Exam Drill -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">6.</span> Unit III Exam Mastery MCQ Quiz</span>
+      </div>
+      <p>Test your conceptual understanding of KDD, Data Mining, Classification, Clustering, and OLAP operations.</p>
+
+      <div id="unit-mcq-container"></div>
+    </div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation -->
+  <nav class="nav-bottom">
+    <a href="bca5001_unit2.html" class="nav-unit-btn">← Unit II: EIS</a>
+    <a href="index.html" class="nav-unit-btn">Hub</a>
+    <a href="bca5001_unit4.html" class="nav-unit-btn primary">Next: Unit IV →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit3Questions = [
+      {
+        question: "In the KDD (Knowledge Discovery in Databases) process, which step immediately follows Data Transformation?",
+        options: [
+          "Data Cleaning",
+          "Data Mining",
+          "Knowledge Presentation",
+          "Pattern Evaluation"
+        ],
+        answer: 1,
+        explanation: "The KDD sequence is: Selection → Cleaning → Integration → Transformation → Data Mining → Pattern Evaluation → Knowledge Presentation."
+      },
+      {
+        question: "Which OLAP operation moves from higher-level summary data to lower-level detailed data (e.g., from yearly sales to daily transactions)?",
+        options: [
+          "Roll-Up",
+          "Drill-Down",
+          "Slice",
+          "Pivot"
+        ],
+        answer: 1,
+        explanation: "Drill-down de-aggregates data, stepping down the concept hierarchy to view fine-grained details."
+      },
+      {
+        question: "What is the primary difference between Classification and Clustering in data mining?",
+        options: [
+          "Classification is unsupervised, while Clustering is supervised",
+          "Classification uses predefined target class labels, whereas Clustering groups unlabelled data by similarity",
+          "Clustering only works on images, while Classification works only on numbers",
+          "They are completely identical terms"
+        ],
+        answer: 1,
+        explanation: "Classification is supervised learning with predefined target classes. Clustering is unsupervised learning that automatically finds natural groupings in unlabeled data."
+      },
+      {
+        question: "In Market Basket Analysis, if 20 out of 100 customer carts contain Bread, and 10 of those 20 carts also contain Butter, what is the Confidence of the rule {Bread} → {Butter}?",
+        options: [
+          "10%",
+          "20%",
+          "50%",
+          "100%"
+        ],
+        answer: 2,
+        explanation: "Confidence is count(Bread ∪ Butter) / count(Bread) = 10 / 20 = 50%."
+      },
+      {
+        question: "Which of the following is a prominent limitation of the K-Means clustering algorithm?",
+        options: [
+          "It cannot process numbers",
+          "It requires the user to specify the number of clusters (K) in advance and is sensitive to outliers",
+          "It only works on quantum computers",
+          "It never terminates"
+        ],
+        answer: 1,
+        explanation: "K-Means requires selecting K beforehand, and its reliance on mean calculation makes cluster centroids sensitive to extreme outliers."
+      },
+      {
+        question: "How does a Knowledge Base differ fundamentally from a standard Relational Database?",
+        options: [
+          "A Knowledge Base cannot store text",
+          "A Knowledge Base stores heuristic rules and domain logic to infer new knowledge, rather than only storing passive raw facts",
+          "A Knowledge Base does not require any computer hardware",
+          "A standard database always contains AI"
+        ],
+        answer: 1,
+        explanation: "A Knowledge Base contains facts combined with reasoning rules, semantic networks, and inference engines, enabling it to deduce new conclusions that are not explicitly written in any table."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit3Questions);
+    });
+  </script>
+</body>
+</html>

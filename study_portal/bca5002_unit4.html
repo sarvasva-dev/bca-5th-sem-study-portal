@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 4: Java Servlets & Web Architecture | BCA-5002</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#d97706;">JP</div>
+      <div>
+        <div class="brand-title">BCA-5002: Unit IV</div>
+        <div class="brand-subtitle">Java Servlets & Web Architecture</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#d97706;">
+      <div class="badge-row">
+        <span class="badge badge-amber">Subject: BCA-5002</span>
+        <span class="badge badge-emerald">⭐ Lifecycle & Session Tracking PYQs</span>
+        <span class="badge badge-coral">Day 3 Priority</span>
+      </div>
+      <h1 class="unit-title">Unit IV: Java Servlets & Request Handling</h1>
+      <p class="unit-desc">Servlet Lifecycle, GenericServlet vs HttpServlet, doGet vs doPost, Session Tracking (Cookies, HttpSession, URL Rewriting), and Form Processing.</p>
+    </div>
+
+    <!-- Topic 1: Servlet Lifecycle & Web Container -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> Servlet Lifecycle & Web Container</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2022–23, 2021 (The core servlet question!)</span>
+      </div>
+      <p>A Servlet is a server-side Java component managed by a Web Container (like Apache Tomcat). The container manages the servlet through three lifecycle methods:</p>
+
+      <div class="diagram-box">
+        <svg viewBox="0 0 320 160" width="100%" height="auto" style="max-width:320px;">
+          <!-- 1. init() -->
+          <rect x="20" y="65" width="70" height="30" rx="6" fill="rgba(13, 148, 136, 0.2)" stroke="#0d9488" stroke-width="1.5" />
+          <text x="35" y="83" font-size="10" font-weight="bold" fill="#0d9488">init()</text>
+
+          <!-- 2. service() -->
+          <rect x="125" y="65" width="80" height="30" rx="6" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5" />
+          <text x="140" y="83" font-size="10" font-weight="bold" fill="#10b981">service()</text>
+
+          <!-- 3. destroy() -->
+          <rect x="235" y="65" width="70" height="30" rx="6" fill="rgba(225, 29, 72, 0.2)" stroke="#e11d48" stroke-width="1.5" />
+          <text x="245" y="83" font-size="10" font-weight="bold" fill="#e11d48">destroy()</text>
+
+          <!-- Arrows -->
+          <line x1="90" y1="80" x2="120" y2="80" stroke="var(--text-main)" stroke-width="1.5" />
+          <line x1="205" y1="80" x2="230" y2="80" stroke="var(--text-main)" stroke-width="1.5" />
+
+          <!-- Multi-thread loop for service() -->
+          <path d="M 165,65 Q 165,25 185,25 Q 205,25 195,60" fill="none" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="135" y="20" font-size="9" font-weight="bold" fill="#f59e0b">Multiple Client Requests (Threads)</text>
+        </svg>
+        <div class="diagram-caption">Servlet Lifecycle: Load & init() [Once] → service() [Multi-threaded] → destroy() [Once]</div>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>The 3 Lifecycle Methods Explained:</strong>
+        <ol class="step-list">
+          <li><code>init(ServletConfig config)</code>: Executed <strong>once</strong> when the servlet instance is loaded into server memory. Initializes resources like DB connection pools.</li>
+          <li><code>service(HttpServletRequest req, HttpServletResponse res)</code>: Executed for <strong>every client request</strong>. The container spawns a new lightweight thread for each request and dispatches to <code>doGet()</code> or <code>doPost()</code> based on HTTP method.</li>
+          <li><code>destroy()</code>: Executed <strong>once</strong> when the servlet is taken out of service (server shutdown or undeployment). Releases connections and cleans up.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 2: doGet() vs doPost() Comparison -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> doGet() vs doPost()</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24 (High-Frequency 5-mark question)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>doGet() (HTTP GET)</th>
+              <th>doPost() (HTTP POST)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Data Transmission</strong></td>
+              <td>Parameters appended directly to the URL string (<code>?name=value&age=20</code>)</td>
+              <td>Parameters encapsulated inside the <strong>HTTP request body</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Data Size Limit</strong></td>
+              <td>Limited by browser URL length (~2048 characters)</td>
+              <td><strong>Unlimited</strong> (Supports file uploads and large payloads)</td>
+            </tr>
+            <tr>
+              <td><strong>Security & Privacy</strong></td>
+              <td><strong>Insecure</strong>: Sensitive data (passwords) visible in address bar and server access logs</td>
+              <td><strong>Secure</strong>: Data is hidden in payload body and can be encrypted via HTTPS</td>
+            </tr>
+            <tr>
+              <td><strong>Caching & Bookmarks</strong></td>
+              <td>Can be cached, bookmarked, and stored in browser history</td>
+              <td>Cannot be bookmarked or cached</td>
+            </tr>
+            <tr>
+              <td><strong>Idempotence</strong></td>
+              <td>Idempotent (multiple identical requests produce same result)</td>
+              <td>Non-idempotent (re-submitting can duplicate an order/charge)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 3: Session Tracking Techniques -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> The 4 Session Tracking Techniques</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2021, 2019 (Why needed and explain all 4 methods)</span>
+      </div>
+      <p><strong>Why Needed:</strong> HTTP is a <strong>stateless protocol</strong>; each request is treated as independent with no memory of prior requests. Session tracking maintains conversational state across multiple page requests (e.g., maintaining an e-commerce shopping cart).</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Technique</th>
+              <th>How it Works</th>
+              <th>Pros & Cons</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Cookies</strong></td>
+              <td>Small text files sent by server and stored on client's browser (<code>Cookie c = new Cookie("user", "Rahul"); response.addCookie(c);</code>)</td>
+              <td><strong>Pros:</strong> Lightweight, persists across sessions.<br><strong>Cons:</strong> Can be disabled by user; limited to 4KB.</td>
+            </tr>
+            <tr>
+              <td><strong>2. HttpSession</strong></td>
+              <td>Server creates a session object with a unique <code>JSESSIONID</code> stored in memory. Accessed via <code>HttpSession session = request.getSession();</code></td>
+              <td><strong>Pros:</strong> Stores complex Java objects securely on server.<br><strong>Cons:</strong> Consumes server memory for many concurrent users.</td>
+            </tr>
+            <tr>
+              <td><strong>3. URL Rewriting</strong></td>
+              <td>Appends session identifier to every link URL (e.g. <code>page.jsp;jsessionid=A3F982</code>) using <code>response.encodeURL(url)</code></td>
+              <td><strong>Pros:</strong> Works even if client browser has disabled cookies!<br><strong>Cons:</strong> All hyperlinks must be encoded.</td>
+            </tr>
+            <tr>
+              <td><strong>4. Hidden Form Fields</strong></td>
+              <td>Embedded invisible inputs inside HTML forms: <code>&lt;input type="hidden" name="user" value="Rahul"&gt;</code></td>
+              <td><strong>Pros:</strong> Simple.<br><strong>Cons:</strong> Only works with form submissions; breaks on normal link navigation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Solved Servlet Code Example -->
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span>GreetingServlet.java (PYQ Solved)</span>
+          <button class="copy-btn" onclick="copyCode(this, 'servlet-code')">Copy Code</button>
+        </div>
+        <pre class="code-block" id="servlet-code">
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
+public class GreetingServlet extends HttpServlet {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        // Retrieve form parameter
+        String username = request.getParameter("uname");
+        if (username == null || username.trim().isEmpty()) {
+            username = "Guest";
+        }
+
+        out.println("&lt;html&gt;&lt;body&gt;");
+        out.println("&lt;h2&gt;Welcome to BCA Portal, " + username + "!&lt;/h2&gt;");
+        out.println("&lt;p&gt;Server Time: " + new java.util.Date() + "&lt;/p&gt;");
+        out.println("&lt;/body&gt;&lt;/html&gt;");
+    }
+}
+        </pre>
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Test Container -->
+    <div id="unit-mcq-container" class="mcq-container"></div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="bca5002_unit3.html" class="nav-unit-btn">← Unit III</a>
+    <a href="bca5002_unit5.html" class="nav-unit-btn primary">Next: Unit V →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit4Questions = [
+      {
+        question: "How many times is the init() method called during the lifetime of a Java Servlet?",
+        options: [
+          "Once for every client request",
+          "Exactly once when the servlet is first instantiated and loaded",
+          "Twice (once for GET, once for POST)",
+          "Never"
+        ],
+        answer: 1,
+        explanation: "The web container invokes init(ServletConfig) exactly once when creating the servlet instance to initialize persistent resources."
+      },
+      {
+        question: "Why is session tracking necessary in web applications using HTTP?",
+        options: [
+          "Because HTTP is a stateless protocol that treats every request independently",
+          "Because HTTP does not allow images",
+          "Because Java requires cookies to compile",
+          "To speed up database connections"
+        ],
+        answer: 0,
+        explanation: "HTTP is stateless; it remembers no state between requests. Session tracking mechanisms (Cookies, HttpSession, URL Rewriting) maintain continuous user identity."
+      },
+      {
+        question: "Which method in HttpServletRequest is used to read input form data submitted by a user?",
+        options: [
+          "request.getData()",
+          "request.getParameter(String name)",
+          "request.readAttribute()",
+          "request.getInput()"
+        ],
+        answer: 1,
+        explanation: "request.getParameter(name) retrieves the single string value of a query parameter or form field."
+      },
+      {
+        question: "Which session tracking technique remains fully functional even when the user has disabled cookies in their browser?",
+        options: [
+          "Persistent Cookies",
+          "Session Cookies",
+          "URL Rewriting",
+          "Local storage only"
+        ],
+        answer: 2,
+        explanation: "URL Rewriting appends the session ID directly onto the end of hyperlinked URLs (e.g. ;jsessionid=...), so it works without requiring browser cookie support."
+      },
+      {
+        question: "What is the key advantage of Servlets over traditional CGI (Common Gateway Interface) scripts?",
+        options: [
+          "Servlets use a lightweight thread per request instead of creating a heavy new OS process each time",
+          "Servlets do not run on a server",
+          "Servlets cannot handle HTML",
+          "Servlets require no JVM"
+        ],
+        answer: 0,
+        explanation: "CGI creates a separate OS process for every incoming request, exhausting server memory. Servlets run in a single process using lightweight concurrent threads."
+      },
+      {
+        question: "Which HTTP request method sends form data securely inside the message payload body rather than displaying it in the URL bar?",
+        options: [
+          "GET",
+          "POST",
+          "HEAD",
+          "OPTIONS"
+        ],
+        answer: 1,
+        explanation: "POST sends data inside the HTTP request entity body, keeping sensitive data out of the browser address bar and web server access logs."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit4Questions);
+    });
+  </script>
+</body>
+</html>

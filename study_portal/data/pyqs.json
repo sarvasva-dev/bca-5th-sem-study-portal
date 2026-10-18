@@ -1,0 +1,650 @@
+[
+  {
+    "question_id": "PYQ_001",
+    "subject_code": "BCA-5001",
+    "unit": 1,
+    "question_text": "Define groupware and explain tools/technologies",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/1_BCA-5001_Knowledge_Management/Unit_1_Business_Intelligence_PYQ_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_002",
+    "subject_code": "BCA-5001",
+    "unit": 1,
+    "question_text": "What is groupware?",
+    "examination_year": "2014",
+    "source_file": "Soft_Copy_Notes/1_BCA-5001_Knowledge_Management/Unit_1_Business_Intelligence_PYQ_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_003",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "Explain in short.",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_004",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "What is the difference between an",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_005",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "Write a program in Java",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_006",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "Explain in detail, how input and output",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_007",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "What is default constructor ? How is it",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_008",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "What is the difference between generic and",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_009",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "Explain different types of cortrols in details",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_010",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "Write a Java program that",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_011",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "What is session tracking ? How is it preformed",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_012",
+    "subject_code": "BCA-5002",
+    "unit": "All",
+    "question_text": "Write a servlet program that returns you the",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Previous_Years_Question_Papers_PYQs/2_BCA-5002_Java_Programming/BCA_V_Sem_Java_Programming_PYQs_2019_2021_2022.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_013",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q1. What is a network? Write the benefits of networks.",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_014",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q2. What are the fundamental characteristics of effective data communication?",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_015",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q3. Write the basic components of data communication.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_016",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q4. Write a short note on protocol.",
+    "examination_year": "2022\u201323",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_017",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q5. What are the two types of line configuration? Explain.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_018",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q6. Explain the concept of parallel transmission.",
+    "examination_year": "2022\u201323",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_019",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q7. What are the two types of services used in computer networks?",
+    "examination_year": "2022\u201323",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_020",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q8. What is distributed processing in computer networks?",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_021",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q9. What is topology? Explain five types of topology with advantages and",
+    "examination_year": "2019",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_022",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q10. Differentiate network topologies used in LAN.",
+    "examination_year": "2019",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_023",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q11. How can errors be detected in networks? Define single-bit and multiple-bit",
+    "examination_year": "2018",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_024",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q12. Write a short note on CRC.",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_025",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q13. Explain how errors are detected using CRC.",
+    "examination_year": "2023\u201324",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_026",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q14. Given dataword 1001 and divisor 1011, show generation of CRC codeword at",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_027",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q15. If a 7-bit Hamming codeword received is 1011011, assuming even parity, state",
+    "examination_year": "2017",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_028",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q16. Discuss the methods used for controlling errors in the data-link layer.",
+    "examination_year": "2023\u201324",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_029",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q17. Draw the OSI model and explain three functions of each layer.",
+    "examination_year": "2015",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_030",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Defines physical interfaces, connectors, signal levels, and bit rate.",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_031",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Defines physical topology and transmission mode.",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_032",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q18. Write three characteristics/functions of the data-link layer.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_033",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q19. Explain the functions of TCP/IP protocol.",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_034",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q20. What is the difference between MAC address and IP address?",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_035",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q21. What are the responsibilities of the network layer?",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_036",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q22. Write a short note on IPv4 addressing.",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_037",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q23. Write a short note on IPv6 addressing.",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_038",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q24. Compare virtual circuits and datagrams.",
+    "examination_year": "2023\u201324",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_039",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q25. Explain virtual circuit subnet.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_040",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Q26. Explain DTE\u2013DCE interface.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_041",
+    "subject_code": "BCA-5003",
+    "unit": 1,
+    "question_text": "Write Q1\u2013Q4 without looking",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_1_Computer_Network_Comprehensive_Guide.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_042",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q1. Mention the advantages of optical fibre cables.",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_043",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q2. Explain various transmission media in detail.",
+    "examination_year": "2018",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_044",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q3. Write two types of guided media and two types of unguided media.",
+    "examination_year": "2018",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_045",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q4. What is satellite? Explain satellite communication with a proper diagram.",
+    "examination_year": "2022\u201323",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_046",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q5. What is transmission impairment? Explain noise in signal transmission.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_047",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q6. Differentiate between noiseless and noisy channels.",
+    "examination_year": "2017",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_048",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q7. What are data-rate limits? On which factors do they depend? Discuss calculation for noisy and",
+    "examination_year": "2015",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_049",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Q8. Differentiate guided and unguided transmission media. Give one example of each.",
+    "examination_year": "2017",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_050",
+    "subject_code": "BCA-5003",
+    "unit": 2,
+    "question_text": "Write Q1\u2013Q8; redraw every diagram from memory.",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/3_BCA-5003_Computer_Networks/Unit_2_Transmission_Media_Detailed_Notes_and_PYQs.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_051",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Write the steps of Bisection Method.",
+    "examination_year": "2025\u2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_052",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Explain Bisection Method. Find a root of x^3-x-11=0.",
+    "examination_year": "2024\u2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_053",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Explain Bisection Method for finding a root.",
+    "examination_year": "2023\u2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_054",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the root of xe^x-1=0 between 0 and 1 by Bisection Method.",
+    "examination_year": "2021",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_055",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the real root of x^3-4x-9=0 correct to four significant digits by",
+    "examination_year": "2016",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_056",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Explain Regula-Falsi Method. Solve a specified equation between 2 and 4. [Printed",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_057",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the real root of 3x-cos x-1=0 by False Position Method.",
+    "examination_year": "2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_058",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the root of x^3-x-1=0, starting with x0=1.5.",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_059",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Derive Newton\u2013Raphson Method from Taylor series. Use it to solve",
+    "examination_year": "2025\u2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_060",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Derive Newton\u2013Raphson equation and discuss convergence.",
+    "examination_year": "2024\u2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_061",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Write Newton\u2013Raphson algorithm. Find the real root of 3x-cos x1=0 correct to four decimals.",
+    "examination_year": "2023\u2013",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_062",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the root of x^3-5x^2+2=0 by Newton\u2013Raphson Method.",
+    "examination_year": "2017",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_063",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the root of x^2-3x+2=0 by Newton\u2013Raphson Method.",
+    "examination_year": "2016",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_064",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the real root of x^3-9=0 correct to three decimal places.",
+    "examination_year": "2015",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_065",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Define/Explain Descartes\u2019 Rule of Signs.",
+    "examination_year": "2016",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_066",
+    "subject_code": "BCA-5004",
+    "unit": 1,
+    "question_text": "Find the function whose first difference is e^x (or related",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_1_Roots_of_Equations_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_067",
+    "subject_code": "BCA-5004",
+    "unit": 2,
+    "question_text": "Derive relation between forward and backward difference operators",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_2_Interpolation_and_Extrapolation_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_068",
+    "subject_code": "BCA-5004",
+    "unit": 2,
+    "question_text": "Derive Newton divided-difference formula",
+    "examination_year": "2025\u201326",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_2_Interpolation_and_Extrapolation_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_069",
+    "subject_code": "BCA-5004",
+    "unit": 2,
+    "question_text": "Derive relation between D and E",
+    "examination_year": "2024\u201325",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_2_Interpolation_and_Extrapolation_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_070",
+    "subject_code": "BCA-5004",
+    "unit": 2,
+    "question_text": "Explain divided differences; construct a table",
+    "examination_year": "2023\u201324",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_2_Interpolation_and_Extrapolation_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_071",
+    "subject_code": "BCA-5004",
+    "unit": 2,
+    "question_text": "Define interpolation and derive Newton Forward formula",
+    "examination_year": "2023\u201324",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_2_Interpolation_and_Extrapolation_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  },
+  {
+    "question_id": "PYQ_072",
+    "subject_code": "BCA-5004",
+    "unit": 2,
+    "question_text": "Write h, chosen origin (x_0 or x_n), and u before substituting.",
+    "examination_year": "CSJMU Examination Paper",
+    "source_file": "Soft_Copy_Notes/4_BCA-5004_Numerical_Methods/Unit_2_Interpolation_and_Extrapolation_Notes.pdf",
+    "verification_status": "SOURCE_VERIFIED"
+  }
+]

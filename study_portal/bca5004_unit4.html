@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 4: Linear Equations | BCA-5004</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#0d9488;">NM</div>
+      <div>
+        <div class="brand-title">BCA-5004: Unit IV</div>
+        <div class="brand-subtitle">Solution of Linear Equations</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#0d9488;">
+      <div class="badge-row">
+        <span class="badge badge-emerald">Subject: BCA-5004</span>
+        <span class="badge badge-amber">⭐ Direct vs Iterative Methods</span>
+        <span class="badge badge-coral">Day 1 Priority</span>
+      </div>
+      <h1 class="unit-title">Unit IV: Solution of Linear Equations</h1>
+      <p class="unit-desc">Gauss Elimination Method, Partial Pivoting, Gauss-Seidel Iterative Method, and Diagonal Dominance Criterion.</p>
+    </div>
+
+    <!-- Quick Formula Card -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">⚡</span> Essential Concept & Condition Sheet</span>
+      </div>
+      <div class="callout callout-formula">
+        <strong>1. Diagonal Dominance (Condition for Gauss-Seidel Convergence):</strong><br>
+        A system $AX = B$ converges under Gauss-Seidel if the coefficient matrix is diagonally dominant:
+        $$|a_{ii}| \ge \sum_{j \ne i} |a_{ij}| \quad \text{for all } i$$
+        <em>(The magnitude of the diagonal element in each row must be greater than or equal to the sum of the magnitudes of all other elements in that row)</em>
+      </div>
+      <div class="callout callout-formula">
+        <strong>2. Gauss-Seidel Iteration Formulae:</strong><br>
+        $$x^{(k+1)} = \frac{1}{a_{11}} \left[ b_1 - a_{12}y^{(k)} - a_{13}z^{(k)} \right]$$
+        $$y^{(k+1)} = \frac{1}{a_{22}} \left[ b_2 - a_{21}\mathbf{x^{(k+1)}} - a_{23}z^{(k)} \right] \quad \text{(Uses newest } x^{(k+1)}\text{)}$$
+        $$z^{(k+1)} = \frac{1}{a_{33}} \left[ b_3 - a_{31}\mathbf{x^{(k+1)}} - a_{32}\mathbf{y^{(k+1)}} \right] \quad \text{(Uses newest } x^{(k+1)}, y^{(k+1)}\text{)}$$
+      </div>
+    </div>
+
+    <!-- Topic 1: Gauss Elimination Method & Solved PYQ -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> Gauss Elimination Method</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24 (Direct method using row operations)</span>
+      </div>
+      <p><strong>Method Strategy:</strong> Converts the augmented matrix $[A | B]$ into an <strong>Upper Triangular Matrix</strong> using elementary row operations (Forward Elimination), and then finds the unknowns from bottom to top (Back Substitution).</p>
+
+      <details class="topic-drawer" open>
+        <summary class="topic-summary">📝 Step-by-Step Solved PYQ: Solve the 3x3 Linear System</summary>
+        <div class="topic-content">
+          <p>Solve the equations:<br>
+          (1) $x + y + z = 6$<br>
+          (2) $2x + 3y + z = 10$<br>
+          (3) $x + 2y + 3z = 13$</p>
+
+          <p><strong>Step 1: Form the Augmented Matrix $[A | B]$:</strong></p>
+          <div style="font-family:monospace; background:var(--surface-alt); padding:10px; border-radius:6px; margin:8px 0;">
+            $$\begin{bmatrix}
+            1 & 1 & 1 & | & 6 \\
+            2 & 3 & 1 & | & 10 \\
+            1 & 2 & 3 & | & 13
+            \end{bmatrix}$$
+          </div>
+
+          <p><strong>Step 2: Eliminate $x$ from Rows 2 & 3:</strong><br>
+          Row Operation: $R_2 \to R_2 - 2R_1$<br>
+          $\begin{bmatrix} 2-2(1) & 3-2(1) & 1-2(1) & | & 10-2(6) \end{bmatrix} = \begin{bmatrix} 0 & 1 & -1 & | & -2 \end{bmatrix}$<br>
+          Row Operation: $R_3 \to R_3 - R_1$<br>
+          $\begin{bmatrix} 1-1 & 2-1 & 3-1 & | & 13-6 \end{bmatrix} = \begin{bmatrix} 0 & 1 & 2 & | & 7 \end{bmatrix}$</p>
+
+          <p>The matrix becomes:</p>
+          <div style="font-family:monospace; background:var(--surface-alt); padding:10px; border-radius:6px; margin:8px 0;">
+            $$\begin{bmatrix}
+            1 & 1 & 1 & | & 6 \\
+            0 & 1 & -1 & | & -2 \\
+            0 & 1 & 2 & | & 7
+            \end{bmatrix}$$
+          </div>
+
+          <p><strong>Step 3: Eliminate $y$ from Row 3:</strong><br>
+          Row Operation: $R_3 \to R_3 - R_2$<br>
+          $\begin{bmatrix} 0 & 1-1 & 2-(-1) & | & 7-(-2) \end{bmatrix} = \begin{bmatrix} 0 & 0 & 3 & | & 9 \end{bmatrix}$</p>
+
+          <p><strong>Upper Triangular Form Achieved!</strong></p>
+
+          <p><strong>Step 4: Back Substitution:</strong><br>
+          From Row 3: $3z = 9 \implies \mathbf{z = 3}$<br>
+          From Row 2: $y - z = -2 \implies y - 3 = -2 \implies \mathbf{y = 1}$<br>
+          From Row 1: $x + y + z = 6 \implies x + 1 + 3 = 6 \implies \mathbf{x = 2}$</p>
+
+          <div class="callout callout-tip">
+            <strong>Final Solution:</strong> $\mathbf{x = 2, \quad y = 1, \quad z = 3}$ (Check: $2+1+3 = 6$ ✓)
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Topic 2: Partial Pivoting -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Why Pivoting is Needed?</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021 (Explain Partial Pivoting with reason)</span>
+      </div>
+      <ul class="key-points">
+        <li><strong>Division by Zero:</strong> If the pivot element $a_{kk} = 0$, the multiplier $m = a_{ik}/a_{kk}$ cannot be computed.</li>
+        <li><strong>Catastrophic Round-off Errors:</strong> If a pivot element $|a_{kk}|$ is very close to zero, dividing by it generates massive multipliers, which magnifies rounding errors and leads to completely false answers.</li>
+        <li><strong>Partial Pivoting Solution:</strong> At step $k$, find the row $p \ge k$ that has the maximum absolute value in column $k$, i.e., $\max |a_{ik}|$, and <strong>swap Row $k$ with Row $p$</strong> before eliminating.</li>
+      </ul>
+    </div>
+
+    <!-- Topic 3: Gauss-Seidel Iterative Method -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Gauss-Seidel Iterative Method</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24 (Successive replacement method)</span>
+      </div>
+
+      <details class="topic-drawer" open>
+        <summary class="topic-summary">📝 Step-by-Step Solved PYQ: Solve by Gauss-Seidel Method</summary>
+        <div class="topic-content">
+          <p>Solve the system:<br>
+          (1) $10x + y + z = 12$<br>
+          (2) $2x + 10y + z = 13$<br>
+          (3) $2x + 2y + 10z = 14$</p>
+
+          <p><strong>Step 1: Check Diagonal Dominance:</strong><br>
+          Row 1: $|10| > |1| + |1| = 2$ (Dominant! ✓)<br>
+          Row 2: $|10| > |2| + |1| = 3$ (Dominant! ✓)<br>
+          Row 3: $|10| > |2| + |2| = 4$ (Dominant! ✓)<br>
+          Convergence is guaranteed!</p>
+
+          <p><strong>Step 2: Express variables:</strong><br>
+          $x = \frac{12 - y - z}{10}$<br>
+          $y = \frac{13 - 2x - z}{10}$<br>
+          $z = \frac{14 - 2x - 2y}{10}$</p>
+
+          <p>Start with initial guess $y^{(0)} = 0, z^{(0)} = 0$:</p>
+
+          <div class="table-responsive">
+            <table class="study-table">
+              <thead>
+                <tr>
+                  <th>Iter ($k$)</th>
+                  <th>$x^{(k)} = \frac{12 - y - z}{10}$</th>
+                  <th>$y^{(k)} = \frac{13 - 2x - z}{10}$</th>
+                  <th>$z^{(k)} = \frac{14 - 2x - 2y}{10}$</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>$\frac{12 - 0 - 0}{10} = \mathbf{1.2000}$</td>
+                  <td>$\frac{13 - 2(1.2) - 0}{10} = \mathbf{1.0600}$</td>
+                  <td>$\frac{14 - 2(1.2) - 2(1.06)}{10} = \mathbf{0.9480}$</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>$\frac{12 - 1.06 - 0.948}{10} = \mathbf{0.9992}$</td>
+                  <td>$\frac{13 - 2(0.9992) - 0.948}{10} = \mathbf{1.0054}$</td>
+                  <td>$\frac{14 - 2(0.9992) - 2(1.0054)}{10} = \mathbf{0.9991}$</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>$\frac{12 - 1.0054 - 0.9991}{10} = \mathbf{0.9996}$</td>
+                  <td>$\frac{13 - 2(0.9996) - 0.9991}{10} = \mathbf{1.0002}$</td>
+                  <td>$\frac{14 - 2(0.9996) - 2(1.0002)}{10} = \mathbf{1.0000}$</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-tip">
+            <strong>Final Converged Solution:</strong> $\mathbf{x \approx 1.000, \quad y \approx 1.000, \quad z \approx 1.000}$.
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- Topic 4: Gauss-Jacobi vs Gauss-Seidel -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">4.</span> Gauss-Jacobi vs Gauss-Seidel Method</span>
+      </div>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Gauss-Jacobi Method</th>
+              <th>Gauss-Seidel Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Value Usage</strong></td>
+              <td>Uses only old values from previous iteration $(k)$</td>
+              <td>Uses newest computed values $(k+1)$ <strong>immediately</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Rate of Convergence</strong></td>
+              <td>Slow convergence</td>
+              <td><strong>Twice as fast</strong> as Jacobi</td>
+            </tr>
+            <tr>
+              <td><strong>Memory Requirements</strong></td>
+              <td>Needs two separate vectors (old & new)</td>
+              <td>Overwrites in-place (Needs only 1 vector)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Test Container -->
+    <div id="unit-mcq-container" class="mcq-container"></div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="bca5004_unit3.html" class="nav-unit-btn">← Unit III</a>
+    <a href="bca5004_unit5.html" class="nav-unit-btn primary">Next: Unit V →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit4Questions = [
+      {
+        question: "What is the key difference between Gauss-Seidel and Gauss-Jacobi iterative methods?",
+        options: [
+          "Gauss-Seidel requires no equations",
+          "Gauss-Seidel uses the newly computed values of variables immediately in the current iteration",
+          "Gauss-Jacobi converges twice as fast as Gauss-Seidel",
+          "Gauss-Seidel transforms the matrix into diagonal form"
+        ],
+        answer: 1,
+        explanation: "Gauss-Seidel is a successive replacement method where freshly computed variable values (like x^(k+1)) are immediately fed into the calculation of subsequent variables (y^(k+1) and z^(k+1)), doubling convergence speed."
+      },
+      {
+        question: "What is the primary mathematical purpose of performing 'Partial Pivoting' in Gauss Elimination?",
+        options: [
+          "To make the matrix symmetric",
+          "To avoid division by zero and minimize round-off errors caused by small pivots",
+          "To eliminate the back-substitution phase",
+          "To convert the matrix into lower-triangular form"
+        ],
+        answer: 1,
+        explanation: "Partial pivoting swaps rows to ensure the pivot element with the largest magnitude is on the diagonal, preventing division by zero and preventing small numbers from blowing up round-off errors."
+      },
+      {
+        question: "Which condition guarantees the convergence of the Gauss-Seidel method?",
+        options: [
+          "The matrix must be singular",
+          "The matrix must be strictly or diagonally dominant",
+          "All coefficients must be positive integers",
+          "The determinant must be zero"
+        ],
+        answer: 1,
+        explanation: "Diagonal dominance (|a_ii| >= sum of |a_ij| for all j != i) is a sufficient condition that guarantees convergence for Gauss-Seidel and Gauss-Jacobi."
+      },
+      {
+        question: "In the Gauss Elimination method, what form is the coefficient matrix reduced to during forward elimination?",
+        options: [
+          "Identity matrix",
+          "Upper triangular matrix",
+          "Lower triangular matrix",
+          "Null matrix"
+        ],
+        answer: 1,
+        explanation: "Forward elimination systematically creates zeros below the main diagonal, transforming the augmented matrix into an upper triangular matrix."
+      },
+      {
+        question: "Gauss Elimination is classified as which type of method for solving linear systems?",
+        options: [
+          "Direct Method",
+          "Iterative Method",
+          "Approximation Method",
+          "Bracketing Method"
+        ],
+        answer: 0,
+        explanation: "Gauss Elimination is a direct method because it yields the exact algebraic solution after a fixed, finite sequence of arithmetic operations (neglecting round-off error)."
+      },
+      {
+        question: "If an equation in a 3-variable system is 2x + 15y + 3z = 20, which variable should be isolated for Gauss-Seidel iteration to maintain diagonal dominance?",
+        options: [
+          "x",
+          "y",
+          "z",
+          "None"
+        ],
+        answer: 1,
+        explanation: "The coefficient of y is 15, which is strictly greater than |2| + |3| = 5. Hence, y must be placed on the diagonal and solved for in this row."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit4Questions);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+================================================================================
+BCA 5TH SEMESTER - HARD COPY / HANDWRITTEN CLASS NOTES (ALL UNITS)
+================================================================================
+Location: /storage/emulated/0/Download/BCA_V_Sem_Hard_Copies/
+
+--------------------------------------------------------------------------------
+1. BCA-5001: KNOWLEDGE MANAGEMENT (4 UNITS)
+Folder: 5001_Knowledge_Management/
+--------------------------------------------------------------------------------
+- Unit 1: 5001_Unit_1_Business_Intelligence_Class_Notes.pdf (27 pages)
+  * Business Intelligence, Modeling Decision Process, Decision Support Systems (DSS), Groupware.
+- Unit 2: 5001_Unit_2_EIS_and_Data_Warehousing_Class_Notes.pdf (36 pages)
+  * Executive Information Systems (EIS), AI & Expert Systems, OLAP, Data Warehousing, Data Marts.
+- Unit 3: 5001_Unit_3_Data_Mining_Class_Notes.pdf (52 pages)
+  * Data Mining, Knowledge Discovery, Techniques, Advanced Databases.
+- Unit 4: 5001_Unit_4_Knowledge_Management_Systems_Class_Notes.pdf (22 pages)
+  * Knowledge Management Systems Structure, KM Techniques, Applications & Limitations.
+
+--------------------------------------------------------------------------------
+2. BCA-5002: JAVA PROGRAMMING AND DYNAMIC WEBPAGE DESIGN (5 UNITS)
+Folder: 5002_Java_Programming/
+--------------------------------------------------------------------------------
+- Unit 1: 5002_Unit_1_Java_Programming_Class_Notes.pdf (34 pages)
+  * Java Data Types, Control Structures, Arrays, Strings, OOP, Multithreading, Exception Handling.
+- Unit 2: 5002_Unit_2_Applets_and_AWT_Class_Notes.pdf (32 pages)
+  * Java Applets, AWT Controls (Buttons, Labels, Combo Box, Listeners), Layout Managers.
+- Unit 3: 5002_Unit_3_JDBC_Class_Notes.pdf (12 pages)
+  * JDBC Architecture, Connection Interface, Statements, ResultSet, SQL Operations.
+- Unit 4: 5002_Unit_4_Java_Servlets_Class_Notes.pdf (21 pages)
+  * Servlets Lifecycle, HTTP Servlets, Session Tracking, Handling Request/Response.
+- Unit 5: 5002_Unit_5_JSP_Server_Pages_Class_Notes.pdf (18 pages)
+  * Java Server Pages (JSP) Architecture, Directives, Scriptlets, Custom Tag Libraries, JSTL.
+
+--------------------------------------------------------------------------------
+3. BCA-5003: COMPUTER NETWORKS (5 UNITS)
+Folder: 5003_Computer_Networks/
+--------------------------------------------------------------------------------
+- Unit 1: 5003_Unit_1_Basic_Concepts_and_OSI_TCP_Class_Notes.pdf (37 pages)
+  * Network Topologies, OSI Reference Model, TCP/IP Model, DTE-DCE, Modems.
+- Unit 2: 5003_Unit_2_Transmission_Media_Class_Notes.pdf (12 pages)
+  * Guided & Unguided Media, Attenuation, Distortion, Noise, Shannon Capacity.
+- Unit 3: 5003_Unit_3_Telephony_Multiplexing_Protocols_Class_Notes.pdf (34 pages)
+  * Multiplexing (TDM, FDM, WDM), Switching, Flow & Error Control, PPP, ISDN.
+- Unit 4: 5003_Unit_4_Network_Devices_and_Layers_Class_Notes.pdf (14 pages)
+  * Repeaters, Bridges, Switches, Routers, Gateways, Network Layer Design, IP Addressing.
+- Unit 5: 5003_Unit_5_Transport_and_Upper_Layers_Class_Notes.pdf (20 pages)
+  * Transport Layer Functions, Connection Management, Session, Presentation & Application Layers.
+
+--------------------------------------------------------------------------------
+4. BCA-5004: NUMERICAL METHODS (5 UNITS)
+Folder: 5004_Numerical_Methods/
+--------------------------------------------------------------------------------
+- Unit 1: 5004_Unit_1_Roots_of_Equations_Class_Notes.pdf (25 pages)
+  * Bisection Method, False Position Method, Newton-Raphson Method & Convergence.
+- Unit 2: 5004_Unit_2_Interpolation_and_Extrapolation_Class_Notes.pdf (24 pages)
+  * Finite Differences, Shift Operator E, Newton Forward/Backward, Lagrange Interpolation.
+- Unit 3: 5004_Unit_3_Numerical_Diff_and_Integ_Class_Notes.pdf (7 pages)
+  * Numerical Differentiation & Numerical Integration, Trapezoidal, Simpson's Rules.
+- Unit 4: 5004_Unit_4_Solution_of_Linear_Equations_Class_Notes.pdf (12 pages)
+  * Gauss Elimination Method, Gauss-Seidel Iterative Method.
+- Unit 5: 5004_Unit_5_Differential_Equations_Class_Notes.pdf (18 pages)
+  * Euler's Method, Picard's Method, Runge-Kutta 4th Order Method (RK-4).
+
+================================================================================

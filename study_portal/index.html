@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>BCA 5th Sem Exam Master Portal | CSJMU 5-Day Sprint</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .countdown-box {
+      background: linear-gradient(135deg, var(--surface-color), var(--surface-alt));
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+    .countdown-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-coral);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .countdown-timer {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin: 6px 0;
+      font-family: monospace;
+    }
+    .sprint-pill {
+      background: var(--accent-emerald-light);
+      color: var(--accent-emerald);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-block;
+    }
+    .plan-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .plan-card {
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .plan-day {
+      background: var(--accent-emerald);
+      color: #fff;
+      font-weight: 800;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      min-width: 54px;
+      text-align: center;
+    }
+    .plan-info {
+      flex: 1;
+    }
+    .plan-sub {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .plan-target {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Navigation -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">5</div>
+      <div>
+        <div class="brand-title">BCA V Sem Master Portal</div>
+        <div class="brand-subtitle">CSJMU Exam Sprint</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <!-- Countdown Box -->
+    <div class="countdown-box">
+      <span class="countdown-title">⚡ 5-Day Exam Sprint Mode Active</span>
+      <div class="countdown-timer" id="exam-countdown">04 Days : 18 Hours Left</div>
+      <span class="sprint-pill">Target: Complete 1 Unit of each subject per day</span>
+    </div>
+
+    <!-- Quick Stats Summary -->
+    <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom: 20px; text-align:center;">
+      <div style="background:var(--surface-color); border:1px solid var(--border-color); padding:10px 8px; border-radius:var(--radius-sm);">
+        <div style="font-size:20px; font-weight:800; color:var(--accent-emerald);">19</div>
+        <div style="font-size:11px; color:var(--text-muted);">Total Units</div>
+      </div>
+      <div style="background:var(--surface-color); border:1px solid var(--border-color); padding:10px 8px; border-radius:var(--radius-sm);">
+        <div style="font-size:20px; font-weight:800; color:var(--accent-amber);">190+</div>
+        <div style="font-size:11px; color:var(--text-muted);">MCQ Questions</div>
+      </div>
+      <div style="background:var(--surface-color); border:1px solid var(--border-color); padding:10px 8px; border-radius:var(--radius-sm);">
+        <div style="font-size:20px; font-weight:800; color:var(--accent-coral);">9 Yrs</div>
+        <div style="font-size:11px; color:var(--text-muted);">PYQ Coverage</div>
+      </div>
+    </div>
+
+    <!-- Subject Cards Section -->
+    <h2 style="font-size:16px; font-weight:800; margin-bottom:12px; color:var(--text-main); display:flex; align-items:center; gap:6px;">
+      <span>📚</span> Subject-Wise Units (Tap to Open)
+    </h2>
+
+    <div class="hub-grid">
+      
+      <!-- Subject 1: BCA-5004 Numerical Methods -->
+      <div class="hub-card">
+        <div class="hub-card-header">
+          <div class="hub-card-icon" style="background:#0d9488;">NM</div>
+          <div>
+            <div class="hub-card-title">BCA-5004: Numerical Methods</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">5 Units • High Scoring Formulae & Solved Problems</div>
+          </div>
+        </div>
+        <div class="hub-unit-list">
+          <a href="bca5004_unit1.html" class="hub-unit-link">
+            <span><strong>Unit I:</strong> Roots of Equations (Bisection, Regula-Falsi, Newton-Raphson)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5004_unit2.html" class="hub-unit-link">
+            <span><strong>Unit II:</strong> Finite Differences & Interpolation (Newton, Lagrange)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5004_unit3.html" class="hub-unit-link">
+            <span><strong>Unit III:</strong> Numerical Diff & Integration (Trapezoidal, Simpson's 1/3, 3/8)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5004_unit4.html" class="hub-unit-link">
+            <span><strong>Unit IV:</strong> Linear Equations (Gauss Elimination, Gauss-Seidel)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5004_unit5.html" class="hub-unit-link">
+            <span><strong>Unit V:</strong> Differential Equations (Euler, Picard, Runge-Kutta 4th Order)</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Subject 2: BCA-5003 Computer Networks -->
+      <div class="hub-card">
+        <div class="hub-card-header">
+          <div class="hub-card-icon" style="background:#059669;">CN</div>
+          <div>
+            <div class="hub-card-title">BCA-5003: Computer Networks</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">5 Units • Architectures, Protocols & 3D Layer Stack</div>
+          </div>
+        </div>
+        <div class="hub-unit-list">
+          <a href="bca5003_unit1.html" class="hub-unit-link">
+            <span><strong>Unit I:</strong> Network Basics, Topologies & OSI/TCP-IP Models</span>
+            <span>→</span>
+          </a>
+          <a href="bca5003_unit2.html" class="hub-unit-link">
+            <span><strong>Unit II:</strong> Transmission Media & Physical Layer (Shannon Capacity)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5003_unit3.html" class="hub-unit-link">
+            <span><strong>Unit III:</strong> Multiplexing, Switching & Flow Control (Sliding Window ARQ)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5003_unit4.html" class="hub-unit-link">
+            <span><strong>Unit IV:</strong> Network Devices, IP Addressing & Subnetting</span>
+            <span>→</span>
+          </a>
+          <a href="bca5003_unit5.html" class="hub-unit-link">
+            <span><strong>Unit V:</strong> Transport (TCP Handshake, UDP) & Upper Layers</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Subject 3: BCA-5002 Java Programming -->
+      <div class="hub-card">
+        <div class="hub-card-header">
+          <div class="hub-card-icon" style="background:#d97706;">JP</div>
+          <div>
+            <div class="hub-card-title">BCA-5002: Java Programming & Web Design</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">5 Units • OOP, AWT, JDBC, Servlets & JSP</div>
+          </div>
+        </div>
+        <div class="hub-unit-list">
+          <a href="bca5002_unit1.html" class="hub-unit-link">
+            <span><strong>Unit I:</strong> Core Java Fundamentals, OOP & Multithreading</span>
+            <span>→</span>
+          </a>
+          <a href="bca5002_unit2.html" class="hub-unit-link">
+            <span><strong>Unit II:</strong> Applet Lifecycle & AWT GUI Components</span>
+            <span>→</span>
+          </a>
+          <a href="bca5002_unit3.html" class="hub-unit-link">
+            <span><strong>Unit III:</strong> JDBC Database Connectivity & 4 Driver Types</span>
+            <span>→</span>
+          </a>
+          <a href="bca5002_unit4.html" class="hub-unit-link">
+            <span><strong>Unit IV:</strong> Java Servlets, Request Handling & Session Tracking</span>
+            <span>→</span>
+          </a>
+          <a href="bca5002_unit5.html" class="hub-unit-link">
+            <span><strong>Unit V:</strong> Java Server Pages (JSP) Lifecycle, Tags & JSTL</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Subject 4: BCA-5001 Knowledge Management -->
+      <div class="hub-card">
+        <div class="hub-card-header">
+          <div class="hub-card-icon" style="background:#b45309;">KM</div>
+          <div>
+            <div class="hub-card-title">BCA-5001: Knowledge Management</div>
+            <div style="font-size:11.5px; color:var(--text-muted);">4 Units • BI, DSS, OLAP, Data Mining & KMS</div>
+          </div>
+        </div>
+        <div class="hub-unit-list">
+          <a href="bca5001_unit1.html" class="hub-unit-link">
+            <span><strong>Unit I:</strong> Business Intelligence & Decision Process Modeling (DSS, GDSS)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5001_unit2.html" class="hub-unit-link">
+            <span><strong>Unit II:</strong> EIS, AI & Data Warehousing (3-Tier DWH, Star/Snowflake)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5001_unit3.html" class="hub-unit-link">
+            <span><strong>Unit III:</strong> Multi-Dimensional Analysis & Data Mining (KDD Process)</span>
+            <span>→</span>
+          </a>
+          <a href="bca5001_unit4.html" class="hub-unit-link">
+            <span><strong>Unit IV:</strong> Knowledge Management Systems (KMS Architecture, SECI Model)</span>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 5-Day Study Master Plan -->
+    <div class="study-card" style="margin-top:24px;">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">🗓️</span> 5-Day Exam Master Schedule</span>
+      </div>
+      <div class="plan-grid">
+        <div class="plan-card">
+          <div class="plan-day">DAY 1</div>
+          <div class="plan-info">
+            <div class="plan-sub">Numerical Methods (All 5 Units)</div>
+            <div class="plan-target">Practice 2 solved numericals for each method. Guaranteed 100% marks!</div>
+          </div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-day">DAY 2</div>
+          <div class="plan-info">
+            <div class="plan-sub">Computer Networks (All 5 Units)</div>
+            <div class="plan-target">OSI 7 Layers, Media comparison, Shannon formula, Switching, TCP Handshake.</div>
+          </div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-day">DAY 3</div>
+          <div class="plan-info">
+            <div class="plan-sub">Java Programming & Web Design (All 5 Units)</div>
+            <div class="plan-target">JVM architecture, Thread states, Applet & Servlet lifecycles, JDBC 4 drivers, JSP.</div>
+          </div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-day">DAY 4</div>
+          <div class="plan-info">
+            <div class="plan-sub">Knowledge Management (All 4 Units)</div>
+            <div class="plan-target">Simon's Decision Model, DSS/GDSS, 3-Tier DWH, Star schema, KDD, SECI Model.</div>
+          </div>
+        </div>
+        <div class="plan-card">
+          <div class="plan-day">DAY 5</div>
+          <div class="plan-info">
+            <div class="plan-sub">Full MCQ Blitz & Mock Exam Review</div>
+            <div class="plan-target">Retake all 19 Unit Quizzes & quick-read formula cheat sheets!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/common.js"></script>
+</body>
+</html>

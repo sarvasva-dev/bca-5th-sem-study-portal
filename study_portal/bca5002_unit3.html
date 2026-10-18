@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 3: JDBC Database Connectivity | BCA-5002</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#d97706;">JP</div>
+      <div>
+        <div class="brand-title">BCA-5002: Unit III</div>
+        <div class="brand-subtitle">JDBC & Database Connectivity</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#d97706;">
+      <div class="badge-row">
+        <span class="badge badge-amber">Subject: BCA-5002</span>
+        <span class="badge badge-emerald">⭐ 4 Drivers & 5 Steps PYQs</span>
+        <span class="badge badge-coral">Day 3 Priority</span>
+      </div>
+      <h1 class="unit-title">Unit III: JDBC (Java Database Connectivity)</h1>
+      <p class="unit-desc">JDBC Architecture, 4 Driver Types, 5 Steps to Connect, Statement vs PreparedStatement, and ResultSet Navigation.</p>
+    </div>
+
+    <!-- Quick Reference Card -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">⚡</span> The 5 Essential Steps in JDBC</span>
+      </div>
+      <div class="callout callout-tip">
+        <ol class="step-list">
+          <li><strong>Load the Driver Class:</strong><br>
+            <code>Class.forName("com.mysql.cj.jdbc.Driver");</code></li>
+          <li><strong>Establish Connection:</strong><br>
+            <code>Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "password");</code></li>
+          <li><strong>Create Statement Object:</strong><br>
+            <code>Statement stmt = con.createStatement();</code> (or <code>con.prepareStatement(sql)</code>)</li>
+          <li><strong>Execute SQL Query:</strong><br>
+            <code>ResultSet rs = stmt.executeQuery("SELECT * FROM students");</code> (or <code>executeUpdate()</code> for DML)</li>
+          <li><strong>Close Resources:</strong><br>
+            <code>rs.close(); stmt.close(); con.close();</code> (releases database locks and memory)</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Topic 1: The 4 Types of JDBC Drivers -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> The 4 Types of JDBC Drivers</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2023–24, 2022–23, 2021 (The most repeated question in Unit 3!)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Driver Type</th>
+              <th>Common Name</th>
+              <th>Working Mechanism</th>
+              <th>Pros & Cons</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Type 1</strong></td>
+              <td>JDBC-ODBC Bridge</td>
+              <td>Translates JDBC calls into ODBC calls, which then talk to database native driver</td>
+              <td><strong>Cons:</strong> Slow performance, requires ODBC installed on client machine (Platform dependent). Obsolete.</td>
+            </tr>
+            <tr>
+              <td><strong>Type 2</strong></td>
+              <td>Native-API Driver</td>
+              <td>Uses Java native interface (JNI) to call vendor-specific C/C++ client client libraries (e.g. Oracle OCI)</td>
+              <td><strong>Pros:</strong> Faster than Type 1.<br><strong>Cons:</strong> Requires vendor client libraries installed on every client.</td>
+            </tr>
+            <tr>
+              <td><strong>Type 3</strong></td>
+              <td>Network-Protocol Driver (Middleware)</td>
+              <td>Translates JDBC calls into a middleware protocol. The middleware server then translates to database calls</td>
+              <td><strong>Pros:</strong> Client needs no database software; supports multiple DBs.<br><strong>Cons:</strong> Maintenance overhead of middleware server.</td>
+            </tr>
+            <tr>
+              <td><strong>Type 4</strong></td>
+              <td><strong>Thin Driver (Native-Protocol)</strong></td>
+              <td><strong>100% Pure Java</strong>. Converts JDBC calls directly into vendor-specific network socket protocol (e.g. MySQL wire protocol)</td>
+              <td><strong>Pros:</strong> Best performance, zero client installation, fully platform independent.<br><strong>Industry standard!</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: Statement vs PreparedStatement vs CallableStatement -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> Statement vs PreparedStatement</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2019 (Why use PreparedStatement? Code example)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Statement</th>
+              <th>PreparedStatement</th>
+              <th>CallableStatement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Compilation</strong></td>
+              <td>Compiled and parsed by database <strong>every time</strong> it executes</td>
+              <td><strong>Pre-compiled once</strong> by database; reused with new parameters</td>
+              <td>Used to execute pre-compiled <strong>Stored Procedures</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Performance</strong></td>
+              <td>Slow for repeated queries</td>
+              <td><strong>Much Faster</strong> for parameterized repeated execution</td>
+              <td>High performance on database server</td>
+            </tr>
+            <tr>
+              <td><strong>Parameters</strong></td>
+              <td>No parameters (requires string concatenation)</td>
+              <td>Supports positional parameters using <code>?</code> (placeholders)</td>
+              <td>Supports <code>IN</code> and <code>OUT</code> parameters</td>
+            </tr>
+            <tr>
+              <td><strong>Security</strong></td>
+              <td><strong>Vulnerable to SQL Injection</strong></td>
+              <td><strong>Immune to SQL Injection</strong> (escapes special characters)</td>
+              <td>Secure</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Solved Code Example -->
+      <div class="code-wrapper">
+        <div class="code-header">
+          <span>PreparedStatementDemo.java (PYQ Solved)</span>
+          <button class="copy-btn" onclick="copyCode(this, 'jdbc-code')">Copy Code</button>
+        </div>
+        <pre class="code-block" id="jdbc-code">
+import java.sql.*;
+
+public class PreparedStatementDemo {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/college_db";
+        String user = "root";
+        String pass = "password123";
+
+        // SQL Query with positional placeholders (?)
+        String query = "INSERT INTO Student(roll_no, name, marks) VALUES(?, ?, ?)";
+
+        try (Connection con = DriverManager.getConnection(url, user, pass);
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            // Setting parameter values (1-indexed!)
+            pstmt.setInt(1, 101);
+            pstmt.setString(2, "Rahul Verma");
+            pstmt.setDouble(3, 88.5);
+
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println("Rows successfully inserted: " + rowsAffected);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+        </pre>
+      </div>
+    </div>
+
+    <!-- Topic 3: ResultSet Navigation & Metadata -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> ResultSet & ResultSetMetaData</span>
+      </div>
+      <p>A <code>ResultSet</code> maintains a cursor pointing to its current row of data. Initially the cursor is positioned before the first row.</p>
+
+      <ul class="key-points">
+        <li><code>rs.next()</code>: Moves cursor forward one row. Returns <code>false</code> when no more rows exist.</li>
+        <li><code>rs.getInt(column)</code> / <code>rs.getString(column)</code>: Retrieves column value by 1-based index or column name.</li>
+        <li><code>ResultSetMetaData</code>: Provides metadata about the ResultSet itself (e.g., <code>rsmd.getColumnCount()</code>, <code>rsmd.getColumnName(i)</code>, <code>rsmd.getColumnTypeName(i)</code>).</li>
+      </ul>
+    </div>
+
+    <!-- Interactive MCQ Test Container -->
+    <div id="unit-mcq-container" class="mcq-container"></div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="bca5002_unit2.html" class="nav-unit-btn">← Unit II</a>
+    <a href="bca5002_unit4.html" class="nav-unit-btn primary">Next: Unit IV →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit3Questions = [
+      {
+        question: "Which type of JDBC driver is 100% Pure Java and communicates directly with the database via socket protocol?",
+        options: [
+          "Type 1: JDBC-ODBC Bridge Driver",
+          "Type 2: Native-API Driver",
+          "Type 3: Network-Protocol Driver",
+          "Type 4: Thin Driver (Native-Protocol)"
+        ],
+        answer: 3,
+        explanation: "Type 4 Thin Driver is written entirely in Java and converts JDBC calls directly into vendor-specific network protocols, requiring zero client-side installation."
+      },
+      {
+        question: "What is the primary security advantage of using PreparedStatement over Statement in JDBC?",
+        options: [
+          "It uses SSL encryption by default",
+          "It prevents SQL Injection attacks by treating input parameters strictly as literal values",
+          "It stores passwords in cleartext",
+          "It does not require database connection"
+        ],
+        answer: 1,
+        explanation: "PreparedStatement separates SQL query structure from user input data using '?' placeholders, preventing attackers from injecting malicious SQL commands."
+      },
+      {
+        question: "What is the initial position of the cursor when a ResultSet object is created?",
+        options: [
+          "On the first row of data",
+          "Before the first row of data",
+          "On the last row of data",
+          "After the last row of data"
+        ],
+        answer: 1,
+        explanation: "Initially, the ResultSet cursor is positioned before the first row. Calling rs.next() moves the cursor to the first row."
+      },
+      {
+        question: "Which JDBC method should be invoked to execute an SQL INSERT, UPDATE, or DELETE statement?",
+        options: [
+          "executeQuery()",
+          "executeUpdate()",
+          "executeSelect()",
+          "executeBatch()"
+        ],
+        answer: 1,
+        explanation: "executeUpdate() is used for DML statements (INSERT, UPDATE, DELETE) and DDL statements, returning the integer count of affected rows."
+      },
+      {
+        question: "Which interface in JDBC provides information about the types and properties of the columns in a ResultSet?",
+        options: [
+          "DatabaseMetaData",
+          "ResultSetMetaData",
+          "StatementMetaData",
+          "DriverMetaData"
+        ],
+        answer: 1,
+        explanation: "ResultSetMetaData provides runtime information about the columns in a ResultSet, such as column count, column names, and data types."
+      },
+      {
+        question: "In PreparedStatement parameter indexing (pstmt.setInt(index, value)), what is the starting index?",
+        options: [
+          "0",
+          "1",
+          "-1",
+          "Any arbitrary number"
+        ],
+        answer: 1,
+        explanation: "In standard JDBC PreparedStatement placeholder parameters, indexing is 1-based (i.e. first '?' is parameter index 1)."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit3Questions);
+    });
+  </script>
+</body>
+</html>

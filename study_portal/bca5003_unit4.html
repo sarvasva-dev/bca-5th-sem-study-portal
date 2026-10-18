@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Unit 4: Network Devices & IP Addressing | BCA-5003</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Mobile Top Bar -->
+  <header class="top-header">
+    <a href="index.html" class="brand">
+      <div class="brand-icon" style="background:#059669;">CN</div>
+      <div>
+        <div class="brand-title">BCA-5003: Unit IV</div>
+        <div class="brand-subtitle">Network Devices & Addressing</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button id="theme-toggle-btn" class="theme-btn" onclick="toggleTheme()" title="Switch Theme">☀️</button>
+      <a href="index.html" class="nav-icon-btn" title="Back to Hub">🏠</a>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Unit Banner -->
+    <div class="unit-banner" style="border-left-color:#059669;">
+      <div class="badge-row">
+        <span class="badge badge-emerald">Subject: BCA-5003</span>
+        <span class="badge badge-amber">⭐ Hub vs Switch & IPv4 Subnetting</span>
+        <span class="badge badge-coral">Day 2 Priority</span>
+      </div>
+      <h1 class="unit-title">Unit IV: Connecting Devices & Network Layer</h1>
+      <p class="unit-desc">Repeaters, Hubs, Bridges, Switches, Routers, Gateways, IPv4 Classful Addressing, Subnetting, and Framing (Bit Stuffing).</p>
+    </div>
+
+    <!-- Quick Reference Card -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">⚡</span> Network Devices by OSI Layer</span>
+      </div>
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>OSI Layer</th>
+              <th>Connecting Device</th>
+              <th>Addressing Used</th>
+              <th>Primary Function</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Layer 1 (Physical)</strong></td>
+              <td>Repeater / Hub</td>
+              <td>None (Raw Bits)</td>
+              <td>Regenerates signal; broadcasts bits to all ports</td>
+            </tr>
+            <tr>
+              <td><strong>Layer 2 (Data Link)</strong></td>
+              <td>Bridge / Switch</td>
+              <td><strong>MAC Address</strong> (48-bit)</td>
+              <td>Filters & forwards frames; learns MAC addresses in CAM table</td>
+            </tr>
+            <tr>
+              <td><strong>Layer 3 (Network)</strong></td>
+              <td>Router</td>
+              <td><strong>IP Address</strong> (32/128-bit)</td>
+              <td>Routes packets across different subnets; breaks broadcast domains</td>
+            </tr>
+            <tr>
+              <td><strong>Layers 4–7 (Upper)</strong></td>
+              <td>Gateway</td>
+              <td>Port / Application Data</td>
+              <td>Translates between completely different network protocol architectures</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 1: Hub vs Switch Comparison -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">1.</span> Hub vs Switch: Complete Comparison</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2025–26, 2024–25, 2023–24, 2021, 2019 (Asked almost every year!)</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Hub (Dumb Device)</th>
+              <th>Switch (Intelligent Device)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Operating Layer</strong></td>
+              <td>Layer 1 (Physical Layer)</td>
+              <td>Layer 2 (Data Link Layer)</td>
+            </tr>
+            <tr>
+              <td><strong>Transmission Mode</strong></td>
+              <td><strong>Broadcasts</strong> incoming data to all connected ports</td>
+              <td><strong>Unicasts</strong> data directly to destination port via MAC table</td>
+            </tr>
+            <tr>
+              <td><strong>Collision Domains</strong></td>
+              <td>Single shared collision domain for all ports</td>
+              <td><strong>Each port has its own dedicated collision domain</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Transmission Duplex</strong></td>
+              <td>Half-duplex only (collisions can happen)</td>
+              <td>Full-duplex supported (simultaneous send/receive)</td>
+            </tr>
+            <tr>
+              <td><strong>Addressing</strong></td>
+              <td>Does not understand MAC or IP</td>
+              <td>Learns and stores 48-bit MAC addresses</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Topic 2: IPv4 Addressing & Classes -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">2.</span> IPv4 Classful Addressing & Subnet Masks</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2021, 2018 (Identify IP class and calculate network/host IDs)</span>
+      </div>
+      <p>IPv4 addresses are <strong>32 bits (4 bytes)</strong> long, written as four decimal octets separated by dots (e.g., <code>192.168.1.1</code>).</p>
+
+      <div class="table-responsive">
+        <table class="study-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>First Octet Range</th>
+              <th>Default Subnet Mask</th>
+              <th>NetID / HostID Bits</th>
+              <th>Purpose / Organization</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Class A</strong></td>
+              <td><strong>1 to 126</strong><br><em>(0xxxxxxx)</em></td>
+              <td>255.0.0.0 (/8)</td>
+              <td>8 Net / 24 Host</td>
+              <td>Massive global networks (16.7M hosts/network)</td>
+            </tr>
+            <tr>
+              <td><strong>Class B</strong></td>
+              <td><strong>128 to 191</strong><br><em>(10xxxxxx)</em></td>
+              <td>255.255.0.0 (/16)</td>
+              <td>16 Net / 16 Host</td>
+              <td>Medium to large enterprises (65,534 hosts)</td>
+            </tr>
+            <tr>
+              <td><strong>Class C</strong></td>
+              <td><strong>192 to 223</strong><br><em>(110xxxxx)</em></td>
+              <td>255.255.255.0 (/24)</td>
+              <td>24 Net / 8 Host</td>
+              <td>Small local LANs (254 usable hosts)</td>
+            </tr>
+            <tr>
+              <td><strong>Class D</strong></td>
+              <td><strong>224 to 239</strong><br><em>(1110xxxx)</em></td>
+              <td>No mask</td>
+              <td>Reserved</td>
+              <td><strong>Multicasting</strong> (Video streaming/routing updates)</td>
+            </tr>
+            <tr>
+              <td><strong>Class E</strong></td>
+              <td><strong>240 to 255</strong><br><em>(1111xxxx)</em></td>
+              <td>No mask</td>
+              <td>Reserved</td>
+              <td>Experimental, scientific research, and future use</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>Special Reserved IPs:</strong><br>
+        • <code>127.0.0.1</code>: Loopback address (testing local TCP/IP stack).<br>
+        • Host ID all 0s: Represents the <em>Network ID</em>.<br>
+        • Host ID all 1s: Represents the <em>Directed Broadcast Address</em>.
+      </div>
+    </div>
+
+    <!-- Topic 3: Framing & Bit Stuffing -->
+    <div class="study-card">
+      <div class="card-heading">
+        <span><span class="card-heading-icon">3.</span> Framing: Bit Stuffing (HDLC)</span>
+      </div>
+      <div class="pyq-alert">
+        <span class="pyq-tag">⭐ CSJMU PYQs:</span>
+        <span>2024–25, 2017 (Perform bit stuffing on a given stream)</span>
+      </div>
+      <p><strong>Rule of Bit Stuffing:</strong> Delimiter flag is <code>01111110</code> (six consecutive 1s). Whenever the transmitter's hardware sees <strong>five consecutive 1s</strong> in the user data stream, it automatically inserts (stuffs) a <strong>0 bit</strong> immediately after them, preventing premature end-of-frame recognition.</p>
+
+      <div class="callout callout-tip">
+        <strong>Example:</strong><br>
+        Original Data: <code>01101111111001</code><br>
+        After seeing five 1s: <code>011011111<mark style="background:#f59e0b; color:#000;">0</mark>11001</code> (A 0 is stuffed!)<br>
+        Receiver automatically strips the stuffed 0 after five consecutive 1s to restore original data.
+      </div>
+    </div>
+
+    <!-- Interactive MCQ Test Container -->
+    <div id="unit-mcq-container" class="mcq-container"></div>
+
+  </main>
+
+  <!-- Sticky Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="bca5003_unit3.html" class="nav-unit-btn">← Unit III</a>
+    <a href="bca5003_unit5.html" class="nav-unit-btn primary">Next: Unit V →</a>
+  </nav>
+
+  <script src="js/common.js"></script>
+  <script>
+    const unit4Questions = [
+      {
+        question: "Which network device operates at OSI Layer 2 and creates separate collision domains for each connected port?",
+        options: [
+          "Hub",
+          "Repeater",
+          "Switch",
+          "Passive Coupler"
+        ],
+        answer: 2,
+        explanation: "A switch is a Layer 2 device that isolates traffic into dedicated collision domains per port by inspecting 48-bit MAC addresses and maintaining a MAC forwarding table."
+      },
+      {
+        question: "What is the default subnet mask for a Class B IPv4 network?",
+        options: [
+          "255.0.0.0",
+          "255.255.0.0",
+          "255.255.255.0",
+          "255.255.255.255"
+        ],
+        answer: 1,
+        explanation: "Class B networks use 16 bits for Network ID and 16 bits for Host ID, giving a default subnet mask of 255.255.0.0 (/16)."
+      },
+      {
+        question: "In HDLC bit-oriented framing, when is a '0' bit stuffed by the transmitter?",
+        options: [
+          "After every 0 bit",
+          "After five consecutive 1 bits",
+          "After six consecutive 1 bits",
+          "At the end of every byte"
+        ],
+        answer: 1,
+        explanation: "The flag pattern is 01111110 (six 1s). To prevent data from accidentally mimicking this flag, the sender stuffs a '0' immediately after any sequence of five consecutive 1s."
+      },
+      {
+        question: "Which IPv4 address class is specifically reserved for Multicasting applications?",
+        options: [
+          "Class A",
+          "Class B",
+          "Class C",
+          "Class D"
+        ],
+        answer: 3,
+        explanation: "Class D addresses (range 224.0.0.0 to 239.255.255.255) are designated exclusively for multicast group communication."
+      },
+      {
+        question: "What is the primary operational role of a Router?",
+        options: [
+          "To amplify optical signals in fiber cables",
+          "To forward IP packets between distinct logical networks based on routing tables",
+          "To connect two segments into a single collision domain",
+          "To convert AC power into DC power"
+        ],
+        answer: 1,
+        explanation: "A router operates at Layer 3 (Network Layer) to direct IP packets between different networks and broadcast domains using routing algorithms (RIP, OSPF, BGP)."
+      },
+      {
+        question: "What is the loopback IPv4 address used by a host to test its own internal TCP/IP network software stack?",
+        options: [
+          "0.0.0.0",
+          "192.168.1.1",
+          "127.0.0.1",
+          "255.255.255.255"
+        ],
+        answer: 2,
+        explanation: "The entire 127.0.0.0/8 block is reserved for loopback, with 127.0.0.1 commonly functioning as 'localhost'."
+      }
+    ];
+
+    let mcqQuiz;
+    document.addEventListener('DOMContentLoaded', () => {
+      mcqQuiz = new MCQEngine('unit-mcq-container', unit4Questions);
+    });
+  </script>
+</body>
+</html>
